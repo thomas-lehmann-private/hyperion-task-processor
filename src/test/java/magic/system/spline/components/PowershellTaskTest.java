@@ -117,6 +117,8 @@ public class PowershellTaskTest {
             "    + FullyQualifiedErrorId : UnknownProblem,say-error.ps1",
             " ");
 
+        results.getStderr().forEach(line -> System.out.println("stderr: " + line));
+
         assertArrayEquals(expectedLines.toArray(), results.getStderr().toArray());
         // CHECKSTYLE.OFF: MultipleStringLiterals - we don't need to worry here
         assertEquals(0, results.getStdout().size(),
