@@ -44,6 +44,13 @@ public class PowershellTask extends AbstractTask {
      * Powershell file extension.
      */
     private static final String FILE_EXTENSION = ".ps1";
+    
+    /**
+     * Initialize Powershell task.
+     */
+    public PowershellTask() {
+        super("", "");
+    }
 
     /**
      * Initialize Powershell task.

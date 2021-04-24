@@ -34,8 +34,6 @@ public class Application {
      * Initialize the application.
      *
      * @param args the command line arguments
-     * @throws com.fasterxml.jackson.core.JsonProcessingException - when the
-     * serialization has failed.
      */
     public static void main(String[] args) {
         // Nothing to do yet.

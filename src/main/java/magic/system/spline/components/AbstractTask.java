@@ -24,11 +24,16 @@
 package magic.system.spline.components;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
 import magic.system.spline.tools.ProcessResults;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
  * A task represents a a concrete task represented as file (script) or inline
@@ -36,12 +41,17 @@ import magic.system.spline.tools.ProcessResults;
  *
  * @author Thomas Lehmann
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY)
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = PowershellTask.class, name = "powershell")
+})
 public abstract class AbstractTask extends Component {
 
     /**
      * Path and name of file of script or inline script.
      */
-    private final String strCode;
+    private String strCode;
 
     /**
      * Initialize task.
@@ -65,6 +75,15 @@ public abstract class AbstractTask extends Component {
     }
 
     /**
+     * Change code.
+     *
+     * @param strInitCode new value for code.
+     */
+    public void setCode(final String strInitCode) {
+        this.strCode = strInitCode;
+    }
+
+    /**
      * Checking for code to represent an existing path and filename.
      *
      * @return true when given code represents an existing path and filename.
@@ -78,6 +97,33 @@ public abstract class AbstractTask extends Component {
             success = false;
         }
         return success;
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder()
+                .append(this.getTitle())
+                .append(this.strCode)
+                .build();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+
+        final AbstractTask other = (AbstractTask) obj;
+        return new EqualsBuilder()
+                .append(this.getTitle(), other.getTitle())
+                .append(this.strCode, other.getCode())
+                .build();
     }
 
     /**

@@ -21,44 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package magic.system.spline.components;
+package magic.system.spline.interfaces;
 
 /**
- * Process pipeline.
+ * Provides interface that allows to run something.
  *
  * @author Thomas Lehmann
+ * @param <E> - return Type for result of the run.
+ * @param <F> - parameter Type for the input to the run.
  */
-public class Component {
+@FunctionalInterface
+public interface IRunnable<E, F> {
 
     /**
-     * Title for the component.
-     */
-    private String strTitle;
-
-    /**
-     * Initialize component.
+     * Running any process.
      *
-     * @param strInitTitle - title of the pipeline
+     * @param input - the input to the run.
+     * @return result of the rin
      */
-    public Component(final String strInitTitle) {
-        this.strTitle = strInitTitle;
-    }
-
-    /**
-     * Provide title of the component.
-     *
-     * @return title of the component.
-     */
-    public String getTitle() {
-        return this.strTitle;
-    }
-
-    /**
-     * Change title.
-     *
-     * @param strInitTitle new title.
-     */
-    public void setTitle(final String strInitTitle) {
-        this.strTitle = strInitTitle;
-    }
+    E run(F input);
 }

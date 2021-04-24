@@ -21,44 +21,41 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package magic.system.spline.components;
+package magic.system.spline.generics;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * Process pipeline.
+ * Writing/serializing to string for given object.
  *
  * @author Thomas Lehmann
  */
-public class Component {
-
+public class GenericWriter {
     /**
-     * Title for the component.
+     * Logger for this class.
      */
-    private String strTitle;
+    private static final Logger LOGGER = LoggerFactory.getLogger(GenericReader.class);
 
     /**
-     * Initialize component.
+     * Writing given object to string.
      *
-     * @param strInitTitle - title of the pipeline
+     * @param value instance of class to be serialized.
+     * @return yaml string.
      */
-    public Component(final String strInitTitle) {
-        this.strTitle = strInitTitle;
-    }
+    public String toYAML(final Object value) {
+        String strContent;
+        final var mapper = new ObjectMapper(new YAMLFactory());
 
-    /**
-     * Provide title of the component.
-     *
-     * @return title of the component.
-     */
-    public String getTitle() {
-        return this.strTitle;
-    }
-
-    /**
-     * Change title.
-     *
-     * @param strInitTitle new title.
-     */
-    public void setTitle(final String strInitTitle) {
-        this.strTitle = strInitTitle;
+        try {
+            strContent = mapper.writeValueAsString(value);
+        } catch (JsonProcessingException e) {
+            LOGGER.error(e.getMessage(), e);
+            strContent = "";
+        }
+        return strContent;
     }
 }

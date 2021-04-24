@@ -23,42 +23,44 @@
  */
 package magic.system.spline.components;
 
+import magic.system.spline.generics.GenericReader;
+import magic.system.spline.generics.GenericWriter;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
+
 /**
- * Process pipeline.
+ * Testing of class {@link Document}.
  *
  * @author Thomas Lehmann
  */
-public class Component {
+public class DocumentTest {
 
     /**
-     * Title for the component.
+     * Test write and read a document using YAML.
+     * Finally also equals is used to compare the whole document.
      */
-    private String strTitle;
+    @Test
+    public void testWriteAndReadDocument() {
+        final var document1 = createTestDocument();
+        final String strContent = new GenericWriter().toYAML(document1);
 
-    /**
-     * Initialize component.
-     *
-     * @param strInitTitle - title of the pipeline
-     */
-    public Component(final String strInitTitle) {
-        this.strTitle = strInitTitle;
+        final var document2 = new GenericReader<>(Document.class).fromYAML(strContent);
+        assertEquals(document1, document2);
     }
 
     /**
-     * Provide title of the component.
+     * Creating a test document.
      *
-     * @return title of the component.
+     * @return test document.
      */
-    public String getTitle() {
-        return this.strTitle;
-    }
-
-    /**
-     * Change title.
-     *
-     * @param strInitTitle new title.
-     */
-    public void setTitle(final String strInitTitle) {
-        this.strTitle = strInitTitle;
+    private Document createTestDocument() {
+        final var document = new Document();
+        final var taskGroup = new TaskGroup("running one after the other", false);
+        taskGroup.add(new PowershellTask("say hello world 1",
+                "Write-Host \"hello world 1!\""));
+        taskGroup.add(new PowershellTask("say hello world 2",
+                "Write-Host \"hello world 2!\""));
+        document.add(taskGroup);
+        return document;
     }
 }
