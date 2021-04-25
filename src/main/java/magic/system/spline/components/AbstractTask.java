@@ -27,7 +27,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
@@ -54,6 +53,11 @@ public abstract class AbstractTask extends Component {
     private String strCode;
 
     /**
+     * Storing the task result.
+     */
+    private Variable variable;
+
+    /**
      * Initialize task.
      *
      * @param strInitTitle - title of the task.
@@ -62,6 +66,7 @@ public abstract class AbstractTask extends Component {
     public AbstractTask(final String strInitTitle, final String strInitCode) {
         super(strInitTitle);
         this.strCode = strInitCode;
+        this.variable = new Variable();
     }
 
     /**
@@ -69,9 +74,17 @@ public abstract class AbstractTask extends Component {
      *
      * @return Path and name of file of script or inline script.
      */
-    @JacksonXmlCData
     public String getCode() {
         return this.strCode;
+    }
+
+    /**
+     * Provide variable representing task result.
+     *
+     * @return variable.
+     */
+    public Variable getVariable() {
+        return this.variable;
     }
 
     /**
@@ -104,6 +117,7 @@ public abstract class AbstractTask extends Component {
         return new HashCodeBuilder()
                 .append(this.getTitle())
                 .append(this.strCode)
+                .append(this.variable)
                 .build();
     }
 
@@ -123,6 +137,7 @@ public abstract class AbstractTask extends Component {
         return new EqualsBuilder()
                 .append(this.getTitle(), other.getTitle())
                 .append(this.strCode, other.getCode())
+                .append(this.variable, other.getVariable())
                 .build();
     }
 
