@@ -6,17 +6,10 @@ pipeline {
     }
 
     stages {
-        stage('Get Code') {
-            steps { 
-                cleanWs()
-                checkout scm
-            }
-        }
-
         stage('Build') {
             steps { 
                 bat '''
-                    ./mvnw clean package
+                    ./mvnw clean package verify
                 '''
             }
         }

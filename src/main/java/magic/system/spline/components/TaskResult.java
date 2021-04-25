@@ -24,6 +24,7 @@
 package magic.system.spline.components;
 
 /**
+ * Result of a task.
  *
  * @author Thomas Lehmann
  */

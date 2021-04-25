@@ -35,16 +35,22 @@ import magic.system.spline.tools.ProcessResults;
  * @author Thomas Lehmann
  */
 public class PowershellTask extends AbstractTask {
+
+    /**
+     * Newline character.
+     */
+    private static final String NEWLINE = "\n";
+
     /**
      * Powershell command for executing a script file.
      */
     private static final String POWERSHELL_COMMAND = "powershell -File ";
-    
+
     /**
      * Powershell file extension.
      */
     private static final String FILE_EXTENSION = ".ps1";
-    
+
     /**
      * Initialize Powershell task.
      */
@@ -69,32 +75,37 @@ public class PowershellTask extends AbstractTask {
 
     @Override
     public TaskResult run() {
-        TaskResult taskResult;       
+        TaskResult taskResult;
 
         try {
             if (isRegularFile()) {
                 final var strCommand = POWERSHELL_COMMAND + getCode();
                 final var process = Runtime.getRuntime().exec(strCommand);
                 final var processResults = ProcessResults.of(process);
-                this.getVariable().setValue(String.join("\n", processResults.getStdout()));
-                taskResult = new TaskResult(processResults.getExitCode() == 0, getVariable());
+                this.getVariable().setValue(String.join(NEWLINE,
+                        processResults.getStdout()));
+                taskResult = new TaskResult(processResults.getExitCode() == 0,
+                        getVariable());
             } else {
                 final var temporaryScriptPath = Files.createTempFile(
                         "spline-powershell-task-",
                         UUID.randomUUID().toString() + FILE_EXTENSION);
 
-                Files.write(temporaryScriptPath, getCode().getBytes(Charset.defaultCharset()));
-                final var strCommand =POWERSHELL_COMMAND + temporaryScriptPath.toString();
+                Files.write(temporaryScriptPath, getCode().getBytes(
+                        Charset.defaultCharset()));
+                final var strCommand = POWERSHELL_COMMAND + temporaryScriptPath.toString();
                 final var process = Runtime.getRuntime().exec(strCommand);
                 final var processResults = ProcessResults.of(process);
                 Files.delete(temporaryScriptPath);
-                this.getVariable().setValue(String.join("\n", processResults.getStdout()));
-                taskResult = new TaskResult(processResults.getExitCode() == 0, getVariable());
+                this.getVariable().setValue(String.join(NEWLINE,
+                        processResults.getStdout()));
+                taskResult = new TaskResult(processResults.getExitCode() == 0,
+                        getVariable());
             }
         } catch (IOException e) {
             taskResult = new TaskResult(false, this.getVariable());
         }
-        
+
         return taskResult;
     }
 }

@@ -73,7 +73,8 @@ public class Variable {
      * @param strInitRegex the regex to use for extracting value.
      * @param bInitLineByLine when true then apply regex per line.
      */
-    public Variable(final String strInitName, final String strInitRegex, final boolean bInitLineByLine) {
+    public Variable(final String strInitName, final String strInitRegex,
+            final boolean bInitLineByLine) {
         this.strName = strInitName;
         this.strValue = "";
         this.strRegex = strInitRegex;
