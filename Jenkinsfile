@@ -17,7 +17,10 @@ pipeline {
 
     post { 
         always { 
-            junit 'target/**/TEST*.xml'   
+            junit 'target/**/TEST*.xml'
+
+            recordIssues enabledForFailure: true, tool: checkStyle()
+            recordIssues enabledForFailure: true, tool: spotBugs()
         }
     }
 }
