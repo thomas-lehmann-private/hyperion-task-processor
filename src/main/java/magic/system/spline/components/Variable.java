@@ -37,6 +37,11 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 public class Variable {
 
     /**
+     * Name of the variable.
+     */
+    private String strName;
+
+    /**
      * Value of a task result.
      */
     private String strValue;
@@ -55,6 +60,7 @@ public class Variable {
      * Initialize variable.
      */
     public Variable() {
+        this.strName = "";
         this.strValue = "";
         this.strRegex = ".*";
         this.bLineByLine = false;
@@ -63,13 +69,33 @@ public class Variable {
     /**
      * Initialize variable.
      *
+     * @param strInitName the name of the variable.
      * @param strInitRegex the regex to use for extracting value.
      * @param bInitLineByLine when true then apply regex per line.
      */
-    public Variable(final String strInitRegex, final boolean bInitLineByLine) {
+    public Variable(final String strInitName, final String strInitRegex, final boolean bInitLineByLine) {
+        this.strName = strInitName;
         this.strValue = "";
         this.strRegex = strInitRegex;
         this.bLineByLine = bInitLineByLine;
+    }
+
+    /**
+     * Provide name of variable.
+     *
+     * @return name of variable.
+     */
+    public String getName() {
+        return this.strName;
+    }
+
+    /**
+     * Change name of variable.
+     *
+     * @param strInitName new name of variable.
+     */
+    public void setName(final String strInitName) {
+        this.strName = strInitName;
     }
 
     /**

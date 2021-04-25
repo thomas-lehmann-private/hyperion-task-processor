@@ -68,14 +68,16 @@ public class PowershellTask extends AbstractTask {
     }
 
     @Override
-    public ProcessResults run() {
-        ProcessResults results = null;
+    public TaskResult run() {
+        TaskResult taskResult;       
 
         try {
             if (isRegularFile()) {
                 final var strCommand = POWERSHELL_COMMAND + getCode();
                 final var process = Runtime.getRuntime().exec(strCommand);
-                results = ProcessResults.of(process);
+                final var processResults = ProcessResults.of(process);
+                this.getVariable().setValue(String.join("\n", processResults.getStdout()));
+                taskResult = new TaskResult(processResults.getExitCode() == 0, getVariable());
             } else {
                 final var temporaryScriptPath = Files.createTempFile(
                         "spline-powershell-task-",
@@ -84,13 +86,15 @@ public class PowershellTask extends AbstractTask {
                 Files.write(temporaryScriptPath, getCode().getBytes(Charset.defaultCharset()));
                 final var strCommand =POWERSHELL_COMMAND + temporaryScriptPath.toString();
                 final var process = Runtime.getRuntime().exec(strCommand);
-                results = ProcessResults.of(process);
+                final var processResults = ProcessResults.of(process);
                 Files.delete(temporaryScriptPath);
+                this.getVariable().setValue(String.join("\n", processResults.getStdout()));
+                taskResult = new TaskResult(processResults.getExitCode() == 0, getVariable());
             }
         } catch (IOException e) {
-            // Nothing to do.
+            taskResult = new TaskResult(false, this.getVariable());
         }
         
-        return results;
+        return taskResult;
     }
 }

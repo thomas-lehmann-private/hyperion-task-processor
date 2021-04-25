@@ -30,7 +30,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
-import magic.system.spline.tools.ProcessResults;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -146,5 +145,5 @@ public abstract class AbstractTask extends Component {
      *
      * @return lines written to stdout and stderr and the process exit code.
      */
-    public abstract ProcessResults run();
+    public abstract TaskResult run();
 }

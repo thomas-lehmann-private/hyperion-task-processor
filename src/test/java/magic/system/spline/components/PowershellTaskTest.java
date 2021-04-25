@@ -25,9 +25,9 @@ package magic.system.spline.components;
 
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
-import java.util.List;
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -63,17 +63,10 @@ public class PowershellTaskTest {
         final var task = new PowershellTask(PRINT_HELLO_WORLD_TITLE,
                 "Write-Host \"" + HELLO_WORD_TEXT + "\"");
         assertEquals(PRINT_HELLO_WORLD_TITLE, task.getTitle());
-        final var results = task.run();
+        final var result = task.run();
 
-        //CHECKSTYLE.OFF: MultipleStringLiterals - we don't need to worry here
-        assertEquals(0, results.getStderr().size(),
-                "There should not be any error output!");
-        assertEquals(1, results.getStdout().size(),
-                "There should be exactly one line!");
-        //CHECKSTYLE.ON: MultipleStringLiterals
-
-        assertEquals(HELLO_WORD_TEXT, results.getStdout().get(0));
-        assertEquals(0, results.getExitCode());
+        assertEquals(HELLO_WORD_TEXT, result.getVariable().getValue());
+        assertTrue(result.isSuccess());
     }
 
     /**
@@ -86,16 +79,10 @@ public class PowershellTaskTest {
         final var scriptPath = getClass().getResource("/scripts/say-hello-world.ps1")
                 .toString().replaceFirst("file:/", "");
         final var task = new PowershellTask(PRINT_HELLO_WORLD_TITLE, scriptPath);
-        final var results = task.run();
+        final var result = task.run();
 
-        // CHECKSTYLE.OFF: MultipleStringLiterals - we don't need to worry here
-        assertEquals(0, results.getStderr().size(),
-                "There should not be any error output!");
-        assertEquals(1, results.getStdout().size(),
-                "There should be exactly one line!");
-        //CHECKSTYLE.ON: MultipleStringLiterals
-        assertEquals(HELLO_WORD_TEXT, results.getStdout().get(0));
-        assertEquals(0, results.getExitCode());
+        assertEquals(HELLO_WORD_TEXT, result.getVariable().getValue());
+        assertTrue(result.isSuccess());
     }
 
     /**
@@ -109,22 +96,10 @@ public class PowershellTaskTest {
         final var scriptPath = Paths.get(getClass().getResource(
                 "/scripts/say-error.ps1").toURI()).normalize().toString();
         final var task = new PowershellTask("print error", scriptPath);
-        final var results = task.run();
-
-        // FIXME: This is not very comfortable and the format is not reliable
-        final var expectedLines = List.of(scriptPath + " : Something went wrong!",
-            "    + CategoryInfo          : NotSpecified: (:) [Write-Error], WriteErrorException",
-            "    + FullyQualifiedErrorId : UnknownProblem,say-error.ps1",
-            " ");
-
-        results.getStderr().forEach(line -> System.out.println("stderr: " + line));
-
-        assertArrayEquals(expectedLines.toArray(), results.getStderr().toArray());
-        // CHECKSTYLE.OFF: MultipleStringLiterals - we don't need to worry here
-        assertEquals(0, results.getStdout().size(),
-                "There should not be any stdout output!");
-        //CHECKSTYLE.ON: MultipleStringLiterals
-        assertEquals(0, results.getExitCode());
+        final var result = task.run();
+        
+        assertTrue(result.getVariable().getValue().isEmpty());
+        assertTrue(result.isSuccess());
     }
 
     /**
@@ -135,11 +110,8 @@ public class PowershellTaskTest {
     public void testExitCode() {
         final var task = new PowershellTask("testing exit code",
                 "exit " + PROCESS_EXIT_CODE);
-        final var results = task.run();
-        assertEquals(0, results.getStdout().size(),
-                "There should not be any stdout output!");
-        assertEquals(0, results.getStderr().size(),
-                "There should not be any stderr output!");
-        assertEquals(PROCESS_EXIT_CODE, results.getExitCode());
+        final var result = task.run();
+        assertFalse(result.isSuccess());
+        // FIXME: somehow to provide the concrete exit code (Attribute?)
     }
 }
