@@ -1,6 +1,6 @@
 pipeline {
     agent any
-
+  
     options  {
         timestamps()
     }
@@ -12,6 +12,12 @@ pipeline {
                     ./mvnw clean package verify
                 '''
             }
+        }
+    }
+
+    post { 
+        always { 
+            junit 'target/**/TEST*.xml'   
         }
     }
 }
