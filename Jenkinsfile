@@ -19,7 +19,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    def description = bat(returnStdout:true, script:'@git log -1 --pretty="format:%%h:%%s"').trim()
+                    def description = bat(returnStdout:true, script:'@git log -1 --pretty="format:%%h - %%s"').trim()
                     currentBuild.description = description
                 }
 
