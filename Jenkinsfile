@@ -33,6 +33,7 @@ pipeline {
     post { 
         always { 
             junit 'target/**/TEST*.xml'
+            jacoco()
 
             recordIssues enabledForFailure: true, tool: checkStyle()
             recordIssues enabledForFailure: true, tool: spotBugs()
