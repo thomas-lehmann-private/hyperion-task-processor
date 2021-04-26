@@ -25,6 +25,7 @@ package magic.system.spline.components;
 
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
+import java.util.Collections;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -63,7 +64,7 @@ public class PowershellTaskTest {
         final var task = new PowershellTask(PRINT_HELLO_WORLD_TITLE,
                 "Write-Host \"" + HELLO_WORD_TEXT + "\"");
         assertEquals(PRINT_HELLO_WORLD_TITLE, task.getTitle());
-        final var result = task.run();
+        final var result = task.run(Collections.emptyMap());
 
         assertEquals(HELLO_WORD_TEXT, result.getVariable().getValue());
         assertTrue(result.isSuccess());
@@ -79,7 +80,7 @@ public class PowershellTaskTest {
         final var scriptPath = getClass().getResource("/scripts/say-hello-world.ps1")
                 .toString().replaceFirst("file:/", "");
         final var task = new PowershellTask(PRINT_HELLO_WORLD_TITLE, scriptPath);
-        final var result = task.run();
+        final var result = task.run(Collections.emptyMap());
 
         assertEquals(HELLO_WORD_TEXT, result.getVariable().getValue());
         assertTrue(result.isSuccess());
@@ -96,7 +97,7 @@ public class PowershellTaskTest {
         final var scriptPath = Paths.get(getClass().getResource(
                 "/scripts/say-error.ps1").toURI()).normalize().toString();
         final var task = new PowershellTask("print error", scriptPath);
-        final var result = task.run();
+        final var result = task.run(Collections.emptyMap());
         
         assertTrue(result.getVariable().getValue().isEmpty());
         assertTrue(result.isSuccess());
@@ -110,7 +111,7 @@ public class PowershellTaskTest {
     public void testExitCode() {
         final var task = new PowershellTask("testing exit code",
                 "exit " + PROCESS_EXIT_CODE);
-        final var result = task.run();
+        final var result = task.run(Collections.emptyMap());
         assertFalse(result.isSuccess());
         // FIXME: somehow to provide the concrete exit code (Attribute?)
     }

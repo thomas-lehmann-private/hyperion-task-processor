@@ -1,8 +1,18 @@
 pipeline {
     agent any
+
+    triggers {
+        // Check for changes each 15 Minutes
+        pollSCM('H/15 * * * *')
+    }
   
     options  {
+        // Provide timetstamps in the console output
         timestamps()
+        // How many builds we want to keep
+        buildDiscarder(logRotator(numToKeepStr: '3'))
+        // The build NEVER should take this time
+        timeout(time: 5, unit: 'MINUTES')
     }
 
     stages {

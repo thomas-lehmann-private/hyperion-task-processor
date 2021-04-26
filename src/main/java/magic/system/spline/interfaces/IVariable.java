@@ -21,41 +21,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package magic.system.spline.generics;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+package magic.system.spline.interfaces;
 
 /**
- * Writing/serializing to string for given object.
+ * Interface for a variable with readonly access.
  *
  * @author Thomas Lehmann
  */
-public class GenericWriter {
-    /**
-     * Logger for this class.
-     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(GenericWriter.class);
+public interface IVariable {
 
     /**
-     * Writing given object to string.
+     * Provide Name of the variable.
      *
-     * @param value instance of class to be serialized.
-     * @return yaml string.
+     * @return name
      */
-    public String toYAML(final Object value) {
-        String strContent;
-        final var mapper = new ObjectMapper(new YAMLFactory());
+    String getName();
 
-        try {
-            strContent = mapper.writeValueAsString(value);
-        } catch (JsonProcessingException e) {
-            LOGGER.error(e.getMessage(), e);
-            strContent = "";
-        }
-        return strContent;
-    }
+    /**
+     * Provide value of variable.
+     *
+     * @return value.
+     */
+    String getValue();
 }

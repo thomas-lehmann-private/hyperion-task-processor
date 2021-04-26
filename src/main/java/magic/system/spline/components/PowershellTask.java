@@ -26,7 +26,9 @@ package magic.system.spline.components;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.util.Map;
 import java.util.UUID;
+import magic.system.spline.interfaces.IVariable;
 import magic.system.spline.tools.ProcessResults;
 
 /**
@@ -74,7 +76,7 @@ public class PowershellTask extends AbstractTask {
     }
 
     @Override
-    public TaskResult run() {
+    public TaskResult run(final Map<String, IVariable> variables) {
         TaskResult taskResult;
 
         try {

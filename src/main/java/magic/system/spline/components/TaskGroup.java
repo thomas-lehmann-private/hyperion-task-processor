@@ -23,10 +23,16 @@
  */
 package magic.system.spline.components;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import magic.system.spline.interfaces.IRunnable;
+import magic.system.spline.interfaces.IVariable;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -38,6 +44,11 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 public class TaskGroup extends Component implements IRunnable<Boolean, Document> {
 
     /**
+     * Variable storage per task group accessible to the individual tasks.
+     */
+    private final Map<String, IVariable> variables;
+
+    /**
      * List of tasks.
      */
     private final List<AbstractTask> listOfTasks;
@@ -45,16 +56,7 @@ public class TaskGroup extends Component implements IRunnable<Boolean, Document>
     /**
      * When true then run tasks in parallel.
      */
-    private boolean bRunTasksInParallel;
-
-    /**
-     * Initialize task group.
-     */
-    public TaskGroup() {
-        super("");
-        this.listOfTasks = new ArrayList<>();
-        this.bRunTasksInParallel = false;
-    }
+    private final boolean bRunTasksInParallel;
 
     /**
      * Initialize task group.
@@ -62,10 +64,23 @@ public class TaskGroup extends Component implements IRunnable<Boolean, Document>
      * @param strInitTitle title of the group.
      * @param bInitRunTasksInParallel when true then run tasks in parallel.
      */
-    public TaskGroup(final String strInitTitle, final boolean bInitRunTasksInParallel) {
+    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+    public TaskGroup(@JsonProperty("title") final String strInitTitle,
+            @JsonProperty("runTasksInParallel") final boolean bInitRunTasksInParallel) {
         super(strInitTitle);
+        this.variables = new ConcurrentHashMap<>();
         this.listOfTasks = new ArrayList<>();
         this.bRunTasksInParallel = bInitRunTasksInParallel;
+    }
+
+    /**
+     * Readonly access to variables.
+     *
+     * @return variables.
+     */
+    @JsonIgnore
+    public Map<String, IVariable> getVariables() {
+        return Collections.unmodifiableMap(this.variables);
     }
 
     /**
@@ -87,15 +102,6 @@ public class TaskGroup extends Component implements IRunnable<Boolean, Document>
     }
 
     /**
-     * Change running in parallel.
-     *
-     * @param bInitRunTasksInParallel - new value
-     */
-    public void setRunTasksInParallel(final boolean bInitRunTasksInParallel) {
-        this.bRunTasksInParallel = bInitRunTasksInParallel;
-    }
-
-    /**
      * Adding new task.
      *
      * @param task new task.
@@ -106,7 +112,19 @@ public class TaskGroup extends Component implements IRunnable<Boolean, Document>
 
     @Override
     public Boolean run(Document input) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Boolean success = java.lang.Boolean.TRUE;
+
+        if (!this.bRunTasksInParallel) {
+            for (var task : this.listOfTasks) {
+                final var result = task.run(this.variables);
+                this.variables.put(result.getVariable().getName(),
+                        result.getVariable());
+                if (!result.isSuccess()) {
+                    success = Boolean.FALSE;
+                }
+            }
+        }
+        return success;
     }
 
     @Override

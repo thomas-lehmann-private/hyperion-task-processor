@@ -26,6 +26,7 @@ package magic.system.spline.components;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 import java.util.regex.Pattern;
+import magic.system.spline.interfaces.IVariable;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -34,7 +35,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  *
  * @author Thomas Lehmann
  */
-public class Variable {
+public class Variable implements IVariable {
 
     /**
      * Name of the variable.
@@ -86,6 +87,7 @@ public class Variable {
      *
      * @return name of variable.
      */
+    @Override
     public String getName() {
         return this.strName;
     }
@@ -105,6 +107,7 @@ public class Variable {
      * @return value
      */
     @JsonIgnore
+    @Override
     public String getValue() {
         return this.strValue;
     }

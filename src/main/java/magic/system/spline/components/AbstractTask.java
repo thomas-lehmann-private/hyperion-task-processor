@@ -30,6 +30,9 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
+import java.util.Map;
+import magic.system.spline.interfaces.IRunnable;
+import magic.system.spline.interfaces.IVariable;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -44,7 +47,8 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 @JsonSubTypes({
     @JsonSubTypes.Type(value = PowershellTask.class, name = "powershell")
 })
-public abstract class AbstractTask extends Component {
+public abstract class AbstractTask extends Component
+        implements IRunnable<TaskResult, Map<String, IVariable>> {
 
     /**
      * Path and name of file of script or inline script.
@@ -139,11 +143,4 @@ public abstract class AbstractTask extends Component {
                 .append(this.variable, other.getVariable())
                 .build();
     }
-
-    /**
-     * Run the task.
-     *
-     * @return lines written to stdout and stderr and the process exit code.
-     */
-    public abstract TaskResult run();
 }
