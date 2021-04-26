@@ -17,7 +17,10 @@ pipeline {
 
     stages {
         stage('Build') {
-            steps { 
+            steps {
+                def description = bat(returnStdout:true, script:'git log -1 --pretty="format:%h:%s"')
+                currentBuild.description = description
+
                 bat '''
                     ./mvnw clean package verify
                 '''
