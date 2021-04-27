@@ -35,6 +35,8 @@ pipeline {
             junit 'target/**/TEST*.xml'
             jacoco()
 
+            archiveArtifacts artifacts: 'target/spline*.jar', onlyIfSuccessful: true
+
             recordIssues enabledForFailure: true, tool: checkStyle()
             recordIssues enabledForFailure: true, tool: spotBugs()
         }
