@@ -39,11 +39,6 @@ pipeline {
 
             recordIssues enabledForFailure: true, tool: checkStyle()
             recordIssues enabledForFailure: true, tool: spotBugs()
-
-            emailext attachLog: true,
-                     recipientProviders: [buildUser(), culprits(), developers(), brokenBuildSuspects(), brokenTestsSuspects()],
-                     subject: 'Spline Build Information',
-                     body: '''${JELLY_SCRIPT,template="html"}'''
         }
     }
 }
