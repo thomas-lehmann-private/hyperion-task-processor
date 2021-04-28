@@ -43,7 +43,7 @@ public class DocumentTest {
     public void testWriteAndReadDocument() {
         final var document1 = createTestDocument();
         final String strContent = new GenericWriter().toYAML(document1);
-
+        
         final var document2 = new GenericReader<>(Document.class).fromYAML(strContent);
         assertEquals(document1, document2);
     }
@@ -55,6 +55,7 @@ public class DocumentTest {
      */
     private Document createTestDocument() {
         final var document = new Document();
+        document.getModel().getData().set("mode", "test");
         final var taskGroup = new TaskGroup("running one after the other", false);
         taskGroup.add(new PowershellTask("say hello world 1",
                 "Write-Host \"hello world 1!\""));

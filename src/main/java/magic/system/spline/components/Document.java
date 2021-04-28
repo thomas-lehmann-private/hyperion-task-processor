@@ -37,6 +37,11 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 public class Document {
 
     /**
+     * The one and only model in a document.
+     */
+    private final Model model;
+
+    /**
      * List of task groups.
      */
     private final List<TaskGroup> listOfTaskGroups;
@@ -46,6 +51,16 @@ public class Document {
      */
     public Document() {
         this.listOfTaskGroups = new ArrayList<>();
+        this.model = new Model();
+    }
+
+    /**
+     * Get the model.
+     *
+     * @return model.
+     */
+    public Model getModel() {
+        return this.model;
     }
 
     /**

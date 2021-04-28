@@ -21,7 +21,7 @@ pipeline {
                 script {
                     def description = bat(returnStdout:true, script:'@git log -1 --pretty="format:%%h - %%s"').trim()
                     currentBuild.description = description
-                    echo 'GIT_URL:' + GIT_URL
+                    echo 'GIT_URL: ' + GIT_URL
                 }
 
                 bat '''

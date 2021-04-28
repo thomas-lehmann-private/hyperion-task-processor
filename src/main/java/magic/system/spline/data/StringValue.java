@@ -23,6 +23,7 @@
  */
 package magic.system.spline.data;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import magic.system.spline.interfaces.IValue;
 
 /**
@@ -42,7 +43,7 @@ public class StringValue implements IValue {
      *
      * @param strInitValue some string value.
      */
-    public StringValue(final String strInitValue) {
+    public StringValue(@JsonProperty("value") final String strInitValue) {
         this.strValue = strInitValue;
     }
 
