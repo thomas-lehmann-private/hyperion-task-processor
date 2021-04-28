@@ -30,6 +30,7 @@ import java.util.Map;
 import java.util.UUID;
 import magic.system.spline.interfaces.IVariable;
 import magic.system.spline.tools.ProcessResults;
+import magic.system.spline.tools.TemplateEngine;
 
 /**
  * Task for running a powershell script.
@@ -93,8 +94,13 @@ public class PowershellTask extends AbstractTask {
                         "spline-powershell-task-",
                         UUID.randomUUID().toString() + FILE_EXTENSION);
 
-                Files.write(temporaryScriptPath, getCode().getBytes(
+                final var engine = new TemplateEngine();
+                final var renderedText = engine.render(getCode(),
+                        Map.of("variables", variables));
+
+                Files.write(temporaryScriptPath, renderedText.getBytes(
                         Charset.defaultCharset()));
+
                 final var strCommand = POWERSHELL_COMMAND + temporaryScriptPath.toString();
                 final var process = Runtime.getRuntime().exec(strCommand);
                 final var processResults = ProcessResults.of(process);

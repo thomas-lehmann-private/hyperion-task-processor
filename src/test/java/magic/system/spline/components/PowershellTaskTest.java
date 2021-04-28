@@ -26,6 +26,7 @@ package magic.system.spline.components;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.util.Collections;
+import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -44,7 +45,7 @@ public class PowershellTaskTest {
      * Test task title.
      */
     private static final String PRINT_HELLO_WORLD_TITLE = "print hello world";
-    
+
     /**
      * Test output.
      */
@@ -57,7 +58,7 @@ public class PowershellTaskTest {
 
     /**
      * Testing (finally) of {@link AbstractTask#getTitle()} and
-     * {@link PowershellTask#run()} in context of inline code.
+     * {@link PowershellTask#run(java.util.Map) } in context of inline code.
      */
     @Test
     public void testHelloWorldInline() {
@@ -72,8 +73,8 @@ public class PowershellTaskTest {
 
     /**
      * Testing (finally) of {@link AbstractTask#getTitle()} and
-     * {@link PowershellTask#run()} in context of code representing a path and
-     * filename to an existing powershell script.
+     * {@link PowershellTask#run(java.util.Map) } in context of code
+     * representing a path and filename to an existing powershell script.
      */
     @Test
     public void testHelloWorldFile() {
@@ -88,7 +89,7 @@ public class PowershellTaskTest {
 
     /**
      * Testing (finally) of {@link AbstractTask#getTitle()} and
-     * {@link PowershellTask#run()} with errors from the script.
+     * {@link PowershellTask#run(java.util.Map) } with errors from the script.
      *
      * @throws java.net.URISyntaxException when the syntax of the URI is wrong.
      */
@@ -98,7 +99,7 @@ public class PowershellTaskTest {
                 "/scripts/say-error.ps1").toURI()).normalize().toString();
         final var task = new PowershellTask("print error", scriptPath);
         final var result = task.run(Collections.emptyMap());
-        
+
         assertTrue(result.getVariable().getValue().isEmpty());
         assertTrue(result.isSuccess());
     }
@@ -114,5 +115,24 @@ public class PowershellTaskTest {
         final var result = task.run(Collections.emptyMap());
         assertFalse(result.isSuccess());
         // FIXME: somehow to provide the concrete exit code (Attribute?)
+    }
+
+    /**
+     * Testing (finally) of {@link AbstractTask#getTitle()} and
+     * {@link PowershellTask#run(java.util.Map) } in context of inline code with
+     * rendering variables.
+     */
+    @Test
+    public void testHelloWorldInlineWithVariables() {
+        final var variable = new Variable();
+        variable.setValue(HELLO_WORD_TEXT);
+        
+        final var task = new PowershellTask(PRINT_HELLO_WORLD_TITLE,
+                "Write-Host \"{{ variables.text.value }}\"");
+        assertEquals(PRINT_HELLO_WORLD_TITLE, task.getTitle());
+        final var result = task.run(Map.of("text", variable));
+
+        assertEquals(HELLO_WORD_TEXT, result.getVariable().getValue());
+        assertTrue(result.isSuccess());
     }
 }
