@@ -15,7 +15,7 @@
         <line.coverage>0.8</line.coverage>
 
         <!-- Dependencies -->        
-        <junit.jupiter.version>5.7.1</junit.jupiter.version>
+        <junit.jupiter.version>5.8.0-M1</junit.jupiter.version>
         <jackson.dataformat.xml.version>2.12.1</jackson.dataformat.xml.version>
         <jackson.dataformat.yml.version>2.12.1</jackson.dataformat.yml.version>
         <logback.classic.version>1.2.3</logback.classic.version>
@@ -24,6 +24,7 @@
         
         <!-- Build Plugins -->
         <maven.compiler.plugin.version>3.8.0</maven.compiler.plugin.version>
+        <maven.surefire.plugin.version>3.0.0-M5</maven.surefire.plugin.version>
         <jacoco.maven.plugin.version>0.8.6</jacoco.maven.plugin.version>
         <maven.checkstyle.plugin.version>3.1.2</maven.checkstyle.plugin.version>
         <maven.checkstyle.version>8.41.1</maven.checkstyle.version>
@@ -54,6 +55,13 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
             <version>${junit.jupiter.version}</version>
             <scope>test</scope>
         </dependency>
@@ -98,6 +106,12 @@
                 <configuration>
                     <compilerArgument>-Xlint:unchecked</compilerArgument>
                 </configuration>
+            </plugin>
+           
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven.surefire.plugin.version}</version>
             </plugin>
 
             <plugin>

@@ -1,0 +1,8 @@
+---
+taskgroups:
+    - title: test
+      parallel: false
+      tasks:
+        - type: powershell
+          code: Write-Host "hello world!"
+
