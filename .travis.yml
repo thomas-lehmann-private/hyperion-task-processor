@@ -1,6 +1,6 @@
 language: java
 
-jobs:
+matrix:
     include:
         - name: AdoptOpenJDK 11 on Windows
           os: windows
