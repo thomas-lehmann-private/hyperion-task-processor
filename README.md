@@ -1,16 +1,22 @@
-# spline
-Special process pipeline
+# hyperion
+Special task processing pipeline
 
-## Goals
+## Goals for Milestone 1.0.0
 
- - Supporting XML, YAML and JSON
+ - Running on all platforms (written in Java)
+ - Supporting YAML
  - Running ordered Tasks or in parallel
  - Supporting Bash, Powershell and Batch
- - Supporting Templating
- - Providing dynamic model
- - Enable running as REST service (remote tasks executions)
- - Supporting Docker
- - Running on all platforms (written in Java)
+ - Providing dynamic model (free depth)
+ - Supporting Templating (https://pebbletemplates.io/)
+   - variable evaluation from previous tasks
+   - model evaluation
+
+## Goals for further Milestones
  - Considering support for scripts (which ones - we will see, Groovy?, ...)
- - Conditional task execution
  - Supporting Matrix
+ - Conditional task execution
+ - Supporting Docker
+ - Supporting file tasks (copy, move, delete)
+ - Enable running as REST service (remote tasks executions)
+ 
