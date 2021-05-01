@@ -6,14 +6,14 @@ matrix:
           os: windows
           language: shell
           install:
-              - installJDK AdoptOpenJDK11
+              - cmd.exe /C "installJDK.cmd AdoptOpenJDK11"
           env:
             - PATH=C:/Program Files/AdoptOpenJDK/jdk/bin:$PATH
             - JAVA_HOME=C:/Program Files/AdoptOpenJDK/jdk
 
 script:
-    - java -version
-    - ./mvnw
+    - cmd.exe /C "java -version"
+    - cmd.exe /C mvnw.cmd
 
 notifications:
     email:
