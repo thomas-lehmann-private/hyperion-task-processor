@@ -36,7 +36,7 @@ pipeline {
             junit 'target/**/TEST*.xml'
             jacoco()
 
-            archiveArtifacts artifacts: 'target/spline*shaded.jar', onlyIfSuccessful: true
+            archiveArtifacts artifacts: 'target/hyperion*shaded.jar', onlyIfSuccessful: true
 
             recordIssues enabledForFailure: true, tool: checkStyle()
             recordIssues enabledForFailure: true, tool: spotBugs()

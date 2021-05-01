@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.Named;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -116,16 +115,40 @@ public class ListMatcherTest {
         }
     }
 
+    @ParameterizedTest(name = "{displayName} with [{arguments}]")
+    @MethodSource("provideRequireExactCountTestData")
+    public void testRequireExactCount(final List<String> listData, final boolean bExpectedToFail) {
+        final var matcher = new ListMatcher<String>();
+        //CHECKSTYLE.OFF: MagicNumber - ok here
+        matcher.requireExactCount(THREE, 3);
+        //CHECKSTYLE.ON: MagicNumber
+
+        if (bExpectedToFail) {
+            assertFalse(matcher.matches(listData));
+        } else {
+            assertTrue(matcher.matches(listData));
+        }
+    }
+
     private static Stream<Arguments> provideRequireCountTestData() {
         return Stream.of(
-                Arguments.of(Named.of(DATA, List.of(THREE)),
-                        Named.of(EXPECTED_TO_FAIL, true)),
-                Arguments.of(Named.of(DATA, List.of(THREE, THREE)),
-                        Named.of(EXPECTED_TO_FAIL, true)),
-                Arguments.of(Named.of(DATA, List.of(THREE, THREE, THREE)),
-                        Named.of(EXPECTED_TO_FAIL, false)),
-                Arguments.of(Named.of(DATA, List.of(THREE, THREE, THREE, THREE)),
-                        Named.of(EXPECTED_TO_FAIL, false))
+                Arguments.of(List.of(THREE), true),
+                Arguments.of(List.of(THREE, THREE), true),
+                Arguments.of(List.of(THREE, THREE, THREE),
+                        false),
+                Arguments.of(List.of(THREE, THREE, THREE, THREE),
+                        false)
+        );
+    }
+
+    private static Stream<Arguments> provideRequireExactCountTestData() {
+        return Stream.of(
+                Arguments.of(List.of(THREE), true),
+                Arguments.of(List.of(THREE, THREE), true),
+                Arguments.of(List.of(THREE, THREE, THREE),
+                        false),
+                Arguments.of(List.of(THREE, THREE, THREE, THREE),
+                        true)
         );
     }
 }
