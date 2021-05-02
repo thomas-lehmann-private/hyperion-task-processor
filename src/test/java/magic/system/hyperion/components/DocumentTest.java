@@ -26,6 +26,7 @@ package magic.system.hyperion.components;
 import magic.system.hyperion.generics.GenericReader;
 import magic.system.hyperion.generics.GenericWriter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -33,6 +34,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Thomas Lehmann
  */
+@DisplayName("Testing Document class")
 public class DocumentTest {
 
     /**

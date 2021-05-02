@@ -26,6 +26,7 @@ package magic.system.hyperion.data;
 import magic.system.hyperion.generics.Pair;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -33,6 +34,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Thomas Lehmann
  */
+@DisplayName("Testing AttributeList class")
 public class AttributsListTest {
 
     /**

@@ -26,6 +26,7 @@ package magic.system.hyperion.matcher;
 import java.util.List;
 import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -33,6 +34,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Thomas Lehmann
  */
+@DisplayName("Testing IMatcher interface and Matcher class")
 public class MatcherTest {
 
     @Test

@@ -26,6 +26,7 @@ package magic.system.hyperion.reader;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -33,6 +34,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Thomas Lehmann
  */
+@DisplayName("Testing DocumentReader class")
 public class DocumentReaderTest {
 
     @Test

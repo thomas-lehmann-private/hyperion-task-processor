@@ -26,6 +26,7 @@ package magic.system.hyperion.components;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -33,6 +34,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Thomas Lehmann
  */
+@DisplayName("Testing Variab class")
 public class VariableTest {
     /**
      * Testing regex applied to whole string.

@@ -24,6 +24,7 @@
 package magic.system.hyperion.components;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -31,6 +32,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Thomas Lehmann
  */
+@DisplayName("Testing TaskGroup class")
 public class TaskGroupTest {
 
     /**

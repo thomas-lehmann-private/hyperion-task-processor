@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -37,6 +38,7 @@ import org.junit.jupiter.params.provider.MethodSource;
  *
  * @author Thomas Lehmann
  */
+@DisplayName("Testing ListMatcher class")
 public class ListMatcherTest {
 
     /**
@@ -82,6 +84,7 @@ public class ListMatcherTest {
      * Testing {@link ListMatcher#requireOnce(java.lang.Object)}.
      */
     @Test
+    @DisplayName("Testing require at least once")
     public void testRequiredOnce() {
         final var matcher = new ListMatcher<String>();
 
@@ -100,14 +103,23 @@ public class ListMatcherTest {
                 "two times time 'four' should also be fine");
     }
 
-    @ParameterizedTest(name = "{displayName} with [{arguments}]")
+    /**
+     * Testing requiring minimum count.
+     *
+     * @param strValue the value to require
+     * @param iCount the exact count required
+     * @param listData the list to verify
+     * @param bExpectedToFail when true then expected to fail other expected to
+     * succeed.
+     */
+    @DisplayName("require minimum count")
+    @ParameterizedTest(
+            name = "testRequireCount - #{index} value={0}, count={1}, data={2}, expected fail={3}")
     @MethodSource("provideRequireCountTestData")
-    public void testRequireCount(final List<String> listData, final boolean bExpectedToFail) {
+    public void testRequireCount(final String strValue, final int iCount,
+            final List<String> listData, final boolean bExpectedToFail) {
         final var matcher = new ListMatcher<String>();
-        //CHECKSTYLE.OFF: MagicNumber - ok here
-        matcher.requireCount(THREE, 3);
-        //CHECKSTYLE.ON: MagicNumber
-
+        matcher.requireCount(strValue, iCount);
         if (bExpectedToFail) {
             assertFalse(matcher.matches(listData));
         } else {
@@ -115,13 +127,22 @@ public class ListMatcherTest {
         }
     }
 
-    @ParameterizedTest(name = "{displayName} with [{arguments}]")
+    /**
+     * Testing requiring exact count.
+     *
+     * @param strValue the value to require
+     * @param iCount the exact count required
+     * @param listData the list to verify
+     * @param bExpectedToFail when true then expected to fail other expected to
+     * succeed. W
+     */
+    @ParameterizedTest(
+            name = "Test exact count - #{index} value={0}, count={1}, data={2}, expected fail={3}")
     @MethodSource("provideRequireExactCountTestData")
-    public void testRequireExactCount(final List<String> listData, final boolean bExpectedToFail) {
+    public void testRequireExactCount(final String strValue, final int iCount,
+            final List<String> listData, final boolean bExpectedToFail) {
         final var matcher = new ListMatcher<String>();
-        //CHECKSTYLE.OFF: MagicNumber - ok here
-        matcher.requireExactCount(THREE, 3);
-        //CHECKSTYLE.ON: MagicNumber
+        matcher.requireExactCount(strValue, iCount);
 
         if (bExpectedToFail) {
             assertFalse(matcher.matches(listData));
@@ -130,25 +151,84 @@ public class ListMatcherTest {
         }
     }
 
+    @DisplayName("testing for allowed values")
+    @ParameterizedTest(name = "Test allow - #{index} values={0}, data={1}, expected fail={2}")
+    @MethodSource("provideAllowTestData")
+    public void testAllow(final List<String> values, final List<String> listData,
+            final boolean bExpectedToFail) {
+        final var matcher = new ListMatcher<String>();
+        values.forEach(value -> matcher.allow(value));
+
+        if (bExpectedToFail) {
+            assertFalse(matcher.matches(listData));
+        } else {
+            assertTrue(matcher.matches(listData));
+        }
+    }
+
+    /**
+     * Test data for require minimum count test.
+     * <ul>
+     * <li>too little
+     * <li>correct
+     * <li>correct
+     * </ul>
+     *
+     * @return list of use cases.
+     */
     private static Stream<Arguments> provideRequireCountTestData() {
+        //CHECKSTYLE.OFF: MagicNumber - ok here
         return Stream.of(
-                Arguments.of(List.of(THREE), true),
-                Arguments.of(List.of(THREE, THREE), true),
-                Arguments.of(List.of(THREE, THREE, THREE),
+                Arguments.of(THREE, 3, List.of(THREE, THREE), true),
+                Arguments.of(THREE, 3, List.of(THREE, THREE, THREE),
                         false),
-                Arguments.of(List.of(THREE, THREE, THREE, THREE),
+                Arguments.of(THREE, 3, List.of(THREE, THREE, THREE, THREE),
                         false)
         );
+        //CHECKSTYLE.ON: MagicNumber
     }
 
+    /**
+     * Test data for require exact count test.
+     * <ul>
+     * <li>too little
+     * <li>correct
+     * <li>too much
+     * </ul>
+     *
+     * @return list of use cases.
+     */
     private static Stream<Arguments> provideRequireExactCountTestData() {
+        //CHECKSTYLE.OFF: MagicNumber - ok here
         return Stream.of(
-                Arguments.of(List.of(THREE), true),
-                Arguments.of(List.of(THREE, THREE), true),
-                Arguments.of(List.of(THREE, THREE, THREE),
+                Arguments.of(THREE, 3, List.of(THREE, THREE), true),
+                Arguments.of(THREE, 3, List.of(THREE, THREE, THREE),
                         false),
-                Arguments.of(List.of(THREE, THREE, THREE, THREE),
+                Arguments.of(THREE, 3, List.of(THREE, THREE, THREE, THREE),
                         true)
+        );
+        //CHECKSTYLE.ON: MagicNumber
+    }
+
+    /**
+     * Test data for allowing values.
+     * <ul>
+     * <li> not allowed values
+     * <li> allowed and not allowed values mixed
+     * <li> one allowed value
+     * <li> allowed values, but not all allowed values are given
+     * <li> allowed values, all allowed values are given
+     * </ul>
+     *
+     * @return list of use cases.
+     */
+    private static Stream<Arguments> provideAllowTestData() {
+        return Stream.of(
+                Arguments.of(List.of(THREE), List.of(ONE, TWO), true),
+                Arguments.of(List.of(THREE), List.of(ONE, TWO, THREE), true),
+                Arguments.of(List.of(THREE), List.of(THREE), false),
+                Arguments.of(List.of(THREE, FOUR), List.of(THREE), false),
+                Arguments.of(List.of(THREE, FOUR), List.of(THREE, FOUR), false)
         );
     }
 }

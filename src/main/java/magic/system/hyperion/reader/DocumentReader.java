@@ -32,6 +32,7 @@ import magic.system.hyperion.components.Document;
 import magic.system.hyperion.components.PowershellTask;
 import magic.system.hyperion.components.TaskGroup;
 import magic.system.hyperion.generics.Converters;
+import magic.system.hyperion.matcher.Matcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -124,14 +125,17 @@ public class DocumentReader {
 
     private void readTaskGroup(final JsonNode node) throws DocumentReaderException {
         final var names = Converters.convertToSortedList(node.fieldNames());
-
-        if (!((names.contains(DocumentReaderFields.TITLE.getFieldName())
-                && names.contains(DocumentReaderFields.TASKS.getFieldName())) || names.contains(
-                DocumentReaderFields.PARALLEL.getFieldName()))) {
+        
+        final var matcher = Matcher.of(names);
+        matcher.requireExactlyOnce(DocumentReaderFields.TITLE.getFieldName());
+        matcher.requireExactlyOnce(DocumentReaderFields.TASKS.getFieldName());
+        matcher.allow(DocumentReaderFields.PARALLEL.getFieldName());
+        
+        if (!matcher.matches(names)) {
             throw new DocumentReaderException(
-                    "A task group fields missing or not valid!");
+                    "Task group fields are missing or unknown!");
         }
-
+        
         final var taskGroup = new TaskGroup(node.get(
                 DocumentReaderFields.TITLE.getFieldName()).asText(),
                 node.get(

@@ -100,7 +100,7 @@ public class ListMatcher<E> implements IMatcher<List<E>> {
         }
 
         /**
-         * CHecking whether given value is allowed.
+         * Checking whether given value is allowed.
          *
          * @return true when value is allowed otherwise false.
          */
@@ -127,10 +127,18 @@ public class ListMatcher<E> implements IMatcher<List<E>> {
     private final Map<E, Detail> details;
 
     /**
+     * When strict the not allowed values are rejected. When just using require
+     * other values tan those still can be part of the list except you call
+     * allow.
+     */
+    private boolean bStrict;
+
+    /**
      * Initialize Matcher.
      */
     public ListMatcher() {
         this.details = new HashMap<>();
+        this.bStrict = false;
     }
 
     /**
@@ -139,8 +147,18 @@ public class ListMatcher<E> implements IMatcher<List<E>> {
      * @param value value that is required
      * @return matcher itself for chaining.
      */
-    ListMatcher<E> requireOnce(final E value) {
+    public ListMatcher<E> requireOnce(final E value) {
         return requireCount(value, 1);
+    }
+
+    /**
+     * Defines a value that is required exactly once.
+     *
+     * @param value value that is required
+     * @return matcher itself for chaining.
+     */
+    public ListMatcher<E> requireExactlyOnce(final E value) {
+        return requireExactCount(value, 1);
     }
 
     /**
@@ -152,7 +170,7 @@ public class ListMatcher<E> implements IMatcher<List<E>> {
      * @param iCount the required minimum count of occurences.
      * @return matcher itself for chaining.
      */
-    ListMatcher<E> requireCount(final E value, final int iCount) {
+    public ListMatcher<E> requireCount(final E value, final int iCount) {
         var detail = this.details.get(value);
         if (detail == null) {
             detail = new Detail();
@@ -171,7 +189,7 @@ public class ListMatcher<E> implements IMatcher<List<E>> {
      * @param iCount the required exact count of occurences.
      * @return matcher itself for chaining.
      */
-    ListMatcher<E> requireExactCount(final E value, final int iCount) {
+    public ListMatcher<E> requireExactCount(final E value, final int iCount) {
         var detail = this.details.get(value);
         if (detail == null) {
             detail = new Detail();
@@ -182,12 +200,40 @@ public class ListMatcher<E> implements IMatcher<List<E>> {
         return this;
     }
 
+    /**
+     * Allow a value. Switches to strict mode mode.
+     * Cannot be undone.
+     *
+     * @param value the value to allow.
+     * @return matcher itself for chaining.
+     */
+    public ListMatcher<E> allow(final E value) {
+        this.bStrict = true;
+
+        var detail = this.details.get(value);
+        if (detail == null) {
+            detail = new Detail();
+            this.details.put(value, detail);
+        } else {
+            detail.setAllowed(true);
+        }
+        return this;
+    }
+
     @Override
     public boolean matches(List<E> collection) {
+        boolean bSuccess = verifyGivenValues(collection);
+        if (bSuccess) {
+            bSuccess = verifyNotGivenValues(collection);
+        }
+        return bSuccess;
+    }
+
+    private boolean verifyGivenValues(final List<E> collection) {
         boolean bSuccess = true;
 
         for (var value : collection) {
-            final var detail = details.get(value);
+            final var detail = this.details.get(value);
             if (detail != null) {
                 final var iCount = collection.stream().filter(entry -> entry.equals(
                         value)).count();
@@ -198,18 +244,8 @@ public class ListMatcher<E> implements IMatcher<List<E>> {
                     bSuccess = false;
                     break;
                 }
-            }
-        }
-
-        if (bSuccess) {
-            for (var entry : this.details.entrySet()) {
-                final var iCount = collection.stream().filter(
-                        value -> value.equals(entry.getKey())).count();
-                final var bCountMatches = entry.getValue().isExactRequiredCount()
-                        ? iCount == entry.getValue().requiredCount()
-                        : iCount >= entry.getValue().requiredCount();
-
-                if (!bCountMatches) {
+            } else {
+                if (this.bStrict) {
                     bSuccess = false;
                     break;
                 }
@@ -218,4 +254,24 @@ public class ListMatcher<E> implements IMatcher<List<E>> {
 
         return bSuccess;
     }
+       
+    private boolean verifyNotGivenValues(final List<E> collection) {
+        boolean bSuccess = true;
+
+        for (var entry : this.details.entrySet()) {
+            final var iCount = collection.stream().filter(
+                    value -> value.equals(entry.getKey())).count();
+            final var bCountMatches = entry.getValue().isExactRequiredCount()
+                    ? iCount == entry.getValue().requiredCount()
+                    : iCount >= entry.getValue().requiredCount();
+
+            if (!bCountMatches) {
+                bSuccess = false;
+                break;
+            }
+        }
+        
+        return bSuccess;
+    }
+    
 }

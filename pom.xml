@@ -12,10 +12,10 @@
         <maven.compiler.target>11</maven.compiler.target>
         <timestamp>${maven.build.timestamp}</timestamp>
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
-        <line.coverage>0.82</line.coverage>
+        <line.coverage>0.84</line.coverage>
 
         <!-- Dependencies -->        
-        <junit.jupiter.version>5.8.0-M1</junit.jupiter.version>
+        <junit.jupiter.version>5.5.2</junit.jupiter.version>
         <jackson.dataformat.xml.version>2.12.1</jackson.dataformat.xml.version>
         <jackson.dataformat.yml.version>2.12.1</jackson.dataformat.yml.version>
         <logback.classic.version>1.2.3</logback.classic.version>
@@ -116,6 +116,25 @@
                 <version>${maven.surefire.plugin.version}</version>
                 <configuration>
                     <runOrder>random</runOrder>
+                    <statelessTestsetReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5Xml30StatelessReporter">
+                        <version>3.0</version>
+                        <usePhrasedFileName>true</usePhrasedFileName>
+                        <usePhrasedTestSuiteClassName>true</usePhrasedTestSuiteClassName>
+                        <usePhrasedTestCaseClassName>true</usePhrasedTestCaseClassName>
+                        <usePhrasedTestCaseMethodName>true</usePhrasedTestCaseMethodName>
+                    </statelessTestsetReporter>
+
+                    <consoleOutputReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5ConsoleOutputReporter">
+                        <disable>false</disable>
+                        <encoding>UTF-8</encoding>
+                        <usePhrasedFileName>false</usePhrasedFileName>
+                    </consoleOutputReporter>
+
+                    <statelessTestsetInfoReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5StatelessTestsetInfoReporter">
+                        <usePhrasedFileName>true</usePhrasedFileName>
+                        <usePhrasedClassNameInRunning>true</usePhrasedClassNameInRunning>
+                        <usePhrasedClassNameInTestCaseSummary>true</usePhrasedClassNameInTestCaseSummary>
+                    </statelessTestsetInfoReporter>
                 </configuration>
             </plugin>
 
