@@ -53,6 +53,11 @@ public class Variable implements IVariable {
     private String strRegex;
 
     /**
+     * Regex group to use (default: 0).
+     */
+    private int iRegexGroup;
+
+    /**
      * When true then apply regex per line.
      */
     private boolean bLineByLine;
@@ -64,6 +69,7 @@ public class Variable implements IVariable {
         this.strName = "";
         this.strValue = "";
         this.strRegex = ".*";
+        this.iRegexGroup = 0;
         this.bLineByLine = false;
     }
 
@@ -72,13 +78,15 @@ public class Variable implements IVariable {
      *
      * @param strInitName the name of the variable.
      * @param strInitRegex the regex to use for extracting value.
+     * @param iInitRegexGroup the regex group to use.
      * @param bInitLineByLine when true then apply regex per line.
      */
     public Variable(final String strInitName, final String strInitRegex,
-            final boolean bInitLineByLine) {
+            final int iInitRegexGroup, final boolean bInitLineByLine) {
         this.strName = strInitName;
         this.strValue = "";
         this.strRegex = strInitRegex;
+        this.iRegexGroup = iInitRegexGroup;
         this.bLineByLine = bInitLineByLine;
     }
 
@@ -149,6 +157,24 @@ public class Variable implements IVariable {
     }
 
     /**
+     * Get regex group to use.
+     *
+     * @return regex group.
+     */
+    public int getRegexGroup() {
+        return this.iRegexGroup;
+    }
+
+    /**
+     * Change value for regex group.
+     *
+     * @param iInitRegexGroup new value for regex group.
+     */
+    public void setRegexGroup(final int iInitRegexGroup) {
+        this.iRegexGroup = iInitRegexGroup;
+    }
+
+    /**
      * Change value using regex to extract from given string.
      *
      * @param strInitValue some string (text)
@@ -170,7 +196,7 @@ public class Variable implements IVariable {
                 if (!strNewValue.isEmpty()) {
                     strNewValue += "\n";
                 }
-                strNewValue += matcher.group(0);
+                strNewValue += matcher.group(this.iRegexGroup);
             }
 
             if (success) {
@@ -180,7 +206,7 @@ public class Variable implements IVariable {
             final var matcher = pattern.matcher(strInitValue);
             if (matcher.find()) {
                 success = true;
-                this.strValue = matcher.group(0);
+                this.strValue = matcher.group(this.iRegexGroup);
             }
         }
 
@@ -190,7 +216,9 @@ public class Variable implements IVariable {
     @Override
     public int hashCode() {
         return new HashCodeBuilder()
+                .append(this.strName)
                 .append(this.strRegex)
+                .append(this.iRegexGroup)
                 .append(this.bLineByLine)
                 .build();
     }
@@ -208,7 +236,9 @@ public class Variable implements IVariable {
         }
         final Variable other = (Variable) obj;
         return new EqualsBuilder()
+                .append(this.strName, other.getName())
                 .append(this.strRegex, other.getRegex())
+                .append(this.iRegexGroup, other.getRegexGroup())
                 .append(this.bLineByLine, isLineByLine())
                 .build();
     }

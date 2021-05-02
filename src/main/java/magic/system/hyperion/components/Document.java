@@ -26,6 +26,7 @@ package magic.system.hyperion.components;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import magic.system.hyperion.interfaces.ISimpleRunnable;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -34,7 +35,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  *
  * @author Thomas Lehmann
  */
-public class Document {
+public class Document implements ISimpleRunnable {
 
     /**
      * The one and only model in a document.
@@ -101,5 +102,12 @@ public class Document {
         final Document other = (Document) obj;
         return new EqualsBuilder()
                 .append(this.listOfTaskGroups, other.getListOfTaskGroups()).build();
+    }
+
+    @Override
+    public void run() {
+        this.listOfTaskGroups.forEach(taskGroup -> {
+            taskGroup.run(this);
+        });
     }
 }

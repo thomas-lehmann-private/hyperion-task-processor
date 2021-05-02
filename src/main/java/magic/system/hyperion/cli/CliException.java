@@ -21,24 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package magic.system.hyperion.interfaces;
+package magic.system.hyperion.cli;
 
 /**
- * Provides interface that allows to run something with a parameter and a return
- * value.
+ * Exception thrown when an error occurs while using the cli api.
  *
  * @author Thomas Lehmann
- * @param <E> - return Type for result of the run.
- * @param <F> - parameter Type for the input to the run.
  */
-@FunctionalInterface
-public interface IRunnable<E, F> {
+public class CliException extends Exception {
 
     /**
-     * Running any process.
+     * Initialize Exception with a message.
      *
-     * @param input - the input to the run.
-     * @return result of the rin
+     * @param strMessage concrete message.
      */
-    E run(F input);
+    public CliException(final String strMessage) {
+        super(strMessage);
+    }
 }

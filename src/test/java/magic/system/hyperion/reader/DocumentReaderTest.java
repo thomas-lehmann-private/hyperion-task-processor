@@ -25,6 +25,7 @@ package magic.system.hyperion.reader;
 
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,6 +38,11 @@ import org.junit.jupiter.api.Test;
 @DisplayName("Testing DocumentReader class")
 public class DocumentReaderTest {
 
+    /**
+     * Intention to have a quite complete document.
+     *
+     * @throws URISyntaxException should never happen here.
+     */
     @Test
     public void testReader() throws URISyntaxException {
         final var path = Paths.get(getClass().getResource(
@@ -44,5 +50,7 @@ public class DocumentReaderTest {
         final var reader = new DocumentReader(path);
         final var document = reader.read();
         assertNotNull(document, "Document shouldn't be null");
+        assertEquals(1, document.getListOfTaskGroups().size());
+        assertEquals(2, document.getListOfTaskGroups().get(0).getListOfTasks().size());
     }
 }

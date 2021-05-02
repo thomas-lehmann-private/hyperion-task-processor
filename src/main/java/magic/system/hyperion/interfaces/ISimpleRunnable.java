@@ -24,21 +24,16 @@
 package magic.system.hyperion.interfaces;
 
 /**
- * Provides interface that allows to run something with a parameter and a return
- * value.
+ * Provides interface that allows to run something without any parameter and
+ * without a return value.
  *
  * @author Thomas Lehmann
- * @param <E> - return Type for result of the run.
- * @param <F> - parameter Type for the input to the run.
  */
 @FunctionalInterface
-public interface IRunnable<E, F> {
+public interface ISimpleRunnable {
 
     /**
-     * Running any process.
-     *
-     * @param input - the input to the run.
-     * @return result of the rin
+     * Run something.
      */
-    E run(F input);
+    void run();
 }

@@ -4,5 +4,12 @@ taskgroups:
       parallel: false
       tasks:
         - type: powershell
+          title: a simple example
           code: Write-Host "hello world!"
 
+        - type: powershell
+          code: Write-Host "---> this is a demo <---"
+          variable:
+              name: demo text
+              regex: ">(.*)<"
+              group: 1

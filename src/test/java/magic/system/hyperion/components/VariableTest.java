@@ -42,7 +42,7 @@ public class VariableTest {
     @Test
     public void testRegexCompleteString() {
         //CHECKSTYLE.OFF: MultipleStringLiterals - Here no constants are necessary
-        final var variable = new Variable("test", "[A-Za-z]+", false);
+        final var variable = new Variable("test", "[A-Za-z]+", 0, false);
         assertTrue(variable.setValue("!!! Gandalf !!!"));
         assertEquals("test", variable.getName());
         assertEquals("Gandalf", variable.getValue());
@@ -58,7 +58,7 @@ public class VariableTest {
     @Test
     public void testRegexLineByLine() {
         //CHECKSTYLE.OFF: MultipleStringLiterals - Here no constants are necessary
-        final var variable = new Variable("test", "[A-Za-z]+", true);
+        final var variable = new Variable("test", "[A-Za-z]+", 0, true);
         assertTrue(variable.setValue("!!! Gandalf !!!\n!!! Frodo !!!"));
         assertEquals("test", variable.getName());
         assertEquals("Gandalf\nFrodo", variable.getValue());

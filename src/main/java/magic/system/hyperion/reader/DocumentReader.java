@@ -31,6 +31,7 @@ import java.nio.file.Path;
 import magic.system.hyperion.components.Document;
 import magic.system.hyperion.components.PowershellTask;
 import magic.system.hyperion.components.TaskGroup;
+import magic.system.hyperion.components.Variable;
 import magic.system.hyperion.generics.Converters;
 import magic.system.hyperion.matcher.Matcher;
 import org.slf4j.Logger;
@@ -124,8 +125,7 @@ public class DocumentReader {
     }
 
     private void readTaskGroup(final JsonNode node) throws DocumentReaderException {
-        final var names = Converters.convertToSortedList(node.fieldNames());
-        
+        final var names = Converters.convertToSortedList(node.fieldNames());       
         final var matcher = Matcher.of(names);
         matcher.requireExactlyOnce(DocumentReaderFields.TITLE.getFieldName());
         matcher.requireExactlyOnce(DocumentReaderFields.TASKS.getFieldName());
@@ -152,7 +152,11 @@ public class DocumentReader {
 
     private void readTask(final TaskGroup taskGroup, final JsonNode node)
             throws DocumentReaderException {
-        if (!node.has(DocumentReaderFields.TYPE.getFieldName())) {
+        final var names = Converters.convertToSortedList(node.fieldNames());
+        final var matcher = Matcher.of(names);
+        matcher.requireExactlyOnce(DocumentReaderFields.TYPE.getFieldName());
+
+        if (!matcher.matches(names)) {
             throw new DocumentReaderException(
                     "A task is expected to have a type field!");
         }
@@ -165,15 +169,60 @@ public class DocumentReader {
             }
             default: {
                 throw new DocumentReaderException(
-                        String.format("Task of type '%s' not known!", strType));
+                        String.format("Task of type '%s' is not known!", strType));
             }
         }
 
     }
 
-    private void readPowershellTask(final TaskGroup taskGroup, final JsonNode node) {
-        final var task = new PowershellTask();
+    /**
+     * Reading a powershell task.
+     *
+     * @param taskGroup the task group where to add the powershell task.
+     * @param node the node to process containing the powershell task.
+     */
+    private void readPowershellTask(final TaskGroup taskGroup, final JsonNode node)
+            throws DocumentReaderException {
+        final var names = Converters.convertToSortedList(node.fieldNames());       
+        final var matcher = Matcher.of(names);
 
+        matcher.requireExactlyOnce(DocumentReaderFields.TYPE.getFieldName());
+        matcher.requireExactlyOnce(DocumentReaderFields.CODE.getFieldName());
+        matcher.allow(DocumentReaderFields.TITLE.getFieldName());
+        matcher.allow(DocumentReaderFields.VARIABLE.getFieldName());
+
+        if (!matcher.matches(names)) {
+            throw new DocumentReaderException(
+                    "The powershell task fields are not correct!");
+        }
+        
+        final var strTitle = node.has(DocumentReaderFields.TITLE.getFieldName())
+                ? node.get(DocumentReaderFields.TITLE.getFieldName()).asText(): "";
+        
+        final var task = new PowershellTask(strTitle,
+                node.get(DocumentReaderFields.CODE.getFieldName()).asText());
+        if (node.has(DocumentReaderFields.VARIABLE.getFieldName())) {
+            readVariable(task.getVariable(),
+            node.get(DocumentReaderFields.VARIABLE.getFieldName()));
+        }
         taskGroup.add(task);
+    }
+    
+    private void readVariable(final Variable variable, final JsonNode node) {
+        final var names = Converters.convertToSortedList(node.fieldNames());       
+        final var matcher = Matcher.of(names);
+
+        matcher.requireExactlyOnce(DocumentReaderFields.NAME.getFieldName());
+        matcher.requireExactlyOnce(DocumentReaderFields.REGEX.getFieldName());
+        matcher.allow(DocumentReaderFields.GROUP.getFieldName());
+
+        if (matcher.matches(names)) {
+            variable.setName(node.get(DocumentReaderFields.NAME.getFieldName()).asText());
+            variable.setRegex(node.get(DocumentReaderFields.REGEX.getFieldName()).asText());
+            if (node.has(DocumentReaderFields.GROUP.getFieldName())) {
+                variable.setRegexGroup(
+        node.get(DocumentReaderFields.GROUP.getFieldName()).asInt());
+            }
+        }
     }
 }
