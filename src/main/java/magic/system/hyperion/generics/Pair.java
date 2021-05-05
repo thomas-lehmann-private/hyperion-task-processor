@@ -23,6 +23,8 @@
  */
 package magic.system.hyperion.generics;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 /**
  * Pair of two values.
  *
@@ -93,9 +95,9 @@ public class Pair<F, S> {
 
     @Override
     public String toString() {
-        return new StringBuilder()
+        return new ToStringBuilder(this)
                 .append(this.first)
                 .append(this.second)
-                .toString();
+                .build();
     }
 }

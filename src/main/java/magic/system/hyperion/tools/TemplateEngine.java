@@ -64,7 +64,7 @@ public class TemplateEngine {
      * @param context variables.
      * @return rendered text or original if failed.
      */
-    public String render(final String strTemplate, Map<String, Object> context) {
+    public String render(final String strTemplate, final Map<String, Object> context) {
         final var compiledTemplated = engine.getTemplate(strTemplate);
         final var writer = new StringWriter();
         var result = strTemplate;

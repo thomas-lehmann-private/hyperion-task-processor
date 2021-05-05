@@ -24,6 +24,7 @@
 package magic.system.hyperion.data;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import magic.system.hyperion.generics.Pair;
 import magic.system.hyperion.interfaces.IValue;
@@ -87,8 +88,7 @@ public class AttributeList implements IValue {
     public void set(final String strInitKey, final String strInitValue) {
         remove(strInitKey);
         this.attributes.add(Pair.of(strInitKey, StringValue.of(strInitValue)));
-        this.attributes.sort((entryA, entryB) -> entryA.getFirst().compareTo(
-                entryB.getFirst()));
+        this.attributes.sort(Comparator.comparing(Pair::getFirst));
     }
 
     /**
@@ -101,8 +101,7 @@ public class AttributeList implements IValue {
     public void set(final String strInitKey, final AttributeList initAttributes) {
         remove(strInitKey);
         this.attributes.add(Pair.of(strInitKey, initAttributes));
-        this.attributes.sort((entryA, entryB) -> entryA.getFirst().compareTo(
-                entryB.getFirst()));
+        this.attributes.sort(Comparator.comparing(Pair::getFirst));
     }
 
     /**
@@ -115,8 +114,7 @@ public class AttributeList implements IValue {
     private void set(final String strInitKey, final IValue initValue) {
         remove(strInitKey);
         this.attributes.add(Pair.of(strInitKey, initValue));
-        this.attributes.sort((entryA, entryB) -> entryA.getFirst().compareTo(
-                entryB.getFirst()));
+        this.attributes.sort(Comparator.comparing(Pair::getFirst));
     }
 
     /**
@@ -167,10 +165,8 @@ public class AttributeList implements IValue {
     @SafeVarargs
     public static AttributeList of(final Pair<String, IValue>... arrayOfPairs) {
         final var attributeList = new AttributeList();
-        for (int iPair = 0; iPair < arrayOfPairs.length; ++iPair) {
-            attributeList.set(arrayOfPairs[iPair].getFirst(),
-                    arrayOfPairs[iPair].getSecond());
-        }
+        List.of(arrayOfPairs).forEach(pair ->
+                attributeList.set(pair.getFirst(), pair.getSecond()));
         return attributeList;
     }
 }

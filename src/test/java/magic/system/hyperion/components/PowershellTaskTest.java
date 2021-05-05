@@ -108,7 +108,7 @@ public class PowershellTaskTest {
 
     /**
      * Testing (finally) of {@link AbstractTask#getTitle()} and
-     * {@link PowershellTask#run()} with an exit code not 0.
+     * {@link PowershellTask#run(Map)} with an exit code not 0.
      */
     @Test
     public void testExitCode() {

@@ -157,7 +157,7 @@ public class ListMatcherTest {
     public void testAllow(final List<String> values, final List<String> listData,
             final boolean bExpectedToFail) {
         final var matcher = new ListMatcher<String>();
-        values.forEach(value -> matcher.allow(value));
+        values.forEach(matcher::allow);
 
         if (bExpectedToFail) {
             assertFalse(matcher.matches(listData));

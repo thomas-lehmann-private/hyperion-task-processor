@@ -29,6 +29,8 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Process tools.
@@ -36,6 +38,10 @@ import java.util.List;
  * @author Thomas Lehmann
  */
 public final class ProcessTools {
+    /**
+     * Logger for this class.
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProcessTools.class);
 
     /**
      * Provides lines written to stdout by the given process.
@@ -54,7 +60,7 @@ public final class ProcessTools {
                 lines.add(line);
             }
         } catch (IOException e) {
-            // Nothing to do.
+            LOGGER.error(e.getMessage(), e);
         }
 
         return lines;
@@ -78,7 +84,7 @@ public final class ProcessTools {
             }
 
         } catch (IOException e) {
-            // Nothing to do.
+            LOGGER.error(e.getMessage(), e);
         }
 
         return lines;

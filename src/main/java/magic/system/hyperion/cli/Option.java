@@ -23,6 +23,7 @@
  */
 package magic.system.hyperion.cli;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
@@ -54,14 +55,19 @@ public class Option {
     private final String strDescription;
 
     /**
-     * When true then option is required.
+     * When true then option is required (default: false).
      */
     private final boolean bRequired;
 
     /**
-     * When true then option is repeatable.
+     * When true then option is repeatable (default: false).
      */
     private final boolean bRepeatable;
+
+    /**
+     * Type of the option (default: STRING).
+     */
+    private final OptionType type;
 
     /**
      * Initialize option instance.
@@ -74,6 +80,7 @@ public class Option {
         this.strDescription = builder.strDescription;
         this.bRequired = builder.bRequired;
         this.bRepeatable = builder.bRepeatable;
+        this.type = builder.type;
     }
 
     /**
@@ -122,6 +129,15 @@ public class Option {
     }
 
     /**
+     * Type of the option
+     *
+     * @return type.
+     */
+    public OptionType getType() {
+        return this.type;
+    }
+
+    /**
      * Provider a new builder.
      *
      * @return builder.
@@ -151,14 +167,19 @@ public class Option {
         private String strDescription;
 
         /**
-         * When true then option is required.
+         * When true then option is required (default: false).
          */
         private boolean bRequired;
 
         /**
-         * When true then option is repeatable.
+         * When true then option is repeatable (default: false).
          */
         private boolean bRepeatable;
+
+        /**
+         * Type of the option.
+         */
+        private OptionType type = OptionType.STRING;
 
         /**
          * Changing long name of option.
@@ -216,6 +237,17 @@ public class Option {
         }
 
         /**
+         * Changing type of option.
+         *
+         * @param value new value.
+         * @return builder itself to allow chaining.
+         */
+        public Builder setType(final OptionType value) {
+            this.type = value;
+            return this;
+        }
+
+        /**
          * Create instance of one command line option.
          *
          * @return instance of one command line option.
@@ -231,40 +263,81 @@ public class Option {
          *
          * @throws CliException when validation has failed.
          */
-        //CHECKSTYLE.OFF: NPathComplexity - complexity is ok
-        //CHECKSTYLE.OFF: CyclomaticComplexity - complexity is ok
         private void validate() throws CliException {
-            if (this.strLongName == null || this.strLongName.isEmpty()) {
-                throw new CliException("Long name is not set!");
-            }
+            validateDescription();
+            validateShortName();
+            validateLongName();
 
-            if (this.strShortName == null || this.strShortName.isEmpty()) {
-                throw new CliException("Short name is not set!");
+            if (this.type == OptionType.BOOLEAN && this.bRepeatable) {
+                throw new CliException(
+                        CliMessages.BOOLEAN_OPTION_NOT_REPEATABLE.getMessage());
             }
+        }
 
+        /**
+         * Validates the description.
+         *
+         * @throws CliException when description is not valid.
+         */
+        private void validateDescription() throws CliException {
             if (this.strDescription == null || this.strDescription.isEmpty()) {
-                throw new CliException("Description is not set!");
-            }
-
-            final var pattern = Pattern.compile(
-                    "^([a-z]{2,15}$|[a-z]{2,10}-[a-z]{2,10}$)");
-            final var matcher = pattern.matcher(this.strLongName);
-            if (!matcher.find()) {
-                throw new CliException("Long name is not set correctly!");
-            }
-
-            if (this.strShortName.isEmpty()
-                    || !this.strShortName.toLowerCase(
-                            Locale.getDefault()).equals(this.strShortName)) {
-                throw new CliException("Short name is not set correctly!");
+                throw new CliException(
+                        CliMessages.OPTION_DESCRIPTION_MISSING.getMessage());
             }
 
             if (this.strDescription.length() > MAX_DESCRIPTION_LENGTH) {
                 throw new CliException(
-                        "Description too long (maximum: 30 characters)!");
+                        CliMessages.OPTION_DESCRIPTION_TOO_LONG.getMessage());
             }
         }
-        //CHECKSTYLE.ON: NPathComplexity
-        //CHECKSTYLE.ON: CyclomaticComplexity
+
+        /**
+         * Validates the short name.
+         *
+         * @throws CliException when short nameis not valid.
+         */
+        private void validateShortName() throws CliException {
+            if (this.strShortName != null && !this.strShortName.isEmpty()) {
+                if (this.strShortName.length() != 1) {
+                    throw new CliException(
+                            CliMessages.OPTION_SHORT_NAME_INVALID.getMessage());
+                }
+
+                final var cValue = this.strShortName.toLowerCase(Locale.getDefault()).charAt(
+                        0);
+                if (cValue < 'a' || cValue > 'z') {
+                    throw new CliException(
+                            CliMessages.OPTION_SHORT_NAME_INVALID.getMessage());
+                }
+            }
+        }
+
+        /**
+         * Validates the long name.
+         *
+         * @throws CliException when long nameis not valid.
+         */
+        private void validateLongName() throws CliException {
+            if (this.strLongName == null || this.strLongName.isEmpty()) {
+                throw new CliException(
+                        CliMessages.OPTION_LONG_NAME_MISSING.getMessage());
+            }
+
+            final var pattern = Pattern.compile("^[a-z][a-z0-9]{2,14}$");
+            final var subNames = List.of(this.strLongName.split("-"));
+
+            if (subNames.size() > 3) {
+                throw new CliException(
+                        CliMessages.OPTION_TOO_MANY_SUBNAMES.getMessage());
+            }
+
+            for (final var subName : subNames) {
+                final var matcher = pattern.matcher(subName);
+                if (!matcher.find()) {
+                    throw new CliException(
+                            CliMessages.OPTION_LONG_SUBNAME_INVALID.getMessage());
+                }
+            }
+        }
     }
 }

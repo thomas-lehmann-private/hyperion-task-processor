@@ -58,7 +58,7 @@ public abstract class AbstractTask extends Component
     /**
      * Storing the task result.
      */
-    private Variable variable;
+    private final Variable variable;
 
     /**
      * Initialize task.
@@ -125,7 +125,7 @@ public abstract class AbstractTask extends Component
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }

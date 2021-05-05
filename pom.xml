@@ -30,6 +30,7 @@
         <maven.checkstyle.version>8.41.1</maven.checkstyle.version>
         <spotbugs.maven.plugin.version>4.1.3</spotbugs.maven.plugin.version>
         <maven.shade.plugin.version>3.2.4</maven.shade.plugin.version>
+        <maven.pmd.plugin.version>3.14.0</maven.pmd.plugin.version>
     </properties>
     
     <profiles>
@@ -239,6 +240,28 @@
                                 </transformer>
                             </transformers>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>${maven.pmd.plugin.version}</version>
+                <configuration>
+                    <linkXRef>false</linkXRef>
+                    <failOnViolation>true</failOnViolation>
+                    <printFailingErrors>true</printFailingErrors>
+                    <rulesets>
+                        <ruleset>${basedir}/pmd.xml</ruleset>
+                    </rulesets>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                            <goal>cpd-check</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>

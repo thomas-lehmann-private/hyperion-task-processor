@@ -92,7 +92,7 @@ public class PowershellTask extends AbstractTask {
             } else {
                 final var temporaryScriptPath = Files.createTempFile(
                         "spline-powershell-task-",
-                        UUID.randomUUID().toString() + FILE_EXTENSION);
+                        UUID.randomUUID() + FILE_EXTENSION);
 
                 final var engine = new TemplateEngine();
                 final var renderedText = engine.render(getCode(),
@@ -101,7 +101,7 @@ public class PowershellTask extends AbstractTask {
                 Files.write(temporaryScriptPath, renderedText.getBytes(
                         Charset.defaultCharset()));
 
-                final var strCommand = POWERSHELL_COMMAND + temporaryScriptPath.toString();
+                final var strCommand = POWERSHELL_COMMAND + temporaryScriptPath;
                 final var process = Runtime.getRuntime().exec(strCommand);
                 final var processResults = ProcessResults.of(process);
                 Files.delete(temporaryScriptPath);

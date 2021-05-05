@@ -93,11 +93,6 @@ public class DocumentReader {
         while (iter.hasNext()) {
             final var entry = iter.next();
             switch (entry.getKey()) {
-                case "model": {
-                    readModel(entry.getValue());
-                    break;
-                }
-
                 case "taskgroups": {
                     readTaskGroups(entry.getValue());
                     break;
@@ -110,10 +105,6 @@ public class DocumentReader {
                 }
             }
         }
-    }
-
-    private void readModel(final JsonNode node) {
-
     }
 
     private void readTaskGroups(final JsonNode node) throws DocumentReaderException {

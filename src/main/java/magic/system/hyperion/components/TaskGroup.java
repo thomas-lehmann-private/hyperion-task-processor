@@ -112,7 +112,7 @@ public class TaskGroup extends Component implements IRunnable<Boolean, Document>
 
     @Override
     public Boolean run(Document input) {
-        Boolean success = java.lang.Boolean.TRUE;
+        boolean success = true;
 
         if (!this.bRunTasksInParallel) {
             for (var task : this.listOfTasks) {
@@ -120,7 +120,7 @@ public class TaskGroup extends Component implements IRunnable<Boolean, Document>
                 this.variables.put(result.getVariable().getName(),
                         result.getVariable());
                 if (!result.isSuccess()) {
-                    success = Boolean.FALSE;
+                    success = false;
                 }
             }
         }

@@ -31,7 +31,7 @@ import java.util.List;
  *
  * @author Thomas Lehmann
  */
-public class ProcessResults {
+public final class ProcessResults {
 
     /**
      * Line written to stdout by the process.

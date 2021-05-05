@@ -39,13 +39,12 @@ public class MatcherTest {
 
     @Test
     public void testMatcher() {
-        final var matcher = (IMatcher<String>) (final String value) -> value.endsWith(
-                "ed");
+        final var matcher = (IMatcher<String>) (final String value) -> value.endsWith("ed");
         //CHECKSTYLE.OFF: MultipleStringLiteral - ok here
         final var data = List.of("interested", "motivated", "friendly");
 
-        assertEquals(List.of("interested", "motivated"), data.stream().filter(
-                entry -> matcher.matches(entry)).collect(toList()));
+        assertEquals(List.of("interested", "motivated"), data.stream()
+                .filter(matcher::matches).collect(toList()));
         //CHECKSTYLE.ON: MultipleStringLiteral
     }
 

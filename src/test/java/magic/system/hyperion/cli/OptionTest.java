@@ -24,14 +24,14 @@
 package magic.system.hyperion.cli;
 
 import java.util.stream.Stream;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Testing of class {@link Option}.
@@ -43,40 +43,72 @@ public class OptionTest {
 
     /**
      * Testing each field set.
+     *
+     * @throws CliException when any option is not correct.
      */
     @Test
     public void testSetEachField() throws CliException {
         //CHECKSTYLE.OFF: MultipleStringLiterals - ok here.
-        final var option = Option.builder().setLongName("file").setShortName("f").setRequired(
-                true).setRepeatable(
-                        true).setDescription("path of document to process").build();
+        final var option = Option.builder()
+                .setLongName("file")
+                .setShortName("f")
+                .setRequired(true)
+                .setRepeatable(true)
+                .setDescription("path of document to process")
+                .setType(OptionType.PATH)
+                .build();
+
         assertEquals("file", option.getLongName());
         assertEquals("f", option.getShortName());
         assertEquals("path of document to process", option.getDescription());
-        assertEquals(true, option.isRequired());
-        assertEquals(true, option.isRepeatable());
+        assertTrue(option.isRequired());
+        assertTrue(option.isRepeatable());
+        assertEquals(OptionType.PATH, option.getType());
         //CHECKSTYLE.ON: MultipleStringLiterals
+    }
+
+    /**
+     * Testing for boolean option that cannot be repeated.
+     */
+    @Test
+    public void testBooleanTypeCannotBeRepeated() {
+        final var builder = Option.builder();
+        builder
+                .setLongName("validate")
+                .setShortName("v")
+                .setRequired(true)
+                .setRepeatable(true)
+                .setDescription("enable of validation")
+                .setType(OptionType.BOOLEAN);
+
+        final var throwable = assertThrows(CliException.class, builder::build);
+        assertEquals(CliMessages.BOOLEAN_OPTION_NOT_REPEATABLE.getMessage(),
+                throwable.getMessage());
     }
 
     /**
      * Testing validation of the long name.
      *
-     * @param strValue value for long name.
      * @param bExpectedToFail when true then expected to fail.
+     * @param strValue value for long name.
+     * @param strMessage hint for the case the assertion does fail.
      */
-    @ParameterizedTest(name = "test long name - #{index} value={0}, expected to fail={1}")
+    @ParameterizedTest(name = "test long name - #{index} value={0}, expected to fail={1}, message={2}")
     @MethodSource("provideLongNameValidationTestData")
-    public void testLongNameValidation(final String strValue,
-            final boolean bExpectedToFail) {
+    public void testLongNameValidation(
+            final boolean bExpectedToFail,
+            final String strValue,
+            final String strMessage) {
+        // setup of builder
         final var builder = Option.builder();
         builder.setShortName("x");
         builder.setDescription("test");
         builder.setLongName(strValue);
 
         if (bExpectedToFail) {
-            assertThrows(CliException.class, () -> builder.build());
+            assertThrows(CliException.class, builder::build, strMessage);
         } else {
-            assertDoesNotThrow(() -> builder.build());
+            assertDoesNotThrow(builder::build, strMessage);
         }
     }
 
@@ -88,19 +120,30 @@ public class OptionTest {
     private static Stream<Arguments> provideLongNameValidationTestData() {
         //CHECKSTYLE.OFF: MultipleStringLiterals - ok here.
         return Stream.of(
-                Arguments.of("FOO", true),
-                Arguments.of("FOOFOOFOOFOOFOOFOO", true),
-                Arguments.of("FOOFOOFOOFOOFOO", true),
-                Arguments.of("foofoofoofoofoo", false),
-                Arguments.of("fo", false),
-                Arguments.of("f", true),
-                Arguments.of("f-f", true),
-                Arguments.of("f-fo", true),
-                Arguments.of("fo-f", true),
-                Arguments.of("fo-fo", false),
-                Arguments.of("foofoofooo-foofoofooo", false),
-                Arguments.of("foofoofoofo-foofoofoof", true),
-                Arguments.of("foofoofoof-foofoofoofo", true)
+                Arguments.of(true, null, "cannot be null"),
+                Arguments.of(true, "FILE", "cannot be uppercase letters"),
+                Arguments.of(true, "f", "too short"),
+                Arguments.of(true, "abcdefghijklmnop", "too long"),
+                Arguments.of(false, "abcdefghijklmno",
+                        "maximum length for one subname"),
+                Arguments.of(false, "config-file", "two valid sub names"),
+                Arguments.of(false, "config-file-path", "three valid sub names"),
+                Arguments.of(true, "the-config-file-path",
+                        "limited to three sub names"),
+                Arguments.of(true, "abcdefghijklmno-abcdefghijklmnop",
+                        "second subname too long"),
+                Arguments.of(true, "abcdefghijklmno-a",
+                        "second subname too short"),
+                Arguments.of(true,
+                        "abcdefghijklmno-abcdefghijklmno-abcdefghijklmnop",
+                        "third subname too long"),
+                Arguments.of(true, "abcdefghijklmno-abcdefghijklmno-a",
+                        "third subname too short"),
+                Arguments.of(false, "http2", "allows number at the end"),
+                Arguments.of(true, "2http", "name cannot start with numbers"),
+                Arguments.of(false, "ht2tp", "allows numbers in name"),
+                Arguments.of(true, "abc!?-_[](),;.",
+                        "cannot be special characters")
         );
         //CHECKSTYLE.ON: MultipleStringLiterals
     }

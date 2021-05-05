@@ -186,7 +186,7 @@ public class Variable implements IVariable {
 
         if (this.bLineByLine) {
             String strNewValue = "";
-            for (var line : List.of(strInitValue.split("\\n"))) {
+            for (final var line : List.of(strInitValue.split("\\n"))) {
                 final var matcher = pattern.matcher(line);
                 if (!matcher.find()) {
                     continue;
@@ -224,7 +224,7 @@ public class Variable implements IVariable {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }

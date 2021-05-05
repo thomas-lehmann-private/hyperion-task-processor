@@ -21,21 +21,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package magic.system.hyperion;
+package magic.system.hyperion.cli;
 
 /**
- * Spline - the special process pipeline - the application.
+ * Type of option; required for validation.
  *
  * @author Thomas Lehmann
  */
-public class Application {
-
+public enum OptionType {
     /**
-     * Initialize the application.
-     *
-     * @param args the command line arguments
+     * String value. Default; no validation is done.
      */
-    public static void main(final String[] args) {
-        // Nothing to do yet.
-    }
+    STRING,
+    /**
+     * Integer value.
+     */
+    INTEGER,
+    /**
+     * Double value (floating point number).
+     */
+    DOUBLE,
+    /**
+     * Boolean value. No assignment is used then and also this option is not
+     * repeatable. In addition you can specify --no- in front of to invert.
+     */
+    BOOLEAN,
+    /**
+     * Path of a folder or file name.
+     */
+    PATH
 }

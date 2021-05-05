@@ -106,8 +106,6 @@ public class Document implements ISimpleRunnable {
 
     @Override
     public void run() {
-        this.listOfTaskGroups.forEach(taskGroup -> {
-            taskGroup.run(this);
-        });
+        this.listOfTaskGroups.forEach(taskGroup -> taskGroup.run(this));
     }
 }

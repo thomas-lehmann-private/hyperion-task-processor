@@ -24,6 +24,7 @@
 package magic.system.hyperion.generics;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -64,7 +65,7 @@ public final class Converters {
     public static <E extends Comparable<E>> List<E> convertToSortedList(
             final Iterator<E> iterator) {
         final List<E> newList = convertToList(iterator);
-        newList.sort((entryA, entryB) -> entryA.compareTo(entryB));
+        newList.sort(Comparator.naturalOrder());
         return newList;
     }
 }
