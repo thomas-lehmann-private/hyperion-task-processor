@@ -40,6 +40,11 @@ public class Option {
     private static final int MAX_DESCRIPTION_LENGTH = 30;
 
     /**
+     * Maximum number of subnames.
+     */
+    private static final int MAX_SUBNAMES = 3;
+
+    /**
      * Long name of option.
      */
     private final String strLongName;
@@ -129,7 +134,7 @@ public class Option {
     }
 
     /**
-     * Type of the option
+     * Type of the option.
      *
      * @return type.
      */
@@ -326,7 +331,7 @@ public class Option {
             final var pattern = Pattern.compile("^[a-z][a-z0-9]{2,14}$");
             final var subNames = List.of(this.strLongName.split("-"));
 
-            if (subNames.size() > 3) {
+            if (subNames.size() > MAX_SUBNAMES) {
                 throw new CliException(
                         CliMessages.OPTION_TOO_MANY_SUBNAMES.getMessage());
             }

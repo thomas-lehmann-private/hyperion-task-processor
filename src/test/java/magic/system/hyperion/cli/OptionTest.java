@@ -31,7 +31,11 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 /**
  * Testing of class {@link Option}.
@@ -93,7 +97,8 @@ public class OptionTest {
      * @param strValue value for long name.
      * @param strMessage hint for the case the assertion does fail.
      */
-    @ParameterizedTest(name = "test long name - #{index} value={0}, expected to fail={1}, message={2}")
+    @ParameterizedTest(
+            name = "test long name - #{index} value={0}, expected to fail={1}, message={2}")
     @MethodSource("provideLongNameValidationTestData")
     public void testLongNameValidation(
             final boolean bExpectedToFail,

@@ -204,7 +204,7 @@ public final class Command {
                     .map(Option::getShortName).filter(
                             isNotNull.and(not(String::isEmpty))).collect(toSet());
 
-            if (shortNames.size() != (this.options.size() - iIgnorableShortNames)) {
+            if (shortNames.size() != this.options.size() - iIgnorableShortNames) {
                 throw new CliException(CliMessages.OPTION_SHORT_NAME_MORE_THAN_ONCE.getMessage());
             }
         }

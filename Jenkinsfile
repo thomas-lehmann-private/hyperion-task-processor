@@ -10,7 +10,7 @@ pipeline {
         // Provide timetstamps in the console output
         timestamps()
         // How many builds we want to keep
-        buildDiscarder(logRotator(numToKeepStr: '3'))
+        buildDiscarder(logRotator(numToKeepStr: '5'))
         // The build NEVER should take this time
         timeout(time: 5, unit: 'MINUTES')
     }

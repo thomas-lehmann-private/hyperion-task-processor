@@ -34,8 +34,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import javax.management.ConstructorParameters;
-
 /**
  * Testing of class {@link Command}.
  *
@@ -51,6 +49,7 @@ public class CommandTest {
      */
     @Test
     public void testDefaultUsage() throws CliException {
+        //CHECKSTYLE.OFF: MultipleStringLiterals - ok here.
         final var command = Command.builder().setName("run")
                 .addOption(Option.builder()
                         .setLongName("file")
@@ -72,6 +71,7 @@ public class CommandTest {
         // just a probe (the other details are tested via another test class).
         assertEquals("file", command.getOptions().get(0).getLongName());
         assertEquals("help", command.getOptions().get(1).getLongName());
+        //CHECKSTYLE.ON: MultipleStringLiterals
     }
 
     /**
@@ -82,6 +82,7 @@ public class CommandTest {
     @Test
     public void testDuplicateOptionLongName() throws CliException {
         final var builder = Command.builder();
+        //CHECKSTYLE.OFF: MultipleStringLiterals - ok here.
         builder.setName("run");
         for (int ix = 0; ix < 2; ++ix) {
             builder.addOption(Option.builder()
@@ -89,7 +90,8 @@ public class CommandTest {
                     .setShortName(List.of("a", "b").get(ix))
                     .setDescription("document to process " + ix).build());
         }
-        
+        //CHECKSTYLE.ON: MultipleStringLiterals
+
         final var throwable = assertThrows(CliException.class, builder::build);
         assertEquals(CliMessages.OPTION_LONG_NAME_MORE_THAN_ONCE.getMessage(),
                 throwable.getMessage());
@@ -98,6 +100,8 @@ public class CommandTest {
     /**
      * Testing for duplicate short names.
      *
+     * @param bExpectedToFail when true then expected to fail.
+     * @param shortNames list of short names to use for test.
      * @throws CliException when the option build has failed (should not happen here).
      */
     @ParameterizedTest(name = "option short names - #{index}: expected fail={0}, data={1}")
@@ -105,6 +109,7 @@ public class CommandTest {
     public void testDuplicateOptionShortName(final boolean bExpectedToFail,
                                              final List<String> shortNames) throws CliException {
         final var builder = Command.builder();
+        //CHECKSTYLE.OFF: MultipleStringLiterals - ok here.
         builder.setName("run");
         for (int ix = 0; ix < shortNames.size(); ++ix) {
             builder.addOption(Option.builder()
@@ -112,6 +117,7 @@ public class CommandTest {
                     .setShortName(shortNames.get(ix).equals("null")? null: shortNames.get(ix))
                     .setDescription("document to process " + ix).build());
         }
+        //CHECKSTYLE.ON: MultipleStringLiterals
 
         if (bExpectedToFail) {
             final var throwable = assertThrows(CliException.class, builder::build);
@@ -123,13 +129,14 @@ public class CommandTest {
     }
 
     /**
-     * Testiing validation for duplication descriptions
+     * Testing validation for duplication descriptions.
      *
      * @throws CliException when the option build has failed (should not happen here).
      */
     @Test
     public void testDuplicateOptionDescription() throws CliException {
         final var builder = Command.builder();
+        //CHECKSTYLE.OFF: MultipleStringLiterals - ok here.
         builder.setName("run");
         for (int ix = 0; ix < 2; ++ix) {
             builder.addOption(Option.builder()
@@ -137,6 +144,7 @@ public class CommandTest {
                     .setShortName(List.of("a", "b").get(ix))
                     .setDescription("document to process ").build());
         }
+        //CHECKSTYLE.ON: MultipleStringLiterals
 
         final var throwable = assertThrows(CliException.class, builder::build);
         assertEquals(CliMessages.OPTION_DESCRIPTION_MORE_THAN_ONCE.getMessage(),
@@ -184,11 +192,13 @@ public class CommandTest {
      */
     @SuppressWarnings("unused")
     private static Stream<Arguments> provideOptionShortNamesTestData() {
+        //CHECKSTYLE.OFF: MultipleStringLiterals - ok here.
         return Stream.of(
                 Arguments.of(false, List.of("a", "b", "c", "")),
                 Arguments.of(false, List.of("a", "b", "c", "null")),
                 Arguments.of(false, List.of("a", "b", "", "c", "null", "d")),
                 Arguments.of(true, List.of("a", "b", "", "c", "null", "d", "a"))
         );
+        //CHECKSTYLE.ON: MultipleStringLiterals
     }
 }
