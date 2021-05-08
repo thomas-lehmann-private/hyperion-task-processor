@@ -88,7 +88,28 @@ public enum CliMessages {
     /**
      * Validation for command name has failed (regex).
      */
-    COMMAND_NAME_INVALID("Name is not set correctly!");
+    COMMAND_NAME_INVALID("Name is not set correctly!"),
+
+    /**
+     * Validation has failed because of required option is missing.
+     */
+    REQUIRED_OPTION_MISSING("Required option is missing!"),
+
+    /**
+     * Validation has failed because option is not known.
+     */
+    UNKNOWN_OPTION("Unknown option"),
+
+    /**
+     * Validation has failed because one option that which were defined as not repeatable
+     * was used more than once.
+     */
+    OPTION_NOT_REPEATABLE("Option not repeatable"),
+
+    /**
+     * Validation has failed because more than once command has been specified.
+     */
+    MORE_THAN_ONE_COMMAND_NOT_ALLOWED("Specifying more than one command is not allowed!");
 
     /**
      * Concrete message.

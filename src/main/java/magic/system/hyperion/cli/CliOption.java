@@ -23,6 +23,9 @@
  */
 package magic.system.hyperion.cli;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Pattern;
@@ -31,8 +34,9 @@ import java.util.regex.Pattern;
  * Command line option class.
  *
  * @author Thomas Lehmann
+ * @since 1.0.0
  */
-public class Option {
+public class CliOption {
 
     /**
      * Maximum description length.
@@ -79,7 +83,7 @@ public class Option {
      *
      * @param builder builder with defined values.
      */
-    private Option(final Builder builder) {
+    private CliOption(final Builder builder) {
         this.strLongName = builder.strLongName;
         this.strShortName = builder.strShortName;
         this.strDescription = builder.strDescription;
@@ -140,6 +144,17 @@ public class Option {
      */
     public OptionType getType() {
         return this.type;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+                .append("long name", this.strLongName)
+                .append("short name", this.strShortName)
+                .append("description", this.strDescription)
+                .append("repeatable", this.bRepeatable)
+                .append("required", this.bRequired)
+                .build();
     }
 
     /**
@@ -258,9 +273,9 @@ public class Option {
          * @return instance of one command line option.
          * @throws CliException when the options are not valid.
          */
-        public Option build() throws CliException {
+        public CliOption build() throws CliException {
             validate();
-            return new Option(this);
+            return new CliOption(this);
         }
 
         /**

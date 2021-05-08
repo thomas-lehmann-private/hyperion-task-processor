@@ -40,7 +40,7 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <build>
-                <defaultGoal>clean package</defaultGoal>
+                <defaultGoal>clean package verify</defaultGoal>
             </build>
         </profile>
     </profiles>

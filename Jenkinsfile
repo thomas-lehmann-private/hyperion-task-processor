@@ -25,7 +25,7 @@ pipeline {
                 }
 
                 bat '''
-                    ./mvnw clean package verify
+                    ./mvnw
                 '''
             }
         }
