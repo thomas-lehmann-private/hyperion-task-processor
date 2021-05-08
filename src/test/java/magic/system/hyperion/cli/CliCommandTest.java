@@ -35,12 +35,12 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 /**
- * Testing of class {@link Command}.
+ * Testing of class {@link CliCommand}.
  *
  * @author Thomas Lehmann
  */
-@DisplayName("Testing Command class")
-public class CommandTest {
+@DisplayName("Testing CliCommand class")
+public class CliCommandTest {
 
     /**
      * Testing default usage.
@@ -50,8 +50,8 @@ public class CommandTest {
     @Test
     public void testDefaultUsage() throws CliException {
         //CHECKSTYLE.OFF: MultipleStringLiterals - ok here.
-        final var command = Command.builder().setName("run")
-                .addOption(Option.builder()
+        final var command = CliCommand.builder().setName("run")
+                .addOption(CliOption.builder()
                         .setLongName("file")
                         .setShortName("f")
                         .setDescription("document to process")
@@ -59,7 +59,7 @@ public class CommandTest {
                         .setRepeatable(true)
                         .setType(OptionType.PATH)
                         .build())
-                .addOption(Option.builder()
+                .addOption(CliOption.builder()
                         .setLongName("help")
                         .setShortName("h")
                         .setDescription("this help")
@@ -81,11 +81,11 @@ public class CommandTest {
      */
     @Test
     public void testDuplicateOptionLongName() throws CliException {
-        final var builder = Command.builder();
+        final var builder = CliCommand.builder();
         //CHECKSTYLE.OFF: MultipleStringLiterals - ok here.
         builder.setName("run");
         for (int ix = 0; ix < 2; ++ix) {
-            builder.addOption(Option.builder()
+            builder.addOption(CliOption.builder()
                     .setLongName("file")
                     .setShortName(List.of("a", "b").get(ix))
                     .setDescription("document to process " + ix).build());
@@ -108,11 +108,11 @@ public class CommandTest {
     @MethodSource("provideOptionShortNamesTestData")
     public void testDuplicateOptionShortName(final boolean bExpectedToFail,
                                              final List<String> shortNames) throws CliException {
-        final var builder = Command.builder();
+        final var builder = CliCommand.builder();
         //CHECKSTYLE.OFF: MultipleStringLiterals - ok here.
         builder.setName("run");
         for (int ix = 0; ix < shortNames.size(); ++ix) {
-            builder.addOption(Option.builder()
+            builder.addOption(CliOption.builder()
                     .setLongName("file" + ix)
                     .setShortName(shortNames.get(ix).equals("null")? null: shortNames.get(ix))
                     .setDescription("document to process " + ix).build());
@@ -135,11 +135,11 @@ public class CommandTest {
      */
     @Test
     public void testDuplicateOptionDescription() throws CliException {
-        final var builder = Command.builder();
+        final var builder = CliCommand.builder();
         //CHECKSTYLE.OFF: MultipleStringLiterals - ok here.
         builder.setName("run");
         for (int ix = 0; ix < 2; ++ix) {
-            builder.addOption(Option.builder()
+            builder.addOption(CliOption.builder()
                     .setLongName("file" + ix)
                     .setShortName(List.of("a", "b").get(ix))
                     .setDescription("document to process ").build());
@@ -162,9 +162,9 @@ public class CommandTest {
     public void testCommandName(final String strName, final boolean bExpectedToFail) {
         if (bExpectedToFail) {
             assertThrows(CliException.class,
-                    () -> Command.builder().setName(strName).build());
+                    () -> CliCommand.builder().setName(strName).build());
         } else {
-            assertDoesNotThrow(() -> Command.builder().setName(strName).build());
+            assertDoesNotThrow(() -> CliCommand.builder().setName(strName).build());
         }
     }
 

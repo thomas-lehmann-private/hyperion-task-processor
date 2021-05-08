@@ -38,12 +38,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 /**
- * Testing of class {@link Option}.
+ * Testing of class {@link CliOption}.
  *
  * @author Thomas Lehmann
  */
 @DisplayName("Testing of Option class")
-public class OptionTest {
+public class CliOptionTest {
 
     /**
      * Testing each field set.
@@ -53,7 +53,7 @@ public class OptionTest {
     @Test
     public void testSetEachField() throws CliException {
         //CHECKSTYLE.OFF: MultipleStringLiterals - ok here.
-        final var option = Option.builder()
+        final var option = CliOption.builder()
                 .setLongName("file")
                 .setShortName("f")
                 .setRequired(true)
@@ -76,7 +76,7 @@ public class OptionTest {
      */
     @Test
     public void testBooleanTypeCannotBeRepeated() {
-        final var builder = Option.builder();
+        final var builder = CliOption.builder();
         builder
                 .setLongName("validate")
                 .setShortName("v")
@@ -105,7 +105,7 @@ public class OptionTest {
             final String strValue,
             final String strMessage) {
         // setup of builder
-        final var builder = Option.builder();
+        final var builder = CliOption.builder();
         builder.setShortName("x");
         builder.setDescription("test");
         builder.setLongName(strValue);
