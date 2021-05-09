@@ -17,4 +17,4 @@ jobs:
           distribution: 'adopt'            # Java distribution
           java-version: ${{ matrix.java }} # Java version
           check-latest: true               # Checking that cached version is the latest
-      - run: ./mvnw
+      - run: mvn
