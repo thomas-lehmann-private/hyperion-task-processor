@@ -26,6 +26,8 @@ package magic.system.hyperion.components;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 
 /**
  * Testing class {@link TaskGroup}.
@@ -39,8 +41,9 @@ public class TaskGroupTest {
      * Testing the ordered execution.
      */
     @Test
-    public void testRunTaskOneAfterTheOther() {
-        final var taskGroup = createTestTaskGroup(false);
+    @EnabledOnOs(OS.WINDOWS)
+    public void testRunTaskOneAfterTheOtherForPowerShell() {
+        final var taskGroup = createTestTaskGroupForPowershell(false);
         // FIXME: Document the moment but should be model.
         // FIXME: Should return TaskGroupResult (same idea as TaskResult)
         //   - isSuccess the same
@@ -55,12 +58,12 @@ public class TaskGroupTest {
     }
 
     /**
-     * Creating a test task group.
+     * Creating a test task group with powershell tasks.
      *
      * @param bRunTasksInParallel when true then run tasks in parallel.
      * @return instance of {@link TaskGroup}.
      */
-    private TaskGroup createTestTaskGroup(final boolean bRunTasksInParallel) {
+    private TaskGroup createTestTaskGroupForPowershell(final boolean bRunTasksInParallel) {
         //CHECKSTYLE.OFF: MultipleStringLiterals - not a problem here
         final var taskGroup = new TaskGroup("test", bRunTasksInParallel);
         var task = new PowershellTask("test1", "Write-Host \"Gandalf\"");
