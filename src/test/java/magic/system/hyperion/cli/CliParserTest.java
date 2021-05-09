@@ -206,7 +206,8 @@ public class CliParserTest {
                                 .build()),
                         List.of(List.of("3"))),
                 // a command with short options
-                Arguments.of(false, List.of("run", "--tag=abc", "-tdef", "-t", "ghi").toArray(String[]::new),
+                Arguments.of(false, List.of(
+                        "run", "--tag=abc", "-tdef", "-t", "ghi").toArray(String[]::new),
                         List.of(CliCommand.builder()
                                 .setName("run")
                                 .addOption(CliOption.builder()
