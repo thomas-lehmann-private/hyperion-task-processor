@@ -109,24 +109,48 @@ public class CliParser {
                 continue;
             }
 
-            final var optionalCommand = this.commands.stream()
-                    .filter(entry -> entry.getName().equals(strArgument)).findFirst();
-            if (optionalCommand.isPresent()) {
-                if (this.command.isPresent()) {
-                    throw new CliException(
-                            CliMessages.MORE_THAN_ONE_COMMAND_NOT_ALLOWED.getMessage());
-                } else {
-                    this.command = optionalCommand;
-                    this.resultBuilder.setCommandName(this.command.get().getName());
-                    ++iPos;
-                    continue;
-                }
+            iProcessedArguments = parseShortOption(strArgument, strNextArgument);
+            if (iProcessedArguments > 0) {
+                iPos += iProcessedArguments;
+                continue;
+            }
+
+            if (parseCommandName(strArgument) > 0) {
+                ++iPos;
+                continue;
             }
 
             throw new CliException(CliMessages.UNKNOWN_OPTION.getMessage());
         }
         validate();
         return this.resultBuilder.build();
+    }
+
+    /**
+     * Trying to parse a command name.
+     *
+     * @param strArgument current argument to process.
+     * @return number of arguments processed
+     * @throws CliException when more than once command name is specified.
+     * @since 1.0.0
+     */
+    private int parseCommandName(final String strArgument) throws CliException {
+        var iProcessArguments = 0;
+        final var optionalCommand = this.commands.stream()
+                .filter(entry -> entry.getName().equals(strArgument)).findFirst();
+
+        if (optionalCommand.isPresent()) {
+            if (this.command.isPresent()) {
+                throw new CliException(
+                        CliMessages.MORE_THAN_ONE_COMMAND_NOT_ALLOWED.getMessage());
+            } else {
+                this.command = optionalCommand;
+                this.resultBuilder.setCommandName(optionalCommand.get().getName());
+                iProcessArguments = 1;
+            }
+        }
+
+        return iProcessArguments;
     }
 
     /**
@@ -177,7 +201,36 @@ public class CliParser {
     }
 
     /**
-     * Process long option for command.
+     * Parsing short option.
+     *
+     * @param strArgument argument of form -char.
+     * @param strNextArgument optional next parameter after that option.
+     * @return number of arguments processed
+     * @since 1.0.0
+     */
+    private int parseShortOption(final String strArgument, final String strNextArgument) {
+        var iProcessedArguments = 0;
+
+        if (strArgument.startsWith("-")) {
+            final boolean bWithAssignment = strArgument.length() > 2;
+            final String strShortOption = strArgument.substring(1, 2);
+            final String strFinalNextArgument
+                    = bWithAssignment? strArgument.substring(2): strNextArgument;
+
+            if (this.command.isPresent()) {
+                iProcessedArguments = processOptionForCommand(
+                        strShortOption, strFinalNextArgument, bWithAssignment);
+            } else {
+                iProcessedArguments = processOptionForGlobal(
+                        strShortOption, strFinalNextArgument, bWithAssignment);
+            }
+        }
+
+        return iProcessedArguments;
+    }
+
+    /**
+     * Process either short option or long option for command.
      *
      * @param strName         name of the option
      * @param strNextArgument next argument after that option

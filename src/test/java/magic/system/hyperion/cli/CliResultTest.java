@@ -23,6 +23,7 @@
  */
 package magic.system.hyperion.cli;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -32,6 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * Testing of class {@link CliResult}.
  */
+@DisplayName("Test CliResult class")
 public class CliResultTest {
     /**
      * Testing default usage.

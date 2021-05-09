@@ -48,7 +48,7 @@ public class CliParserTest {
      * @param globalOptions   list of allowed global options
      * @param expectedValues  expected values
      */
-    @ParameterizedTest(name = "#{index} - expected fail: {0}, arguments: {1}, options: {2}")
+    @ParameterizedTest(name = "#{index}: expected fail: {0}, arguments: {1}, options: {2}")
     @MethodSource("provideGlobalOptionsOnlyTestData")
     public void testGlobalOptionsOnly(final boolean bExpectedToFail, final String[] arguments,
                                       final CliOptionList globalOptions,
@@ -73,9 +73,9 @@ public class CliParserTest {
      * @param commands        list of allowed commands
      * @param expectedValues  expected values
      */
-    @ParameterizedTest(name = "#{index} - expected fail: {0}, arguments: {1}, options: {2}")
-    @MethodSource("provideCommandsTestData")
-    public void testCommands(final boolean bExpectedToFail, final String[] arguments,
+    @ParameterizedTest(name = "#{index}: expected fail: {0}, arguments: {1}, options: {2}")
+    @MethodSource("provideCommandOptionsOnlyTestData")
+    public void testCommandOptionsOnly(final boolean bExpectedToFail, final String[] arguments,
                              final List<CliCommand> commands,
                              final List<List<String>> expectedValues) throws CliException {
         final var builder = CliParser.builder();
@@ -91,11 +91,13 @@ public class CliParserTest {
     }
 
     /**
-     * Provide test data for {@link CliParserTest#testGlobalOptionsOnly(boolean, List, List)}.
+     * Provide test data for
+     * {@link CliParserTest#testGlobalOptionsOnly(boolean, String[], CliOptionList, List)}.
      *
      * @return test data.
      * @throws CliException when validation of options has failed.
      */
+    @SuppressWarnings("unused")
     private static Stream<Arguments> provideGlobalOptionsOnlyTestData() throws CliException {
         //CHECKSTYLE.OFF: MultipleStringLiterals: ok here.
         return Stream.of(
@@ -134,10 +136,26 @@ public class CliParserTest {
                 // option (by default) is configured as not repeatable
                 Arguments.of(true, List.of("--repeat=3", "--repeat=3").toArray(String[]::new),
                         CliOptionList.builder().add(CliOption.builder()
-                                .setType(OptionType.INTEGER).setShortName("r")
+                                .setType(OptionType.INTEGER)
                                 .setLongName("repeat")
                                 .setDescription("repeat").build()).build(),
-                        List.of())
+                        List.of()),
+                // option is configured as repeatable
+                Arguments.of(false, List.of("--value=3", "--value=4").toArray(String[]::new),
+                        CliOptionList.builder().add(CliOption.builder()
+                                .setType(OptionType.INTEGER)
+                                .setRepeatable(true)
+                                .setLongName("value")
+                                .setDescription("value").build()).build(),
+                        List.of(List.of("3", "4"))),
+                // option is configured as repeatable; main focus are the short options
+                Arguments.of(false, List.of("-v", "3", "--value=4", "-v5").toArray(String[]::new),
+                        CliOptionList.builder().add(CliOption.builder()
+                                .setType(OptionType.INTEGER)
+                                .setRepeatable(true)
+                                .setLongName("value").setShortName("v")
+                                .setDescription("value").build()).build(),
+                        List.of(List.of("3", "4", "5")))
         );
         //CHECKSTYLE.ON: MultipleStringLiterals
     }
@@ -146,10 +164,11 @@ public class CliParserTest {
      * Provide test data for testing commands.
      *
      * @return list of test data for
-     *         {@link CliParserTest#testCommands(boolean, String[], List, List)}.
+     *         {@link CliParserTest#testCommandOptionsOnly(boolean, String[], List, List)}.
      * @throws CliException when validation has failed.
      */
-    private static Stream<Arguments> provideCommandsTestData() throws CliException {
+    @SuppressWarnings("unused")
+    private static Stream<Arguments> provideCommandOptionsOnlyTestData() throws CliException {
         //CHECKSTYLE.OFF: MultipleStringLiterals: ok here.
         return Stream.of(
                 // just a command - no options
@@ -165,7 +184,37 @@ public class CliParserTest {
                                         .setDescription("help")
                                         .setType(OptionType.BOOLEAN).build())
                                 .build()),
-                        List.of(List.of("true")))
+                        List.of(List.of("true"))),
+                // a command and one unknown option
+                Arguments.of(true, List.of("run", "--unknown").toArray(String[]::new),
+                        List.of(CliCommand.builder()
+                                .setName("run")
+                                .addOption(CliOption.builder()
+                                        .setLongName("help")
+                                        .setDescription("help")
+                                        .setType(OptionType.BOOLEAN).build())
+                                .build()),
+                        List.of()),
+                // a command with one option with assignment
+                Arguments.of(false, List.of("run", "--retry=3").toArray(String[]::new),
+                        List.of(CliCommand.builder()
+                                .setName("run")
+                                .addOption(CliOption.builder()
+                                        .setLongName("retry")
+                                        .setDescription("retry")
+                                        .setType(OptionType.INTEGER).build())
+                                .build()),
+                        List.of(List.of("3"))),
+                // a command with short options
+                Arguments.of(false, List.of("run", "--tag=abc", "-tdef", "-t", "ghi").toArray(String[]::new),
+                        List.of(CliCommand.builder()
+                                .setName("run")
+                                .addOption(CliOption.builder()
+                                        .setLongName("tag").setShortName("t")
+                                        .setDescription("tag")
+                                        .setType(OptionType.INTEGER).build())
+                                .build()),
+                        List.of(List.of("abc", "def", "ghi")))
         );
         //CHECKSTYLE.ON: MultipleStringLiterals
     }

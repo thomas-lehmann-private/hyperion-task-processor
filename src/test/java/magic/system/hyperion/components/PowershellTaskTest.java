@@ -33,6 +33,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 
 /**
  * Testing of class {@link PowershellTask}.
@@ -41,6 +43,7 @@ import org.junit.jupiter.api.Test;
  */
 @Tag("windows")
 @DisplayName("Testing PowershellTask class")
+@EnabledOnOs(OS.WINDOWS)
 public class PowershellTaskTest {
 
     /**
