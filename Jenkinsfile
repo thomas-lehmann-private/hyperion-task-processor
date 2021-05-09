@@ -34,9 +34,11 @@ pipeline {
     post { 
         always { 
             junit 'target/**/TEST*.xml'
+            javadoc javadocDir: 'target/apidocs', keepAll: true
             jacoco()
 
             archiveArtifacts artifacts: 'target/hyperion*shaded.jar', onlyIfSuccessful: true
+            archiveArtifacts artifacts: 'target/hyperion*javadoc.jar', onlyIfSuccessful: true
 
             recordIssues enabledForFailure: true, tool: checkStyle()
             recordIssues enabledForFailure: true, tool: spotBugs()

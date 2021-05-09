@@ -90,6 +90,7 @@ public class CliParser {
      *
      * @param arguments command line arguments.
      * @return result of parsing.
+     * @throws CliException when parsing has failed.
      * @since 1.0.0
      */
     public CliResult parse(final String[] arguments) throws CliException {

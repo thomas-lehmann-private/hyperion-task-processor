@@ -210,6 +210,7 @@ public class CliResult {
          * Create instance of {@link CliResult}.
          *
          * @return instance of {@link CliResult}.
+         * @throws CliException when validation has failed.
          * @version 1.0.0
          */
         public CliResult build() throws CliException {

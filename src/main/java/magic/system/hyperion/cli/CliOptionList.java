@@ -134,6 +134,7 @@ public class CliOptionList implements Iterable<CliOption> {
          * Create instance of {@link CliOptionList}.
          *
          * @return instance of {@link CliOptionList}.
+         * @throws CliException when validation has failed.
          */
         public CliOptionList build() throws CliException {
             validateOptionDescription();

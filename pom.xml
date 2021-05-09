@@ -40,7 +40,7 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <build>
-                <defaultGoal>clean package verify</defaultGoal>
+                <defaultGoal>clean package javadoc:jar verify</defaultGoal>
             </build>
         </profile>
     </profiles>
