@@ -1,3 +1,6 @@
+![build](https://github.com/thomas-lehmann-private/hyperion/actions/workflows/hyperion-build-actions.yml/badge.svg)
+
+---
 # hyperion
 Special task processing pipeline
 
