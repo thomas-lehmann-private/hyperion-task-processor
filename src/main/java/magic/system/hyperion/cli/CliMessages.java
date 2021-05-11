@@ -86,6 +86,11 @@ public enum CliMessages {
     COMMAND_NAME_MISSING("Command name is not set!"),
 
     /**
+     * Validation for command description has failed (missing: null or empty).
+     */
+    COMMAND_DESCRIPTION_MISSING("Command description is not set!"),
+
+    /**
      * Validation for command name has failed (regex).
      */
     COMMAND_NAME_INVALID("Name is not set correctly!"),

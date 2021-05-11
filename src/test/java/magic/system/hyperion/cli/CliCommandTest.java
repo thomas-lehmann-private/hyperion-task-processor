@@ -50,7 +50,9 @@ public class CliCommandTest {
     @Test
     public void testDefaultUsage() throws CliException {
         //CHECKSTYLE.OFF: MultipleStringLiterals - ok here.
-        final var command = CliCommand.builder().setName("run")
+        final var command = CliCommand.builder()
+                .setName("run")
+                .setDescription("running a document defining a process")
                 .addOption(CliOption.builder()
                         .setLongName("file")
                         .setShortName("f")
@@ -67,6 +69,7 @@ public class CliCommandTest {
                 .build();
 
         assertEquals("run", command.getName());
+        assertEquals("running a document defining a process", command.getDescription());
         assertEquals(2, command.getOptions().size());
         // just a probe (the other details are tested via another test class).
         assertEquals("file", command.getOptions().get(0).getLongName());
@@ -83,7 +86,7 @@ public class CliCommandTest {
     public void testDuplicateOptionLongName() throws CliException {
         final var builder = CliCommand.builder();
         //CHECKSTYLE.OFF: MultipleStringLiterals - ok here.
-        builder.setName("run");
+        builder.setName("run").setDescription("some description");
         for (int ix = 0; ix < 2; ++ix) {
             builder.addOption(CliOption.builder()
                     .setLongName("file")
@@ -110,7 +113,7 @@ public class CliCommandTest {
                                              final List<String> shortNames) throws CliException {
         final var builder = CliCommand.builder();
         //CHECKSTYLE.OFF: MultipleStringLiterals - ok here.
-        builder.setName("run");
+        builder.setName("run").setDescription("some description");
         for (int ix = 0; ix < shortNames.size(); ++ix) {
             builder.addOption(CliOption.builder()
                     .setLongName("file" + ix)
@@ -137,7 +140,7 @@ public class CliCommandTest {
     public void testDuplicateOptionDescription() throws CliException {
         final var builder = CliCommand.builder();
         //CHECKSTYLE.OFF: MultipleStringLiterals - ok here.
-        builder.setName("run");
+        builder.setName("run").setDescription("some description");
         for (int ix = 0; ix < 2; ++ix) {
             builder.addOption(CliOption.builder()
                     .setLongName("file" + ix)
@@ -162,9 +165,11 @@ public class CliCommandTest {
     public void testCommandName(final String strName, final boolean bExpectedToFail) {
         if (bExpectedToFail) {
             assertThrows(CliException.class,
-                    () -> CliCommand.builder().setName(strName).build());
+                    () -> CliCommand.builder()
+                            .setName(strName).setDescription("some description").build());
         } else {
-            assertDoesNotThrow(() -> CliCommand.builder().setName(strName).build());
+            assertDoesNotThrow(() -> CliCommand.builder()
+                    .setName(strName).setDescription("some description").build());
         }
     }
 

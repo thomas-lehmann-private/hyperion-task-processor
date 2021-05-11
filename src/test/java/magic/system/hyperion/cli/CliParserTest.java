@@ -173,12 +173,13 @@ public class CliParserTest {
         return Stream.of(
                 // just a command - no options
                 Arguments.of(false, List.of("run").toArray(String[]::new),
-                        List.of(CliCommand.builder().setName("run").build()),
+                        List.of(CliCommand.builder()
+                                .setName("run").setDescription("run processes").build()),
                         List.of()),
                 // a command and one boolean option
                 Arguments.of(false, List.of("run", "--help").toArray(String[]::new),
                         List.of(CliCommand.builder()
-                                .setName("run")
+                                .setName("run").setDescription("run processes")
                                 .addOption(CliOption.builder()
                                         .setLongName("help")
                                         .setDescription("help")
@@ -188,7 +189,7 @@ public class CliParserTest {
                 // a command and one unknown option
                 Arguments.of(true, List.of("run", "--unknown").toArray(String[]::new),
                         List.of(CliCommand.builder()
-                                .setName("run")
+                                .setName("run").setDescription("run processes")
                                 .addOption(CliOption.builder()
                                         .setLongName("help")
                                         .setDescription("help")
@@ -198,7 +199,7 @@ public class CliParserTest {
                 // a command with one option with assignment
                 Arguments.of(false, List.of("run", "--retry=3").toArray(String[]::new),
                         List.of(CliCommand.builder()
-                                .setName("run")
+                                .setName("run").setDescription("run processes")
                                 .addOption(CliOption.builder()
                                         .setLongName("retry")
                                         .setDescription("retry")
@@ -209,7 +210,7 @@ public class CliParserTest {
                 Arguments.of(false, List.of(
                         "run", "--tag=abc", "-tdef", "-t", "ghi").toArray(String[]::new),
                         List.of(CliCommand.builder()
-                                .setName("run")
+                                .setName("run").setDescription("run processes")
                                 .addOption(CliOption.builder()
                                         .setLongName("tag").setShortName("t")
                                         .setDescription("tag")

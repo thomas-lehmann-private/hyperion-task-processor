@@ -94,7 +94,8 @@ public class CliHelpPrinterTest {
                         .setRequired(true).setRepeatable(true).setType(OptionType.PATH)
                         .setDescription("document to process").build());
 
-        final var command = CliCommand.builder().setName("run")
+        final var command = CliCommand.builder()
+                .setName("run").setDescription("run tasks")
                 .addAllOptions(options).build();
 
         final var helpPrinter = CliHelpPrinter.builder()
@@ -104,6 +105,9 @@ public class CliHelpPrinterTest {
         helpPrinter.print(lines::add);
 
         int ix = 0;
+        assertEquals("List of available commands:", lines.get(ix++));
+        assertEquals("    run - run tasks", lines.get(ix++));
+        assertEquals("", lines.get(ix++));
         assertEquals("Options for command 'run':", lines.get(ix++));
         assertEquals("    -v<int>,  --verbose=<int> - verbosity level", lines.get(ix++));
         assertEquals("              --simulate      - simulate tasks only", lines.get(ix++));

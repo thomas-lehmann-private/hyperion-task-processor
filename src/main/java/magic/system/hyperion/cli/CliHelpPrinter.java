@@ -32,9 +32,14 @@ import java.util.function.Consumer;
  */
 public class CliHelpPrinter {
     /**
-     * Option line format.
+     * Option, line format.
      */
     public static final String OPTION_FORMAT = "    %%-%ds %%-%ds - %%s%%s";
+
+    /**
+     * Command, line format.
+     */
+    public static final String COMMAND_FORMAT = "    %%-%ds - %%s";
 
     /**
      * All global options.
@@ -65,6 +70,7 @@ public class CliHelpPrinter {
      */
     void print(final Consumer<String> consumer) {
         printGlobalOptions(consumer);
+        printCommandList(consumer);
         printCommands(consumer);
     }
 
@@ -98,6 +104,32 @@ public class CliHelpPrinter {
     }
 
     /**
+     * Printing list of commands.
+     *
+     * @param consumer can be used for different consumer.
+     * @since 1.0.0
+     */
+    private void printCommandList(final Consumer<String> consumer) {
+        final OptionalInt iMaxNameLength = this.commands.stream()
+                .map(CliCommand::getName).mapToInt(String::length).max();
+
+        if (iMaxNameLength.isPresent()) {
+            if (!this.globalOptions.getOptions().isEmpty()) {
+                consumer.accept("");
+            }
+
+            final var strFormat = String.format(COMMAND_FORMAT,
+                    iMaxNameLength.getAsInt());
+
+            consumer.accept("List of available commands:");
+            for (final var command: this.commands) {
+                consumer.accept(String.format(strFormat,
+                        command.getName(), command.getDescription()));
+            }
+        }
+    }
+
+    /**
      * Printing the commands and command options.
      *
      * @param consumer can be used for different consumer.
@@ -105,10 +137,7 @@ public class CliHelpPrinter {
      */
     private void printCommands(final Consumer<String> consumer) {
         if (!this.commands.isEmpty()) {
-            if (!this.globalOptions.getOptions().isEmpty()) {
-                consumer.accept("");
-            }
-
+            consumer.accept("");
             int iProcessesCommands = 0;
 
             for (final var command : this.commands) {

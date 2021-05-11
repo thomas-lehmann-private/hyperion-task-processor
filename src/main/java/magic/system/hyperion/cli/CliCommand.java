@@ -41,6 +41,11 @@ public final class CliCommand {
     private final String strName;
 
     /**
+     * Description of the command.
+     */
+    private final String strDescription;
+
+    /**
      * List of options.
      */
     private final CliOptionList options;
@@ -52,6 +57,7 @@ public final class CliCommand {
      */
     private CliCommand(final Builder builder) {
         this.strName = builder.strName;
+        this.strDescription = builder.strDescription;
         this.options = builder.options;
     }
 
@@ -62,6 +68,15 @@ public final class CliCommand {
      */
     public String getName() {
         return this.strName;
+    }
+
+    /**
+     * Get description of command.
+     *
+     * @return description.
+     */
+    public String getDescription() {
+        return this.strDescription;
     }
 
     /**
@@ -103,6 +118,11 @@ public final class CliCommand {
         private String strName;
 
         /**
+         * Description of the command.
+         */
+        private String strDescription;
+
+        /**
          * List of assigned options.
          */
         private CliOptionList options;
@@ -127,6 +147,17 @@ public final class CliCommand {
          */
         public Builder setName(final String strValue) {
             this.strName = strValue;
+            return this;
+        }
+
+        /**
+         * Change the description of the command.
+         *
+         * @param strValue new name.
+         * @return builder itself to allow chaining.
+         */
+        public Builder setDescription(final String strValue) {
+            this.strDescription = strValue;
             return this;
         }
 
@@ -173,6 +204,10 @@ public final class CliCommand {
         private void validate() throws CliException {
             if (this.strName == null || this.strName.isEmpty()) {
                 throw new CliException(CliMessages.COMMAND_NAME_MISSING.getMessage());
+            }
+
+            if (this.strDescription == null || this.strDescription.isEmpty()) {
+                throw new CliException(CliMessages.COMMAND_DESCRIPTION_MISSING.getMessage());
             }
 
             final var pattern = Pattern.compile("^[a-z]{2,10}$");
