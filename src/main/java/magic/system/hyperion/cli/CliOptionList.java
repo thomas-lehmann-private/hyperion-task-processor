@@ -131,6 +131,17 @@ public class CliOptionList implements Iterable<CliOption> {
         }
 
         /**
+         * Add a list of options.
+         *
+         * @param optionsToAdd new options to add.
+         * @return builder itself to allow chaining.
+         */
+        public Builder addAll(final List<CliOption> optionsToAdd) {
+            this.options.addAll(optionsToAdd);
+            return this;
+        }
+
+        /**
          * Create instance of {@link CliOptionList}.
          *
          * @return instance of {@link CliOptionList}.

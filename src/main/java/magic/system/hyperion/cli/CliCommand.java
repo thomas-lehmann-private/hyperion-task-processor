@@ -142,6 +142,17 @@ public final class CliCommand {
         }
 
         /**
+         * Adding a list of options to the command.
+         *
+         * @param optionsToAdd list of options to add.
+         * @return builder itself to allow chaining.
+         */
+        public Builder addAllOptions(final List<CliOption> optionsToAdd) {
+            this.optionsBuilder.addAll(optionsToAdd);
+            return this;
+        }
+
+        /**
          * Create an instance of {@link CliCommand}.
          *
          * @return instance of {@link CliCommand}.

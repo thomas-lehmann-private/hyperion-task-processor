@@ -23,7 +23,6 @@
  */
 package magic.system.hyperion.cli;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -316,53 +315,7 @@ public class CliParser {
     /**
      * Creating an instance of {@link CliParser}.
      */
-    public static class Builder {
-        /**
-         * List of global options.
-         */
-        private CliOptionList globalOptions;
-
-        /**
-         * List of commands.
-         */
-        private final List<CliCommand> commands;
-
-        /**
-         * Initialize builder.
-         *
-         * @since 1.0.0
-         */
-        public Builder() {
-            this.globalOptions = null;
-            this.commands = new ArrayList<>();
-        }
-
-        /**
-         * Define all global options.
-         *
-         * @param initGlobalOptions set global options.
-         *                          return builder itself to allow chaining.
-         * @return builder itself to allow chaining.
-         * @since 1.0.0
-         */
-        public Builder setGlobalOptions(final CliOptionList initGlobalOptions) {
-            this.globalOptions = initGlobalOptions;
-            return this;
-        }
-
-        /**
-         * Define all global options.
-         *
-         * @param command new command to add.
-         *                return builder itself to allow chaining.
-         * @return builder itself to allow chaining.
-         * @since 1.0.0
-         */
-        public Builder addCommand(final CliCommand command) {
-            this.commands.add(command);
-            return this;
-        }
-
+    public static class Builder extends AbstractFinalBuilder<CliParser> {
         /**
          * Create instance of {@link CliParser}.
          *
@@ -370,6 +323,7 @@ public class CliParser {
          * @throws CliException when validation has failed.
          * @since 1.0.0
          */
+        @Override
         public CliParser build() throws CliException {
             if (this.globalOptions == null) {
                 this.globalOptions = CliOptionList.builder().build();
