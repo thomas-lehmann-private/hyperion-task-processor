@@ -23,6 +23,7 @@
         <pebble.version>3.1.5</pebble.version>
         
         <!-- Build Plugins -->
+        <git.commit.id.plugin.version>4.0.0</git.commit.id.plugin.version>
         <maven.compiler.plugin.version>3.8.0</maven.compiler.plugin.version>
         <maven.surefire.plugin.version>3.0.0-M5</maven.surefire.plugin.version>
         <jacoco.maven.plugin.version>0.8.6</jacoco.maven.plugin.version>
@@ -99,7 +100,32 @@
     </dependencies>
     
     <build>
+        <resources>
+            <resource>
+                <filtering>true</filtering>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+
         <plugins>
+            <plugin>
+                <groupId>pl.project13.maven</groupId>
+                <artifactId>git-commit-id-plugin</artifactId>
+                <version>${git.commit.id.plugin.version}</version>
+                <configuration>
+                    <generateGitPropertiesFile>false</generateGitPropertiesFile>
+                    <prefix>git</prefix>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>get-the-git-infos</id>
+                        <goals>
+                            <goal>revision</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
