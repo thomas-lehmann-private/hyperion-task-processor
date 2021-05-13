@@ -1,6 +1,6 @@
-![build](https://github.com/thomas-lehmann-private/hyperion/actions/workflows/hyperion-build-actions.yml/badge.svg)
+[![build](https://github.com/thomas-lehmann-private/hyperion/actions/workflows/hyperion-build-actions.yml/badge.svg)](https://github.com/thomas-lehmann-private/hyperion/actions)
+[![codecov](https://codecov.io/gh/thomas-lehmann-private/hyperion/branch/main/graph/badge.svg?token=FF17P27UW6)](https://codecov.io/gh/thomas-lehmann-private/hyperion)
 
----
 # hyperion
 Special task processing pipeline
 
@@ -11,7 +11,8 @@ Special task processing pipeline
  - Running ordered Tasks or in parallel
  - Supporting Bash, Powershell and Batch
  - Providing dynamic model (free depth)
- - Supporting Templating (https://pebbletemplates.io/)
+ - Supporting Temp
+   lating (https://pebbletemplates.io/)
    - variable evaluation from previous tasks
    - model evaluation
 
