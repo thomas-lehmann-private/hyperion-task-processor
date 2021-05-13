@@ -42,6 +42,27 @@ public class CliHelpPrinter {
     public static final String COMMAND_FORMAT = "    %%-%ds - %%s";
 
     /**
+     * Optional. Might be a person or an organisation.
+     */
+    private final String strAuthor;
+
+    /**
+     * Usually the version taken from the build (pom.xml or whatever build
+     * system you use).
+     */
+    private final String strProductVersion;
+
+    /**
+     * Timestamp when the project has been built.
+     */
+    private final String strBuildTimestamp;
+
+    /**
+     * The way to execute the application.
+     */
+    private final String strExecution;
+
+    /**
      * All global options.
      */
     private final CliOptionList globalOptions;
@@ -58,6 +79,10 @@ public class CliHelpPrinter {
      * @since 1.0.0
      */
     private CliHelpPrinter(final Builder builder) {
+        this.strAuthor = builder.strAuthor;
+        this.strProductVersion = builder.strProductVersion;
+        this.strBuildTimestamp = builder.strBuildTimestamp;
+        this.strExecution = builder.strExecution;
         this.globalOptions = builder.globalOptions;
         this.commands = builder.commands;
     }
@@ -69,9 +94,29 @@ public class CliHelpPrinter {
      * @since 1.0.0
      */
     void print(final Consumer<String> consumer) {
+        printHeader(consumer);
         printGlobalOptions(consumer);
         printCommandList(consumer);
         printCommands(consumer);
+    }
+
+    /**
+     * Printing how to call the application, version information,
+     * build timestamp (when available) and author (when available).
+     *
+     * @param consumer can be used for different consumer.
+     * @since 1.0.0
+     */
+    void printHeader(final Consumer<String> consumer) {
+        consumer.accept(this.strExecution + " [global options] [command [command options]]");
+        String strLine = "    version: " + this.strProductVersion;
+        if (this.strBuildTimestamp != null && !this.strBuildTimestamp.isEmpty()) {
+            strLine += ", build timestamp: " + this.strBuildTimestamp;
+        }
+        consumer.accept(strLine);
+        if (this.strAuthor != null && !this.strAuthor.isEmpty()) {
+            consumer.accept("    author: " + this.strAuthor);
+        }
     }
 
     /**
@@ -87,6 +132,7 @@ public class CliHelpPrinter {
                 .map(CliHelpPrinter::getShortName).mapToInt(String::length).max();
 
         if (iMaxLongNameLength.isPresent()) {
+            consumer.accept("");
             consumer.accept("Global options:");
 
             final var strFormat = String.format(OPTION_FORMAT,
@@ -114,15 +160,13 @@ public class CliHelpPrinter {
                 .map(CliCommand::getName).mapToInt(String::length).max();
 
         if (iMaxNameLength.isPresent()) {
-            if (!this.globalOptions.getOptions().isEmpty()) {
-                consumer.accept("");
-            }
+            consumer.accept("");
 
             final var strFormat = String.format(COMMAND_FORMAT,
                     iMaxNameLength.getAsInt());
 
             consumer.accept("List of available commands:");
-            for (final var command: this.commands) {
+            for (final var command : this.commands) {
                 consumer.accept(String.format(strFormat,
                         command.getName(), command.getDescription()));
             }
@@ -284,6 +328,79 @@ public class CliHelpPrinter {
      */
     public static class Builder extends AbstractFinalBuilder<CliHelpPrinter> {
         /**
+         * Optional. Might be a person or an organisation.
+         */
+        private String strAuthor;
+
+        /**
+         * Required. Usually the version taken from the build (pom.xml or whatever build
+         * system you use).
+         */
+        private String strProductVersion;
+
+        /**
+         * Optional. Timestamp when the project has been built.
+         */
+        private String strBuildTimestamp;
+
+        /**
+         * Required. The way to execute the application.
+         */
+        private String strExecution;
+
+        /**
+         * Change author.
+         *
+         * @param strValue new value for author.
+         * @return builder itself to allow chaining.
+         * @apiNote use it before options and commands to avoid casting.
+         * @since 1.0.0
+         */
+        public Builder setAuthor(final String strValue) {
+            this.strAuthor = strValue;
+            return this;
+        }
+
+        /**
+         * Change product version.
+         *
+         * @param strValue new value for product version.
+         * @return builder itself to allow chaining.
+         * @apiNote use it before options and commands to avoid casting.
+         * @since 1.0.0
+         */
+        public Builder setProductVersion(final String strValue) {
+            this.strProductVersion = strValue;
+            return this;
+        }
+
+        /**
+         * Change build timestamp.
+         *
+         * @param strValue new value for build timestamp.
+         * @return builder itself to allow chaining.
+         * @apiNote use it before options and commands to avoid casting.
+         * @since 1.0.0
+         */
+        public Builder setBuildTimestamp(final String strValue) {
+            this.strBuildTimestamp = strValue;
+            return this;
+        }
+
+        /**
+         * Change execution.
+         *
+         * @param strValue new value for execution.
+         * @return builder itself to allow chaining.
+         * @apiNote use it before options and commands to avoid casting.
+         * @since 1.0.0
+         */
+        public Builder setExecution(final String strValue) {
+            this.strExecution = strValue;
+            return this;
+        }
+
+        /**
          * Create instance of {@link CliHelpPrinter}.
          *
          * @return instance of {@link CliHelpPrinter}.
@@ -295,7 +412,23 @@ public class CliHelpPrinter {
             if (this.globalOptions == null) {
                 this.globalOptions = CliOptionList.builder().build();
             }
+            validate();
             return new CliHelpPrinter(this);
+        }
+
+        /**
+         * Validation fields.
+         *
+         * @throws CliException when validation has failed.
+         */
+        private void validate() throws CliException {
+            if (this.strExecution == null || this.strExecution.isEmpty()) {
+                throw new CliException(CliMessages.HELP_EXECUTION_INFORMATION_MISSING.getMessage());
+            }
+
+            if (this.strProductVersion == null || this.strProductVersion.isEmpty()) {
+                throw new CliException(CliMessages.HELP_PRODUCT_VERSION_MISSING.getMessage());
+            }
         }
     }
 }

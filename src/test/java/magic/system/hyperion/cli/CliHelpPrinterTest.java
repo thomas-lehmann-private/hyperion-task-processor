@@ -25,11 +25,17 @@ package magic.system.hyperion.cli;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Testing of class {@link CliHelpPrinter}.
@@ -37,7 +43,40 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @DisplayName("Testing class CliHelpPrinter")
 public class CliHelpPrinterTest {
     /**
+     * Testing of header part for help.
+     *
+     * @param bExpectedToFail when true then expected to fail.
+     * @param strExecution string that explains how to call the application.
+     * @param strVersion the version of the application.
+     * @param strBuildTimestamp the build timestamp when the application were built.
+     * @param strAuthor the author of the application.
+     * @param expectedLines the expected help output (lines).
+     */
+    @ParameterizedTest(name="#{index} - expected fail: {0}, data: {1}, {2}, {3}, {4}, {5}")
+    @MethodSource("provideHeaderOnlyTestData")
+    public void testHeaderOnly(final boolean bExpectedToFail, final String strExecution,
+                               final String strVersion, final String strBuildTimestamp,
+                               final String strAuthor, final List<String> expectedLines) {
+        final var builder = CliHelpPrinter.builder()
+                .setExecution(strExecution)
+                .setProductVersion(strVersion)
+                .setAuthor(strAuthor)
+                .setBuildTimestamp(strBuildTimestamp);
+
+        if (bExpectedToFail) {
+            assertThrows(CliException.class, builder::build);
+        } else {
+            final var helpPrinter = assertDoesNotThrow(builder::build);
+            final List<String> lines = new ArrayList<>();
+            helpPrinter.print(lines::add);
+            assertEquals(expectedLines.toString(), lines.toString());
+        }
+    }
+
+    /**
      * Testing global options.
+     *
+     * @throws CliException when validation has failed.
      */
     @Test
     public void testGlobalOptionsOnly() throws CliException {
@@ -59,13 +98,14 @@ public class CliHelpPrinterTest {
                 .build();
 
         final var helpPrinter = CliHelpPrinter.builder()
+                .setExecution("java -jar demo.jar")
+                .setProductVersion("1.0.0")
                 .setGlobalOptions(globalOptions).build();
 
         final List<String> lines = new ArrayList<>();
         helpPrinter.print(lines::add);
 
-        int ix = 0;
-        assertEquals("Global options:", lines.get(ix++));
+        int ix = lines.indexOf("Global options:") + 1;
         assertEquals("    -v<int>,  --verbose=<int> - verbosity level", lines.get(ix++));
         assertEquals("              --simulate      - simulate tasks only", lines.get(ix++));
         assertEquals("    -t<str>,  --tag=<str>     - filtering by this tag [repeatable]",
@@ -77,6 +117,8 @@ public class CliHelpPrinterTest {
 
     /**
      * Testing one command.
+     *
+     * @throws CliException when validation has failed.
      */
     @Test
     public void testOneCommandOnly() throws CliException {
@@ -101,13 +143,14 @@ public class CliHelpPrinterTest {
                 .addAllOptions(options).build();
 
         final var helpPrinter = CliHelpPrinter.builder()
+                .setExecution("java -jar demo.jar")
+                .setProductVersion("1.0.0")
                 .addCommand(command).build();
 
         final List<String> lines = new ArrayList<>();
         helpPrinter.print(lines::add);
 
-        int ix = 0;
-        assertEquals("List of available commands:", lines.get(ix++));
+        int ix = lines.indexOf("List of available commands:") + 1;
         assertEquals("    run - run tasks", lines.get(ix++));
         assertEquals("", lines.get(ix++));
         assertEquals("Options for command 'run':", lines.get(ix++));
@@ -117,6 +160,31 @@ public class CliHelpPrinterTest {
                 lines.get(ix++));
         assertEquals("    -f<path>, --file=<path>   - document to process [required, repeatable]",
                 lines.get(ix++));
+        //CHECKSTYLE.ON: MultipleStringLiterals
+    }
+
+    /**
+     * Provide test data for header only test.
+     *
+     * @return list of usecases.
+     */
+    private static Stream<Arguments> provideHeaderOnlyTestData() {
+        // expected to fail, execution, version, timestamp, author
+        //CHECKSTYLE.OFF: MultipleStringLiterals: ok here.
+        return Stream.of(
+                Arguments.of(false, "java -jar demo.jar", "1.0.0", null, null,
+                        List.of("java -jar demo.jar [global options] [command [command options]]",
+                                "    version: 1.0.0")),
+                Arguments.of(true, "java -jar demo.jar", null, null, null, List.of()),
+                Arguments.of(true, null, "1.0.0", null, null, List.of()),
+                Arguments.of(false, "java -jar demo.jar", "1.0.0", null, "Some author",
+                        List.of("java -jar demo.jar [global options] [command [command options]]",
+                                "    version: 1.0.0", "    author: Some author")),
+                Arguments.of(false, "java -jar demo.jar", "1.0.0", "some timestamp", "Some author",
+                        List.of("java -jar demo.jar [global options] [command [command options]]",
+                                "    version: 1.0.0, build timestamp: some timestamp",
+                                "    author: Some author"))
+        );
         //CHECKSTYLE.ON: MultipleStringLiterals
     }
 }

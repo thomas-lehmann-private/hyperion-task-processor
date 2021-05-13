@@ -80,6 +80,7 @@ public abstract class AbstractFinalBuilder<E> {
      *
      * @return instance of given type.
      * @throws CliException when validation has failed.
+     * @since 1.0.0
      */
     public abstract E build() throws CliException;
 }

@@ -114,7 +114,17 @@ public enum CliMessages {
     /**
      * Validation has failed because more than once command has been specified.
      */
-    MORE_THAN_ONE_COMMAND_NOT_ALLOWED("Specifying more than one command is not allowed!");
+    MORE_THAN_ONE_COMMAND_NOT_ALLOWED("Specifying more than one command is not allowed!"),
+
+    /**
+     * Validation has failed because execution information is missing.
+     */
+    HELP_EXECUTION_INFORMATION_MISSING("Missing execution information for help!"),
+
+    /**
+     * Validation has failed because product version is missing.
+     */
+    HELP_PRODUCT_VERSION_MISSING("Missing product version for help!");
 
     /**
      * Concrete message.
