@@ -42,7 +42,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  *
  * @author Thomas Lehmann
  */
-@DisplayName("Testing of Option class")
+@DisplayName("Testing of CliOption class")
 public class CliOptionTest {
 
     /**

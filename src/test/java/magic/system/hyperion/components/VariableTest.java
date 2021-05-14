@@ -34,7 +34,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Thomas Lehmann
  */
-@DisplayName("Testing Variab class")
+@DisplayName("Testing class Variable")
 public class VariableTest {
     /**
      * Testing regex applied to whole string.

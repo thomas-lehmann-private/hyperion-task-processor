@@ -8,14 +8,18 @@
         </encoder>
     </appender>
 
-    <appender name="HELP" class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="JUST-THE-MESSAGE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>%msg%n</pattern>
         </encoder>
     </appender>
 
-    <logger name="HELP"  additivity="false">
-        <appender-ref ref="HELP"/>
+    <logger name="HELP" additivity="false">
+        <appender-ref ref="JUST-THE-MESSAGE"/>
+    </logger>
+
+    <logger name="3RDPARTY" additivity="false">
+        <appender-ref ref="JUST-THE-MESSAGE"/>
     </logger>
 
     <root level="info">

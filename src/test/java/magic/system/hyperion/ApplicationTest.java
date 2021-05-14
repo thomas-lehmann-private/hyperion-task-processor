@@ -28,6 +28,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -47,5 +48,15 @@ public class ApplicationTest {
         assertTrue(MessagesCollector.getMessages().contains("Global options:"));
         assertTrue(MessagesCollector.getMessages().contains("List of available commands:"));
         assertTrue(MessagesCollector.getMessages().contains("Options for command 'run':"));
+    }
+
+    @Test
+    public void test3rdParty() {
+        MessagesCollector.clear();
+        Application.main(List.of("--third-party").toArray(String[]::new));
+        // probe testing (we do not construct the 3rd party again here).
+        for (final var line: MessagesCollector.getMessages()) {
+            assertTrue(Pattern.matches("group id: .*, artifact id: .*, version: .*", line));
+        }
     }
 }

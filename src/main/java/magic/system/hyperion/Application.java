@@ -35,6 +35,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -82,6 +83,11 @@ public final class Application {
     private static final String GOSN_HELP = "h";
 
     /**
+     * (G)lobal (o)ption (l)ong (n)ame for 3rd-party.
+     */
+    private static final String GOLN_3RD_PARTY = "third-party";
+
+    /**
      * Command run.
      */
     private static final String COMMAND_RUN = "run";
@@ -90,6 +96,11 @@ public final class Application {
      * (C)ommand (o)ption (l)ong (n)ame for file.
      */
     private static final String COLN_FILE = "file";
+
+    /**
+     * Escape character.
+     */
+    private static final int ESCAPE = 27;
 
     /**
      * Application properties.
@@ -130,6 +141,8 @@ public final class Application {
 
         if (result.getGlobalOptions().containsKey(GOLN_HELP)) {
             printHelp();
+        } else if (result.getGlobalOptions().containsKey(GOLN_3RD_PARTY)) {
+            print3rdParty();
         } else if (result.getCommandName().equals(COMMAND_RUN)) {
             processDocument(Paths.get(result.getCommandOptions().get(COLN_FILE).get(0)));
         }
@@ -165,6 +178,44 @@ public final class Application {
     }
 
     /**
+     * Displaying 3rd party information.
+     *
+     * @throws CliException when reading of the dependencies has failed.
+     */
+    private void print3rdParty() throws CliException {
+        try (var stream = getClass().getResourceAsStream("/dependencies.txt")) {
+            final List<String> lines = List.of(new String(
+                    stream.readAllBytes(), Charset.defaultCharset()).split("\n"));
+
+            //CHECKSTYLE.OFF: MagicNumber: ok here
+            for (var strLine: lines) {
+                final var tokens = strLine.split(":");
+                if (tokens.length >= 4) {
+                    final var strGroupId = tokens[0].trim();
+                    final var strArtifactId = tokens[1].trim();
+
+                    int iPos = -1;
+                    final var originalBytes = tokens[3].getBytes(Charset.defaultCharset());
+                    for (int ix = 0; ix < originalBytes.length; ++ix) {
+                        if (originalBytes[ix] == ESCAPE) {
+                            iPos = ix;
+                            break;
+                        }
+                    }
+
+                    final var strVersion = tokens[3].substring(0, iPos).trim();
+                    final var logger = LoggerFactory.getLogger("3RDPARTY");
+                    logger.info(String.format("group id: %s, artifact id: %s, version: %s",
+                            strGroupId, strArtifactId, strVersion));
+                }
+            }
+            //CHECKSTYLE.ON: MagicNumber:
+        } catch (IOException e) {
+            throw new CliException(e.getMessage());
+        }
+    }
+
+    /**
      * Initialize the application.
      *
      * @param args the command line arguments
@@ -191,6 +242,11 @@ public final class Application {
                         .setShortName(GOSN_HELP)
                         .setLongName(GOLN_HELP)
                         .setDescription("displaying this help")
+                        .setType(OptionType.BOOLEAN)
+                        .build()).add(
+                CliOption.builder()
+                        .setLongName(GOLN_3RD_PARTY)
+                        .setDescription("displaying used 3rd party libraries")
                         .setType(OptionType.BOOLEAN)
                         .build()
         ).build();

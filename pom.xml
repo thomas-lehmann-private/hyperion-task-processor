@@ -65,6 +65,7 @@
         <maven.shade.plugin.version>3.2.4</maven.shade.plugin.version>
         <maven.pmd.plugin.version>3.14.0</maven.pmd.plugin.version>
         <maven.javaodc.plugin.version>3.2.0</maven.javaodc.plugin.version>
+        <maven.dependency.plugin.version>3.1.2</maven.dependency.plugin.version>
     </properties>
     
     <profiles>
@@ -346,6 +347,26 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>${maven.dependency.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>list</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>list</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <outputFile>${project.build.directory}/classes/dependencies.txt</outputFile>
+                    <includeScope>runtime</includeScope>
+                    <outputScope>false</outputScope>
+                </configuration>
             </plugin>
         </plugins>
     </build>

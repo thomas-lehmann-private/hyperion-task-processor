@@ -23,6 +23,7 @@
  */
 package magic.system.hyperion.components;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
@@ -37,6 +38,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  *
  * @author Thomas Lehmann
  */
+@DisplayName("Testing class JShellTask")
 public class JShellTaskTest {
     /**
      * Testing simple example.
