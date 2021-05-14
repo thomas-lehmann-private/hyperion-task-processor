@@ -1,5 +1,6 @@
 [![build](https://github.com/thomas-lehmann-private/hyperion/actions/workflows/hyperion-build-actions.yml/badge.svg)](https://github.com/thomas-lehmann-private/hyperion/actions)
 [![codecov](https://codecov.io/gh/thomas-lehmann-private/hyperion/branch/main/graph/badge.svg?token=FF17P27UW6)](https://codecov.io/gh/thomas-lehmann-private/hyperion)
+[![CodeFactor](https://www.codefactor.io/repository/github/thomas-lehmann-private/hyperion/badge)](https://www.codefactor.io/repository/github/thomas-lehmann-private/hyperion)
 
 # hyperion
 Special task processing pipeline
