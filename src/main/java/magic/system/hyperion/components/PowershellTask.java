@@ -28,9 +28,12 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.Map;
 import java.util.UUID;
+
 import magic.system.hyperion.interfaces.IVariable;
 import magic.system.hyperion.tools.ProcessResults;
 import magic.system.hyperion.tools.TemplateEngine;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Task for running a powershell script.
@@ -38,6 +41,10 @@ import magic.system.hyperion.tools.TemplateEngine;
  * @author Thomas Lehmann
  */
 public class PowershellTask extends AbstractTask {
+    /**
+     * Logger for this class.
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(PowershellTask.class);
 
     /**
      * Newline character.
@@ -107,6 +114,7 @@ public class PowershellTask extends AbstractTask {
                 Files.delete(temporaryScriptPath);
                 this.getVariable().setValue(String.join(NEWLINE,
                         processResults.getStdout()));
+                processResults.getStdout().forEach(LOGGER::info);
                 taskResult = new TaskResult(processResults.getExitCode() == 0,
                         getVariable());
             }

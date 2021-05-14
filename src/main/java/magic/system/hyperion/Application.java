@@ -30,10 +30,13 @@ import magic.system.hyperion.cli.CliOption;
 import magic.system.hyperion.cli.CliOptionList;
 import magic.system.hyperion.cli.CliParser;
 import magic.system.hyperion.cli.OptionType;
+import magic.system.hyperion.reader.DocumentReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Properties;
 
@@ -79,6 +82,16 @@ public final class Application {
     private static final String GOSN_HELP = "h";
 
     /**
+     * Command run.
+     */
+    private static final String COMMAND_RUN = "run";
+
+    /**
+     * (C)ommand (o)ption (l)ong (n)ame for file.
+     */
+    private static final String COLN_FILE = "file";
+
+    /**
      * Application properties.
      */
     private Properties properties;
@@ -111,12 +124,26 @@ public final class Application {
         this.globalOptions = defineGlobalOptions();
         this.commands = defineCommands();
 
-        final var parser = CliParser.builder().setGlobalOptions(this.globalOptions).build();
+        final var parser = CliParser.builder()
+                .setGlobalOptions(this.globalOptions).setCommands(this.commands).build();
         final var result = parser.parse(args);
 
         if (result.getGlobalOptions().containsKey(GOLN_HELP)) {
             printHelp();
+        } else if (result.getCommandName().equals(COMMAND_RUN)) {
+            processDocument(Paths.get(result.getCommandOptions().get(COLN_FILE).get(0)));
         }
+    }
+
+    /**
+     * Processing document.
+     *
+     * @param path path and filename of document.
+     */
+    private void processDocument(final Path path) {
+        final var reader = new DocumentReader(path);
+        final var document = reader.read();
+        document.run();
     }
 
     /**
@@ -177,11 +204,11 @@ public final class Application {
      */
     private static List<CliCommand> defineCommands() throws CliException {
         return List.of(CliCommand.builder()
-                .setName("run")
+                .setName(COMMAND_RUN)
                 .setDescription("Running one document with tasks to be processed")
                 .addOption(CliOption.builder()
                         .setShortName("f")
-                        .setLongName("file")
+                        .setLongName(COLN_FILE)
                         .setDescription("Document with tasks to be processed")
                         .setRequired(true)
                         .setType(OptionType.PATH)
