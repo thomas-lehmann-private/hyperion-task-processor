@@ -24,7 +24,6 @@
 package magic.system.hyperion.tools;
 
 import ch.qos.logback.classic.spi.ILoggingEvent;
-import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.AppenderBase;
 
 import java.util.ArrayList;
@@ -34,11 +33,11 @@ import java.util.List;
 /**
  * Log Appender for testing.
  */
-public class MessageCollector extends AppenderBase<ILoggingEvent> {
+public class MessagesCollector extends AppenderBase<ILoggingEvent> {
     /**
      * Collected messages.
      */
-    private static final List<String> messages = Collections.synchronizedList(new ArrayList<>());
+    private static final List<String> MESSAGES = Collections.synchronizedList(new ArrayList<>());
 
     /**
      * Readonly access to list of messages.
@@ -46,18 +45,18 @@ public class MessageCollector extends AppenderBase<ILoggingEvent> {
      * @return list of messages.
      */
     public static List<String> getMessages() {
-        return Collections.unmodifiableList(messages);
+        return Collections.unmodifiableList(MESSAGES);
     }
 
     /**
      * Clearing all collected messages.
      */
     public static void clear() {
-        messages.clear();
+        MESSAGES.clear();
     }
 
     @Override
     protected void append(final ILoggingEvent event) {
-        messages.add(event.getFormattedMessage());
+        MESSAGES.add(event.getFormattedMessage());
     }
 }

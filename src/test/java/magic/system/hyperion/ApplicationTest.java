@@ -23,7 +23,7 @@
  */
 package magic.system.hyperion;
 
-import magic.system.hyperion.tools.MessageCollector;
+import magic.system.hyperion.tools.MessagesCollector;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -41,11 +41,11 @@ public class ApplicationTest {
      */
     @Test
     public void testHelp() {
-        MessageCollector.clear();
+        MessagesCollector.clear();
         Application.main(List.of("--help").toArray(String[]::new));
         // probe testing (we do not construct the help again here).
-        assertTrue(MessageCollector.getMessages().contains("Global options:"));
-        assertTrue(MessageCollector.getMessages().contains("List of available commands:"));
-        assertTrue(MessageCollector.getMessages().contains("Options for command 'run':"));
+        assertTrue(MessagesCollector.getMessages().contains("Global options:"));
+        assertTrue(MessagesCollector.getMessages().contains("List of available commands:"));
+        assertTrue(MessagesCollector.getMessages().contains("Options for command 'run':"));
     }
 }

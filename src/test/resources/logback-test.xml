@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="true">
-    <appender name="TEST" class="magic.system.hyperion.tools.MessageCollector">
+    <appender name="TEST" class="magic.system.hyperion.tools.MessagesCollector">
     </appender>
 
     <root level="ALL">
