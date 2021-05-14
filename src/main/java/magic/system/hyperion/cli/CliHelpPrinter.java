@@ -93,7 +93,7 @@ public class CliHelpPrinter {
      * @param consumer can be used for different consumer.
      * @since 1.0.0
      */
-    void print(final Consumer<String> consumer) {
+    public void print(final Consumer<String> consumer) {
         printHeader(consumer);
         printGlobalOptions(consumer);
         printCommandList(consumer);
@@ -107,7 +107,7 @@ public class CliHelpPrinter {
      * @param consumer can be used for different consumer.
      * @since 1.0.0
      */
-    void printHeader(final Consumer<String> consumer) {
+    private void printHeader(final Consumer<String> consumer) {
         consumer.accept(this.strExecution + " [global options] [command [command options]]");
         String strLine = "    version: " + this.strProductVersion;
         if (this.strBuildTimestamp != null && !this.strBuildTimestamp.isEmpty()) {

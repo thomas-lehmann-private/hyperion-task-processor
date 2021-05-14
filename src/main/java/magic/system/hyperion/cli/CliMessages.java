@@ -43,7 +43,7 @@ public enum CliMessages {
     /**
      * Validation for description has failed (too long).
      */
-    OPTION_DESCRIPTION_TOO_LONG("Description too long (maximum: 30 characters)!"),
+    OPTION_DESCRIPTION_TOO_LONG("Description too long!"),
 
     /**
      * Validation has failed because at least two option do have same description.

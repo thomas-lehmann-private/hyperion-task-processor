@@ -76,6 +76,19 @@ public abstract class AbstractFinalBuilder<E> {
     }
 
     /**
+     * Assign a list of commands.
+     *
+     * @param initCommands list of commands.
+     * @return builder itself to allow chaining.
+     * @since 1.0.0
+     */
+    public AbstractFinalBuilder<E> setCommands(final List<CliCommand> initCommands) {
+        this.commands.clear();
+        this.commands.addAll(initCommands);
+        return this;
+    }
+
+    /**
      * Building concrete instance.
      *
      * @return instance of given type.

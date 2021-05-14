@@ -41,7 +41,7 @@ public class CliOption {
     /**
      * Maximum description length.
      */
-    private static final int MAX_DESCRIPTION_LENGTH = 30;
+    private static final int MAX_DESCRIPTION_LENGTH = 40;
 
     /**
      * Maximum number of subnames.
