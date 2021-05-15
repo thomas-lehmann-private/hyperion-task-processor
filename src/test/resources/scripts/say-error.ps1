@@ -1,1 +1,0 @@
-Write-Error  "Something went wrong!" -Category NotSpecified -ErrorId "UnknownProblem"

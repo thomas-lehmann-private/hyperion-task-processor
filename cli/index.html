@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Thomas Lehmann <thomas.lehmann.private@gmail.com">
+        <link rel="canonical" href="https://thomas-lehmann-private.github.io/hyperion/cli/">
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>CLI - Hyperion</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/docco.min.css">
+
+        <script src="../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">Hyperion</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href=".." class="nav-link">Home</a>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Hyperion <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="./" class="dropdown-item active">CLI</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href=".." class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" class="nav-link disabled">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/thomas-lehmann-private/hyperion/edit/master/docs/cli.md" class="nav-link"><i class="fa fa-github"></i> Edit on GitHub</a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#cli" class="nav-link">CLI</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#defining-an-option" class="nav-link">Defining an option</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#defining-a-command" class="nav-link">Defining a command</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#the-option-list" class="nav-link">The option list</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#using-the-parser" class="nav-link">Using the parser</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#using-the-result" class="nav-link">Using the result</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#help-printer" class="nav-link">Help printer</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="cli">CLI</h1>
+<p>In future the code might move to an own individual respository.
+Nevertheless it should be documented how it works...</p>
+<h2 id="defining-an-option">Defining an option</h2>
+<p>The creation of an option is best explained by an example:</p>
+<pre><code class="language-java">final var option = CliOption.builder()
+    .setLongName(&quot;file&quot;)
+    .setShortName(&quot;f&quot;)
+    .setDescription(&quot;Provide document to process&quot;)
+    .setType(OptionType.STRING)
+    .setRequired(true)
+    .setRepeatable(false)
+    .build();
+</code></pre>
+<p>The <strong>build()</strong> will throw an CliException when the validation of your definition has failed.</p>
+<h3 id="long-names">Long names</h3>
+<ol>
+<li>The field is required.</li>
+<li>A long name has to be lower case.</li>
+<li>You can combine as maximum three so called sub names <strong>namea-nameb-namec</strong> by dashes.</li>
+<li>Each subname<ul>
+<li>has to start with a letter; then also numbers may be used (no other characters).</li>
+<li>it's not allowed to have less than 2 characters and no more than 15 characters.</li>
+</ul>
+</li>
+</ol>
+<p>You can use the long name in two forms:</p>
+<ul>
+<li>--name=value</li>
+<li>--name value</li>
+</ul>
+<h3 id="short-names">Short names</h3>
+<ol>
+<li>The field is option (null or empty counts as not set).</li>
+<li>A short name can be upper case or lower case.</li>
+<li>You are allowed to define one character only (length equal to 1).</li>
+</ol>
+<p>You can use the short name in two forms:</p>
+<ul>
+<li>-v1234</li>
+<li>-v 1234</li>
+</ul>
+<h3 id="description">Description</h3>
+<ol>
+<li>The field is required</li>
+<li>It cannot be null and also not be empty</li>
+<li>The length may not exceed 40 characters.</li>
+</ol>
+<p>Keep in mind that this description should help the user.</p>
+<h3 id="repeatable">Repeatable</h3>
+<ul>
+<li>The default is false (not repeatable).</li>
+<li>A repeatable option means that under given name a list of values is stored.</li>
+<li>The repeatable flag is shown in the help.</li>
+</ul>
+<h3 id="required">Required</h3>
+<ul>
+<li>The default is false (not required).</li>
+<li>A required field means that you have to specify the parameter.</li>
+<li>The required flag is shown in the help.</li>
+</ul>
+<p><strong>Special scenario</strong>: consider a --help (which should be optional). If you (as an example)
+specify the option --file as required the CliParser will throw a CliException if you just
+use --help. You can define a command and with such an option (example: run). Only if you
+use that command you also have to specify the required option. </p>
+<h3 id="type">Type</h3>
+<ul>
+<li>The types are boolean, string, integer, double and path (for now).</li>
+<li>The default is string.</li>
+<li>The boolean means that you don't expect a value.</li>
+<li>The types are currently used for the help only to show what value is expected.</li>
+</ul>
+<h3 id="validation">Validation</h3>
+<p>The <strong>build()</strong> function checks the rules as described before
+throwing a <em>CliException</em> when validation has failed.</p>
+<h2 id="defining-a-command">Defining a command</h2>
+<p>The creation of a command is working pretty the same way as for the options.
+The definition of the command options is exactly the same thing.</p>
+<pre><code class="language-java">final var command = CliCommand.builder()
+    .setName(&quot;run&quot;)
+    .setDescription(&quot;processing a document with tasks&quot;)
+    .addOption(fileOption)
+    .build();
+</code></pre>
+<h3 id="name">Name</h3>
+<ul>
+<li>The name is required.</li>
+<li>The name should have at least two characters, and the length must not exceed 10 characters.</li>
+<li>The name has to be lower case.</li>
+</ul>
+<h3 id="description_1">Description</h3>
+<ol>
+<li>The field is required</li>
+<li>It cannot be null and also not be empty</li>
+</ol>
+<h3 id="option">Option</h3>
+<ul>
+<li>you can call <strong>addOption</strong> (several times) to add one option.</li>
+<li>you can call <strong>addAllOption</strong> (several times) to add a list of options.</li>
+</ul>
+<h3 id="validation_1">Validation</h3>
+<p>The <strong>build()</strong> function checks the rules as described below
+  throwing a <em>CliException</em> when validation has failed.</p>
+<ul>
+<li>checking for name and description</li>
+<li>checking for options<ul>
+<li>a long name may exist once only</li>
+<li>a short name may exist once only</li>
+<li>a description may exist once only </li>
+</ul>
+</li>
+</ul>
+<h2 id="the-option-list">The option list</h2>
+<p>The option list (CliOptionList) is special class keeping a list of options working
+with the builder options as already seen for the other classes.
+The <strong>build()</strong> function finally does also the validation:</p>
+<ul>
+<li>a long name may exist once only</li>
+<li>a short name may exist once only</li>
+<li>a description may exist once only </li>
+</ul>
+<p>These option list is required for the parser.</p>
+<h2 id="using-the-parser">Using the parser</h2>
+<p>The parser does parse the command line arguments.</p>
+<pre><code class="language-java">final var parser = CliParser.builder()
+   .setGlobalOptions(globalOptions)
+   .setCommands(commands)
+   .build();
+
+final var result = parser.parse(arguments);
+</code></pre>
+<h3 id="global-options">Global options</h3>
+<p>You set the list of global options (see option list - CliOptionList).</p>
+<h3 id="commands">Commands</h3>
+<p>You have two options:</p>
+<ul>
+<li>using <strong>setCommands</strong> to set a list of commands (old commands are lost).</li>
+<li>using <strong>addCommand</strong> (several times) to add one command.</li>
+</ul>
+<h3 id="validation-when-parsing">Validation when parsing</h3>
+<p>While parsing the command line arguments further validation is done:</p>
+<ul>
+<li>required options that are missing</li>
+<li>repeated options that are not defined repeatable</li>
+<li>if you use more than once command  </li>
+<li>unknown options</li>
+<li>unknown commands</li>
+</ul>
+<p><strong>Please note</strong>:</p>
+<ul>
+<li>You have to use global options before any command</li>
+<li>If you want to use required options don't use them on global options otherwise you run
+   into problems when trying to use --help (as an example). Simply define a command for it.</li>
+</ul>
+<h2 id="using-the-result">Using the result</h2>
+<p>When the parsing is fine you get an instance of type CliResult and you
+three information are available then:</p>
+<ul>
+<li>with <strong>getGlobalOptions()</strong> you get a map where the key is the long name of the option</li>
+<li>the value is a list; if the option is repeatable it contains more than one value.</li>
+<li>same for <strong>getCommandOptions()</strong>.</li>
+<li>with <strong>getCommandName()</strong> you get the command.</li>
+</ul>
+<p>It's on you how you handle it.</p>
+<h2 id="help-printer">Help printer</h2>
+<p>The setup of the help printer works similar as the parser. In addition to the defined
+options and commands you specify the execution, the product version, the build timestamp
+and the author:</p>
+<pre><code class="language-java">private void printHelp() throws CliException {
+    final var helpPrinter = CliHelpPrinter.builder()
+            .setExecution(&quot;java -jar &quot;
+                    + this.properties.getProperty(PROPERTY_FINAL_NAME) + &quot;.jar&quot;)
+            .setProductVersion(this.properties.getProperty(PROPERTY_PRODUCT_VERSION))
+            .setBuildTimestamp(this.properties.getProperty(PROPERTY_BUILD_TIMESTAMP))
+            .setAuthor(this.properties.getProperty(PROPERTY_AUTHOR))
+            .setGlobalOptions(this.globalOptions)
+            .setCommands(this.commands)
+            .build();
+    helpPrinter.print(LoggerFactory.getLogger(&quot;HELP&quot;)::info);
+}
+</code></pre>
+<p>The code is extracted from the Hyperion application as I'm using it iself. With Maven
+and resource filtering I'm passing the information like the final name of the jar,
+the product version, the build timestamp and the author.</p>
+<p>For the logging I'm using a custom logger to avoid the usually timestamped output.
+At the time when I'm writing this documentation the result did look like following:</p>
+<pre><code>java -jar hyperion-1.0.0-SNAPSHOT.jar [global options] [command [command options]]
+    version: 1.0.0-SNAPSHOT, build timestamp: 2021-05-14 15:21
+    author: Thomas Lehmann &lt;thomas.lehmann.private@gmail.com&gt;
+
+Global options:
+    -h, --help        - displaying this help
+        --third-party - displaying used 3rd party libraries
+
+List of available commands:
+    run - Running one document with tasks to be processed
+
+Options for command 'run':
+    -f&lt;path&gt;, --file=&lt;path&gt; - Document with tasks to be processed [required]
+</code></pre></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js" defer></script>
+        <script src="../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
