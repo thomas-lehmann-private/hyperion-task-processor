@@ -70,6 +70,7 @@ public abstract class AbstractTask extends Component
         super(strInitTitle);
         this.strCode = strInitCode;
         this.variable = new Variable();
+        this.variable.setName("default");
     }
 
     /**

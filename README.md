@@ -1,5 +1,4 @@
 ![Created](https://badges.pufler.dev/created/thomas-lehmann-private/hyperion)
-![Updated](https://badges.pufler.dev/updated/thomas-lehmann-private/hyperion)
 [![documentation](https://img.shields.io/badge/documentation-ok-%2300ff00)](https://thomas-lehmann-private.github.io/hyperion)
 ![GitHub](https://img.shields.io/github/license/thomas-lehmann-private/hyperion)
 

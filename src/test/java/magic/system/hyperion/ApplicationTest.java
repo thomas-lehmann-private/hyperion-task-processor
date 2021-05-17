@@ -50,6 +50,10 @@ public class ApplicationTest {
         assertTrue(MessagesCollector.getMessages().contains("Options for command 'run':"));
     }
 
+    /**
+     * Testing 3rd party option.
+     * Please note that for this test the Maven compile goal has to run.
+     */
     @Test
     public void test3rdParty() {
         MessagesCollector.clear();

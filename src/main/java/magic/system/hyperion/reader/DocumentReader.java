@@ -28,7 +28,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import java.io.IOException;
 import java.nio.file.Path;
+
 import magic.system.hyperion.components.Document;
+import magic.system.hyperion.components.GroovyTask;
 import magic.system.hyperion.components.PowershellTask;
 import magic.system.hyperion.components.TaskGroup;
 import magic.system.hyperion.components.Variable;
@@ -42,7 +44,9 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Lehmann
  */
-@SuppressWarnings("checkstyle:classdataabstractioncoupling")
+@SuppressWarnings({
+        "checkstyle:classfanoutcomplexity",
+        "checkstyle:classdataabstractioncoupling"})
 public class DocumentReader {
 
     /**
@@ -158,6 +162,10 @@ public class DocumentReader {
                 readPowershellTask(taskGroup, node);
                 break;
             }
+            case "groovy": {
+                readGroovyTask(taskGroup, node);
+                break;
+            }
             default: {
                 throw new DocumentReaderException(
                         String.format("Task of type '%s' is not known!", strType));
@@ -198,7 +206,40 @@ public class DocumentReader {
         }
         taskGroup.add(task);
     }
-    
+
+    /**
+     * Reading a groovy task.
+     *
+     * @param taskGroup the task group where to add the groovy task.
+     * @param node the node to process containing the groovy task.
+     */
+    private void readGroovyTask(final TaskGroup taskGroup, final JsonNode node)
+            throws DocumentReaderException {
+        final var names = Converters.convertToSortedList(node.fieldNames());
+        final var matcher = Matcher.of(names);
+
+        matcher.requireExactlyOnce(DocumentReaderFields.TYPE.getFieldName());
+        matcher.requireExactlyOnce(DocumentReaderFields.CODE.getFieldName());
+        matcher.allow(DocumentReaderFields.TITLE.getFieldName());
+        matcher.allow(DocumentReaderFields.VARIABLE.getFieldName());
+
+        if (!matcher.matches(names)) {
+            throw new DocumentReaderException(
+                    "The groovy task fields are not correct!");
+        }
+
+        final var strTitle = node.has(DocumentReaderFields.TITLE.getFieldName())
+                ? node.get(DocumentReaderFields.TITLE.getFieldName()).asText(): "";
+
+        final var task = new GroovyTask(strTitle,
+                node.get(DocumentReaderFields.CODE.getFieldName()).asText());
+        if (node.has(DocumentReaderFields.VARIABLE.getFieldName())) {
+            readVariable(task.getVariable(),
+                    node.get(DocumentReaderFields.VARIABLE.getFieldName()));
+        }
+        taskGroup.add(task);
+    }
+
     private void readVariable(final Variable variable, final JsonNode node) {
         final var names = Converters.convertToSortedList(node.fieldNames());       
         final var matcher = Matcher.of(names);

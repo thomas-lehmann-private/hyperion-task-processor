@@ -35,6 +35,8 @@ import magic.system.hyperion.interfaces.IRunnable;
 import magic.system.hyperion.interfaces.IVariable;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A group of tasks.
@@ -42,6 +44,10 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  * @author Thomas Lehmann
  */
 public class TaskGroup extends Component implements IRunnable<Boolean, Document> {
+    /**
+     * Logger for this class.
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(TaskGroup.class);
 
     /**
      * Variable storage per task group accessible to the individual tasks.
@@ -117,8 +123,9 @@ public class TaskGroup extends Component implements IRunnable<Boolean, Document>
         if (!this.bRunTasksInParallel) {
             for (var task : this.listOfTasks) {
                 final var result = task.run(this.variables);
-                this.variables.put(result.getVariable().getName(),
-                        result.getVariable());
+                this.variables.put(result.getVariable().getName(), result.getVariable());
+                LOGGER.info(String.format("set variable %s=%s",
+                        result.getVariable().getName(), result.getVariable().getValue()));
                 if (!result.isSuccess()) {
                     success = false;
                 }
