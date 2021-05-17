@@ -29,6 +29,8 @@ import magic.system.hyperion.interfaces.IVariable;
 import magic.system.hyperion.tools.TemplateEngine;
 
 import groovy.lang.GroovyShell;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -42,6 +44,11 @@ import java.util.Map;
  */
 @SuppressWarnings("checkstyle:classdataabstractioncoupling")
 public class GroovyTask extends AbstractTask {
+    /**
+     * Logger for this class.
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(GroovyTask.class);
+
     /**
      * Groovy file extension.
      */
@@ -71,9 +78,10 @@ public class GroovyTask extends AbstractTask {
             final var binding = new Binding(Map.of("out", new PrintWriter(writer)));
 
             if (isRegularFile()) {
-
                 final var shell = new GroovyShell(binding);
-                shell.evaluate(Files.readString(Paths.get(getCode())));
+                final var strContent = Files.readString(Paths.get(getCode()));
+                LOGGER.info(String.format("file: %s, content: %s", getCode(), strContent));
+                shell.evaluate(strContent);
                 getVariable().setValue(writer.toString());
                 taskResult = new TaskResult(true, getVariable());
             } else {
@@ -87,6 +95,7 @@ public class GroovyTask extends AbstractTask {
                 taskResult = new TaskResult(true, getVariable());
             }
         } catch (GroovyRuntimeException | IOException e) {
+            LOGGER.error(e.getMessage(), e);
             taskResult = new TaskResult(false, getVariable());
         }
 

@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration debug="true">
+<configuration debug="false">
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level - %logger{35} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
     <appender name="TEST" class="magic.system.hyperion.tools.MessagesCollector">
     </appender>
 
-    <root level="ALL">
+    <root level="INFO">
         <appender-ref ref="TEST"/>
+        <appender-ref ref="STDOUT"/>
     </root>
 </configuration>
