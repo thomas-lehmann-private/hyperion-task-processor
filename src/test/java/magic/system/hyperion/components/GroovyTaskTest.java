@@ -26,6 +26,8 @@ package magic.system.hyperion.components;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.Map;
 
@@ -59,13 +61,15 @@ public class GroovyTaskTest {
 
     /**
      * Testing file execution.
+     *
+     * @throws URISyntaxException when URL is bad
      */
     @Test
-    public void testHelloWorldFile() {
-        final var scriptPath = getClass().getResource("/scripts/say-hello-world.groovy")
-                .toString().replaceFirst("file:/", "");
+    public void testHelloWorldFile() throws URISyntaxException {
+        final var scriptUrl = getClass().getResource("/scripts/say-hello-world.groovy");
+        final var file = new File(scriptUrl.toURI());
 
-        final var task = new GroovyTask(TASK_TITLE, scriptPath);
+        final var task = new GroovyTask(TASK_TITLE, file.getAbsolutePath());
         final var result = task.run(Collections.emptyMap());
 
         assertEquals(TASK_TITLE, task.getTitle());

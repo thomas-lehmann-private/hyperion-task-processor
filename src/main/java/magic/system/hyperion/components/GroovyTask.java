@@ -74,29 +74,21 @@ public class GroovyTask extends AbstractTask {
         TaskResult taskResult = null;
 
         try {
-            LOGGER.info("code is " + getCode());
-            LOGGER.info("regular file: " + isRegularFile());
             final var writer = new StringWriter();
-            LOGGER.info("Creating binding 'out'");
             final var binding = new Binding(Map.of("out", new PrintWriter(writer)));
-            LOGGER.info("Creating shell");
             final var shell = new GroovyShell(binding);
 
             if (isRegularFile()) {
-                LOGGER.info("Reading file");
+                LOGGER.info("Processing Groovy file {}", getCode());
                 final var strContent = Files.readString(Paths.get(getCode()));
-                LOGGER.info(String.format("file: %s, content: %s", getCode(), strContent));
-                LOGGER.info("Evaluating groovy code");
                 shell.evaluate(strContent);
                 getVariable().setValue(writer.toString());
                 taskResult = new TaskResult(true, getVariable());
             } else {
-                LOGGER.info("Rendering using template engine");
                 final var engine = new TemplateEngine();
                 final var renderedText = engine.render(getCode(),
                         Map.of("variables", variables));
 
-                LOGGER.info("Evaluating groovy code");
                 shell.evaluate(renderedText);
                 getVariable().setValue(writer.toString());
                 taskResult = new TaskResult(true, getVariable());

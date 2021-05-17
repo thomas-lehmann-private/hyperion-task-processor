@@ -23,6 +23,7 @@
  */
 package magic.system.hyperion.components;
 
+import java.io.File;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.util.Collections;
@@ -80,12 +81,15 @@ public class PowershellTaskTest {
      * Testing (finally) of {@link AbstractTask#getTitle()} and
      * {@link PowershellTask#run(java.util.Map) } in context of code
      * representing a path and filename to an existing powershell script.
+     *
+     * @throws URISyntaxException when URL is bad
      */
     @Test
-    public void testHelloWorldFile() {
-        final var scriptPath = getClass().getResource("/scripts/say-hello-world.ps1")
-                .toString().replaceFirst("file:/", "");
-        final var task = new PowershellTask(PRINT_HELLO_WORLD_TITLE, scriptPath);
+    public void testHelloWorldFile() throws URISyntaxException {
+        final var scriptUrl = getClass().getResource("/scripts/say-hello-world.ps1");
+        final var file = new File(scriptUrl.toURI());
+
+        final var task = new PowershellTask(PRINT_HELLO_WORLD_TITLE, file.getAbsolutePath());
         final var result = task.run(Collections.emptyMap());
 
         assertEquals(HELLO_WORD_TEXT, result.getVariable().getValue());
