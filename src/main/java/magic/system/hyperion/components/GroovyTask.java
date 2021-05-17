@@ -74,6 +74,8 @@ public class GroovyTask extends AbstractTask {
         TaskResult taskResult = null;
 
         try {
+            LOGGER.info("code is " + getCode());
+            LOGGER.info("regular file: " + isRegularFile());
             final var writer = new StringWriter();
             LOGGER.info("Creating binding 'out'");
             final var binding = new Binding(Map.of("out", new PrintWriter(writer)));
