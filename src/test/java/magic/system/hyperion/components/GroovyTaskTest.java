@@ -55,7 +55,7 @@ public class GroovyTaskTest {
         final var result = task.run(Collections.emptyMap());
 
         assertEquals(TASK_TITLE, task.getTitle());
-        assertEquals(HELLO_WORD_TEXT, result.getVariable().getValue());
+        assertEquals(HELLO_WORD_TEXT, result.getVariable().getValue().strip());
         assertTrue(result.isSuccess());
     }
 
@@ -73,7 +73,7 @@ public class GroovyTaskTest {
         final var result = task.run(Collections.emptyMap());
 
         assertEquals(TASK_TITLE, task.getTitle());
-        assertEquals(HELLO_WORD_TEXT, result.getVariable().getValue());
+        assertEquals(HELLO_WORD_TEXT, result.getVariable().getValue().strip());
         assertTrue(result.isSuccess());
     }
 
@@ -90,7 +90,7 @@ public class GroovyTaskTest {
         assertEquals(TASK_TITLE, task.getTitle());
         final var result = task.run(Map.of("text", variable));
 
-        assertEquals(HELLO_WORD_TEXT, result.getVariable().getValue());
+        assertEquals(HELLO_WORD_TEXT, result.getVariable().getValue().strip());
         assertTrue(result.isSuccess());
     }
 }

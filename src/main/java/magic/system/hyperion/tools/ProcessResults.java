@@ -90,13 +90,14 @@ public final class ProcessResults {
     }
 
     /**
-     * Provding process results of last executed process given by parameter.
+     * Providing process results of last executed process given by parameter.
      *
      * @param process - last executed process.
      * @return lines written to stdout and stderr and the process exit code.
      */
     public static ProcessResults of(final Process process) {
-        return new ProcessResults(ProcessTools.getStdout(process),
-                ProcessTools.getStderr(process), process.exitValue());
+        final var linesStdout = ProcessTools.getStdout(process);
+        final var linesStderr = ProcessTools.getStderr(process);
+        return new ProcessResults(linesStdout, linesStderr, process.exitValue());
     }
 }

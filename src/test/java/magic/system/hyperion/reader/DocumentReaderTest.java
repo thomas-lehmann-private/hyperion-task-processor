@@ -80,6 +80,6 @@ public class DocumentReaderTest {
         MessagesCollector.clear();
         document.run();
         assertTrue(MessagesCollector.getMessages().contains("set variable default=hello world!"));
-        assertTrue(MessagesCollector.getMessages().contains("set variable test2= this is a demo "));
+        assertTrue(MessagesCollector.getMessages().contains("set variable test2=this is a demo"));
     }
 }

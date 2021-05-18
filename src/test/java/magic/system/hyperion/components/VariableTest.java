@@ -51,7 +51,20 @@ public class VariableTest {
         assertEquals("Gandalf", variable.getValue());
         //CHECKSTYLE.ON: MultipleStringLiterals
     }
-    
+
+    /**
+     * Testing regex applied to whole multiline string.
+     */
+    @Test
+    public void testRegexCompleteMultiLineString() {
+        //CHECKSTYLE.OFF: MultipleStringLiterals - Here no constants are necessary
+        final var variable = new Variable("test", ".*", 0, false);
+        assertTrue(variable.setValue("Gandalf\nFrodo"));
+        assertEquals("test", variable.getName());
+        assertEquals("Gandalf\nFrodo", variable.getValue());
+        //CHECKSTYLE.ON: MultipleStringLiterals
+    }
+
     /**
      * Testing regex applied line by line for a string.
      */

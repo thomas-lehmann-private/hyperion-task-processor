@@ -29,6 +29,8 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,7 +48,7 @@ public final class ProcessTools {
     /**
      * Provides lines written to stdout by the given process.
      *
-     * @param process - the execeuted process.
+     * @param process - the executed process.
      * @return lines written to stdout.
      */
     public static List<String> getStdout(final Process process) {
@@ -54,11 +56,7 @@ public final class ProcessTools {
 
         try (var reader = new BufferedReader(new InputStreamReader(
                 process.getInputStream(), Charset.defaultCharset()))) {
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-                lines.add(line);
-            }
+            lines.addAll(reader.lines().collect(Collectors.toList()));
         } catch (IOException e) {
             LOGGER.error(e.getMessage(), e);
         }
@@ -69,7 +67,7 @@ public final class ProcessTools {
     /**
      * Provides lines written to stderr by the given process.
      *
-     * @param process - the execeuted process.
+     * @param process - the executed process.
      * @return lines written to stderr.
      */
     public static List<String> getStderr(final Process process) {
@@ -77,12 +75,7 @@ public final class ProcessTools {
 
         try (var reader = new BufferedReader(new InputStreamReader(
                 process.getErrorStream(), Charset.defaultCharset()))) {
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-                lines.add(line);
-            }
-
+            lines.addAll(reader.lines().collect(Collectors.toList()));
         } catch (IOException e) {
             LOGGER.error(e.getMessage(), e);
         }

@@ -182,7 +182,7 @@ public class Variable implements IVariable {
      */
     public boolean setValue(final String strInitValue) {
         boolean success = false;
-        final var pattern = Pattern.compile(this.strRegex);
+        final var pattern = Pattern.compile(this.strRegex, Pattern.DOTALL);
 
         if (this.bLineByLine) {
             String strNewValue = "";
@@ -200,13 +200,13 @@ public class Variable implements IVariable {
             }
 
             if (success) {
-                this.strValue = strNewValue;
+                this.strValue = strNewValue.strip();
             }
         } else {
             final var matcher = pattern.matcher(strInitValue);
             if (matcher.find()) {
                 success = true;
-                this.strValue = matcher.group(this.iRegexGroup);
+                this.strValue = matcher.group(this.iRegexGroup).strip();
             }
         }
 
