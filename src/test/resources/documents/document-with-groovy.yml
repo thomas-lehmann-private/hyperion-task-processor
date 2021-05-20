@@ -13,3 +13,9 @@ taskgroups:
           name: test2
           regex: ">(.*)<"
           group: 1
+
+      - type: groovy
+        code: println 'hello world!'
+        tags:
+          - tag support
+          - third example

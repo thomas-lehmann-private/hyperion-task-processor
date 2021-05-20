@@ -44,7 +44,6 @@
         <maven.compiler.target>11</maven.compiler.target>
         <timestamp>${maven.build.timestamp}</timestamp>
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
-        <line.coverage>0.81</line.coverage>
 
         <!-- Dependencies -->        
         <junit.jupiter.version>5.5.2</junit.jupiter.version>
@@ -71,13 +70,29 @@
 
     <profiles>
         <profile>
-            <id>default</id>
+            <id>default windows</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <os><family>windows</family></os>
             </activation>
             <build>
                 <defaultGoal>clean package javadoc:jar verify</defaultGoal>
             </build>
+            <properties>
+                <line.coverage>0.8</line.coverage>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>default unix</id>
+            <activation>
+                <os><family>unix</family></os>
+            </activation>
+            <build>
+                <defaultGoal>clean package javadoc:jar verify</defaultGoal>
+            </build>
+            <properties>
+                <line.coverage>0.8</line.coverage>
+            </properties>
         </profile>
     </profiles>
     
@@ -370,6 +385,7 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <silent>false</silent>
                     <outputFile>${project.build.directory}/classes/dependencies.txt</outputFile>
                     <includeScope>runtime</includeScope>
                     <outputScope>false</outputScope>

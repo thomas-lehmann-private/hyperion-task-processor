@@ -64,7 +64,11 @@ public enum DocumentReaderFields {
     /**
      * Any group (like the group for a variable).
      */
-    GROUP("group");       
+    GROUP("group"),
+    /**
+     * Each task (at least) may have a list of one or more tags.
+     */
+    TAGS("tags");
 
     /**
      * Name of the field.

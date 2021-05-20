@@ -58,8 +58,10 @@ public class ApplicationTest {
     public void test3rdParty() {
         MessagesCollector.clear();
         Application.main(List.of("--third-party").toArray(String[]::new));
+        final var lines = MessagesCollector.getMessages();
+
         // probe testing (we do not construct the 3rd party again here).
-        for (final var line: MessagesCollector.getMessages()) {
+        for (final var line: lines) {
             assertTrue(Pattern.matches("group id: .*, artifact id: .*, version: .*", line));
         }
     }

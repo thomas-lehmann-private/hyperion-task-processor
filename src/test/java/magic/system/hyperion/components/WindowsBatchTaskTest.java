@@ -69,6 +69,7 @@ public class WindowsBatchTaskTest {
         final var result = task.run(Collections.emptyMap());
 
         assertEquals(HELLO_WORD_TEXT, result.getVariable().getValue());
+        assertTrue(task.getTags().isEmpty());
         assertTrue(result.isSuccess());
     }
 

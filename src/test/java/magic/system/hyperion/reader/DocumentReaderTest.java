@@ -25,6 +25,7 @@ package magic.system.hyperion.reader;
 
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
+import java.util.List;
 
 import magic.system.hyperion.tools.MessagesCollector;
 import org.junit.jupiter.api.DisplayName;
@@ -75,10 +76,15 @@ public class DocumentReaderTest {
         assertNotNull(document, "Document shouldn't be null");
         //CHECKSTYLE.ON: MultipleStringLiterals
         assertEquals(1, document.getListOfTaskGroups().size());
-        assertEquals(2, document.getListOfTaskGroups().get(0).getListOfTasks().size());
+        //CHECKSTYLE.OFF: MagicNumber - ok here
+        assertEquals(3, document.getListOfTaskGroups().get(0).getListOfTasks().size());
+        //CHECKSTYLE.ON: MagicNumber
+        final var tags = document.getListOfTaskGroups().get(0).getListOfTasks().get(2).getTags();
+        assertEquals("tag support", tags.get(0));
+        assertEquals("third example", tags.get(1));
 
         MessagesCollector.clear();
-        document.run();
+        document.run(List.of());
         assertTrue(MessagesCollector.getMessages().contains("set variable default=hello world!"));
         assertTrue(MessagesCollector.getMessages().contains("set variable test2=this is a demo"));
     }

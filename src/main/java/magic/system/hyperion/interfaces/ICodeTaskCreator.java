@@ -21,32 +21,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package magic.system.hyperion.components;
+package magic.system.hyperion.interfaces;
 
-import org.junit.jupiter.api.DisplayName;
+import magic.system.hyperion.components.AbstractTask;
 
 /**
- * Testing of class {@link Document}.
- *
- * @author Thomas Lehmann
+ * Interface for creating a code task (Powershell, Batch, Groovy,
+ * JShell and so on).
  */
-@DisplayName("Testing Document class")
-public class DocumentTest {
-
+@FunctionalInterface
+public interface ICodeTaskCreator {
     /**
-     * Creating a test document.
+     * Create a task with initial title and code.
      *
-     * @return test document.
+     * @param strTitle title of the task.
+     * @param strCode code of the task (or path and filename of the script).
+     * @return instance of a concrete task.
      */
-    private Document createTestDocument() {
-        final var document = new Document();
-        document.getModel().getData().set("mode", "test");
-        final var taskGroup = new TaskGroup("running one after the other", false);
-        taskGroup.add(new PowershellTask("say hello world 1",
-                "Write-Host \"hello world 1!\""));
-        taskGroup.add(new PowershellTask("say hello world 2",
-                "Write-Host \"hello world 2!\""));
-        document.add(taskGroup);
-        return document;
-    }
+    AbstractTask createTask(String strTitle, String strCode);
 }

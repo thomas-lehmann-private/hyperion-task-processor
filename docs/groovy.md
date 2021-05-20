@@ -1,4 +1,4 @@
-# Welcome to the Groovy task
+# Groovy task
 
 ## Minimal example
 
@@ -14,6 +14,25 @@ taskgroups:
       - type: groovy
         title: a simple example
         code: println 'hello world!'
+```
+
+## Minimal example with tags
+
+The application can be called with the repeatable option --tag. Specifying the
+those filter task will be executed only contain those tags. Task with other tags
+or even without any tags will be ignored then.
+
+```yaml
+---
+taskgroups:
+  - title: test
+    tasks:
+      - type: groovy
+        title: a simple example
+        code: println 'hello world!'
+        tags:
+          - simple
+          - example         
 ```
 
 ## Example with variable

@@ -38,6 +38,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
@@ -86,6 +87,16 @@ public final class Application {
      * (G)lobal (o)ption (l)ong (n)ame for 3rd-party.
      */
     private static final String GOLN_3RD_PARTY = "third-party";
+
+    /**
+     * (G)lobal (o)ption (l)ong (n)ame for tag.
+     */
+    private static final String GOLN_TAG = "tag";
+
+    /**
+     * (G)lobal (o)ption (s)ong (n)ame for tag.
+     */
+    private static final String GOSN_TAG = "t";
 
     /**
      * Command run.
@@ -144,7 +155,9 @@ public final class Application {
         } else if (result.getGlobalOptions().containsKey(GOLN_3RD_PARTY)) {
             print3rdParty();
         } else if (result.getCommandName().equals(COMMAND_RUN)) {
-            processDocument(Paths.get(result.getCommandOptions().get(COLN_FILE).get(0)));
+            final List<String> tags = result.getGlobalOptions().containsKey(GOLN_TAG)
+                    ? result.getGlobalOptions().get(GOLN_TAG): Collections.emptyList();
+            processDocument(Paths.get(result.getCommandOptions().get(COLN_FILE).get(0)), tags);
         }
     }
 
@@ -152,11 +165,12 @@ public final class Application {
      * Processing document.
      *
      * @param path path and filename of document.
+     * @param tags the tags to be used to filter tasks.
      */
-    private void processDocument(final Path path) {
+    private void processDocument(final Path path, final List<String> tags) {
         final var reader = new DocumentReader(path);
         final var document = reader.read();
-        document.run();
+        document.run(tags);
     }
 
     /**
@@ -203,10 +217,12 @@ public final class Application {
                         }
                     }
 
-                    final var strVersion = tokens[3].substring(0, iPos).trim();
-                    final var logger = LoggerFactory.getLogger("3RDPARTY");
-                    logger.info(String.format("group id: %s, artifact id: %s, version: %s",
-                            strGroupId, strArtifactId, strVersion));
+                    if (iPos >= 0) {
+                        final var strVersion = tokens[3].substring(0, iPos).trim();
+                        final var logger = LoggerFactory.getLogger("3RDPARTY");
+                        logger.info(String.format("group id: %s, artifact id: %s, version: %s",
+                                strGroupId, strArtifactId, strVersion));
+                    }
                 }
             }
             //CHECKSTYLE.ON: MagicNumber:
@@ -248,6 +264,13 @@ public final class Application {
                         .setLongName(GOLN_3RD_PARTY)
                         .setDescription("displaying used 3rd party libraries")
                         .setType(OptionType.BOOLEAN)
+                        .build()).add(
+                CliOption.builder()
+                        .setShortName(GOSN_TAG)
+                        .setLongName(GOLN_TAG)
+                        .setDescription("provide tag to filter tasks")
+                        .setType(OptionType.STRING)
+                        .setRepeatable(true)
                         .build()
         ).build();
     }

@@ -43,7 +43,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Lehmann
  */
-public class TaskGroup extends Component implements IRunnable<Boolean, Document> {
+public class TaskGroup extends Component implements IRunnable<Boolean, List<String>> {
     /**
      * Logger for this class.
      */
@@ -117,11 +117,17 @@ public class TaskGroup extends Component implements IRunnable<Boolean, Document>
     }
 
     @Override
-    public Boolean run(Document input) {
+    public Boolean run(final List<String> tags) {
         boolean success = true;
 
         if (!this.bRunTasksInParallel) {
             for (var task : this.listOfTasks) {
+                // ignore task when its tags do not match the filter (if the task does
+                // not have tags the task is also ignored)
+                if (!tags.isEmpty() && task.getTags().stream().noneMatch(tags::contains)) {
+                    continue;
+                }
+
                 final var result = task.run(this.variables);
                 this.variables.put(result.getVariable().getName(), result.getVariable());
                 LOGGER.info(String.format("set variable %s=%s",

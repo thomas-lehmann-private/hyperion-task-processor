@@ -17,7 +17,7 @@ jobs:
           distribution: 'adopt'            # Java distribution
           java-version: ${{ matrix.java }} # Java version
           check-latest: true               # Checking that cached version is the latest
-      - run: mvn
+      - run: mvn --batch-mode
       - uses: codecov/codecov-action@v1
         with:
           file: ./**/target/site/jacoco/jacoco.xml

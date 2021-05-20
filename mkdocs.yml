@@ -5,7 +5,8 @@ repo_url: 'https://github.com/thomas-lehmann-private/hyperion'
 
 nav:
     - Home: index.md
-    - Hyperion:
+    - Index:
+       - hyperion.md
        - cli.md
        - groovy.md
 

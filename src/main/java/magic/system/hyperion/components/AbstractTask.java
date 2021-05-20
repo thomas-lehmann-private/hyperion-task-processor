@@ -23,13 +23,12 @@
  */
 package magic.system.hyperion.components;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import magic.system.hyperion.interfaces.IRunnable;
 import magic.system.hyperion.interfaces.IVariable;
@@ -42,11 +41,6 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  *
  * @author Thomas Lehmann
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
-@JsonSubTypes({
-    @JsonSubTypes.Type(value = PowershellTask.class, name = "powershell")
-})
 public abstract class AbstractTask extends Component
         implements IRunnable<TaskResult, Map<String, IVariable>> {
 
@@ -61,6 +55,11 @@ public abstract class AbstractTask extends Component
     private final Variable variable;
 
     /**
+     * List of tags.
+     */
+    private List<String> tags;
+
+    /**
      * Initialize task.
      *
      * @param strInitTitle - title of the task.
@@ -71,6 +70,7 @@ public abstract class AbstractTask extends Component
         this.strCode = strInitCode;
         this.variable = new Variable();
         this.variable.setName("default");
+        this.tags = new ArrayList<>();
     }
 
     /**
@@ -101,11 +101,29 @@ public abstract class AbstractTask extends Component
     }
 
     /**
+     * Get list of tags (read only).
+     * @return list of tags.
+     */
+    public List<String> getTags() {
+        return Collections.unmodifiableList(this.tags);
+    }
+
+    /**
+     * Adding a tag that doesn't exist yet.
+     *
+     * @param strTag new tag to add.
+     */
+    public void addTag(final String strTag) {
+        if (!this.tags.contains(strTag)) {
+            this.tags.add(strTag);
+        }
+    }
+
+    /**
      * Checking for code to represent an existing path and filename.
      *
      * @return true when given code represents an existing path and filename.
      */
-    @JsonIgnore
     public boolean isRegularFile() {
         boolean success;
         try {
@@ -122,6 +140,7 @@ public abstract class AbstractTask extends Component
                 .append(this.getTitle())
                 .append(this.strCode)
                 .append(this.variable)
+                .append(this.tags)
                 .build();
     }
 
@@ -142,6 +161,7 @@ public abstract class AbstractTask extends Component
                 .append(this.getTitle(), other.getTitle())
                 .append(this.strCode, other.getCode())
                 .append(this.variable, other.getVariable())
+                .append(this.tags, other.getTags())
                 .build();
     }
 }

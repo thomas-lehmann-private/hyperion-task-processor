@@ -26,8 +26,8 @@ package magic.system.hyperion.components;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.EnabledOnOs;
-import org.junit.jupiter.api.condition.OS;
+
+import java.util.List;
 
 /**
  * Testing class {@link TaskGroup}.
@@ -41,16 +41,10 @@ public class TaskGroupTest {
      * Testing the ordered execution.
      */
     @Test
-    @EnabledOnOs(OS.WINDOWS)
-    public void testRunTaskOneAfterTheOtherForPowerShell() {
-        final var taskGroup = createTestTaskGroupForPowershell(false);
-        // FIXME: Document the moment but should be model.
-        // FIXME: Should return TaskGroupResult (same idea as TaskResult)
-        //   - isSuccess the same
-        //   - what else? -> variables?
-        taskGroup.run(null);
-        assertEquals(taskGroup.getListOfTasks().size(),
-                taskGroup.getVariables().size());
+    public void testRunTaskOneAfterTheOther() {
+        final var taskGroup = createTestTaskGroup(false);
+        taskGroup.run(List.of());
+        assertEquals(taskGroup.getListOfTasks().size(), taskGroup.getVariables().size());
         //CHECKSTYLE.OFF: MultipleStringLiterals - not a problem here
         assertEquals("Gandalf", taskGroup.getVariables().get("name1").getValue());
         assertEquals("Frodo", taskGroup.getVariables().get("name2").getValue());
@@ -58,20 +52,42 @@ public class TaskGroupTest {
     }
 
     /**
-     * Creating a test task group with powershell tasks.
+     * Testing the ordered and filtered execution.
+     */
+    @Test
+    public void testRunTaskOneAfterTheOtherFiltered() {
+        final var taskGroup = createTestTaskGroup(false);
+        //CHECKSTYLE.OFF: MultipleStringLiterals - not a problem here
+        taskGroup.run(List.of("groovy"));
+        assertEquals(1, taskGroup.getVariables().size());
+        assertEquals("Gandalf", taskGroup.getVariables().get("name1").getValue());
+        //CHECKSTYLE.ON: MultipleStringLiterals
+    }
+
+    /**
+     * Creating a test task group with tasks working on all platforms.
      *
      * @param bRunTasksInParallel when true then run tasks in parallel.
      * @return instance of {@link TaskGroup}.
      */
-    private TaskGroup createTestTaskGroupForPowershell(final boolean bRunTasksInParallel) {
+    private TaskGroup createTestTaskGroup(final boolean bRunTasksInParallel) {
         //CHECKSTYLE.OFF: MultipleStringLiterals - not a problem here
         final var taskGroup = new TaskGroup("test", bRunTasksInParallel);
-        var task = new PowershellTask("test1", "Write-Host \"Gandalf\"");
-        task.getVariable().setName("name1");
-        taskGroup.add(task);
-        task = new PowershellTask("test2", "Write-Host \"Frodo\"");
-        task.getVariable().setName("name2");
-        taskGroup.add(task);
+
+        //CHECKSTYLE.OFF: MultipleStringLiterals - not a problem here
+        final var task1 = new GroovyTask("test1", "println 'Gandalf'");
+        task1.getVariable().setName("name1");
+        task1.addTag("groovy");
+        task1.addTag("test1");
+        taskGroup.add(task1);
+
+        final var task2 = new JShellTask("test2", "System.out.println(\"Frodo\");");
+        task2.getVariable().setName("name2");
+        task2.addTag("jshell");
+        task2.addTag("test2");
+        taskGroup.add(task2);
+        //CHECKSTYLE.ON: MultipleStringLiterals
+
         return taskGroup;
         //CHECKSTYLE.ON: MultipleStringLiterals
     }

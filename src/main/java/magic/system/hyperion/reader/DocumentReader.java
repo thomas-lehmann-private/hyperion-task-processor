@@ -26,15 +26,20 @@ package magic.system.hyperion.reader;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+
 import java.io.IOException;
 import java.nio.file.Path;
 
+import magic.system.hyperion.components.AbstractTask;
 import magic.system.hyperion.components.Document;
 import magic.system.hyperion.components.GroovyTask;
+import magic.system.hyperion.components.JShellTask;
 import magic.system.hyperion.components.PowershellTask;
 import magic.system.hyperion.components.TaskGroup;
 import magic.system.hyperion.components.Variable;
+import magic.system.hyperion.components.WindowsBatchTask;
 import magic.system.hyperion.generics.Converters;
+import magic.system.hyperion.interfaces.ICodeTaskCreator;
 import magic.system.hyperion.matcher.Matcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -120,17 +125,17 @@ public class DocumentReader {
     }
 
     private void readTaskGroup(final JsonNode node) throws DocumentReaderException {
-        final var names = Converters.convertToSortedList(node.fieldNames());       
+        final var names = Converters.convertToSortedList(node.fieldNames());
         final var matcher = Matcher.of(names);
         matcher.requireExactlyOnce(DocumentReaderFields.TITLE.getFieldName());
         matcher.requireExactlyOnce(DocumentReaderFields.TASKS.getFieldName());
         matcher.allow(DocumentReaderFields.PARALLEL.getFieldName());
-        
+
         if (!matcher.matches(names)) {
             throw new DocumentReaderException(
                     "Task group fields are missing or unknown!");
         }
-        
+
         final var taskGroup = new TaskGroup(node.get(
                 DocumentReaderFields.TITLE.getFieldName()).asText(),
                 node.get(
@@ -159,11 +164,23 @@ public class DocumentReader {
         final var strType = node.get(DocumentReaderFields.TYPE.getFieldName()).asText();
         switch (strType) {
             case "powershell": {
-                readPowershellTask(taskGroup, node);
+                readCodeTask(taskGroup, node,
+                        (strTitle, strCode) -> new PowershellTask(strTitle, strCode));
+                break;
+            }
+            case "batch": {
+                readCodeTask(taskGroup, node,
+                        (strTitle, strCode) -> new WindowsBatchTask(strTitle, strCode));
+                break;
+            }
+            case "jshell": {
+                readCodeTask(taskGroup, node,
+                        (strTitle, strCode) -> new JShellTask(strTitle, strCode));
                 break;
             }
             case "groovy": {
-                readGroovyTask(taskGroup, node);
+                readCodeTask(taskGroup, node,
+                        (strTitle, strCode) -> new GroovyTask(strTitle, strCode));
                 break;
             }
             default: {
@@ -175,45 +192,14 @@ public class DocumentReader {
     }
 
     /**
-     * Reading a powershell task.
+     * Reading a code task.
      *
-     * @param taskGroup the task group where to add the powershell task.
-     * @param node the node to process containing the powershell task.
+     * @param taskGroup   the task group where to add the code task.
+     * @param node        the node to process containing the code task.
+     * @param taskCreator function that does create the task.
      */
-    private void readPowershellTask(final TaskGroup taskGroup, final JsonNode node)
-            throws DocumentReaderException {
-        final var names = Converters.convertToSortedList(node.fieldNames());       
-        final var matcher = Matcher.of(names);
-
-        matcher.requireExactlyOnce(DocumentReaderFields.TYPE.getFieldName());
-        matcher.requireExactlyOnce(DocumentReaderFields.CODE.getFieldName());
-        matcher.allow(DocumentReaderFields.TITLE.getFieldName());
-        matcher.allow(DocumentReaderFields.VARIABLE.getFieldName());
-
-        if (!matcher.matches(names)) {
-            throw new DocumentReaderException(
-                    "The powershell task fields are not correct!");
-        }
-        
-        final var strTitle = node.has(DocumentReaderFields.TITLE.getFieldName())
-                ? node.get(DocumentReaderFields.TITLE.getFieldName()).asText(): "";
-        
-        final var task = new PowershellTask(strTitle,
-                node.get(DocumentReaderFields.CODE.getFieldName()).asText());
-        if (node.has(DocumentReaderFields.VARIABLE.getFieldName())) {
-            readVariable(task.getVariable(),
-            node.get(DocumentReaderFields.VARIABLE.getFieldName()));
-        }
-        taskGroup.add(task);
-    }
-
-    /**
-     * Reading a groovy task.
-     *
-     * @param taskGroup the task group where to add the groovy task.
-     * @param node the node to process containing the groovy task.
-     */
-    private void readGroovyTask(final TaskGroup taskGroup, final JsonNode node)
+    private void readCodeTask(final TaskGroup taskGroup, final JsonNode node,
+                              final ICodeTaskCreator taskCreator)
             throws DocumentReaderException {
         final var names = Converters.convertToSortedList(node.fieldNames());
         final var matcher = Matcher.of(names);
@@ -222,26 +208,32 @@ public class DocumentReader {
         matcher.requireExactlyOnce(DocumentReaderFields.CODE.getFieldName());
         matcher.allow(DocumentReaderFields.TITLE.getFieldName());
         matcher.allow(DocumentReaderFields.VARIABLE.getFieldName());
+        matcher.allow(DocumentReaderFields.TAGS.getFieldName());
 
         if (!matcher.matches(names)) {
-            throw new DocumentReaderException(
-                    "The groovy task fields are not correct!");
+            throw new DocumentReaderException("The task fields are not correct!");
         }
 
         final var strTitle = node.has(DocumentReaderFields.TITLE.getFieldName())
-                ? node.get(DocumentReaderFields.TITLE.getFieldName()).asText(): "";
+                ? node.get(DocumentReaderFields.TITLE.getFieldName()).asText() : "";
 
-        final var task = new GroovyTask(strTitle,
+        final var task = taskCreator.createTask(strTitle,
                 node.get(DocumentReaderFields.CODE.getFieldName()).asText());
+
         if (node.has(DocumentReaderFields.VARIABLE.getFieldName())) {
             readVariable(task.getVariable(),
                     node.get(DocumentReaderFields.VARIABLE.getFieldName()));
         }
+
+        if (node.has(DocumentReaderFields.TAGS.getFieldName())) {
+            readTags(task, node.get(DocumentReaderFields.TAGS.getFieldName()));
+        }
+
         taskGroup.add(task);
     }
 
     private void readVariable(final Variable variable, final JsonNode node) {
-        final var names = Converters.convertToSortedList(node.fieldNames());       
+        final var names = Converters.convertToSortedList(node.fieldNames());
         final var matcher = Matcher.of(names);
 
         matcher.requireExactlyOnce(DocumentReaderFields.NAME.getFieldName());
@@ -253,8 +245,21 @@ public class DocumentReader {
             variable.setRegex(node.get(DocumentReaderFields.REGEX.getFieldName()).asText());
             if (node.has(DocumentReaderFields.GROUP.getFieldName())) {
                 variable.setRegexGroup(
-        node.get(DocumentReaderFields.GROUP.getFieldName()).asInt());
+                        node.get(DocumentReaderFields.GROUP.getFieldName()).asInt());
             }
+        }
+    }
+
+    /**
+     * Reading tags into the task.
+     *
+     * @param task the concrete task where to add the tags.
+     * @param node the node where to read the tags from.
+     */
+    private void readTags(final AbstractTask task, final JsonNode node) {
+        final var iter = node.elements();
+        while (iter.hasNext()) {
+            task.addTag(iter.next().asText());
         }
     }
 }
