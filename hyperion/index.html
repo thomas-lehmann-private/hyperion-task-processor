@@ -6,9 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <meta name="author" content="Thomas Lehmann <thomas.lehmann.private@gmail.com">
-        <link rel="canonical" href="https://thomas-lehmann-private.github.io/hyperion/groovy/">
+        <link rel="canonical" href="https://thomas-lehmann-private.github.io/hyperion/hyperion/">
         <link rel="shortcut icon" href="../img/favicon.ico">
-        <title>Groovy task - Hyperion</title>
+        <title>Application - Hyperion</title>
         <link href="../css/bootstrap.min.css" rel="stylesheet">
         <link href="../css/font-awesome.min.css" rel="stylesheet">
         <link href="../css/base.css" rel="stylesheet">
@@ -41,7 +41,7 @@
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="../hyperion/" class="dropdown-item">Application</a>
+    <a href="./" class="dropdown-item active">Application</a>
 </li>
                                     
 <li>
@@ -49,7 +49,7 @@
 </li>
                                     
 <li>
-    <a href="./" class="dropdown-item active">Groovy task</a>
+    <a href="../groovy/" class="dropdown-item">Groovy task</a>
 </li>
                                 </ul>
                             </li>
@@ -62,17 +62,17 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../cli/" class="nav-link">
+                                <a rel="prev" href=".." class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" class="nav-link disabled">
+                                <a rel="next" href="../cli/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="https://github.com/thomas-lehmann-private/hyperion/edit/master/docs/groovy.md" class="nav-link"><i class="fa fa-github"></i> Edit on GitHub</a>
+                                <a href="https://github.com/thomas-lehmann-private/hyperion/edit/master/docs/hyperion.md" class="nav-link"><i class="fa fa-github"></i> Edit on GitHub</a>
                             </li>
                     </ul>
                 </div>
@@ -92,21 +92,13 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-level="1"><a href="#groovy-task" class="nav-link">Groovy task</a>
+            <li class="nav-item" data-level="1"><a href="#application" class="nav-link">Application</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-level="2"><a href="#minimal-example" class="nav-link">Minimal example</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#minimal-example-with-tags" class="nav-link">Minimal example with tags</a>
+            <li class="nav-item" data-level="2"><a href="#introduction" class="nav-link">Introduction</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#example-with-variable" class="nav-link">Example with variable</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#example-with-templating" class="nav-link">Example with templating</a>
+            <li class="nav-item" data-level="2"><a href="#command-line-interface" class="nav-link">Command line interface</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -117,69 +109,44 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="groovy-task">Groovy task</h1>
-<h2 id="minimal-example">Minimal example</h2>
-<p>The minimal example does not require a variable but the task
-does have one (always) with the name '<strong>default</strong>'.
-The default regex is the whole text, and the default group is 0.</p>
-<pre><code class="language-yaml">---
-taskgroups:
-  - title: test
-    tasks:
-      - type: groovy
-        title: a simple example
-        code: println 'hello world!'
+<h1 id="application">Application</h1>
+<h2 id="introduction">Introduction</h2>
+<p>The hyperion tool allows processing a YAML document with tasks. There can be many tasks
+like:</p>
+<ul>
+<li>Powershell (functional on Windows only)</li>
+<li>Batch (functional on Windows only)</li>
+<li>Groovy (all platforms because: embedded)</li>
+<li>JShell (all platforms because: embedded)</li>
+</ul>
+<p>That's the current list and will be updated when new tasks will be added.</p>
+<h2 id="command-line-interface">Command line interface</h2>
+<p>The current command line options look like following:</p>
+<pre><code>java -jar hyperion-1.0.0-SNAPSHOT.jar [global options] [command [command options]]
+    version: 1.0.0-SNAPSHOT, build timestamp: 2021-05-20 03:48
+    author: Thomas Lehmann &lt;thomas.lehmann.private@gmail.com&gt;
+
+Global options:
+    -h,      --help        - displaying this help
+             --third-party - displaying used 3rd party libraries
+    -t&lt;str&gt;, --tag=&lt;str&gt;   - provide tag to filter tasks [repeatable]
+
+List of available commands:
+    run - Running one document with tasks to be processed
+
+Options for command 'run':
+    -f&lt;path&gt;, --file=&lt;path&gt; - Document with tasks to be processed [required]
 </code></pre>
-<h2 id="minimal-example-with-tags">Minimal example with tags</h2>
-<p>The application can be called with the repeatable option --tag. Specifying the
-those filter task will be executed only contain those tags. Task with other tags
-or even without any tags will be ignored then.</p>
-<pre><code class="language-yaml">---
-taskgroups:
-  - title: test
-    tasks:
-      - type: groovy
-        title: a simple example
-        code: println 'hello world!'
-        tags:
-          - simple
-          - example         
-</code></pre>
-<h2 id="example-with-variable">Example with variable</h2>
-<p>The example with variable shows how to use the variable to extract information.
-It's exactly the same way as it does work for other tasks.
-You can specify the regex for filtering and - if required - the regex group;
-the default group is 0.</p>
-<pre><code class="language-yaml">---
-taskgroups:
-  - title: test
-    tasks:
-        - type: groovy
-          title: a simple example
-          code: println '---&gt; this is a demo &lt;---'
-          variable:
-              name: test2
-              regex: &quot;&gt;(.*)&lt;&quot;
-              group: 1
-</code></pre>
-<h2 id="example-with-templating">Example with templating</h2>
-<p>The task group does store a map of key/value where key is the name of the variable, and
-the value is a variable. If you do not specify a name for a variable the name is
-'<strong>default</strong>'. In the following example the first task does write 'hello world!' into
-the variable, and the second task does evaluate the value from the first task.
-Of course the second one write into the same variable its output since also there
-no name has been specified.</p>
-<pre><code class="language-yaml">---
-taskgroups:
-  - title: test
-    tasks:
-      - type: groovy
-        title: a simple example 1
-        code: println 'hello world!'
-      - type: groovy
-        title: a simple example 2
-        code: println '{{ variables.default.value }}'
-</code></pre></div>
+<p>Also those help should be good enough to help on usage here a few notes:</p>
+<ul>
+<li>if you use --help you get the help. However, if you would also specify the command "run"
+   you are forced to specify the path of the document too.</li>
+<li>Global options have to be specified before a command otherwise options would be
+   interpreted as option related to a command and --help would be unknown then.</li>
+<li>You can specify one command only.</li>
+<li>Specifying a tag all tasks will run that have that tag only. Tasks with other
+   tags or even without tags will be ignored.</li>
+</ul></div>
             </div>
         </div>
 
