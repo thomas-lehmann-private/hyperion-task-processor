@@ -44,14 +44,6 @@ public class Pair<F, S> {
     private final S second;
 
     /**
-     * Default c'tor.
-     */
-    public Pair() {
-        this.first = null;
-        this.second = null;
-    }
-
-    /**
      * Initialize pair with two values.
      *
      * @param initFirst first value of pair.

@@ -30,7 +30,6 @@ import org.junit.jupiter.api.condition.EnabledOnOs;
 import org.junit.jupiter.api.condition.OS;
 
 import java.net.URISyntaxException;
-import java.util.Collections;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -39,6 +38,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Testing of class {@link WindowsBatchTask}.
+ *
+ * @author Thomas Lehmann
  */
 @DisplayName("Testing WindowsBatchTask")
 @EnabledOnOs(OS.WINDOWS)
@@ -66,7 +67,7 @@ public class WindowsBatchTaskTest {
         final var task = new WindowsBatchTask(PRINT_HELLO_WORLD_TITLE,
                 "echo " + HELLO_WORD_TEXT);
         assertEquals(PRINT_HELLO_WORLD_TITLE, task.getTitle());
-        final var result = task.run(Collections.emptyMap());
+        final var result = task.run(new TaskParameters());
 
         assertEquals(HELLO_WORD_TEXT, result.getVariable().getValue());
         assertTrue(task.getTags().isEmpty());
@@ -75,7 +76,7 @@ public class WindowsBatchTaskTest {
 
     /**
      * Testing (finally) of {@link AbstractTask#getTitle()} and
-     * {@link PowershellTask#run(java.util.Map) } in context of code
+     * {@link PowershellTask#run(TaskParameters)}} in context of code
      * representing a path and filename to an existing powershell script.
      *
      * @throws URISyntaxException when URL is bad
@@ -84,7 +85,7 @@ public class WindowsBatchTaskTest {
     public void testHelloWorldFile() throws URISyntaxException {
         final var scriptPath = FileUtils.getResourcePath("/scripts/say-hello-world.cmd");
         final var task = new WindowsBatchTask(PRINT_HELLO_WORLD_TITLE, scriptPath.toString());
-        final var result = task.run(Collections.emptyMap());
+        final var result = task.run(new TaskParameters());
 
         assertEquals(HELLO_WORD_TEXT, result.getVariable().getValue());
         assertTrue(result.isSuccess());
@@ -92,7 +93,7 @@ public class WindowsBatchTaskTest {
 
     /**
      * Testing (finally) of {@link AbstractTask#getTitle()} and
-     * {@link PowershellTask#run(java.util.Map) } with errors from the script.
+     * {@link PowershellTask#run(TaskParameters)}} with errors from the script.
      *
      * @throws java.net.URISyntaxException when the syntax of the URI is wrong.
      */
@@ -100,7 +101,7 @@ public class WindowsBatchTaskTest {
     public void testScriptWithStderr() throws URISyntaxException {
         final var scriptPath = FileUtils.getResourcePath("/scripts/say-error.cmd");
         final var task = new WindowsBatchTask("print error", scriptPath.toString());
-        final var result = task.run(Collections.emptyMap());
+        final var result = task.run(new TaskParameters());
 
         assertTrue(result.getVariable().getValue().isEmpty());
         assertTrue(result.isSuccess());
@@ -108,20 +109,20 @@ public class WindowsBatchTaskTest {
 
     /**
      * Testing (finally) of {@link AbstractTask#getTitle()} and
-     * {@link PowershellTask#run(Map)} with an exit code not 0.
+     * {@link PowershellTask#run(TaskParameters)} with an exit code not 0.
      */
     @Test
     public void testExitCode() {
         final var task = new WindowsBatchTask("testing exit code",
                 "exit " + PROCESS_EXIT_CODE);
-        final var result = task.run(Collections.emptyMap());
+        final var result = task.run(new TaskParameters());
         assertFalse(result.isSuccess());
         // FIXME: somehow to provide the concrete exit code (Attribute?)
     }
 
     /**
      * Testing (finally) of {@link AbstractTask#getTitle()} and
-     * {@link PowershellTask#run(java.util.Map) } in context of inline code with
+     * {@link PowershellTask#run(TaskParameters)}} in context of inline code with
      * rendering variables.
      */
     //@Test
@@ -132,7 +133,9 @@ public class WindowsBatchTaskTest {
         final var task = new WindowsBatchTask(PRINT_HELLO_WORLD_TITLE,
                 "echo {{ variables.text.value }}");
         assertEquals(PRINT_HELLO_WORLD_TITLE, task.getTitle());
-        final var result = task.run(Map.of("text", variable));
+
+        final var parameters = new TaskParameters(new Model(), Map.of("text", variable));
+        final var result = task.run(parameters);
 
         assertEquals(HELLO_WORD_TEXT, result.getVariable().getValue());
         assertTrue(result.isSuccess());

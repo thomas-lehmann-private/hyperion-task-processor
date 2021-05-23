@@ -7,8 +7,10 @@ nav:
     - Home: index.md
     - Index:
        - hyperion.md
-       - cli.md
        - groovy.md
+       - templating.md
+       - Internal:
+          - cli.md
 
 theme:
     name: flatly

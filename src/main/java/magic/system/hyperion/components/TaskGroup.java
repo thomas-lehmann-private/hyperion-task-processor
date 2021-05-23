@@ -23,14 +23,13 @@
  */
 package magic.system.hyperion.components;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import magic.system.hyperion.generics.Pair;
 import magic.system.hyperion.interfaces.IRunnable;
 import magic.system.hyperion.interfaces.IVariable;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -43,7 +42,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Lehmann
  */
-public class TaskGroup extends Component implements IRunnable<Boolean, List<String>> {
+public class TaskGroup extends Component implements IRunnable<Boolean, Pair<Model, List<String>>> {
     /**
      * Logger for this class.
      */
@@ -70,9 +69,8 @@ public class TaskGroup extends Component implements IRunnable<Boolean, List<Stri
      * @param strInitTitle title of the group.
      * @param bInitRunTasksInParallel when true then run tasks in parallel.
      */
-    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-    public TaskGroup(@JsonProperty("title") final String strInitTitle,
-            @JsonProperty("runTasksInParallel") final boolean bInitRunTasksInParallel) {
+    public TaskGroup(final String strInitTitle,
+            final boolean bInitRunTasksInParallel) {
         super(strInitTitle);
         this.variables = new ConcurrentHashMap<>();
         this.listOfTasks = new ArrayList<>();
@@ -84,7 +82,6 @@ public class TaskGroup extends Component implements IRunnable<Boolean, List<Stri
      *
      * @return variables.
      */
-    @JsonIgnore
     public Map<String, IVariable> getVariables() {
         return Collections.unmodifiableMap(this.variables);
     }
@@ -117,8 +114,12 @@ public class TaskGroup extends Component implements IRunnable<Boolean, List<Stri
     }
 
     @Override
-    public Boolean run(final List<String> tags) {
+    public Boolean run(final Pair<Model, List<String>> parameters) {
         boolean success = true;
+
+        // run parameters
+        final Model model = parameters.getFirst();
+        final List<String> tags = parameters.getSecond();
 
         if (!this.bRunTasksInParallel) {
             for (var task : this.listOfTasks) {
@@ -128,7 +129,7 @@ public class TaskGroup extends Component implements IRunnable<Boolean, List<Stri
                     continue;
                 }
 
-                final var result = task.run(this.variables);
+                final var result = task.run(TaskParameters.of(model, this.variables));
                 this.variables.put(result.getVariable().getName(), result.getVariable());
                 LOGGER.info(String.format("set variable %s=%s",
                         result.getVariable().getName(), result.getVariable().getValue()));

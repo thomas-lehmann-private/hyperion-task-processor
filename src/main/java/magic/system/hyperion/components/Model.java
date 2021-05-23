@@ -23,7 +23,7 @@
  */
 package magic.system.hyperion.components;
 
-import magic.system.hyperion.data.AttributeList;
+import magic.system.hyperion.data.AttributeMap;
 
 /**
  * Model with data required for the processing.
@@ -36,13 +36,13 @@ public class Model {
      * List of string based attributes with a value being a list of strings or
      * just a string.
      */
-    final AttributeList data;
+    final AttributeMap data;
 
     /**
      * Initialize model.
      */
     public Model() {
-        this.data = new AttributeList();
+        this.data = new AttributeMap();
     }
 
     /**
@@ -50,7 +50,7 @@ public class Model {
      *
      * @return model data.
      */
-    public AttributeList getData() {
+    public AttributeMap getData() {
         return this.data;
     }
 }

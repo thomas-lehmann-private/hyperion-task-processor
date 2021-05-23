@@ -23,21 +23,11 @@
  */
 package magic.system.hyperion.interfaces;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import magic.system.hyperion.data.AttributeList;
-import magic.system.hyperion.data.StringValue;
-
 /**
  * Interface for values.
  *
  * @author Thomas Lehmann
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
-@JsonSubTypes({
-    @JsonSubTypes.Type(value = StringValue.class, name = "string"),
-    @JsonSubTypes.Type(value = AttributeList.class, name = "attributes")
-})
 public interface IValue {
     // Nothing to do here
 }

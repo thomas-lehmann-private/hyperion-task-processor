@@ -86,7 +86,7 @@ public class CliOptionTest {
                 .setType(OptionType.BOOLEAN);
 
         final var throwable = assertThrows(CliException.class, builder::build);
-        assertEquals(CliMessages.BOOLEAN_OPTION_NOT_REPEATABLE.getMessage(),
+        assertEquals(CliMessage.BOOLEAN_OPTION_NOT_REPEATABLE.getMessage(),
                 throwable.getMessage());
     }
 

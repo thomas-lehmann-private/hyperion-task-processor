@@ -25,7 +25,6 @@ package magic.system.hyperion.components;
 
 import groovy.lang.Binding;
 import groovy.lang.GroovyRuntimeException;
-import magic.system.hyperion.interfaces.IVariable;
 import magic.system.hyperion.tools.TemplateEngine;
 
 import groovy.lang.GroovyShell;
@@ -70,7 +69,7 @@ public class GroovyTask extends AbstractTask {
     }
 
     @Override
-    public TaskResult run(Map<String, IVariable> variables) {
+    public TaskResult run(final TaskParameters parameters) {
         TaskResult taskResult = null;
 
         try {
@@ -87,7 +86,8 @@ public class GroovyTask extends AbstractTask {
             } else {
                 final var engine = new TemplateEngine();
                 final var renderedText = engine.render(getCode(),
-                        Map.of("variables", variables));
+                        Map.of("model", parameters.getModel().getData(),
+                                "variables", parameters.getVariables()));
 
                 shell.evaluate(renderedText);
                 getVariable().setValue(writer.toString());

@@ -23,7 +23,6 @@
  */
 package magic.system.hyperion.data;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import magic.system.hyperion.interfaces.IValue;
 
 /**
@@ -43,7 +42,7 @@ public class StringValue implements IValue {
      *
      * @param strInitValue some string value.
      */
-    public StringValue(@JsonProperty("value") final String strInitValue) {
+    public StringValue(final String strInitValue) {
         this.strValue = strInitValue;
     }
 

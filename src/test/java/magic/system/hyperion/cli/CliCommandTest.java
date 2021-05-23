@@ -96,7 +96,7 @@ public class CliCommandTest {
         //CHECKSTYLE.ON: MultipleStringLiterals
 
         final var throwable = assertThrows(CliException.class, builder::build);
-        assertEquals(CliMessages.OPTION_LONG_NAME_MORE_THAN_ONCE.getMessage(),
+        assertEquals(CliMessage.OPTION_LONG_NAME_MORE_THAN_ONCE.getMessage(),
                 throwable.getMessage());
     }
 
@@ -124,7 +124,7 @@ public class CliCommandTest {
 
         if (bExpectedToFail) {
             final var throwable = assertThrows(CliException.class, builder::build);
-            assertEquals(CliMessages.OPTION_SHORT_NAME_MORE_THAN_ONCE.getMessage(),
+            assertEquals(CliMessage.OPTION_SHORT_NAME_MORE_THAN_ONCE.getMessage(),
                     throwable.getMessage());
         } else {
             assertDoesNotThrow(builder::build);
@@ -150,7 +150,7 @@ public class CliCommandTest {
         //CHECKSTYLE.ON: MultipleStringLiterals
 
         final var throwable = assertThrows(CliException.class, builder::build);
-        assertEquals(CliMessages.OPTION_DESCRIPTION_MORE_THAN_ONCE.getMessage(),
+        assertEquals(CliMessage.OPTION_DESCRIPTION_MORE_THAN_ONCE.getMessage(),
                 throwable.getMessage());
     }
 

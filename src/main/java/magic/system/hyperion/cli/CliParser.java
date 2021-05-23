@@ -120,7 +120,7 @@ public class CliParser {
                 continue;
             }
 
-            throw new CliException(CliMessages.UNKNOWN_OPTION.getMessage());
+            throw new CliException(CliMessage.UNKNOWN_OPTION.getMessage());
         }
         validate();
         return this.resultBuilder.build();
@@ -142,7 +142,7 @@ public class CliParser {
         if (optionalCommand.isPresent()) {
             if (this.command.isPresent()) {
                 throw new CliException(
-                        CliMessages.MORE_THAN_ONE_COMMAND_NOT_ALLOWED.getMessage());
+                        CliMessage.MORE_THAN_ONE_COMMAND_NOT_ALLOWED.getMessage());
             } else {
                 this.command = optionalCommand;
                 this.resultBuilder.setCommandName(optionalCommand.get().getName());
@@ -292,12 +292,12 @@ public class CliParser {
         for (final var option : this.globalOptions) {
             if (option.isRequired()
                     && !this.resultBuilder.hasGlobalOption(option.getLongName())) {
-                throw new CliException(CliMessages.REQUIRED_OPTION_MISSING.getMessage());
+                throw new CliException(CliMessage.REQUIRED_OPTION_MISSING.getMessage());
             }
 
             if (!option.isRepeatable()
                     && this.resultBuilder.countGlobalOption(option.getLongName()) > 1) {
-                throw new CliException(CliMessages.OPTION_NOT_REPEATABLE.getMessage());
+                throw new CliException(CliMessage.OPTION_NOT_REPEATABLE.getMessage());
             }
         }
     }

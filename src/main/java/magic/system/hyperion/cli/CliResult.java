@@ -227,7 +227,7 @@ public class CliResult {
         private void validate() throws CliException {
             if ((this.strCommandName == null || strCommandName.isEmpty())
                     && !this.commandOptionsMap.isEmpty()) {
-                throw new CliException(CliMessages.COMMAND_NAME_MISSING.getMessage());
+                throw new CliException(CliMessage.COMMAND_NAME_MISSING.getMessage());
             }
         }
     }

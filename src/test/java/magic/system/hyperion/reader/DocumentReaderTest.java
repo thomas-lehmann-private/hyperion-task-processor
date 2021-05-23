@@ -23,13 +23,13 @@
  */
 package magic.system.hyperion.reader;
 
-import java.net.URISyntaxException;
-import java.nio.file.Paths;
-import java.util.List;
-
 import magic.system.hyperion.tools.MessagesCollector;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.net.URISyntaxException;
+import java.nio.file.Paths;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -41,6 +41,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author Thomas Lehmann
  */
 @DisplayName("Testing DocumentReader class")
+@SuppressWarnings("checkstyle:multiplestringliterals")
 public class DocumentReaderTest {
 
     /**
@@ -54,9 +55,7 @@ public class DocumentReaderTest {
                 "/documents/document-is-valid.yml").toURI());
         final var reader = new DocumentReader(path);
         final var document = reader.read();
-        //CHECKSTYLE.OFF: MultipleStringLiterals - ok here
         assertNotNull(document, "Document shouldn't be null");
-        //CHECKSTYLE.ON: MultipleStringLiterals
         assertEquals(1, document.getListOfTaskGroups().size());
         assertEquals(2, document.getListOfTaskGroups().get(0).getListOfTasks().size());
     }
@@ -72,9 +71,7 @@ public class DocumentReaderTest {
                 "/documents/document-with-groovy.yml").toURI());
         final var reader = new DocumentReader(path);
         final var document = reader.read();
-        //CHECKSTYLE.OFF: MultipleStringLiterals - ok here
         assertNotNull(document, "Document shouldn't be null");
-        //CHECKSTYLE.ON: MultipleStringLiterals
         assertEquals(1, document.getListOfTaskGroups().size());
         //CHECKSTYLE.OFF: MagicNumber - ok here
         assertEquals(3, document.getListOfTaskGroups().get(0).getListOfTasks().size());
@@ -87,5 +84,31 @@ public class DocumentReaderTest {
         document.run(List.of());
         assertTrue(MessagesCollector.getMessages().contains("set variable default=hello world!"));
         assertTrue(MessagesCollector.getMessages().contains("set variable test2=this is a demo"));
+    }
+
+    /**
+     * Intention to test reading of the model.
+     *
+     * @throws URISyntaxException when loading of the document has failed.
+     */
+    @Test
+    public void testReaderForJustAModel() throws URISyntaxException {
+        final var path = Paths.get(getClass().getResource(
+                "/documents/valid-document-with-just-a-model.yml").toURI());
+        final var reader = new DocumentReader(path);
+        final var document = reader.read();
+        assertNotNull(document, "Document shouldn't be null");
+        assertEquals("this is a test model (main model)",
+                document.getModel().getData().getString("description"));
+        assertEquals(List.of("hello world 1", "hello world 2", "hello world 3").toString(),
+                document.getModel().getData().getList("listOfMessages").toString());
+        assertEquals("this is a sub model inside a list of the main model",
+                document.getModel().getData().getList("listOfAnything")
+                        .getAttributeList(1)
+                        .getAttributeList("subModel1").getString("description"));
+        assertEquals(List.of("entry 1", "entry 2", "entry 3").toString(),
+                document.getModel().getData().getList("listOfAnything")
+                        .getAttributeList(2)
+                        .getList("subList").toString());
     }
 }

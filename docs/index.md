@@ -4,26 +4,28 @@ The special task processing tool
 
 ## Main goals
 
-At lot of things are planned (and already started):
+For the main goals and the current progress please have a look
+at current [Milestone 1.0.0](https://github.com/thomas-lehmann-private/hyperion/issues?q=is%3Aopen+is%3Aissue+milestone%3A1.0.0).
+You can see there which issues are closed and which ones are in the queue.
+The list of open issues is not necessarily complete, it means there might be further
+features added to that milestone.
 
- - written in Java running on all platforms
- - document in YAML format
- - supporting tasks
-    - Powershell (code as .ps1 or embedded, Windows)
-    - Batch (code as .bat or .cmd or embedded, Windows)
-    - JShell (code as .java or .jsh or embedded, all platforms)
-    - Groovy (code as .groovy or embedded, all platforms)
-    - Kotlin (code as .kt or embedded, all platforms)      
-    - file system operation (copy, move, delete of files and folders)
-    - storing results into a task variable (optional with regex)
-    - Docker
- - supporting task groups running tasks
-    - in order
-    - or in parallel
- - supporting models (flexible structure under your control)
- - supporting matrix (running same task groups multiple times for different variables)
- - supporting templating (reference values from variables or the model)
- - tags on tasks and task groups to allow filtering
- - conditional task execution
- - remote execution (client/server mode)
- - reports
+## Status
+
+The tool is not yet production ready.
+I cannot tell you a release date the moment, but I'm constantly developing on it in my free time.
+The current issue(s) I'm working on are pinned and can be seen at the top of the issue list.
+
+## Issues
+
+If you are using the tool and find things please report an issue but
+please check before that the issue isn't already there. The issue tracker is [here](https://github.com/thomas-lehmann-private/hyperion/issues).
+
+Please do not assign tags (please leave that to me). Thank you.
+Please also provide concrete examples that I'm able to reproduce the problem.
+
+## Documentation
+
+The current documentation will be [here](https://thomas-lehmann-private.github.io/hyperion/).
+Have a look at the top menu under menu entry **Index**. As mentioned the tool is not yet
+production ready - so please be patient - there will be detailed documentation **and** examples.

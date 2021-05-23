@@ -23,17 +23,16 @@
  */
 package magic.system.hyperion.components;
 
+import magic.system.hyperion.tools.ProcessResults;
+import magic.system.hyperion.tools.TemplateEngine;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.Map;
 import java.util.UUID;
-
-import magic.system.hyperion.interfaces.IVariable;
-import magic.system.hyperion.tools.ProcessResults;
-import magic.system.hyperion.tools.TemplateEngine;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Task for running a powershell script.
@@ -72,7 +71,7 @@ public class PowershellTask extends AbstractTask {
      * Initialize Powershell task.
      *
      * @param strInitTitle - title of the task.
-     * @param strInitCode - Path and name of file of script or inline script.
+     * @param strInitCode  - Path and name of file of script or inline script.
      */
     public PowershellTask(final String strInitTitle, final String strInitCode) {
         super(strInitTitle, strInitCode);
@@ -84,7 +83,7 @@ public class PowershellTask extends AbstractTask {
     }
 
     @Override
-    public TaskResult run(final Map<String, IVariable> variables) {
+    public TaskResult run(final TaskParameters parameters) {
         TaskResult taskResult;
 
         try {
@@ -103,7 +102,8 @@ public class PowershellTask extends AbstractTask {
 
                 final var engine = new TemplateEngine();
                 final var renderedText = engine.render(getCode(),
-                        Map.of("variables", variables));
+                        Map.of("model", parameters.getModel().getData(),
+                                "variables", parameters.getVariables()));
 
                 Files.write(temporaryScriptPath, renderedText.getBytes(
                         Charset.defaultCharset()));

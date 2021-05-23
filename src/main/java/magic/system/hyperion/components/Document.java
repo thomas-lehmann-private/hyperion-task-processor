@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import magic.system.hyperion.generics.Pair;
 import magic.system.hyperion.interfaces.IRunnable;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -107,7 +108,7 @@ public class Document implements IRunnable<Void, List<String>> {
 
     @Override
     public Void run(final List<String> tags) {
-        this.listOfTaskGroups.forEach(taskGroup -> taskGroup.run(tags));
+        this.listOfTaskGroups.forEach(taskGroup -> taskGroup.run(Pair.of(this.model, tags)));
         return null;
     }
 }

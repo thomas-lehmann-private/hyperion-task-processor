@@ -29,9 +29,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
+
 import magic.system.hyperion.interfaces.IRunnable;
-import magic.system.hyperion.interfaces.IVariable;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -42,7 +41,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  * @author Thomas Lehmann
  */
 public abstract class AbstractTask extends Component
-        implements IRunnable<TaskResult, Map<String, IVariable>> {
+        implements IRunnable<TaskResult, TaskParameters> {
 
     /**
      * Path and name of file of script or inline script.

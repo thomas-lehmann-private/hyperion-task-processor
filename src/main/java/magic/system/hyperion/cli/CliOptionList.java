@@ -163,7 +163,7 @@ public class CliOptionList implements Iterable<CliOption> {
             final var descriptions = this.options.stream().map(
                     CliOption::getDescription).collect(toSet());
             if (descriptions.size() != this.options.size()) {
-                throw new CliException(CliMessages.OPTION_DESCRIPTION_MORE_THAN_ONCE.getMessage());
+                throw new CliException(CliMessage.OPTION_DESCRIPTION_MORE_THAN_ONCE.getMessage());
             }
         }
 
@@ -176,7 +176,7 @@ public class CliOptionList implements Iterable<CliOption> {
             final var longNames = this.options.stream().map(CliOption::getLongName).collect(
                     toSet());
             if (longNames.size() != this.options.size()) {
-                throw new CliException(CliMessages.OPTION_LONG_NAME_MORE_THAN_ONCE.getMessage());
+                throw new CliException(CliMessage.OPTION_LONG_NAME_MORE_THAN_ONCE.getMessage());
             }
         }
 
@@ -197,7 +197,7 @@ public class CliOptionList implements Iterable<CliOption> {
                             isNotNull.and(not(String::isEmpty))).collect(toSet());
 
             if (shortNames.size() != this.options.size() - iIgnorableShortNames) {
-                throw new CliException(CliMessages.OPTION_SHORT_NAME_MORE_THAN_ONCE.getMessage());
+                throw new CliException(CliMessage.OPTION_SHORT_NAME_MORE_THAN_ONCE.getMessage());
             }
         }
     }

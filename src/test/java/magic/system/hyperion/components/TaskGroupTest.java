@@ -23,11 +23,13 @@
  */
 package magic.system.hyperion.components;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import magic.system.hyperion.generics.Pair;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Testing class {@link TaskGroup}.
@@ -35,6 +37,7 @@ import java.util.List;
  * @author Thomas Lehmann
  */
 @DisplayName("Testing TaskGroup class")
+@SuppressWarnings("checkstyle:multiplestringliterals")
 public class TaskGroupTest {
 
     /**
@@ -43,12 +46,10 @@ public class TaskGroupTest {
     @Test
     public void testRunTaskOneAfterTheOther() {
         final var taskGroup = createTestTaskGroup(false);
-        taskGroup.run(List.of());
+        taskGroup.run(Pair.of(new Model(), List.of()));
         assertEquals(taskGroup.getListOfTasks().size(), taskGroup.getVariables().size());
-        //CHECKSTYLE.OFF: MultipleStringLiterals - not a problem here
         assertEquals("Gandalf", taskGroup.getVariables().get("name1").getValue());
         assertEquals("Frodo", taskGroup.getVariables().get("name2").getValue());
-        //CHECKSTYLE.ON: MultipleStringLiterals
     }
 
     /**
@@ -57,11 +58,9 @@ public class TaskGroupTest {
     @Test
     public void testRunTaskOneAfterTheOtherFiltered() {
         final var taskGroup = createTestTaskGroup(false);
-        //CHECKSTYLE.OFF: MultipleStringLiterals - not a problem here
-        taskGroup.run(List.of("groovy"));
+        taskGroup.run(Pair.of(new Model(), List.of("groovy")));
         assertEquals(1, taskGroup.getVariables().size());
         assertEquals("Gandalf", taskGroup.getVariables().get("name1").getValue());
-        //CHECKSTYLE.ON: MultipleStringLiterals
     }
 
     /**
@@ -71,10 +70,8 @@ public class TaskGroupTest {
      * @return instance of {@link TaskGroup}.
      */
     private TaskGroup createTestTaskGroup(final boolean bRunTasksInParallel) {
-        //CHECKSTYLE.OFF: MultipleStringLiterals - not a problem here
         final var taskGroup = new TaskGroup("test", bRunTasksInParallel);
 
-        //CHECKSTYLE.OFF: MultipleStringLiterals - not a problem here
         final var task1 = new GroovyTask("test1", "println 'Gandalf'");
         task1.getVariable().setName("name1");
         task1.addTag("groovy");
@@ -86,9 +83,7 @@ public class TaskGroupTest {
         task2.addTag("jshell");
         task2.addTag("test2");
         taskGroup.add(task2);
-        //CHECKSTYLE.ON: MultipleStringLiterals
 
         return taskGroup;
-        //CHECKSTYLE.ON: MultipleStringLiterals
     }
 }

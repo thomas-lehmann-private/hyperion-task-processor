@@ -25,7 +25,6 @@ package magic.system.hyperion.components;
 
 import jdk.jshell.JShell;
 import jdk.jshell.Snippet;
-import magic.system.hyperion.interfaces.IVariable;
 import magic.system.hyperion.tools.TemplateEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,11 +54,13 @@ public class JShellTask extends AbstractTask {
     }
 
     @Override
-    public TaskResult run(final Map<String, IVariable> variables) {
+    public TaskResult run(final TaskParameters parameters) {
         TaskResult taskResult = null;
+
         final var engine = new TemplateEngine();
         final var renderedText = engine.render(getCode(),
-                Map.of("variables", variables));
+                Map.of("model", parameters.getModel().getData(),
+                        "variables", parameters.getVariables()));
 
         try {
             final var stream1 = new ByteArrayOutputStream();

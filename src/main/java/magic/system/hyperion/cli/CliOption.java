@@ -290,7 +290,7 @@ public class CliOption {
 
             if (this.type == OptionType.BOOLEAN && this.bRepeatable) {
                 throw new CliException(
-                        CliMessages.BOOLEAN_OPTION_NOT_REPEATABLE.getMessage());
+                        CliMessage.BOOLEAN_OPTION_NOT_REPEATABLE.getMessage());
             }
         }
 
@@ -302,12 +302,12 @@ public class CliOption {
         private void validateDescription() throws CliException {
             if (this.strDescription == null || this.strDescription.isEmpty()) {
                 throw new CliException(
-                        CliMessages.OPTION_DESCRIPTION_MISSING.getMessage());
+                        CliMessage.OPTION_DESCRIPTION_MISSING.getMessage());
             }
 
             if (this.strDescription.length() > MAX_DESCRIPTION_LENGTH) {
                 throw new CliException(
-                        CliMessages.OPTION_DESCRIPTION_TOO_LONG.getMessage());
+                        CliMessage.OPTION_DESCRIPTION_TOO_LONG.getMessage());
             }
         }
 
@@ -320,14 +320,14 @@ public class CliOption {
             if (this.strShortName != null && !this.strShortName.isEmpty()) {
                 if (this.strShortName.length() != 1) {
                     throw new CliException(
-                            CliMessages.OPTION_SHORT_NAME_INVALID.getMessage());
+                            CliMessage.OPTION_SHORT_NAME_INVALID.getMessage());
                 }
 
                 final var cValue = this.strShortName.toLowerCase(Locale.getDefault()).charAt(
                         0);
                 if (cValue < 'a' || cValue > 'z') {
                     throw new CliException(
-                            CliMessages.OPTION_SHORT_NAME_INVALID.getMessage());
+                            CliMessage.OPTION_SHORT_NAME_INVALID.getMessage());
                 }
             }
         }
@@ -340,7 +340,7 @@ public class CliOption {
         private void validateLongName() throws CliException {
             if (this.strLongName == null || this.strLongName.isEmpty()) {
                 throw new CliException(
-                        CliMessages.OPTION_LONG_NAME_MISSING.getMessage());
+                        CliMessage.OPTION_LONG_NAME_MISSING.getMessage());
             }
 
             final var pattern = Pattern.compile("^[a-z][a-z0-9]{2,14}$");
@@ -348,14 +348,14 @@ public class CliOption {
 
             if (subNames.size() > MAX_SUBNAMES) {
                 throw new CliException(
-                        CliMessages.OPTION_TOO_MANY_SUBNAMES.getMessage());
+                        CliMessage.OPTION_TOO_MANY_SUBNAMES.getMessage());
             }
 
             for (final var subName : subNames) {
                 final var matcher = pattern.matcher(subName);
                 if (!matcher.find()) {
                     throw new CliException(
-                            CliMessages.OPTION_LONG_SUBNAME_INVALID.getMessage());
+                            CliMessage.OPTION_LONG_SUBNAME_INVALID.getMessage());
                 }
             }
         }

@@ -23,7 +23,6 @@
  */
 package magic.system.hyperion.components;
 
-import magic.system.hyperion.interfaces.IVariable;
 import magic.system.hyperion.tools.ProcessResults;
 import magic.system.hyperion.tools.TemplateEngine;
 import org.slf4j.Logger;
@@ -77,7 +76,7 @@ public class WindowsBatchTask extends AbstractTask {
     }
 
     @Override
-    public TaskResult run(Map<String, IVariable> variables) {
+    public TaskResult run(final TaskParameters parameters) {
         TaskResult taskResult;
 
         try {
@@ -95,7 +94,8 @@ public class WindowsBatchTask extends AbstractTask {
 
                 final var engine = new TemplateEngine();
                 final var renderedText = engine.render(getCode(),
-                        Map.of("variables", variables));
+                        Map.of("model", parameters.getModel().getData(),
+                                "variables", parameters.getVariables()));
 
                 Files.write(temporaryScriptPath, renderedText.getBytes(
                         Charset.defaultCharset()));

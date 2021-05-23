@@ -423,11 +423,11 @@ public class CliHelpPrinter {
          */
         private void validate() throws CliException {
             if (this.strExecution == null || this.strExecution.isEmpty()) {
-                throw new CliException(CliMessages.HELP_EXECUTION_INFORMATION_MISSING.getMessage());
+                throw new CliException(CliMessage.HELP_EXECUTION_INFORMATION_MISSING.getMessage());
             }
 
             if (this.strProductVersion == null || this.strProductVersion.isEmpty()) {
-                throw new CliException(CliMessages.HELP_PRODUCT_VERSION_MISSING.getMessage());
+                throw new CliException(CliMessage.HELP_PRODUCT_VERSION_MISSING.getMessage());
             }
         }
     }

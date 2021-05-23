@@ -21,41 +21,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package magic.system.hyperion.generics;
+package magic.system.hyperion.data;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import magic.system.hyperion.generics.Pair;
+import magic.system.hyperion.interfaces.IValue;
 
 /**
- * Writing/serializing to string for given object.
+ * Attribute class for handling of values implementing the {@link IValue} interface.
  *
  * @author Thomas Lehmann
  */
-public class GenericWriter {
+public class Attribute extends Pair<String, IValue> {
     /**
-     * Logger for this class.
-     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(GenericWriter.class);
-
-    /**
-     * Writing given object to string.
+     * Initialize attribute.
      *
-     * @param value instance of class to be serialized.
-     * @return yaml string.
+     * @param strKey key of the attribute.
+     * @param value value of the attribute.
      */
-    public String toYAML(final Object value) {
-        String strContent;
-        final var mapper = new ObjectMapper(new YAMLFactory());
+    public Attribute(final String strKey, final IValue value) {
+        super(strKey, value);
+    }
 
-        try {
-            strContent = mapper.writeValueAsString(value);
-        } catch (JsonProcessingException e) {
-            LOGGER.error(e.getMessage(), e);
-            strContent = "";
-        }
-        return strContent;
+    /**
+     * Creating instance of an attribute.
+     *
+     * @param strKey key of the attribute.
+     * @param value value of the attribute.
+     * @return instance of new attribute.
+     */
+    public static Attribute of(final String strKey, final IValue value) {
+        return new Attribute(strKey, value);
     }
 }

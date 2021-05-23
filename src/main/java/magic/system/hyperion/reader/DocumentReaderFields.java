@@ -68,7 +68,17 @@ public enum DocumentReaderFields {
     /**
      * Each task (at least) may have a list of one or more tags.
      */
-    TAGS("tags");
+    TAGS("tags"),
+
+    /**
+     * Field which maintains the list of task groups.
+     */
+    TASKGROUPS("taskgroups"),
+
+    /**
+     * Main field for specifying one model inside the document.
+     */
+    MODEL("model");
 
     /**
      * Name of the field.
@@ -91,5 +101,23 @@ public enum DocumentReaderFields {
      */
     public String getFieldName() {
         return this.strFieldName;
+    }
+
+    /**
+     * Trying to convert string into enum value.
+     *
+     * @param strName internal (field-)name of the enum value.
+     * @return found enum value
+     * @throws DocumentReaderException when the name is not known.
+     */
+    public static DocumentReaderFields fromValue(final String strName)
+            throws DocumentReaderException {
+        for (final var value: values()) {
+            if (value.getFieldName().equals(strName)) {
+                return value;
+            }
+        }
+
+        throw new DocumentReaderException(String.format("Unknown field '" + strName + "'"));
     }
 }

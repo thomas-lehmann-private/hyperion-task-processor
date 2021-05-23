@@ -26,7 +26,6 @@ package magic.system.hyperion.components;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collections;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -47,7 +46,7 @@ public class JShellTaskTest {
     public void testSimple() {
         //CHECKSTYLE.OFF: MultipleStringLiterals - ok here
         final var task = new JShellTask("test", "System.out.println(\"hello world\")");
-        final var result = task.run(Collections.emptyMap());
+        final var result = task.run(new TaskParameters());
         assertTrue(result.isSuccess());
         assertEquals("hello world", result.getVariable().getValue());
         //CHECKSTYLE.ON: MultipleStringLiterals
@@ -60,7 +59,7 @@ public class JShellTaskTest {
     public void testFailure() {
         //CHECKSTYLE.OFF: MultipleStringLiterals - ok here
         final var task = new JShellTask("test", "System.out.println(");
-        final var result = task.run(Collections.emptyMap());
+        final var result = task.run(new TaskParameters());
         assertFalse(result.isSuccess());
         //CHECKSTYLE.ON: MultipleStringLiterals
     }
@@ -76,7 +75,10 @@ public class JShellTaskTest {
 
         final var task = new JShellTask(
                 "test", "System.out.println(\"{{ variables.text.value }}\")");
-        final var result = task.run(Map.of("text", variable));
+
+        final var parameters = new TaskParameters(new Model(), Map.of("text", variable));
+        final var result = task.run(parameters);
+
         assertTrue(result.isSuccess());
         assertEquals("hello world", result.getVariable().getValue());
         //CHECKSTYLE.ON: MultipleStringLiterals

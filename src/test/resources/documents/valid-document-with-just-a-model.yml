@@ -1,0 +1,29 @@
+---
+model:
+  description: this is a test model (main model)
+  timeoutInMinutes: 2
+  listOfMessages:
+    - "hello world 1"
+    - "hello world 2"
+    - "hello world 3"
+  listOfAnything:
+    - "anything"
+    - subModel1:
+        description: this is a sub model inside a list of the main model
+    - subList:
+        - "entry 1"
+        - "entry 2"
+        - "entry 3"
+  subModel2:
+    description: this is a sub model (map of depth 2)
+    timeout-in-minutes: 3
+    anotherListOfMessages:
+      - "hello world 4"
+      - "hello world 5"
+      - "hello world 6"
+      - sub-model-3:
+          description: this is a sub model inside list which is inside sub model
+          timeout-in-minutes: 4
+    subModel4:
+      description: this is a sub model directly inside a sub model
+      timeout-in-minutes: 5

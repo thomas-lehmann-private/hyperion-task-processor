@@ -23,50 +23,49 @@
  */
 package magic.system.hyperion.data;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 import magic.system.hyperion.generics.Pair;
 import magic.system.hyperion.interfaces.IValue;
 
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
 /**
- * List of sorted Attributes (by key). This class is not intended for huge
- * amount of data.
+ * Sorted map of key/value.
  *
  * @author Thomas Lehmann
  */
-public class AttributeList implements IValue {
+public class AttributeMap implements IValue {
 
     /**
      * List of attributes.
      */
-    private final List<Pair<String, IValue>> attributes;
+    private final Map<String, IValue> attributes;
 
     /**
      * Initialize attribute list.
      */
-    public AttributeList() {
-        this.attributes = new ArrayList<>();
+    public AttributeMap() {
+        this.attributes = new TreeMap<>();
     }
 
     /**
-     * Get list of attributes.
+     * Get attributes.
      *
-     * @return list of attributes.
+     * @return attributes.
      */
-    public List<Pair<String, IValue>> getAttributes() {
+    public Map<String, IValue> getAttributes() {
         return this.attributes;
     }
 
     /**
-     * Verifying whether attribute list does have key.
+     * Verifying whether map does have key.
      *
      * @param strKey key to find
      * @return true when key does exist.
      */
     public boolean contains(final String strKey) {
-        return this.attributes.stream().anyMatch(
-                entry -> entry.getFirst().equals(strKey));
+        return this.attributes.containsKey(strKey);
     }
 
     /**
@@ -75,7 +74,7 @@ public class AttributeList implements IValue {
      * @param strKey key to search.
      */
     public void remove(final String strKey) {
-        this.attributes.removeIf(entry -> entry.getFirst().equals(strKey));
+        this.attributes.remove(strKey);
     }
 
     /**
@@ -86,9 +85,7 @@ public class AttributeList implements IValue {
      * @param strInitValue the value to store.
      */
     public void set(final String strInitKey, final String strInitValue) {
-        remove(strInitKey);
-        this.attributes.add(Pair.of(strInitKey, StringValue.of(strInitValue)));
-        this.attributes.sort(Comparator.comparing(Pair::getFirst));
+        this.attributes.put(strInitKey, StringValue.of(strInitValue));
     }
 
     /**
@@ -98,10 +95,8 @@ public class AttributeList implements IValue {
      * @param strInitKey the key to add.
      * @param initAttributes the value to store.
      */
-    public void set(final String strInitKey, final AttributeList initAttributes) {
-        remove(strInitKey);
-        this.attributes.add(Pair.of(strInitKey, initAttributes));
-        this.attributes.sort(Comparator.comparing(Pair::getFirst));
+    public void set(final String strInitKey, final AttributeMap initAttributes) {
+        this.attributes.put(strInitKey, initAttributes);
     }
 
     /**
@@ -111,29 +106,25 @@ public class AttributeList implements IValue {
      * @param strInitKey the key to add.
      * @param initValue the value to store.
      */
-    private void set(final String strInitKey, final IValue initValue) {
-        remove(strInitKey);
-        this.attributes.add(Pair.of(strInitKey, initValue));
-        this.attributes.sort(Comparator.comparing(Pair::getFirst));
+    public void set(final String strInitKey, final IValue initValue) {
+        this.attributes.put(strInitKey, initValue);
     }
 
     /**
-     * Provide attribut list for given key if value is one.
+     * Provide attribute map for given key if value is one.
      *
      * @param strKey key to search.
-     * @return attribut list instance if key has been found and value is an
+     * @return attribute list instance if key has been found and value is an
      * attribute list.
      */
-    public AttributeList getAttributList(final String strKey) {
-        AttributeList attributeList = null;
-        for (var entry : this.attributes) {
-            if (entry.getFirst().equals(strKey)) {
-                if (entry.getSecond() instanceof AttributeList) {
-                    attributeList = (AttributeList) entry.getSecond();
-                }
-                break;
-            }
+    public AttributeMap getAttributeList(final String strKey) {
+        AttributeMap attributeList = null;
+
+        final var value = this.attributes.get(strKey);
+        if (value instanceof AttributeMap) {
+            attributeList = (AttributeMap) value;
         }
+
         return attributeList;
     }
 
@@ -141,30 +132,55 @@ public class AttributeList implements IValue {
      * Provide string value for given key when value is a string.
      *
      * @param strKey key to search.
-     * @return string value when key has been found and key is a string.
+     * @return string value when key has been found and value is a string.
      */
     public String getString(final String strKey) {
         String strValue = null;
-        for (var entry : this.attributes) {
-            if (entry.getFirst().equals(strKey)) {
-                if (entry.getSecond() instanceof StringValue) {
-                    strValue = ((StringValue) entry.getSecond()).getValue();
-                }
-                break;
-            }
+
+        final var value = this.attributes.get(strKey);
+        if (value instanceof StringValue) {
+            strValue = ((StringValue) value).getValue();
         }
+
         return strValue;
     }
 
     /**
-     * Creating an attribut list from an array of pairs.
+     * Provide list value for given key when value is a list.
+     *
+     * @param strKey key to search.
+     * @return list when key been found and value is a list.
+     */
+    public ListOfValues getList(final String strKey) {
+        ListOfValues list = null;
+
+        final var value = this.attributes.get(strKey);
+        if (value instanceof ListOfValues) {
+            list = (ListOfValues) value;
+        }
+
+        return list;
+    }
+
+    /**
+     * Get value for key.
+     *
+     * @param strKey key to search
+     * @return found value.
+     */
+    public IValue get(final String strKey) {
+        return this.attributes.get(strKey);
+    }
+
+    /**
+     * Creating an attribute list from an array of pairs.
      *
      * @param arrayOfPairs array of pairs.
-     * @return created attribut list.
+     * @return created attribute list.
      */
     @SafeVarargs
-    public static AttributeList of(final Pair<String, IValue>... arrayOfPairs) {
-        final var attributeList = new AttributeList();
+    public static AttributeMap of(final Pair<String, IValue>... arrayOfPairs) {
+        final var attributeList = new AttributeMap();
         List.of(arrayOfPairs).forEach(pair ->
                 attributeList.set(pair.getFirst(), pair.getSecond()));
         return attributeList;

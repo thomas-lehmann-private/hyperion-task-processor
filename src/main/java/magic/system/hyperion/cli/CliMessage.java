@@ -28,7 +28,7 @@ package magic.system.hyperion.cli;
  *
  * @author Thomas Lehmann
  */
-public enum CliMessages {
+public enum CliMessage {
     /**
      * Validation has failed because two options (boolean type and repeatable)
      * do not match.
@@ -136,7 +136,7 @@ public enum CliMessages {
      *
      * @param strValue the message.
      */
-    CliMessages(final String strValue) {
+    CliMessage(final String strValue) {
         this.strMessage = strValue;
     }
 

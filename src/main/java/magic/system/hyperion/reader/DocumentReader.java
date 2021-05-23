@@ -26,10 +26,6 @@ package magic.system.hyperion.reader;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-
-import java.io.IOException;
-import java.nio.file.Path;
-
 import magic.system.hyperion.components.AbstractTask;
 import magic.system.hyperion.components.Document;
 import magic.system.hyperion.components.GroovyTask;
@@ -38,11 +34,16 @@ import magic.system.hyperion.components.PowershellTask;
 import magic.system.hyperion.components.TaskGroup;
 import magic.system.hyperion.components.Variable;
 import magic.system.hyperion.components.WindowsBatchTask;
+import magic.system.hyperion.data.AttributeMap;
+import magic.system.hyperion.data.ListOfValues;
 import magic.system.hyperion.generics.Converters;
 import magic.system.hyperion.interfaces.ICodeTaskCreator;
 import magic.system.hyperion.matcher.Matcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.nio.file.Path;
 
 /**
  * Reading a YAML file representing the spline document.
@@ -57,8 +58,7 @@ public class DocumentReader {
     /**
      * Logger for this class.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(
-            DocumentReader.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DocumentReader.class);
 
     /**
      * Final document.
@@ -84,6 +84,7 @@ public class DocumentReader {
      * Reading the YAML document.
      *
      * @return document when successfully read otherwise null.
+     * @version 1.0.0
      */
     public Document read() {
         Document finalDocument = null;
@@ -101,16 +102,79 @@ public class DocumentReader {
         final var iter = node.fields();
         while (iter.hasNext()) {
             final var entry = iter.next();
-            switch (entry.getKey()) {
-                case "taskgroups": {
+            final var field = DocumentReaderFields.fromValue(entry.getKey());
+
+            switch (field) {
+                case TASKGROUPS: {
                     readTaskGroups(entry.getValue());
+                    break;
+                }
+
+                case MODEL: {
+                    readAttributeMap(this.document.getModel().getData(), entry.getValue());
                     break;
                 }
 
                 default: {
                     throw new DocumentReaderException(String.format(
-                            "Unknown field %s!", entry.getKey()));
+                            "Known field '%s' is not handled!", entry.getKey()));
 
+                }
+            }
+        }
+    }
+
+    private void readAttributeMap(final AttributeMap attributeList, final JsonNode node) {
+        final var iter = node.fields();
+        while (iter.hasNext()) {
+            final var currentField = iter.next();
+            switch(currentField.getValue().getNodeType()) {
+                case STRING:
+                case NUMBER:
+                case BOOLEAN: {
+                    attributeList.set(currentField.getKey(), currentField.getValue().asText());
+                    break;
+                }
+                case OBJECT: {
+                    final var newAttributeList = new AttributeMap();
+                    readAttributeMap(newAttributeList, currentField.getValue());
+                    attributeList.set(currentField.getKey(), newAttributeList);
+                    break;
+                }
+                case ARRAY: {
+                    final var newList = new ListOfValues();
+                    readListOfValues(newList, currentField.getValue());
+                    attributeList.set(currentField.getKey(), newList);
+                    break;
+                }
+                default: {
+                    LOGGER.warn(DocumentReaderMessage.NODE_TYPE_NOT_SUPPORTED.getMessage(),
+                            currentField.getValue().getNodeType());
+                }
+            }
+        }
+    }
+
+    private void readListOfValues(final ListOfValues list, final JsonNode node) {
+        final var iter = node.elements();
+        while (iter.hasNext()) {
+            final var currentElement = iter.next();
+            switch(currentElement.getNodeType()) {
+                case STRING:
+                case NUMBER:
+                case BOOLEAN: {
+                    list.add(currentElement.asText());
+                    break;
+                }
+                case OBJECT: {
+                    final var newAttributeList = new AttributeMap();
+                    readAttributeMap(newAttributeList, currentElement);
+                    list.add(newAttributeList);
+                    break;
+                }
+                default: {
+                    LOGGER.warn(DocumentReaderMessage.NODE_TYPE_NOT_SUPPORTED.getMessage(),
+                            currentElement.getNodeType());
                 }
             }
         }
@@ -133,7 +197,7 @@ public class DocumentReader {
 
         if (!matcher.matches(names)) {
             throw new DocumentReaderException(
-                    "Task group fields are missing or unknown!");
+                    DocumentReaderMessage.MISSING_OR_UNKNOWN_TASK_GROUP_FIELDS.getMessage());
         }
 
         final var taskGroup = new TaskGroup(node.get(

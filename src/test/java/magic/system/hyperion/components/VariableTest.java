@@ -23,11 +23,18 @@
  */
 package magic.system.hyperion.components;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Testing class {@link Variable}.
@@ -35,13 +42,13 @@ import org.junit.jupiter.api.Test;
  * @author Thomas Lehmann
  */
 @DisplayName("Testing class Variable")
+@SuppressWarnings("checkstyle:multiplestringliterals")
 public class VariableTest {
     /**
      * Testing regex applied to whole string.
      */
     @Test
     public void testRegexCompleteString() {
-        //CHECKSTYLE.OFF: MultipleStringLiterals - Here no constants are necessary
         final var variable = new Variable("test", "[A-Za-z]+", 0, false);
         assertTrue(variable.setValue("!!! Gandalf !!!"));
         assertEquals("test", variable.getName());
@@ -49,7 +56,6 @@ public class VariableTest {
 
         assertFalse(variable.setValue("!!! 12345 !!!"));
         assertEquals("Gandalf", variable.getValue());
-        //CHECKSTYLE.ON: MultipleStringLiterals
     }
 
     /**
@@ -57,12 +63,10 @@ public class VariableTest {
      */
     @Test
     public void testRegexCompleteMultiLineString() {
-        //CHECKSTYLE.OFF: MultipleStringLiterals - Here no constants are necessary
         final var variable = new Variable("test", ".*", 0, false);
         assertTrue(variable.setValue("Gandalf\nFrodo"));
         assertEquals("test", variable.getName());
         assertEquals("Gandalf\nFrodo", variable.getValue());
-        //CHECKSTYLE.ON: MultipleStringLiterals
     }
 
     /**
@@ -70,11 +74,70 @@ public class VariableTest {
      */
     @Test
     public void testRegexLineByLine() {
-        //CHECKSTYLE.OFF: MultipleStringLiterals - Here no constants are necessary
         final var variable = new Variable("test", "[A-Za-z]+", 0, true);
         assertTrue(variable.setValue("!!! Gandalf !!!\n!!! Frodo !!!"));
         assertEquals("test", variable.getName());
         assertEquals("Gandalf\nFrodo", variable.getValue());
-        //CHECKSTYLE.ON: MultipleStringLiterals
+    }
+
+    /**
+     * Testing of {@link Variable#hashCode()}.
+     *
+     * @param bExpectedToBeEqual true when both variables should have equal has code.
+     * @param variableA          one variable.
+     * @param variableB          another variable.
+     */
+    @ParameterizedTest(name = "#{index} - equal?: {0}, variableA: {1}, variableB: {1}")
+    @MethodSource("provideHashCodeEqualsTestData")
+    void testHashCode(boolean bExpectedToBeEqual, final Variable variableA,
+                      final Variable variableB) {
+        if (bExpectedToBeEqual) {
+            assertEquals(variableA.hashCode(), variableB.hashCode());
+        } else {
+            assertNotEquals(variableA.hashCode(), variableB.hashCode());
+        }
+    }
+
+    /**
+     * Testing of {@link Variable#equals(Object)}.
+     *
+     * @param bExpectedToBeEqual true when both variables should be equal
+     * @param variableA          one variable.
+     * @param variableB          another variable.
+     */
+    @ParameterizedTest(name = "#{index} - equal?: {0}, variableA: {1}, variableB: {1}")
+    @MethodSource("provideHashCodeEqualsTestData")
+    void testEquals(boolean bExpectedToBeEqual, final Variable variableA,
+                    final Variable variableB) {
+        if (bExpectedToBeEqual) {
+            assertEquals(variableA, variableB);
+        } else {
+            assertNotEquals(variableA, variableB);
+        }
+    }
+
+    /**
+     * Test data for testing hashCode and equals.
+     *
+     * @return test data.
+     */
+    private static Stream<Arguments> provideHashCodeEqualsTestData() {
+        return Stream.of(
+                Arguments.of(true,
+                        new Variable("test1", "[A-Za-z]+", 0, true),
+                        new Variable("test1", "[A-Za-z]+", 0, true)),
+                Arguments.of(false,
+                        new Variable("test1", "[A-Za-z]+", 0, true),
+                        new Variable("test2", "[A-Za-z]+", 0, true)),
+                Arguments.of(false,
+                        new Variable("test1", "[A-Za-z]+", 0, true),
+                        new Variable("test1", "[A-Z]+", 0, true)),
+                Arguments.of(false,
+                        new Variable("test1", "[A-Za-z]+", 0, true),
+                        new Variable("test1", "[A-Za-z]+", 1, true)),
+                Arguments.of(false,
+                        new Variable("test1", "[A-Za-z]+", 0, true),
+                        new Variable("test1", "[A-Za-z]+", 0, false))
+        );
     }
 }

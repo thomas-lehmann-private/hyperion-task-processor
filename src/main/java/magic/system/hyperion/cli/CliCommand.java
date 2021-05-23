@@ -203,17 +203,17 @@ public final class CliCommand {
          */
         private void validate() throws CliException {
             if (this.strName == null || this.strName.isEmpty()) {
-                throw new CliException(CliMessages.COMMAND_NAME_MISSING.getMessage());
+                throw new CliException(CliMessage.COMMAND_NAME_MISSING.getMessage());
             }
 
             if (this.strDescription == null || this.strDescription.isEmpty()) {
-                throw new CliException(CliMessages.COMMAND_DESCRIPTION_MISSING.getMessage());
+                throw new CliException(CliMessage.COMMAND_DESCRIPTION_MISSING.getMessage());
             }
 
             final var pattern = Pattern.compile("^[a-z]{2,10}$");
             final var matcher = pattern.matcher(this.strName);
             if (!matcher.find()) {
-                throw new CliException(CliMessages.COMMAND_NAME_INVALID.getMessage());
+                throw new CliException(CliMessage.COMMAND_NAME_INVALID.getMessage());
             }
         }
     }

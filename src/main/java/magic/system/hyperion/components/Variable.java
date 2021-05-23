@@ -24,11 +24,14 @@
 package magic.system.hyperion.components;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.util.List;
-import java.util.regex.Pattern;
 import magic.system.hyperion.interfaces.IVariable;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
+import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Variable supporting extracting of details via regex.
@@ -239,7 +242,17 @@ public class Variable implements IVariable {
                 .append(this.strName, other.getName())
                 .append(this.strRegex, other.getRegex())
                 .append(this.iRegexGroup, other.getRegexGroup())
-                .append(this.bLineByLine, isLineByLine())
+                .append(this.bLineByLine, other.isLineByLine())
+                .build();
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(ToStringStyle.SHORT_PREFIX_STYLE)
+                .append("name", this.strName)
+                .append("regex", this.strRegex)
+                .append("regexGroup", this.iRegexGroup)
+                .append("lineByLine", this.bLineByLine)
                 .build();
     }
 }
