@@ -27,6 +27,8 @@ import magic.system.hyperion.tools.MessagesCollector;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -36,6 +38,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * Testing class {@link Application}.
  */
 @DisplayName("Testing class Application")
+@SuppressWarnings("checkstyle:multiplestringliterals")
 public class ApplicationTest {
     /**
      * Testing the help feature.
@@ -64,5 +67,44 @@ public class ApplicationTest {
         for (final var line: lines) {
             assertTrue(Pattern.matches("group id: .*, artifact id: .*, version: .*", line));
         }
+    }
+
+    /**
+     * Testing to process a document.
+     *
+     * @throws URISyntaxException when URL for document has wrong syntax.
+     */
+    @Test
+    public void testSimpleDocument() throws URISyntaxException {
+        final var url = getClass().getResource("/documents/document-for-application-test.yml");
+        final var file = new File(url.toURI());
+
+        MessagesCollector.clear();
+        Application.main(List.of("run", "--file", file.getAbsolutePath()).toArray(String[]::new));
+
+        assertTrue(MessagesCollector.getMessages()
+                .stream().anyMatch(line -> line.contains("hello world 1!")));
+        assertTrue(MessagesCollector.getMessages()
+                .stream().anyMatch(line -> line.contains("hello world 2!")));
+    }
+
+    /**
+     * Testing to process a document.
+     *
+     * @throws URISyntaxException when URL for document has wrong syntax.
+     */
+    @Test
+    public void testSimpleDocumentWithFilter() throws URISyntaxException {
+        final var url = getClass().getResource("/documents/document-for-application-test.yml");
+        final var file = new File(url.toURI());
+
+        MessagesCollector.clear();
+        Application.main(List.of("--tag", "test1","run",
+                "--file", file.getAbsolutePath()).toArray(String[]::new));
+
+        assertTrue(MessagesCollector.getMessages()
+                .stream().anyMatch(line -> line.contains("hello world 1!")));
+        assertTrue(MessagesCollector.getMessages()
+                .stream().noneMatch(line -> line.contains("hello world 2!")));
     }
 }

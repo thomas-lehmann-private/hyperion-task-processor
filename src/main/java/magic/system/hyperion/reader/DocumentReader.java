@@ -28,12 +28,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import magic.system.hyperion.components.AbstractTask;
 import magic.system.hyperion.components.Document;
-import magic.system.hyperion.components.GroovyTask;
-import magic.system.hyperion.components.JShellTask;
-import magic.system.hyperion.components.PowershellTask;
 import magic.system.hyperion.components.TaskGroup;
 import magic.system.hyperion.components.Variable;
-import magic.system.hyperion.components.WindowsBatchTask;
+import magic.system.hyperion.components.tasks.CodedTaskCreator;
 import magic.system.hyperion.data.AttributeMap;
 import magic.system.hyperion.data.ListOfValues;
 import magic.system.hyperion.generics.Converters;
@@ -74,6 +71,7 @@ public class DocumentReader {
      * Initialize document reader with path of the document.
      *
      * @param initPath path of the document.
+     * @version 1.0.0
      */
     public DocumentReader(final Path initPath) {
         this.document = new Document();
@@ -200,10 +198,12 @@ public class DocumentReader {
                     DocumentReaderMessage.MISSING_OR_UNKNOWN_TASK_GROUP_FIELDS.getMessage());
         }
 
+        final var bRunTaskAsParallel =
+                node.has(DocumentReaderFields.PARALLEL.getFieldName())
+                        && node.get(DocumentReaderFields.PARALLEL.getFieldName()).asBoolean();
+
         final var taskGroup = new TaskGroup(node.get(
-                DocumentReaderFields.TITLE.getFieldName()).asText(),
-                node.get(
-                        DocumentReaderFields.PARALLEL.getFieldName()).asBoolean());
+                DocumentReaderFields.TITLE.getFieldName()).asText(), bRunTaskAsParallel);
 
         final var iterTask = node.get(DocumentReaderFields.TASKS.getFieldName()).elements();
         while (iterTask.hasNext()) {
@@ -226,33 +226,8 @@ public class DocumentReader {
         }
 
         final var strType = node.get(DocumentReaderFields.TYPE.getFieldName()).asText();
-        switch (strType) {
-            case "powershell": {
-                readCodeTask(taskGroup, node,
-                        (strTitle, strCode) -> new PowershellTask(strTitle, strCode));
-                break;
-            }
-            case "batch": {
-                readCodeTask(taskGroup, node,
-                        (strTitle, strCode) -> new WindowsBatchTask(strTitle, strCode));
-                break;
-            }
-            case "jshell": {
-                readCodeTask(taskGroup, node,
-                        (strTitle, strCode) -> new JShellTask(strTitle, strCode));
-                break;
-            }
-            case "groovy": {
-                readCodeTask(taskGroup, node,
-                        (strTitle, strCode) -> new GroovyTask(strTitle, strCode));
-                break;
-            }
-            default: {
-                throw new DocumentReaderException(
-                        String.format("Task of type '%s' is not known!", strType));
-            }
-        }
-
+        readCodeTask(taskGroup, node, (strTitle, strCode)
+                -> CodedTaskCreator.createTask(strType, strTitle, strCode));
     }
 
     /**

@@ -26,6 +26,8 @@ package magic.system.hyperion.reader;
 import magic.system.hyperion.tools.MessagesCollector;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
@@ -33,6 +35,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -87,6 +90,33 @@ public class DocumentReaderTest {
     }
 
     /**
+     * Testing a document with Unix shell.
+     *
+     * @throws URISyntaxException when loading of the document has failed.
+     */
+    @Test
+    @EnabledOnOs({OS.LINUX, OS.MAC})
+    public void testUnixShell() throws URISyntaxException {
+        final var path = Paths.get(getClass().getResource(
+                "/documents/document-with-unix-shell.yml").toURI());
+        final var reader = new DocumentReader(path);
+        final var document = reader.read();
+        assertNotNull(document, "Document shouldn't be null");
+        assertEquals(1, document.getListOfTaskGroups().size());
+        //CHECKSTYLE.OFF: MagicNumber - ok here
+        assertEquals(3, document.getListOfTaskGroups().get(0).getListOfTasks().size());
+        //CHECKSTYLE.ON: MagicNumber
+        final var tags = document.getListOfTaskGroups().get(0).getListOfTasks().get(2).getTags();
+        assertEquals("tag support", tags.get(0));
+        assertEquals("third example", tags.get(1));
+
+        MessagesCollector.clear();
+        document.run(List.of());
+        assertTrue(MessagesCollector.getMessages().contains("set variable default=hello world!"));
+        assertTrue(MessagesCollector.getMessages().contains("set variable test2=this is a demo"));
+    }
+
+    /**
      * Intention to test reading of the model.
      *
      * @throws URISyntaxException when loading of the document has failed.
@@ -110,5 +140,28 @@ public class DocumentReaderTest {
                 document.getModel().getData().getList("listOfAnything")
                         .getAttributeList(2)
                         .getList("subList").toString());
+    }
+
+    @Test
+    public void testReadHasFailed() throws URISyntaxException {
+        final var path = Paths.get(getClass().getResource(
+                "/documents/valid-document-with-just-a-model.yml").toURI());
+        // change path to one that does not exist.
+        final var reader = new DocumentReader(Paths.get(path.toString() + "yml"));
+        final var document = reader.read();
+        assertNull(document);
+    }
+
+    @Test
+    public void testReadWithUnknownField() throws URISyntaxException {
+        final var path = Paths.get(getClass().getResource(
+                "/documents/invalid-document-with-unknown-field.yml").toURI());
+        final var reader = new DocumentReader(path);
+        MessagesCollector.clear();
+        final var document = reader.read();
+        assertNull(document);
+
+        assertTrue(MessagesCollector.getMessages()
+                .stream().anyMatch(line -> line.contains("Unknown field 'unknown'!")));
     }
 }

@@ -37,6 +37,7 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -110,7 +111,7 @@ public class GroovyTaskTest {
     /**
      * Testing templating evaluating the model.
      *
-     * @param strModelPath the path inside the model to access a value
+     * @param strModelPath     the path inside the model to access a value
      * @param strExpectedValue the expected value
      */
     @ParameterizedTest(name = "#{index} - path: {0} - expected value: {1}")
@@ -131,6 +132,56 @@ public class GroovyTaskTest {
 
         assertEquals(strExpectedValue, result.getVariable().getValue().strip());
         assertTrue(result.isSuccess());
+    }
+
+    /**
+     * Testing hashCode method for GroovyTask.
+     *
+     * @param bExpectedToBeEqual when true the hasCode of both tasks should be the same.
+     * @param taskA              one task.
+     * @param taskB              another task.
+     */
+    @ParameterizedTest(name = "#{index} - equal?: {0}, taskA: {1}, taskB: {2}")
+    @MethodSource("provideComparableTasksData")
+    public void testHashCode(final boolean bExpectedToBeEqual,
+                             final GroovyTask taskA, final GroovyTask taskB) {
+        if (bExpectedToBeEqual) {
+            assertEquals(taskA.hashCode(), taskB.hashCode());
+        } else {
+            assertNotEquals(taskA.hashCode(), taskB.hashCode());
+        }
+    }
+
+    /**
+     * Testing equals method for GroovyTask.
+     *
+     * @param bExpectedToBeEqual when true both tasks should be equal.
+     * @param taskA              one task.
+     * @param taskB              another task.
+     */
+    @ParameterizedTest(name = "#{index} - equal?: {0}, taskA: {1}, taskB: {2}")
+    @MethodSource("provideComparableTasksData")
+    public void testEquals(final boolean bExpectedToBeEqual,
+                           final GroovyTask taskA, final GroovyTask taskB) {
+        if (bExpectedToBeEqual) {
+            assertEquals(taskA, taskB);
+        } else {
+            assertNotEquals(taskA, taskB);
+        }
+    }
+
+    private static Stream<Arguments> provideComparableTasksData() {
+        return Stream.of(
+                Arguments.of(true,
+                        new GroovyTask("test1", "println 'hello'"),
+                        new GroovyTask("test1", "println 'hello'")),
+                Arguments.of(false,
+                        new GroovyTask("test1", "println 'hello'"),
+                        new GroovyTask("test2", "println 'hello'")),
+                Arguments.of(false,
+                        new GroovyTask("test1", "println 'hello'"),
+                        new GroovyTask("test1", "println 'hallo'"))
+        );
     }
 
     /**

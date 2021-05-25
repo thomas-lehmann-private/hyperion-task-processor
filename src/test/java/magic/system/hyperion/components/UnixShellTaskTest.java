@@ -37,13 +37,13 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Testing of class {@link WindowsBatchTask}.
+ * Testing of class {@link UnixShellTask}.
  *
  * @author Thomas Lehmann
  */
-@DisplayName("Testing WindowsBatchTask")
-@EnabledOnOs(OS.WINDOWS)
-public class WindowsBatchTaskTest {
+@DisplayName("Testing UnixShellTask")
+@EnabledOnOs({OS.LINUX, OS.MAC})
+public class UnixShellTaskTest {
     /**
      * Test task title.
      */
@@ -64,7 +64,7 @@ public class WindowsBatchTaskTest {
      */
     @Test
     public void testHelloWorldInline() {
-        final var task = new WindowsBatchTask(PRINT_HELLO_WORLD_TITLE,
+        final var task = new UnixShellTask(PRINT_HELLO_WORLD_TITLE,
                 "echo " + HELLO_WORD_TEXT);
         assertEquals(PRINT_HELLO_WORLD_TITLE, task.getTitle());
         final var result = task.run(new TaskParameters());
@@ -76,15 +76,15 @@ public class WindowsBatchTaskTest {
 
     /**
      * Testing (finally) of {@link AbstractTask#getTitle()} and
-     * {@link WindowsBatchTask#run(TaskParameters)}} in context of code
+     * {@link UnixShellTask#run(TaskParameters)}} in context of code
      * representing a path and filename to an existing powershell script.
      *
      * @throws URISyntaxException when URL is bad
      */
     @Test
     public void testHelloWorldFile() throws URISyntaxException {
-        final var scriptPath = FileUtils.getResourcePath("/scripts/say-hello-world.cmd");
-        final var task = new WindowsBatchTask(PRINT_HELLO_WORLD_TITLE, scriptPath.toString());
+        final var scriptPath = FileUtils.getResourcePath("/scripts/say-hello-world.sh");
+        final var task = new UnixShellTask(PRINT_HELLO_WORLD_TITLE, scriptPath.toString());
         final var result = task.run(new TaskParameters());
 
         assertEquals(HELLO_WORD_TEXT, result.getVariable().getValue());
@@ -93,14 +93,14 @@ public class WindowsBatchTaskTest {
 
     /**
      * Testing (finally) of {@link AbstractTask#getTitle()} and
-     * {@link WindowsBatchTask#run(TaskParameters)}} with errors from the script.
+     * {@link UnixShellTask#run(TaskParameters)}} with errors from the script.
      *
-     * @throws java.net.URISyntaxException when the syntax of the URI is wrong.
+     * @throws URISyntaxException when the syntax of the URI is wrong.
      */
     @Test
     public void testScriptWithStderr() throws URISyntaxException {
-        final var scriptPath = FileUtils.getResourcePath("/scripts/say-error.cmd");
-        final var task = new WindowsBatchTask("print error", scriptPath.toString());
+        final var scriptPath = FileUtils.getResourcePath("/scripts/say-error.sh");
+        final var task = new UnixShellTask("print error", scriptPath.toString());
         final var result = task.run(new TaskParameters());
 
         assertTrue(result.getVariable().getValue().isEmpty());
@@ -109,12 +109,12 @@ public class WindowsBatchTaskTest {
 
     /**
      * Testing (finally) of {@link AbstractTask#getTitle()} and
-     * {@link WindowsBatchTask#run(TaskParameters)} with an exit code not 0.
+     * {@link UnixShellTask#run(TaskParameters)} with an exit code not 0.
      */
     @Test
     public void testExitCode() {
-        final var task = new WindowsBatchTask("testing exit code",
-                "exit " + PROCESS_EXIT_CODE);
+        final var task = new UnixShellTask("testing exit code",
+                "exit " + PROCESS_EXIT_CODE+ ";");
         final var result = task.run(new TaskParameters());
         assertFalse(result.isSuccess());
         // FIXME: somehow to provide the concrete exit code (Attribute?)
@@ -122,7 +122,7 @@ public class WindowsBatchTaskTest {
 
     /**
      * Testing (finally) of {@link AbstractTask#getTitle()} and
-     * {@link WindowsBatchTask#run(TaskParameters)}} in context of inline code with
+     * {@link UnixShellTask#run(TaskParameters)}} in context of inline code with
      * rendering variables.
      */
     @Test
@@ -130,8 +130,8 @@ public class WindowsBatchTaskTest {
         final var variable = new Variable();
         variable.setValue(HELLO_WORD_TEXT);
 
-        final var task = new WindowsBatchTask(PRINT_HELLO_WORLD_TITLE,
-                "echo {{ variables.text.value }}");
+        final var task = new UnixShellTask(PRINT_HELLO_WORLD_TITLE,
+                "echo \"{{ variables.text.value }}\";");
         assertEquals(PRINT_HELLO_WORLD_TITLE, task.getTitle());
 
         final var parameters = new TaskParameters(new Model(), Map.of("text", variable));

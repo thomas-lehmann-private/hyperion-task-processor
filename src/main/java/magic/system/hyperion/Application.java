@@ -236,7 +236,7 @@ public final class Application {
      *
      * @param args the command line arguments
      */
-    public static void main(final String[] args) {
+    public static void main(final String[] args)  {
         final var application = new Application();
         try {
             application.run(args);

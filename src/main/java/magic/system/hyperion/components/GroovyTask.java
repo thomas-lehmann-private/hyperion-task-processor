@@ -25,9 +25,8 @@ package magic.system.hyperion.components;
 
 import groovy.lang.Binding;
 import groovy.lang.GroovyRuntimeException;
-import magic.system.hyperion.tools.TemplateEngine;
-
 import groovy.lang.GroovyShell;
+import magic.system.hyperion.tools.TemplateEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

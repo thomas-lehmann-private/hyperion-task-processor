@@ -23,12 +23,6 @@
  */
 package magic.system.hyperion.components;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 import magic.system.hyperion.generics.Pair;
 import magic.system.hyperion.interfaces.IRunnable;
 import magic.system.hyperion.interfaces.IVariable;
@@ -36,6 +30,12 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * A group of tasks.
@@ -145,6 +145,7 @@ public class TaskGroup extends Component implements IRunnable<Boolean, Pair<Mode
     public int hashCode() {
         return new HashCodeBuilder()
                 .append(this.getTitle())
+                .append(this.variables)
                 .append(this.listOfTasks)
                 .append(this.bRunTasksInParallel)
                 .build();
@@ -165,6 +166,7 @@ public class TaskGroup extends Component implements IRunnable<Boolean, Pair<Mode
         final TaskGroup other = (TaskGroup) obj;
         return new EqualsBuilder()
                 .append(this.getTitle(), other.getTitle())
+                .append(this.variables, other.getVariables())
                 .append(this.bRunTasksInParallel, other.isRunTasksInParallel())
                 .append(this.listOfTasks, other.getListOfTasks()).build();
     }

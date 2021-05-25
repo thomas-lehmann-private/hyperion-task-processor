@@ -1,0 +1,12 @@
+---
+taskgroups:
+  - title: test
+    tasks:
+      - type: groovy
+        code: println 'hello world 1!'
+        tags:
+          - test1
+      - type: groovy
+        code: println 'hello world 2!'
+        tags:
+          - test2

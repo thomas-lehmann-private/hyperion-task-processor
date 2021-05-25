@@ -26,10 +26,15 @@ package magic.system.hyperion.components;
 import magic.system.hyperion.generics.Pair;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 /**
  * Testing class {@link TaskGroup}.
@@ -64,6 +69,63 @@ public class TaskGroupTest {
     }
 
     /**
+     * Testing the hasCode of two task groups to be equal (or not to be equal).
+     *
+     * @param bExpectedToBeEqual when true then expected to be equal.
+     * @param taskGroupSupplierA one task group.
+     * @param taskGroupSupplierB another task group.
+     */
+    @ParameterizedTest(name = "#{index}, equals?: {0}, taskA: {1}, taskB: {2}")
+    @MethodSource("provideComparableTaskGroups")
+    public void testHashCode(final boolean bExpectedToBeEqual,
+                             final TaskGroup taskGroupSupplierA,
+                             final TaskGroup taskGroupSupplierB) {
+        if (bExpectedToBeEqual) {
+            assertEquals(taskGroupSupplierA.hashCode(), taskGroupSupplierB.hashCode());
+        } else {
+            assertNotEquals(taskGroupSupplierA.hashCode(), taskGroupSupplierB.hashCode());
+        }
+    }
+
+    /**
+     * Testing two task groups to be equal (or not to be equal).
+     *
+     * @param bExpectedToBeEqual when true then expected to be equal.
+     * @param taskGroupSupplierA one task group.
+     * @param taskGroupSupplierB another task group.
+     */
+    @ParameterizedTest(name = "#{index}, equals?: {0}, taskA: {1}, taskB: {2}")
+    @MethodSource("provideComparableTaskGroups")
+    public void testEquals(final boolean bExpectedToBeEqual,
+                             final TaskGroup taskGroupSupplierA,
+                             final TaskGroup taskGroupSupplierB) {
+        if (bExpectedToBeEqual) {
+            assertEquals(taskGroupSupplierA, taskGroupSupplierB);
+        } else {
+            assertNotEquals(taskGroupSupplierA, taskGroupSupplierB);
+        }
+    }
+
+    /**
+     * Provide Comparable task groups.
+     *
+     * @return test data.
+     */
+    private static Stream<Arguments> provideComparableTaskGroups() {
+        return Stream.of(
+                Arguments.of(true,
+                        new TaskGroup("test1", false),
+                        new TaskGroup("test1", false)),
+                Arguments.of(false,
+                        new TaskGroup("test1", false),
+                        new TaskGroup("test2", false)),
+                Arguments.of(false,
+                        new TaskGroup("test1", false),
+                        new TaskGroup("test1", true))
+        );
+    }
+
+    /**
      * Creating a test task group with tasks working on all platforms.
      *
      * @param bRunTasksInParallel when true then run tasks in parallel.
@@ -86,4 +148,6 @@ public class TaskGroupTest {
 
         return taskGroup;
     }
+
+
 }

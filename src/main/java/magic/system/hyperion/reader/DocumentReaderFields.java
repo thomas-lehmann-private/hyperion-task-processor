@@ -118,6 +118,6 @@ public enum DocumentReaderFields {
             }
         }
 
-        throw new DocumentReaderException(String.format("Unknown field '" + strName + "'"));
+        throw new DocumentReaderException(String.format("Unknown field '" + strName + "'!"));
     }
 }

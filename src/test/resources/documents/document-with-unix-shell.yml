@@ -1,0 +1,21 @@
+---
+taskgroups:
+  - title: test
+    parallel: false
+    tasks:
+      - type: shell
+        title: a simple example
+        code: echo "hello world!"
+
+      - type: shell
+        code: echo "---> this is a demo <---"
+        variable:
+          name: test2
+          regex: ">(.*)<"
+          group: 1
+
+      - type: shell
+        code: echo "hello world!"
+        tags:
+          - tag support
+          - third example

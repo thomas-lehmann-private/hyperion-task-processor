@@ -24,6 +24,7 @@
 package magic.system.hyperion.interfaces;
 
 import magic.system.hyperion.components.AbstractTask;
+import magic.system.hyperion.reader.DocumentReaderException;
 
 /**
  * Interface for creating a code task (Powershell, Batch, Groovy,
@@ -37,6 +38,7 @@ public interface ICodeTaskCreator {
      * @param strTitle title of the task.
      * @param strCode code of the task (or path and filename of the script).
      * @return instance of a concrete task.
+     * @throws DocumentReaderException when creating of the task has failed.
      */
-    AbstractTask createTask(String strTitle, String strCode);
+    AbstractTask createTask(String strTitle, String strCode) throws DocumentReaderException;
 }
