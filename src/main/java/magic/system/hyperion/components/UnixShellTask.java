@@ -56,7 +56,7 @@ public class UnixShellTask extends AbstractTask {
     /**
      * Valid Shell file extensions.
      */
-    private static final List<String> FILE_EXTENSIONS = List.of(".sh");
+    private static final List<String> FILE_EXTENSIONS = List.of("sh");
 
     /**
      * Initialize task.
