@@ -84,6 +84,7 @@ public class UnixShellTaskTest {
     @Test
     public void testHelloWorldFile() throws URISyntaxException {
         final var scriptPath = FileUtils.getResourcePath("/scripts/say-hello-world.sh");
+        System.out.println(scriptPath.toString());
         final var task = new UnixShellTask(PRINT_HELLO_WORLD_TITLE, scriptPath.toString());
         final var result = task.run(new TaskParameters());
 
@@ -100,6 +101,7 @@ public class UnixShellTaskTest {
     @Test
     public void testScriptWithStderr() throws URISyntaxException {
         final var scriptPath = FileUtils.getResourcePath("/scripts/say-error.sh");
+        System.out.println(scriptPath.toString());
         final var task = new UnixShellTask("print error", scriptPath.toString());
         final var result = task.run(new TaskParameters());
 
