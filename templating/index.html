@@ -6,9 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <meta name="author" content="Thomas Lehmann <thomas.lehmann.private@gmail.com">
-        <link rel="canonical" href="https://thomas-lehmann-private.github.io/hyperion/groovy/">
+        <link rel="canonical" href="https://thomas-lehmann-private.github.io/hyperion/templating/">
         <link rel="shortcut icon" href="../img/favicon.ico">
-        <title>Groovy task - Hyperion</title>
+        <title>Templating - Hyperion</title>
         <link href="../css/bootstrap.min.css" rel="stylesheet">
         <link href="../css/font-awesome.min.css" rel="stylesheet">
         <link href="../css/base.css" rel="stylesheet">
@@ -45,7 +45,7 @@
 </li>
                                     
 <li>
-    <a href="./" class="dropdown-item active">Groovy task</a>
+    <a href="../groovy/" class="dropdown-item">Groovy task</a>
 </li>
                                     
 <li>
@@ -53,7 +53,7 @@
 </li>
                                     
 <li>
-    <a href="../templating/" class="dropdown-item">Templating</a>
+    <a href="./" class="dropdown-item active">Templating</a>
 </li>
                                     
   <li class="dropdown-submenu">
@@ -76,17 +76,17 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../hyperion/" class="nav-link">
+                                <a rel="prev" href="../shell/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../shell/" class="nav-link">
+                                <a rel="next" href="../cli/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="https://github.com/thomas-lehmann-private/hyperion/edit/master/docs/groovy.md" class="nav-link"><i class="fa fa-github"></i> Edit on GitHub</a>
+                                <a href="https://github.com/thomas-lehmann-private/hyperion/edit/master/docs/templating.md" class="nav-link"><i class="fa fa-github"></i> Edit on GitHub</a>
                             </li>
                     </ul>
                 </div>
@@ -106,21 +106,21 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-level="1"><a href="#groovy-task" class="nav-link">Groovy task</a>
+            <li class="nav-item" data-level="1"><a href="#templating" class="nav-link">Templating</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-level="2"><a href="#minimal-example" class="nav-link">Minimal example</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#minimal-example-with-tags" class="nav-link">Minimal example with tags</a>
+            <li class="nav-item" data-level="2"><a href="#introduction" class="nav-link">Introduction</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#example-with-variable" class="nav-link">Example with variable</a>
+            <li class="nav-item" data-level="2"><a href="#accessing-the-variables" class="nav-link">Accessing the variables</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#example-with-templating" class="nav-link">Example with templating</a>
+            <li class="nav-item" data-level="2"><a href="#accessing-the-model" class="nav-link">Accessing the model</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#near-future-enhancements" class="nav-link">(Near) Future enhancements</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -131,83 +131,71 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="groovy-task">Groovy task</h1>
-<p>This page doesn't intend to explain Groovy. So please refer to official Groovy
-documentation for details on it. It's about the Groovy task.</p>
-<h2 id="minimal-example">Minimal example</h2>
-<p>The minimal example does not require a variable but the task
-does have one (always) with the name '<strong>default</strong>'.
-The default regex is the whole text, and the default group is 0.</p>
-<pre><code class="language-yaml">---
-taskgroups:
-  - title: test
-    tasks:
-      - type: groovy
-        code: println 'hello world!'
-</code></pre>
-<h2 id="minimal-example-with-tags">Minimal example with tags</h2>
-<p>The application can be called with the repeatable option --tag. Specifying the
-those filter task will be executed only contain those tags. Task with other tags
-or even without any tags will be ignored then.</p>
-<pre><code class="language-yaml">---
-taskgroups:
-  - title: test
-    tasks:
-      - type: groovy
-        code: println 'hello world!'
-        tags:
-          - simple
-          - example         
-</code></pre>
-<h2 id="example-with-variable">Example with variable</h2>
-<p>The example with variable shows how to use the variable to extract information.
-It's exactly the same way as it does work for other tasks.
-You can specify the regex for filtering and - if required - the regex group;
-the default group is 0.</p>
-<pre><code class="language-yaml">---
-taskgroups:
-  - title: test
-    tasks:
-        - type: groovy
-          title: a simple example
-          code: println '---&gt; this is a demo &lt;---'
-          variable:
-              name: test2
-              regex: &quot;&gt;(.*)&lt;&quot;
-              group: 1
-</code></pre>
-<h2 id="example-with-templating">Example with templating</h2>
-<p>The task group does store a map of key/value where key is the name of the variable, and
-the value is a variable. If you do not specify a name for a variable the name is
-'<strong>default</strong>'. In the following example the first task does write 'hello world!' into
-the variable, and the second task does evaluate the value from the first task.
-Of course the second one write into the same variable its output since also there
-no name has been specified.</p>
-<pre><code class="language-yaml">---
-taskgroups:
-  - title: test
-    tasks:
-      - type: groovy
-        title: a simple example 1
-        code: println 'hello world!'
-      - type: groovy
-        title: a simple example 2
-        code: println '{{ variables.default.value }}'
-</code></pre>
-<p>In addition, you can evaluate the model if you have one.</p>
+<h1 id="templating">Templating</h1>
+<h2 id="introduction">Introduction</h2>
+<p>One of the most powerful feature of the Hyperion tool is the templating that
+allows you to the dynamic replacement in the code of the part.</p>
+<p>Hyperion offers currently two data sources:</p>
+<ul>
+<li>the model</li>
+<li>the task group variables</li>
+</ul>
+<p>The <strong>model</strong> is a kind of freestyle hierarchical structure you can define to model
+the required data when running your tasks. The task group variables are initially
+empty and filled whenever a task has finished successfully.</p>
+<h2 id="accessing-the-variables">Accessing the variables</h2>
+<p>Assuming you missed defining a variable on a task the name of a variable is "default".
+You then can access the variable in your task code with <strong>{{ variables.default.value }}</strong>.</p>
+<p>Assuming you evaluate a special path in your task writing it to a named variable "path"
+the possible evaluation in the next task would be <strong>{{ variables.path.value }}</strong>.</p>
+<p>It depends on of course whether tasks are running ordered or in parallel whether one
+task can read a variable of a previous task. Even more it's unpredictable for parallel
+tasks with same names to know which value will be given when you access it.</p>
+<h2 id="accessing-the-model">Accessing the model</h2>
+<p>The model - once understood - is a great way to modularize your task code also allowing
+reuse. For the next examples a few explanations:</p>
+<ul>
+<li><strong>attributes</strong> - the term means that the object behind stores for a key a value;
+   of course the can be multiple keys. The value can be a string, a number, a boolean,
+   a list or - again - a key/value object.</li>
+<li><strong>values</strong> - the means a list. The value can be a string, a number, a boolean or
+  a key/value object.</li>
+</ul>
 <pre><code class="language-yaml">---
 model:
-  description: some description
-
-taskgroups:
-  - title: test
-    tasks:
-      - type: groovy
-        title: a simple example 1
-        code: println '{{ model.attributest.description }}'
+    description: this is a simple example
 </code></pre>
-<p>The rules on how to access the individual elements of a model are
-explained <a href="../templating/">here</a>.</p></div>
+<p>Trying to access this description you have to write <strong>{{ model.attributes.description }}</strong>.</p>
+<pre><code class="language-yaml">---
+model:
+    subModel:
+        description: this is a simple example
+</code></pre>
+<p>Here the value you get with <strong>{{ model.attributes.subModel.attributes.description }}</strong></p>
+<pre><code class="language-yaml">---
+model:
+    descriptions:
+        - this is a simple example
+</code></pre>
+<p>Here the value you get with <strong>{{ model.attributes.descriptions.values[0] }}</strong>.</p>
+<pre><code class="language-yaml">model:
+    actions:
+        - name: action A
+          command: println 'hello world 1 !'
+</code></pre>
+<p>Here the name and the command can be accessed this way:</p>
+<ul>
+<li><strong>{{ model.attributes.actions.values[0].attributes.name }}</strong></li>
+<li><strong>{{ model.attributes.actions.values[0].attributes.command }}</strong></li>
+</ul>
+<p>If you want to know more about how this works then please also read here: <br/>
+https://pebbletemplates.io/wiki/guide/basic-usage/ <br/>
+(it shows internal usage as well as what you can do with it)</p>
+<h2 id="near-future-enhancements">(Near) Future enhancements</h2>
+<ul>
+<li>Matrix variables (a matrix runs all task groups again for a different set of variables)</li>
+<li>Defining task group variables in the document</li>
+</ul></div>
             </div>
         </div>
 
