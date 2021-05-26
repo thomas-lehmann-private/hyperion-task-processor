@@ -21,88 +21,63 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package magic.system.hyperion.reader;
+package magic.system.hyperion.components.tasks;
 
 import magic.system.hyperion.exceptions.HyperionException;
 
 /**
- * Field names.
+ * Type of task.
  *
  * @author Thomas Lehmann
  */
-public enum DocumentReaderFields {
+public enum TaskType {
     /**
-     * Title for many components.
+     * Type for Powershell task.
      */
-    TITLE("title"),
-    /**
-     * Tasks for task groups.
-     */
-    TASKS("tasks"),
-    /**
-     * In a task group a field to adjust whether task should run in parallel.
-     */
-    PARALLEL("parallel"),
-    /**
-     * Mainly for tasks to indicate which one is meant.
-     */
-    TYPE("type"),
-    /**
-     * Code for a task.
-     */
-    CODE("code"),
-    /**
-     * a variable (usually optional for a task).
-     */
-    VARIABLE("variable"),
-    /**
-     * Any name (like the name of a variable).
-     */
-    NAME("name"),
-    /**
-     * Any Java regex (like the regex for a variable).
-     */
-    REGEX("regex"),
-    /**
-     * Any group (like the group for a variable).
-     */
-    GROUP("group"),
-    /**
-     * Each task (at least) may have a list of one or more tags.
-     */
-    TAGS("tags"),
+    POWERSHELL("powershell"),
 
     /**
-     * Field which maintains the list of task groups.
+     * Type for Windows batch task.
      */
-    TASKGROUPS("taskgroups"),
+    BATCH("batch"),
 
     /**
-     * Main field for specifying one model inside the document.
+     * Type for Unix shell task.
      */
-    MODEL("model");
+    SHELL("shell"),
 
     /**
-     * Name of the field.
+     * Type for Groovy task.
      */
-    private final String strFieldName;
+    GROOVY("groovy"),
 
     /**
-     * Initialize constant with real field name.
+     * Type for JShell task.
+     */
+    JSHELL("jshell");
+
+    /**
+     * Type of task (the concrete type name to be used in YAML).
+     */
+    private final String strTypeName;
+
+    /**
+     * Initialize type with name.
      *
-     * @param strInitFieldName real field name of field.
+     * @param strInitTypeName type name.
      */
-    DocumentReaderFields(final String strInitFieldName) {
-        this.strFieldName = strInitFieldName;
+    TaskType(final String strInitTypeName) {
+        this.strTypeName = strInitTypeName;
     }
 
     /**
-     * Get real field name.
+     * Get type name.
      *
-     * @return read field name.
+     * @return type name.
+     * @version 1.0.0
      */
-    public String getFieldName() {
-        return this.strFieldName;
+    public String getTypeName() {
+        return this.strTypeName;
     }
 
     /**
@@ -112,14 +87,14 @@ public enum DocumentReaderFields {
      * @return found enum value
      * @throws HyperionException when the name is not known.
      */
-    public static DocumentReaderFields fromValue(final String strName)
+    public static TaskType fromValue(final String strName)
             throws HyperionException {
         for (final var value: values()) {
-            if (value.getFieldName().equals(strName)) {
+            if (value.getTypeName().equals(strName)) {
                 return value;
             }
         }
 
-        throw new HyperionException(String.format("Unknown field '" + strName + "'!"));
+        throw new HyperionException(String.format("Unknown task type '" + strName + "'!"));
     }
 }

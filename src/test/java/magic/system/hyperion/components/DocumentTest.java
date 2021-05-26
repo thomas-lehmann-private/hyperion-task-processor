@@ -23,6 +23,7 @@
  */
 package magic.system.hyperion.components;
 
+import magic.system.hyperion.components.tasks.PowershellTask;
 import org.junit.jupiter.api.DisplayName;
 
 /**

@@ -21,8 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package magic.system.hyperion.components;
+package magic.system.hyperion.components.tasks;
 
+import magic.system.hyperion.components.Model;
+import magic.system.hyperion.components.TaskParameters;
+import magic.system.hyperion.components.Variable;
 import magic.system.hyperion.reader.DocumentReader;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

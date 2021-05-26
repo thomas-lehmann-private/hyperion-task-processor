@@ -23,6 +23,7 @@
  */
 package magic.system.hyperion.components;
 
+import magic.system.hyperion.components.tasks.AbstractTask;
 import magic.system.hyperion.generics.Pair;
 import magic.system.hyperion.interfaces.IRunnable;
 import magic.system.hyperion.interfaces.IVariable;

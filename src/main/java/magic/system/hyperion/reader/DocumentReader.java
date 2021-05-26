@@ -26,13 +26,15 @@ package magic.system.hyperion.reader;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import magic.system.hyperion.components.AbstractTask;
+import magic.system.hyperion.components.tasks.AbstractTask;
 import magic.system.hyperion.components.Document;
 import magic.system.hyperion.components.TaskGroup;
 import magic.system.hyperion.components.Variable;
 import magic.system.hyperion.components.tasks.CodedTaskCreator;
+import magic.system.hyperion.components.tasks.TaskType;
 import magic.system.hyperion.data.AttributeMap;
 import magic.system.hyperion.data.ListOfValues;
+import magic.system.hyperion.exceptions.HyperionException;
 import magic.system.hyperion.generics.Converters;
 import magic.system.hyperion.interfaces.ICodeTaskCreator;
 import magic.system.hyperion.matcher.Matcher;
@@ -90,13 +92,13 @@ public class DocumentReader {
             final var mapper = new ObjectMapper(new YAMLFactory());
             readDocument(mapper.readTree(this.path.toUri().toURL()));
             finalDocument = this.document;
-        } catch (IOException | DocumentReaderException e) {
+        } catch (IOException | HyperionException e) {
             LOGGER.error(e.getMessage(), e);
         }
         return finalDocument;
     }
 
-    private void readDocument(final JsonNode node) throws DocumentReaderException {
+    private void readDocument(final JsonNode node) throws HyperionException {
         final var iter = node.fields();
         while (iter.hasNext()) {
             final var entry = iter.next();
@@ -114,7 +116,7 @@ public class DocumentReader {
                 }
 
                 default: {
-                    throw new DocumentReaderException(String.format(
+                    throw new HyperionException(String.format(
                             "Known field '%s' is not handled!", entry.getKey()));
 
                 }
@@ -178,7 +180,7 @@ public class DocumentReader {
         }
     }
 
-    private void readTaskGroups(final JsonNode node) throws DocumentReaderException {
+    private void readTaskGroups(final JsonNode node) throws HyperionException {
         final var iter = node.elements();
         while (iter.hasNext()) {
             // there should be nothing else but individual task group.
@@ -186,7 +188,7 @@ public class DocumentReader {
         }
     }
 
-    private void readTaskGroup(final JsonNode node) throws DocumentReaderException {
+    private void readTaskGroup(final JsonNode node) throws HyperionException {
         final var names = Converters.convertToSortedList(node.fieldNames());
         final var matcher = Matcher.of(names);
         matcher.requireExactlyOnce(DocumentReaderFields.TITLE.getFieldName());
@@ -194,7 +196,7 @@ public class DocumentReader {
         matcher.allow(DocumentReaderFields.PARALLEL.getFieldName());
 
         if (!matcher.matches(names)) {
-            throw new DocumentReaderException(
+            throw new HyperionException(
                     DocumentReaderMessage.MISSING_OR_UNKNOWN_TASK_GROUP_FIELDS.getMessage());
         }
 
@@ -215,19 +217,20 @@ public class DocumentReader {
     }
 
     private void readTask(final TaskGroup taskGroup, final JsonNode node)
-            throws DocumentReaderException {
+            throws HyperionException {
         final var names = Converters.convertToSortedList(node.fieldNames());
         final var matcher = Matcher.of(names);
         matcher.requireExactlyOnce(DocumentReaderFields.TYPE.getFieldName());
 
         if (!matcher.matches(names)) {
-            throw new DocumentReaderException(
+            throw new HyperionException(
                     "A task is expected to have a type field!");
         }
 
         final var strType = node.get(DocumentReaderFields.TYPE.getFieldName()).asText();
+        final var type = TaskType.fromValue(strType);
         readCodeTask(taskGroup, node, (strTitle, strCode)
-                -> CodedTaskCreator.createTask(strType, strTitle, strCode));
+                -> CodedTaskCreator.createTask(type, strTitle, strCode));
     }
 
     /**
@@ -239,7 +242,7 @@ public class DocumentReader {
      */
     private void readCodeTask(final TaskGroup taskGroup, final JsonNode node,
                               final ICodeTaskCreator taskCreator)
-            throws DocumentReaderException {
+            throws HyperionException {
         final var names = Converters.convertToSortedList(node.fieldNames());
         final var matcher = Matcher.of(names);
 
@@ -250,7 +253,7 @@ public class DocumentReader {
         matcher.allow(DocumentReaderFields.TAGS.getFieldName());
 
         if (!matcher.matches(names)) {
-            throw new DocumentReaderException("The task fields are not correct!");
+            throw new HyperionException("The task fields are not correct!");
         }
 
         final var strTitle = node.has(DocumentReaderFields.TITLE.getFieldName())

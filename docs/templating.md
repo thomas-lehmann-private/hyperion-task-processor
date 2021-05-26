@@ -69,6 +69,7 @@ model:
           command: println 'hello world 1 !'
 ```
 Here the name and the command can be accessed this way:
+
  - **{{ model.attributes.actions.values[0].attributes.name }}**
  - **{{ model.attributes.actions.values[0].attributes.command }}**
 

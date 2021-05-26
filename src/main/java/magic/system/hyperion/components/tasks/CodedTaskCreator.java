@@ -23,13 +23,7 @@
  */
 package magic.system.hyperion.components.tasks;
 
-import magic.system.hyperion.components.AbstractTask;
-import magic.system.hyperion.components.GroovyTask;
-import magic.system.hyperion.components.JShellTask;
-import magic.system.hyperion.components.PowershellTask;
-import magic.system.hyperion.components.UnixShellTask;
-import magic.system.hyperion.components.WindowsBatchTask;
-import magic.system.hyperion.reader.DocumentReaderException;
+import magic.system.hyperion.exceptions.HyperionException;
 
 /**
  * Task creator for coded tasks.
@@ -48,41 +42,41 @@ public final class CodedTaskCreator {
     /**
      * Creating task by type.
      *
-     * @param strType type of the task.
+     * @param type type of the task.
      * @param strTitle title of the task.
      * @param strCode code of the task.
      * @return the task if known otherwise null.
-     * @throws DocumentReaderException when task type is unknown.
+     * @throws HyperionException when task type is unknown.
      */
-    public static AbstractTask createTask(final String strType,
+    public static AbstractTask createTask(final TaskType type,
                                           final String strTitle, final String strCode)
-            throws DocumentReaderException {
+            throws HyperionException {
         final AbstractTask task;
 
-        switch (strType) {
-            case "groovy": {
+        switch (type) {
+            case GROOVY: {
                 task = new GroovyTask(strTitle, strCode);
                 break;
             }
-            case "shell": {
+            case SHELL: {
                 task = new UnixShellTask(strTitle, strCode);
                 break;
             }
-            case "jshell": {
+            case JSHELL: {
                 task = new JShellTask(strTitle, strCode);
                 break;
             }
-            case "batch": {
+            case BATCH: {
                 task = new WindowsBatchTask(strTitle, strCode);
                 break;
             }
-            case "powershell": {
+            case POWERSHELL: {
                 task = new PowershellTask(strTitle, strCode);
                 break;
             }
             default: {
-                throw new DocumentReaderException(
-                        String.format("Task of type '%s' is not known!", strType));
+                throw new HyperionException(
+                        String.format("Task of type '%s' is not known!", type.getTypeName()));
             }
         }
 

@@ -21,21 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package magic.system.hyperion.reader;
+package magic.system.hyperion.exceptions;
 
 /**
- * Exception thrown when failed to read a document correctly.
+ * Exception thrown when Hyperion detects a problem.
  *
  * @author Thomas Lehmann
  */
-public class DocumentReaderException extends Exception {
+public class HyperionException extends Exception {
 
     /**
      * Initialize Exception with a message.
      *
      * @param strMessage concrete message.
      */
-    public DocumentReaderException(final String strMessage) {
+    public HyperionException(final String strMessage) {
         super(strMessage);
     }
 }

@@ -1,5 +1,8 @@
 # Groovy task
 
+This page doesn't intend to explain Groovy. So please refer to official Groovy
+documentation for details on it. It's about the Groovy task.
+
 ## Minimal example
 
 The minimal example does not require a variable but the task
@@ -12,7 +15,6 @@ taskgroups:
   - title: test
     tasks:
       - type: groovy
-        title: a simple example
         code: println 'hello world!'
 ```
 
@@ -28,7 +30,6 @@ taskgroups:
   - title: test
     tasks:
       - type: groovy
-        title: a simple example
         code: println 'hello world!'
         tags:
           - simple
@@ -77,3 +78,21 @@ taskgroups:
         title: a simple example 2
         code: println '{{ variables.default.value }}'
 ```
+
+In addition, you can evaluate the model if you have one.
+
+```yaml
+---
+model:
+  description: some description
+
+taskgroups:
+  - title: test
+    tasks:
+      - type: groovy
+        title: a simple example 1
+        code: println '{{ model.attributest.description }}'
+```
+
+The rules on how to access the individual elements of a model are
+explained [here](templating.md).

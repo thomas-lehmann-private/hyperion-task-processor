@@ -21,8 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package magic.system.hyperion.components;
+package magic.system.hyperion.components.tasks;
 
+import magic.system.hyperion.components.TaskParameters;
+import magic.system.hyperion.components.TaskResult;
 import magic.system.hyperion.tools.ProcessResults;
 import magic.system.hyperion.tools.TemplateEngine;
 import org.slf4j.Logger;

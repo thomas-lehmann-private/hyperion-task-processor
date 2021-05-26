@@ -21,7 +21,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package magic.system.hyperion.components;
+package magic.system.hyperion.components.tasks;
+
+import magic.system.hyperion.components.Component;
+import magic.system.hyperion.components.TaskParameters;
+import magic.system.hyperion.components.TaskResult;
+import magic.system.hyperion.components.Variable;
+import magic.system.hyperion.interfaces.IRunnable;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
@@ -29,10 +37,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import magic.system.hyperion.interfaces.IRunnable;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
  * A task represents a a concrete task represented as file (script) or inline

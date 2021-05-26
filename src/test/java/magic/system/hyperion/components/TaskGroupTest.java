@@ -23,6 +23,8 @@
  */
 package magic.system.hyperion.components;
 
+import magic.system.hyperion.components.tasks.GroovyTask;
+import magic.system.hyperion.components.tasks.JShellTask;
 import magic.system.hyperion.generics.Pair;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
