@@ -8,6 +8,7 @@ nav:
     - Index:
        - hyperion.md
        - groovy.md
+       - shell.md
        - templating.md
        - Internal:
           - cli.md
