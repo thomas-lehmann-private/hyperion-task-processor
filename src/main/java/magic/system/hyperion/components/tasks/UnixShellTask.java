@@ -99,6 +99,7 @@ public class UnixShellTask extends AbstractTask {
                 final var engine = new TemplateEngine();
                 final var renderedText = engine.render(getCode(),
                         Map.of("model", parameters.getModel().getData(),
+                                "matrix", parameters.getMatrixParameters(),
                                 "variables", parameters.getVariables()));
 
                 Files.write(temporaryScriptPath, renderedText.getBytes(

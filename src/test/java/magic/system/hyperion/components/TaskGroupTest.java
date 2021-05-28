@@ -25,7 +25,7 @@ package magic.system.hyperion.components;
 
 import magic.system.hyperion.components.tasks.GroovyTask;
 import magic.system.hyperion.components.tasks.JShellTask;
-import magic.system.hyperion.generics.Pair;
+import org.apache.commons.lang3.tuple.Triple;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -33,6 +33,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -53,7 +54,7 @@ public class TaskGroupTest {
     @Test
     public void testRunTaskOneAfterTheOther() {
         final var taskGroup = createTestTaskGroup(false);
-        taskGroup.run(Pair.of(new Model(), List.of()));
+        taskGroup.run(Triple.of(new Model(), Map.of(), List.of()));
         assertEquals(taskGroup.getListOfTasks().size(), taskGroup.getVariables().size());
         assertEquals("Gandalf", taskGroup.getVariables().get("name1").getValue());
         assertEquals("Frodo", taskGroup.getVariables().get("name2").getValue());
@@ -65,7 +66,7 @@ public class TaskGroupTest {
     @Test
     public void testRunTaskOneAfterTheOtherFiltered() {
         final var taskGroup = createTestTaskGroup(false);
-        taskGroup.run(Pair.of(new Model(), List.of("groovy")));
+        taskGroup.run(Triple.of(new Model(), Map.of(), List.of("groovy")));
         assertEquals(1, taskGroup.getVariables().size());
         assertEquals("Gandalf", taskGroup.getVariables().get("name1").getValue());
     }

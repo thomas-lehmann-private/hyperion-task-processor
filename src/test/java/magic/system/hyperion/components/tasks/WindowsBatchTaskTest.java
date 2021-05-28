@@ -137,7 +137,7 @@ public class WindowsBatchTaskTest {
                 "echo {{ variables.text.value }}");
         assertEquals(PRINT_HELLO_WORLD_TITLE, task.getTitle());
 
-        final var parameters = new TaskParameters(new Model(), Map.of("text", variable));
+        final var parameters = new TaskParameters(new Model(), Map.of(), Map.of("text", variable));
         final var result = task.run(parameters);
 
         assertEquals(HELLO_WORD_TEXT, result.getVariable().getValue());

@@ -21,33 +21,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package magic.system.hyperion.interfaces;
+package magic.system.hyperion.generics;
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Interface for a variable with readonly access.
- *
- * @author Thomas Lehmann
+ * Testing of class {@link ListCollector}.
  */
-public interface IVariable {
-
+@SuppressWarnings("checkstyle:multiplestringliterals")
+public class ListCollectorTest {
     /**
-     * Provide Name of the variable.
-     *
-     * @return name
+     * Testing default usage.
      */
-    String getName();
+    @Test
+    public void testDefault() {
+        final var publisher = new SimplePublisher<String>();
+        final var collector = new ListCollector<String>();
 
-    /**
-     * Provide value of variable.
-     *
-     * @return value.
-     */
-    String getValue();
+        publisher.subscribe(collector);
+        publisher.submit("hello world!");
+        publisher.close();
 
-    /**
-     * Copying this variable instance.
-     *
-     * @return new instance of variable.
-     */
-    IVariable copy();
+        assertEquals(1, collector.size());
+        assertEquals("hello world!", collector.get(0));
+    }
 }

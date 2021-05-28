@@ -24,11 +24,12 @@
 package magic.system.hyperion.components;
 
 import magic.system.hyperion.components.tasks.AbstractTask;
-import magic.system.hyperion.generics.Pair;
+import magic.system.hyperion.generics.SimplePublisher;
 import magic.system.hyperion.interfaces.IRunnable;
 import magic.system.hyperion.interfaces.IVariable;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.tuple.Triple;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,7 +44,8 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author Thomas Lehmann
  */
-public class TaskGroup extends Component implements IRunnable<Boolean, Pair<Model, List<String>>> {
+public class TaskGroup extends Component
+        implements IRunnable<Boolean, Triple<Model, Map<String, String>, List<String>>> {
     /**
      * Logger for this class.
      */
@@ -65,10 +67,16 @@ public class TaskGroup extends Component implements IRunnable<Boolean, Pair<Mode
     private final boolean bRunTasksInParallel;
 
     /**
+     * Publisher for changed variables.
+     */
+    private final SimplePublisher<IVariable> variablePublisher;
+
+    /**
      * Initialize task group.
      *
      * @param strInitTitle title of the group.
      * @param bInitRunTasksInParallel when true then run tasks in parallel.
+     * @version 1.0.0
      */
     public TaskGroup(final String strInitTitle,
             final boolean bInitRunTasksInParallel) {
@@ -76,12 +84,14 @@ public class TaskGroup extends Component implements IRunnable<Boolean, Pair<Mode
         this.variables = new ConcurrentHashMap<>();
         this.listOfTasks = new ArrayList<>();
         this.bRunTasksInParallel = bInitRunTasksInParallel;
+        this.variablePublisher = new SimplePublisher<>();
     }
 
     /**
      * Readonly access to variables.
      *
      * @return variables.
+     * @version 1.0.0
      */
     public Map<String, IVariable> getVariables() {
         return Collections.unmodifiableMap(this.variables);
@@ -91,6 +101,7 @@ public class TaskGroup extends Component implements IRunnable<Boolean, Pair<Mode
      * Provide list of tasks.
      *
      * @return list of tasks.
+     * @version 1.0.0
      */
     public List<AbstractTask> getListOfTasks() {
         return Collections.unmodifiableList(this.listOfTasks);
@@ -100,27 +111,40 @@ public class TaskGroup extends Component implements IRunnable<Boolean, Pair<Mode
      * Provide whether to run the tasks in parallel.
      *
      * @return when true then run the tasks in parallel.
+     * @version 1.0.0
      */
     public boolean isRunTasksInParallel() {
         return this.bRunTasksInParallel;
     }
 
     /**
+     * Get publisher for variable changes.
+     *
+     * @return variable publisher.
+     * @version 1.0.0
+     */
+    public SimplePublisher<IVariable> getVariablePublisher() {
+        return this.variablePublisher;
+    }
+
+    /**
      * Adding new task.
      *
      * @param task new task.
+     * @version 1.0.0
      */
     public void add(final AbstractTask task) {
         this.listOfTasks.add(task);
     }
 
     @Override
-    public Boolean run(final Pair<Model, List<String>> parameters) {
+    public Boolean run(final Triple<Model, Map<String, String>, List<String>> parameters) {
         boolean success = true;
 
         // run parameters
-        final Model model = parameters.getFirst();
-        final List<String> tags = parameters.getSecond();
+        final var model = parameters.getLeft();
+        final var matrixParameters = parameters.getMiddle();
+        final var tags = parameters.getRight();
 
         if (!this.bRunTasksInParallel) {
             for (var task : this.listOfTasks) {
@@ -130,10 +154,13 @@ public class TaskGroup extends Component implements IRunnable<Boolean, Pair<Mode
                     continue;
                 }
 
-                final var result = task.run(TaskParameters.of(model, this.variables));
-                this.variables.put(result.getVariable().getName(), result.getVariable());
+                final var result = task.run(
+                        TaskParameters.of(model, matrixParameters, this.variables));
+                final var copiedVariable = result.getVariable().copy();
+                this.variables.put(copiedVariable.getName(), copiedVariable);
                 LOGGER.info(String.format("set variable %s=%s",
-                        result.getVariable().getName(), result.getVariable().getValue()));
+                        copiedVariable.getName(), copiedVariable.getValue()));
+                this.variablePublisher.submit(copiedVariable);
                 if (!result.isSuccess()) {
                     success = false;
                 }

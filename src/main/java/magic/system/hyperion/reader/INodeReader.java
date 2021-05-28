@@ -21,33 +21,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package magic.system.hyperion.components;
+package magic.system.hyperion.reader;
 
-import magic.system.hyperion.components.tasks.PowershellTask;
-import org.junit.jupiter.api.DisplayName;
+import com.fasterxml.jackson.databind.JsonNode;
+import magic.system.hyperion.exceptions.HyperionException;
 
 /**
- * Testing of class {@link Document}.
+ * Interface for reading a node.
  *
  * @author Thomas Lehmann
  */
-@DisplayName("Testing Document class")
-public class DocumentTest {
-
+public interface INodeReader {
     /**
-     * Creating a test document.
+     * Reading a JSON node.
      *
-     * @return test document.
+     * @param node current node.
+     * @throws HyperionException when the read has failed.
      */
-    private Document createTestDocument() {
-        final var document = new Document();
-        document.getModel().getData().set("mode", "test");
-        final var taskGroup = new TaskGroup("running one after the other", false);
-        taskGroup.add(new PowershellTask("say hello world 1",
-                "Write-Host \"hello world 1!\""));
-        taskGroup.add(new PowershellTask("say hello world 2",
-                "Write-Host \"hello world 2!\""));
-        document.add(taskGroup);
-        return document;
-    }
+    void read(JsonNode node) throws HyperionException;
 }

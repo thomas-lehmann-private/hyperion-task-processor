@@ -40,6 +40,11 @@ public class TaskParameters {
     private final Model model;
 
     /**
+     * Matrix parameters.
+     */
+    private final Map<String, String> matrixParameters;
+
+    /**
      * Variables (usually a reference to the variables of the task group).
      */
     private Map<String, IVariable> variables;
@@ -50,6 +55,7 @@ public class TaskParameters {
      */
     public TaskParameters() {
         this.model = new Model();
+        this.matrixParameters = new TreeMap<>();
         this.variables = new TreeMap<>();
     }
 
@@ -57,10 +63,14 @@ public class TaskParameters {
      * Initialize task parameters.
      *
      * @param initModel model to use.
+     * @param initMatrixParameters matrix parameters to use.
      * @param initVariables variables to use.
      */
-    public TaskParameters(final Model initModel, final Map<String, IVariable> initVariables) {
+    public TaskParameters(final Model initModel,
+                          final Map<String, String> initMatrixParameters,
+                          final Map<String, IVariable> initVariables) {
         this.model = initModel;
+        this.matrixParameters = new TreeMap<>(initMatrixParameters);
         this.variables = initVariables;
     }
 
@@ -72,6 +82,16 @@ public class TaskParameters {
      */
     public Model getModel() {
         return this.model;
+    }
+
+    /**
+     * Get matrix parameters.
+     *
+     * @return matrix parameters.
+     * @version 1.0.0
+     */
+    public Map<String, String> getMatrixParameters() {
+        return this.matrixParameters;
     }
 
     /**
@@ -88,11 +108,14 @@ public class TaskParameters {
      * Creating a task parameters instance.
      *
      * @param model mode to use.
+     * @param matrixParameters matrix parameters.
      * @param variables variables to use.
      * @return task parameters instance.
      * @version 1.0.0
      */
-    public static TaskParameters of(final Model model, final Map<String, IVariable> variables) {
-        return new TaskParameters(model, variables);
+    public static TaskParameters of(final Model model,
+                                    final Map<String,String> matrixParameters,
+                                    final Map<String, IVariable> variables) {
+        return new TaskParameters(model,matrixParameters, variables);
     }
 }

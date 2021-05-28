@@ -21,33 +21,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package magic.system.hyperion.interfaces;
+package magic.system.hyperion.generics;
+
+import java.util.concurrent.Executor;
+import java.util.concurrent.Flow;
+import java.util.concurrent.SubmissionPublisher;
 
 /**
- * Interface for a variable with readonly access.
+ * Simple publisher running command in same thread.
  *
- * @author Thomas Lehmann
+ * @param <E> type of element to publish.
  */
-public interface IVariable {
-
+public class SimplePublisher<E> extends SubmissionPublisher<E> {
     /**
-     * Provide Name of the variable.
-     *
-     * @return name
+     * Running publisher in same thread.
      */
-    String getName();
-
-    /**
-     * Provide value of variable.
-     *
-     * @return value.
-     */
-    String getValue();
-
-    /**
-     * Copying this variable instance.
-     *
-     * @return new instance of variable.
-     */
-    IVariable copy();
+    public SimplePublisher() {
+        super(new Executor() {
+            @Override
+            public void execute(Runnable command) {
+                command.run();
+            }
+        }, Flow.defaultBufferSize());
+    }
 }

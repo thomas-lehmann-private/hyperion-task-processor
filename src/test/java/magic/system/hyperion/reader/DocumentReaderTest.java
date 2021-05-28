@@ -23,6 +23,8 @@
  */
 package magic.system.hyperion.reader;
 
+import magic.system.hyperion.generics.ListCollector;
+import magic.system.hyperion.interfaces.IVariable;
 import magic.system.hyperion.tools.MessagesCollector;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,6 +34,7 @@ import org.junit.jupiter.api.condition.OS;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -140,6 +143,38 @@ public class DocumentReaderTest {
                 document.getModel().getData().getList("listOfAnything")
                         .getAttributeList(2)
                         .getList("subList").toString());
+    }
+    /**
+     * Testing of a matrix run.
+     *
+     * @throws URISyntaxException when loading of the document has failed.
+     */
+    @Test
+    public void testMatrix() throws URISyntaxException {
+        final var path = Paths.get(getClass().getResource(
+                "/documents/document-with-matrix.yml").toURI());
+        final var reader = new DocumentReader(path);
+        final var document = reader.read();
+        assertNotNull(document);
+
+        final var collector = new ListCollector<IVariable>();
+        document.getListOfTaskGroups().forEach(
+                group -> group.getVariablePublisher().subscribe(collector));
+        document.run(List.of());
+
+        final String strLineBreak = System.getProperty("os.name")
+                .toLowerCase(Locale.getDefault()).contains("windows")? "\r\n": "\n";
+
+        //CHECKSTYLE.OFF: MagicNumber: ok here
+        assertEquals("Groovy:the first run|hello world 1!|hello world 2!|hello world 3!".
+                        replaceAll("\\|", strLineBreak), collector.get(0).getValue());
+        assertEquals("JShell:the first run|hello world 1!|hello world 2!|hello world 3!".
+                        replaceAll("\\|", strLineBreak), collector.get(1).getValue());
+        assertEquals("Groovy:the second run|hello world 1!".replaceAll("\\|", strLineBreak),
+                collector.get(2).getValue());
+        assertEquals("JShell:the second run|hello world 1!".replaceAll("\\|", strLineBreak),
+                collector.get(3).getValue());
+        //CHECKSTYLE.ON: MagicNumber
     }
 
     @Test

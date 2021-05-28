@@ -23,7 +23,6 @@
  */
 package magic.system.hyperion.components;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import magic.system.hyperion.interfaces.IVariable;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -39,7 +38,6 @@ import java.util.regex.Pattern;
  * @author Thomas Lehmann
  */
 public class Variable implements IVariable {
-
     /**
      * Name of the variable.
      */
@@ -117,10 +115,17 @@ public class Variable implements IVariable {
      *
      * @return value
      */
-    @JsonIgnore
     @Override
     public String getValue() {
         return this.strValue;
+    }
+
+    @Override
+    public IVariable copy() {
+        final var variable = new Variable(
+                this.strName, this.strRegex, this.iRegexGroup, this.bLineByLine);
+        variable.setRawValue(this.strValue);
+        return variable;
     }
 
     /**
@@ -214,6 +219,15 @@ public class Variable implements IVariable {
         }
 
         return success;
+    }
+
+    /**
+     * Set raw value without applying regex.
+     *
+     * @param strInitValue new value.
+     */
+    private void setRawValue(final String strInitValue) {
+        this.strValue = strInitValue;
     }
 
     @Override

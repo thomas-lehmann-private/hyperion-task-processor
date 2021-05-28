@@ -23,14 +23,17 @@
  */
 package magic.system.hyperion.components;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import magic.system.hyperion.generics.Pair;
 import magic.system.hyperion.interfaces.IRunnable;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.tuple.Triple;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Document containing the tasks.
@@ -38,11 +41,21 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  * @author Thomas Lehmann
  */
 public class Document implements IRunnable<Void, List<String>> {
+    /**
+     * Logger for this class.
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(Document.class);
 
     /**
      * The one and only model in a document.
      */
     private final Model model;
+
+    /**
+     * List of matrix items. For each item all task groups
+     * a processed with the variables of that item.
+     */
+    private final List<MatrixParameters> matrix;
 
     /**
      * List of task groups.
@@ -53,23 +66,36 @@ public class Document implements IRunnable<Void, List<String>> {
      * Initialize document.
      */
     public Document() {
-        this.listOfTaskGroups = new ArrayList<>();
         this.model = new Model();
+        this.matrix = new ArrayList<>();
+        this.listOfTaskGroups = new ArrayList<>();
     }
 
     /**
      * Get the model.
      *
      * @return model.
+     * @version 1.0.0
      */
     public Model getModel() {
         return this.model;
     }
 
     /**
+     * Get matrix.
+     *
+     * @return matrix.
+     * @version 1.0.0
+     */
+    public List<MatrixParameters> getMatrix() {
+        return Collections.unmodifiableList(this.matrix);
+    }
+
+    /**
      * Provide list of task groups.
      *
      * @return list of task groups.
+     * @version 1.0.0
      */
     public List<TaskGroup> getListOfTaskGroups() {
         return Collections.unmodifiableList(this.listOfTaskGroups);
@@ -79,14 +105,29 @@ public class Document implements IRunnable<Void, List<String>> {
      * Adding a task group.
      *
      * @param taskGroup a new task group.
+     * @version 1.0.0
      */
     public void add(final TaskGroup taskGroup) {
         this.listOfTaskGroups.add(taskGroup);
     }
 
+    /**
+     * Adding matrix parameters.
+     *
+     * @param matrixParameters a new matrix parameters.
+     * @version 1.0.0
+     */
+    public void add(final MatrixParameters matrixParameters) {
+        this.matrix.add(matrixParameters);
+    }
+
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(this.listOfTaskGroups).build();
+        return new HashCodeBuilder()
+                .append(this.model)
+                .append(this.matrix)
+                .append(this.listOfTaskGroups)
+                .build();
     }
 
     @Override
@@ -103,12 +144,24 @@ public class Document implements IRunnable<Void, List<String>> {
 
         final Document other = (Document) obj;
         return new EqualsBuilder()
+                .append(this.model, other.getModel())
+                .append(this.matrix, other.getMatrix())
                 .append(this.listOfTaskGroups, other.getListOfTaskGroups()).build();
     }
 
     @Override
     public Void run(final List<String> tags) {
-        this.listOfTaskGroups.forEach(taskGroup -> taskGroup.run(Pair.of(this.model, tags)));
+        if (this.matrix.isEmpty()) {
+            this.listOfTaskGroups.forEach(taskGroup -> taskGroup.run(
+                    Triple.of(this.model, Map.of(), tags)));
+        } else {
+            for (final var matrixParameters: this.matrix) {
+                LOGGER.info("Running Matrix " + matrixParameters.getTitle());
+                this.listOfTaskGroups.forEach(taskGroup -> taskGroup.run(
+                        Triple.of(this.model, matrixParameters.getParameters(), tags)));
+            }
+        }
+
         return null;
     }
 }

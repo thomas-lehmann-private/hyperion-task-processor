@@ -80,7 +80,17 @@ public enum DocumentReaderFields {
     /**
      * Main field for specifying one model inside the document.
      */
-    MODEL("model");
+    MODEL("model"),
+
+    /**
+     * Main field for specifying the matrix.
+     */
+    MATRIX("matrix"),
+
+    /**
+     * Parameters of a matrix item.
+     */
+    PARAMETERS("parameters");
 
     /**
      * Name of the field.

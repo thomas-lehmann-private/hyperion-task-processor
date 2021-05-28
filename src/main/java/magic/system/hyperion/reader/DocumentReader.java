@@ -26,10 +26,10 @@ package magic.system.hyperion.reader;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import magic.system.hyperion.components.tasks.AbstractTask;
 import magic.system.hyperion.components.Document;
 import magic.system.hyperion.components.TaskGroup;
 import magic.system.hyperion.components.Variable;
+import magic.system.hyperion.components.tasks.AbstractTask;
 import magic.system.hyperion.components.tasks.CodedTaskCreator;
 import magic.system.hyperion.components.tasks.TaskType;
 import magic.system.hyperion.data.AttributeMap;
@@ -105,13 +105,18 @@ public class DocumentReader {
             final var field = DocumentReaderFields.fromValue(entry.getKey());
 
             switch (field) {
-                case TASKGROUPS: {
-                    readTaskGroups(entry.getValue());
+                case MODEL: {
+                    readAttributeMap(this.document.getModel().getData(), entry.getValue());
                     break;
                 }
 
-                case MODEL: {
-                    readAttributeMap(this.document.getModel().getData(), entry.getValue());
+                case MATRIX: {
+                    new MatrixReader(this.document).read(entry.getValue());
+                    break;
+                }
+
+                case TASKGROUPS: {
+                    readTaskGroups(entry.getValue());
                     break;
                 }
 

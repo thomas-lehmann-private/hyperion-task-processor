@@ -73,7 +73,7 @@ public class Pair<F, S> {
     }
 
     /**
-     * Provde pair with two values.
+     * Provide pair with two values.
      *
      * @param <U> Type for first value.
      * @param <V> Type for second value.

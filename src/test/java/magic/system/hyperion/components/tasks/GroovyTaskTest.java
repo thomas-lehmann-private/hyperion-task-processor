@@ -104,7 +104,7 @@ public class GroovyTaskTest {
                 "println '{{ variables.text.value }}'");
         assertEquals(TASK_TITLE, task.getTitle());
 
-        final var parameters = new TaskParameters(new Model(), Map.of("text", variable));
+        final var parameters = new TaskParameters(new Model(), Map.of(), Map.of("text", variable));
         final var result = task.run(parameters);
 
         assertEquals(HELLO_WORD_TEXT, result.getVariable().getValue().strip());
@@ -130,7 +130,7 @@ public class GroovyTaskTest {
         final var reader = new DocumentReader(path);
         final var document = reader.read();
 
-        final var parameters = new TaskParameters(document.getModel(), Map.of());
+        final var parameters = new TaskParameters(document.getModel(), Map.of(), Map.of());
         final var result = task.run(parameters);
 
         assertEquals(strExpectedValue, result.getVariable().getValue().strip());

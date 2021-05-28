@@ -79,7 +79,7 @@ public class JShellTaskTest {
         final var task = new JShellTask(
                 "test", "System.out.println(\"{{ variables.text.value }}\")");
 
-        final var parameters = new TaskParameters(new Model(), Map.of("text", variable));
+        final var parameters = new TaskParameters(new Model(), Map.of(), Map.of("text", variable));
         final var result = task.run(parameters);
 
         assertTrue(result.isSuccess());

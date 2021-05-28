@@ -21,33 +21,56 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package magic.system.hyperion.interfaces;
+package magic.system.hyperion.generics;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.concurrent.Flow;
 
 /**
- * Interface for a variable with readonly access.
+ * Collector for items storing them into a list.
+ *
+ * @param <E> type of Element.
  *
  * @author Thomas Lehmann
  */
-public interface IVariable {
+public class ListCollector<E> extends ArrayList<E> implements Flow.Subscriber<E> {
+    /**
+     * Logger for this class.
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(ListCollector.class);
 
     /**
-     * Provide Name of the variable.
-     *
-     * @return name
+     * Serial number.
      */
-    String getName();
+    private static final long serialVersionUID = 1L;
 
     /**
-     * Provide value of variable.
-     *
-     * @return value.
+     * Last subscription.
      */
-    String getValue();
+    private transient Flow.Subscription subscription;
 
-    /**
-     * Copying this variable instance.
-     *
-     * @return new instance of variable.
-     */
-    IVariable copy();
+    @Override
+    public void onSubscribe(Flow.Subscription initSubscription) {
+        this.subscription = initSubscription;
+        this.subscription.request(Long.MAX_VALUE);
+    }
+
+    @Override
+    public void onNext(final E item) {
+        this.add(item);
+        this.subscription.request(Long.MAX_VALUE);
+    }
+
+    @Override
+    public void onError(final Throwable throwable) {
+        LOGGER.error(throwable.getMessage(), throwable);
+    }
+
+    @Override
+    public void onComplete() {
+        // Nothing to do.
+    }
 }
