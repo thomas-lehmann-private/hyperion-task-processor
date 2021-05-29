@@ -10,6 +10,7 @@ nav:
        - groovy.md
        - shell.md
        - templating.md
+       - matrix.md
        - Internal:
           - cli.md
 
