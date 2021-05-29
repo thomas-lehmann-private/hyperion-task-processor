@@ -78,7 +78,7 @@
                 <defaultGoal>clean package javadoc:jar verify</defaultGoal>
             </build>
             <properties>
-                <line.coverage>0.87</line.coverage>
+                <line.coverage>0.88</line.coverage>
             </properties>
         </profile>
 
@@ -91,7 +91,7 @@
                 <defaultGoal>clean package javadoc:jar verify</defaultGoal>
             </build>
             <properties>
-                <line.coverage>0.7</line.coverage>
+                <line.coverage>0.82</line.coverage>
             </properties>
         </profile>
     </profiles>

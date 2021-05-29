@@ -26,10 +26,8 @@ package magic.system.hyperion;
 import magic.system.hyperion.cli.CliCommand;
 import magic.system.hyperion.cli.CliException;
 import magic.system.hyperion.cli.CliHelpPrinter;
-import magic.system.hyperion.cli.CliOption;
 import magic.system.hyperion.cli.CliOptionList;
 import magic.system.hyperion.cli.CliParser;
-import magic.system.hyperion.cli.OptionType;
 import magic.system.hyperion.reader.DocumentReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,7 +49,12 @@ public final class Application {
     /**
      * Logger for this class.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
+     private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
+
+    /**
+     * Escape character.
+     */
+    private static final int ESCAPE = 27;
 
     /**
      * The key for final name of the jar (without extension).
@@ -72,46 +75,6 @@ public final class Application {
      * They key for the architect and developer of the project.
      */
     private static final String PROPERTY_AUTHOR = "author";
-
-    /**
-     * (G)lobal (o)ption (l)ong (n)ame for help.
-     */
-    private static final String GOLN_HELP = "help";
-
-    /**
-     * (G)lobal (o)ption (s)ong (n)ame for help.
-     */
-    private static final String GOSN_HELP = "h";
-
-    /**
-     * (G)lobal (o)ption (l)ong (n)ame for 3rd-party.
-     */
-    private static final String GOLN_3RD_PARTY = "third-party";
-
-    /**
-     * (G)lobal (o)ption (l)ong (n)ame for tag.
-     */
-    private static final String GOLN_TAG = "tag";
-
-    /**
-     * (G)lobal (o)ption (s)ong (n)ame for tag.
-     */
-    private static final String GOSN_TAG = "t";
-
-    /**
-     * Command run.
-     */
-    private static final String COMMAND_RUN = "run";
-
-    /**
-     * (C)ommand (o)ption (l)ong (n)ame for file.
-     */
-    private static final String COLN_FILE = "file";
-
-    /**
-     * Escape character.
-     */
-    private static final int ESCAPE = 27;
 
     /**
      * Application properties.
@@ -143,21 +106,23 @@ public final class Application {
      */
     void run(final String[] args) throws CliException {
         this.properties = getApplicationProperties();
-        this.globalOptions = defineGlobalOptions();
-        this.commands = defineCommands();
+        this.globalOptions = ApplicationOptionsFunctions.defineGlobalOptions();
+        this.commands = ApplicationOptionsFunctions.defineCommands();
 
         final var parser = CliParser.builder()
                 .setGlobalOptions(this.globalOptions).setCommands(this.commands).build();
         final var result = parser.parse(args);
 
-        if (result.getGlobalOptions().containsKey(GOLN_HELP)) {
+        if (result.getGlobalOptions().containsKey(ApplicationOptions.HELP.getLongName())) {
             printHelp();
-        } else if (result.getGlobalOptions().containsKey(GOLN_3RD_PARTY)) {
+        } else if (result.getGlobalOptions().containsKey(
+                ApplicationOptions.THIRD_PARTY.getLongName())) {
             print3rdParty();
-        } else if (result.getCommandName().equals(COMMAND_RUN)) {
-            final List<String> tags = result.getGlobalOptions().containsKey(GOLN_TAG)
-                    ? result.getGlobalOptions().get(GOLN_TAG): Collections.emptyList();
-            processDocument(Paths.get(result.getCommandOptions().get(COLN_FILE).get(0)), tags);
+        } else if (result.getCommandName().equals(ApplicationCommands.RUN.getCommand())) {
+            final List<String> tags = result.getGlobalOptions().getOrDefault(
+                    ApplicationOptions.TAG.getLongName(), Collections.emptyList());
+            processDocument(Paths.get(result.getCommandOptions().get(
+                    ApplicationOptions.RUN_FILE.getLongName()).get(0)), tags);
         }
     }
 
@@ -202,7 +167,7 @@ public final class Application {
                     stream.readAllBytes(), Charset.defaultCharset()).split("\n"));
 
             //CHECKSTYLE.OFF: MagicNumber: ok here
-            for (var strLine: lines) {
+            for (var strLine : lines) {
                 final var tokens = strLine.split(":");
                 if (tokens.length >= 4) {
                     final var strGroupId = tokens[0].trim();
@@ -232,71 +197,6 @@ public final class Application {
     }
 
     /**
-     * Initialize the application.
-     *
-     * @param args the command line arguments
-     */
-    public static void main(final String[] args)  {
-        final var application = new Application();
-        try {
-            application.run(args);
-        } catch (CliException e) {
-            LOGGER.error(e.getMessage(), e);
-            System.exit(1);
-        }
-    }
-
-    /**
-     * Define the global options.
-     *
-     * @return list of global options
-     * @throws CliException when validation of the definition has failed.
-     */
-    private static CliOptionList defineGlobalOptions() throws CliException {
-        return CliOptionList.builder().add(
-                CliOption.builder()
-                        .setShortName(GOSN_HELP)
-                        .setLongName(GOLN_HELP)
-                        .setDescription("displaying this help")
-                        .setType(OptionType.BOOLEAN)
-                        .build()).add(
-                CliOption.builder()
-                        .setLongName(GOLN_3RD_PARTY)
-                        .setDescription("displaying used 3rd party libraries")
-                        .setType(OptionType.BOOLEAN)
-                        .build()).add(
-                CliOption.builder()
-                        .setShortName(GOSN_TAG)
-                        .setLongName(GOLN_TAG)
-                        .setDescription("provide tag to filter tasks")
-                        .setType(OptionType.STRING)
-                        .setRepeatable(true)
-                        .build()
-        ).build();
-    }
-
-    /**
-     * Define the list of commands.
-     *
-     * @return list of commands.
-     * @throws CliException when validation of the definition has failed.
-     */
-    private static List<CliCommand> defineCommands() throws CliException {
-        return List.of(CliCommand.builder()
-                .setName(COMMAND_RUN)
-                .setDescription("Running one document with tasks to be processed")
-                .addOption(CliOption.builder()
-                        .setShortName("f")
-                        .setLongName(COLN_FILE)
-                        .setDescription("Document with tasks to be processed")
-                        .setRequired(true)
-                        .setType(OptionType.PATH)
-                        .build())
-                .build()
-        );
-    }
-
-    /**
      * Load and provide the application properties.
      *
      * @return application properties.
@@ -312,5 +212,20 @@ public final class Application {
         }
 
         return properties;
+    }
+
+    /**
+     * Initialize the application.
+     *
+     * @param args the command line arguments
+     */
+    public static void main(final String[] args) {
+        final var application = new Application();
+        try {
+            application.run(args);
+        } catch (CliException e) {
+            LOGGER.error(e.getMessage(), e);
+            System.exit(1);
+        }
     }
 }
