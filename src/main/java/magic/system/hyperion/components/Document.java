@@ -63,7 +63,7 @@ public class Document implements IRunnable<Void, List<String>> {
     private final List<TaskGroup> listOfTaskGroups;
 
     /**
-     * Initialize document.
+     * Initialize document with empty model, empty matrix and empty list of task groups.
      */
     public Document() {
         this.model = new Model();

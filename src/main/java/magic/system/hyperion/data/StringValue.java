@@ -69,6 +69,24 @@ public class StringValue implements IValue {
     public String toString() {
         return this.strValue;
     }
-    
-    
+
+    @Override
+    public int hashCode() {
+        return this.strValue.hashCode();
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+
+        return this.strValue.equals(((StringValue) obj).getValue());
+    }
 }

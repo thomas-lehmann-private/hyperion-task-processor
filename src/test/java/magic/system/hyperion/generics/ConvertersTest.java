@@ -23,17 +23,18 @@
  */
 package magic.system.hyperion.generics;
 
-import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 /**
  * Testing class {@link Converters}.
  *
  * @author Thomas Lehmann
  */
-@DisplayName("Testing Converter class")
+@DisplayName("Testing Converters")
 public class ConvertersTest {
 
     /**

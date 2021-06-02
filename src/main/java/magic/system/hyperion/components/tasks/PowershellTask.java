@@ -99,7 +99,7 @@ public class PowershellTask extends AbstractTask {
                         getVariable());
             } else {
                 final var temporaryScriptPath = Files.createTempFile(
-                        "spline-powershell-task-",
+                        "hyperion-powershell-task-",
                         UUID.randomUUID() + FILE_EXTENSION);
 
                 final var engine = new TemplateEngine();

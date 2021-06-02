@@ -42,7 +42,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  *
  * @author Thomas Lehmann
  */
-@DisplayName("Testing AttributeMap class")
+@DisplayName("Testing AttributeMap")
 @SuppressWarnings("checkstyle:multiplestringliterals")
 public class AttributeMapTest {
 

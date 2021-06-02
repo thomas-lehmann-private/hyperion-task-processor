@@ -24,8 +24,15 @@
 package magic.system.hyperion.tools;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.attribute.FileAttribute;
+import java.nio.file.attribute.PosixFilePermission;
+import java.nio.file.attribute.PosixFilePermissions;
+import java.util.Set;
+import java.util.UUID;
 
 /**
  * File utility for test classes.
@@ -50,5 +57,32 @@ public final class FileUtils {
     public static Path getResourcePath(final String strName) throws URISyntaxException {
         final var url = FileUtils.class.getResource(strName);
         return new File(url.toURI()).toPath();
+    }
+
+    /**
+     * Create temporary script path. On Unix the script is adjusted for full permission.
+     *
+     * @param strPrefix prefix of file name
+     * @param strFileExtension the expected file extension.
+     * @return path of the file.
+     * @throws IOException when creation has failed.
+     */
+    public static Path createTemporaryFile(final String strPrefix,
+                                           final String strFileExtension) throws IOException {
+        final Path temporaryScriptPath;
+
+        if (Capabilities.isWindows()) {
+            temporaryScriptPath = Files.createTempFile(
+                    strPrefix,UUID.randomUUID() + strFileExtension);
+        } else {
+            final Set<PosixFilePermission> ownerWritable
+                    = PosixFilePermissions.fromString("rwxrwxrwx");
+            final FileAttribute<?> permissions
+                    = PosixFilePermissions.asFileAttribute(ownerWritable);
+            temporaryScriptPath = Files.createTempFile(
+                    strPrefix,UUID.randomUUID() + strFileExtension, permissions);
+        }
+
+        return temporaryScriptPath;
     }
 }

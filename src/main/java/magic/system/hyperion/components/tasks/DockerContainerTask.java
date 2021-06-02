@@ -1,0 +1,222 @@
+/*
+ * The MIT License
+ *
+ * Copyright 2021 Thomas Lehmann.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+package magic.system.hyperion.components.tasks;
+
+import magic.system.hyperion.components.TaskParameters;
+import magic.system.hyperion.components.TaskResult;
+import magic.system.hyperion.exceptions.HyperionException;
+import magic.system.hyperion.tools.Capabilities;
+import magic.system.hyperion.tools.FileUtils;
+import magic.system.hyperion.tools.ProcessResults;
+import magic.system.hyperion.tools.TemplateEngine;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+/**
+ * Running a docker container.
+ *
+ * @author Thomas Lehmann
+ */
+public class DockerContainerTask extends AbstractTask {
+    /**
+     * Logger for this class.
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(DockerContainerTask.class);
+
+    /**
+     * Newline character.
+     */
+    private static final String NEWLINE = "\n";
+
+    /**
+     * File extensions to use depending on target environment in Docker container.
+     */
+    private static final Map<Boolean, String> FILE_EXTENSIONS = Map.of(true, ".cmd", false, ".sh");
+
+    /**
+     * Name of the Docker image.
+     */
+    private String strImageName;
+
+    /**
+     * Version of the Docker image.
+     */
+    private String strImageVersion;
+
+    /**
+     * When true the cmd shell is used, otherwise the sh shell (default: sh shell).
+     */
+    private boolean bIsWindows;
+
+    /**
+     * Initialize task.
+     *
+     * @param strInitTitle - title of the task.
+     * @param strInitCode  - Path and name of file of script or inline script.
+     */
+    public DockerContainerTask(String strInitTitle, String strInitCode) {
+        super(strInitTitle, strInitCode);
+        this.strImageName = "";
+        this.strImageVersion = "latest";
+        this.bIsWindows = false;
+    }
+
+    /**
+     * Change image name.
+     *
+     * @param strInitImageName new image name.
+     * @version 1.0.0
+     */
+    public void setImageName(final String strInitImageName) {
+        this.strImageName = strInitImageName;
+    }
+
+    /**
+     * Get image name.
+     *
+     * @return image name.
+     * @version 1.0.0
+     */
+    public String getImageName() {
+        return this.strImageName;
+    }
+
+    /**
+     * Change version of image.
+     *
+     * @param strInitImageVersion new version of image.
+     * @version 1.0.0
+     */
+    public void setImageVersion(final String strInitImageVersion) {
+        this.strImageVersion = strInitImageVersion;
+    }
+
+    /**
+     * Get image version.
+     *
+     * @return image version.
+     */
+    public String getImageVersion() {
+        return this.strImageVersion;
+    }
+
+    /**
+     * Change target environment inside of the Docker container.
+     *
+     * @param bInitIsWindows new target environment.
+     */
+    public void setWindows(final boolean bInitIsWindows) {
+        this.bIsWindows = bInitIsWindows;
+    }
+
+    /**
+     * Check target environment inside of the Docker container.
+     *
+     * @return true when Docker container runs Windows environment.
+     */
+    public boolean isWindows() {
+        return this.bIsWindows;
+    }
+
+    @Override
+    public TaskResult run(TaskParameters parameters) {
+        TaskResult taskResult;
+
+        try {
+            final var temporaryScriptPath = FileUtils.createTemporaryFile(
+                    "hyperion-docker-container-task-", FILE_EXTENSIONS.get(this.bIsWindows));
+
+            final var engine = new TemplateEngine();
+            final var renderedText = engine.render(getCode(),
+                    Map.of("model", parameters.getModel().getData(),
+                            "matrix", parameters.getMatrixParameters(),
+                            "variables", parameters.getVariables()));
+
+            Files.write(temporaryScriptPath, renderedText.getBytes(
+                    Charset.defaultCharset()));
+
+            final var process = runFile(temporaryScriptPath);
+            process.waitFor();
+            final var processResults = ProcessResults.of(process);
+            Files.delete(temporaryScriptPath);
+
+            if (!processResults.getStderr().isEmpty()) {
+                processResults.getStderr().forEach(LOGGER::error);
+            }
+
+            this.getVariable().setValue(String.join(NEWLINE,
+                    processResults.getStdout()));
+            taskResult = new TaskResult(processResults.getExitCode() == 0,
+                    getVariable());
+        } catch (IOException | InterruptedException | HyperionException e) {
+            taskResult = new TaskResult(false, this.getVariable());
+        }
+
+        return taskResult;
+    }
+
+    /**
+     * Running Unix shell and providing process.
+     *
+     * @param path the path and name of the Batch file
+     * @return process.
+     * @throws IOException when starting of the process has failed.
+     */
+    @SuppressWarnings("checkstyle:multiplestringliterals")
+    private Process runFile(final Path path) throws IOException, HyperionException {
+        final Path parentPath = path.getParent();
+        final Path fileName = path.getFileName();
+
+        if (parentPath == null || fileName == null) {
+            throw new HyperionException("Path or file name of Docker container script invalid!");
+        }
+
+        // how to call docker on current environment
+        final var baseCommand = List.of("docker", "run", "--rm", "-v",
+                System.getProperty("user.dir") + ":/work",
+                "-w", "/work", "-v", parentPath.toString() + ":/hosttmp",
+                "-i", this.strImageName + ":" + this.strImageVersion);
+
+        final var strCommand = String.join(" ", Stream.of(baseCommand,
+                this.bIsWindows ? List.of("cmd", "/C") : List.of("sh", "-c"),
+                List.of("/hosttmp/" + fileName.toString()))
+                .flatMap(Collection::stream).collect(Collectors.toList()));
+
+        // inject the shell to be used inside of the container and append the script too
+        final var finalCommand = Capabilities.createCommand(strCommand);
+
+        LOGGER.info("Running command: {}", String.join(" ", finalCommand));
+        return new ProcessBuilder(finalCommand).start();
+    }
+}

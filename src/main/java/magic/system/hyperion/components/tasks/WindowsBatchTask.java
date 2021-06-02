@@ -91,7 +91,7 @@ public class WindowsBatchTask extends AbstractTask {
                         getVariable());
             } else {
                 final var temporaryScriptPath = Files.createTempFile(
-                        "spline-windows-batch-task-",
+                        "hyperion-windows-batch-task-",
                         UUID.randomUUID() + FILE_EXTENSIONS.get(0));
 
                 final var engine = new TemplateEngine();

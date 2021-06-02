@@ -93,7 +93,7 @@ public class UnixShellTask extends AbstractTask {
                         getVariable());
             } else {
                 final var temporaryScriptPath = Files.createTempFile(
-                        "spline-unix-shell-task-",
+                        "hyperion-unix-shell-task-",
                         UUID.randomUUID() + FILE_EXTENSIONS.get(0));
 
                 final var engine = new TemplateEngine();

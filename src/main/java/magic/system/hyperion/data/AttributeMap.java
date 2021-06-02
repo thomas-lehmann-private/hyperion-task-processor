@@ -25,6 +25,8 @@ package magic.system.hyperion.data;
 
 import magic.system.hyperion.generics.Pair;
 import magic.system.hyperion.interfaces.IValue;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import java.util.List;
 import java.util.Map;
@@ -56,6 +58,40 @@ public class AttributeMap implements IValue {
      */
     public Map<String, IValue> getAttributes() {
         return this.attributes;
+    }
+
+    /**
+     * Checking whether map is empty.
+     *
+     * @return true when map is empty otherwise false.
+     */
+    public boolean isEmpty() {
+        return this.attributes.isEmpty();
+    }
+
+    /**
+     * Get number of entries in the map.
+     *
+     * @return number of entries in the map.
+     */
+    public int size() {
+        return this.attributes.size();
+    }
+
+    /**
+     * Removes all attributes.
+     */
+    public void clear() {
+        this.attributes.clear();
+    }
+
+    /**
+     * Adding all attributes to the map. Existing keys might be overwritten.
+     *
+     * @param initAttributeMap the attributes to add.
+     */
+    public void addAll(final AttributeMap initAttributeMap) {
+        initAttributeMap.getAttributes().forEach(this.attributes::put);
     }
 
     /**
@@ -170,6 +206,30 @@ public class AttributeMap implements IValue {
      */
     public IValue get(final String strKey) {
         return this.attributes.get(strKey);
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder()
+                .append(this.attributes)
+                .build();
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+
+        final AttributeMap other = (AttributeMap) obj;
+        return new EqualsBuilder()
+                .append(this.attributes, other.getAttributes()).build();
     }
 
     /**
