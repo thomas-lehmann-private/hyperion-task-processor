@@ -30,6 +30,7 @@ import magic.system.hyperion.exceptions.HyperionException;
 import magic.system.hyperion.generics.Converters;
 import magic.system.hyperion.interfaces.ICodeTaskCreator;
 import magic.system.hyperion.matcher.Matcher;
+import magic.system.hyperion.tools.Capabilities;
 
 /**
  * Reading a docker container task in a document.
@@ -55,6 +56,10 @@ public class DockerContainerTaskReader implements INodeReader{
 
     @Override
     public void read(JsonNode node) throws HyperionException {
+        if (!Capabilities.hasDocker()) {
+            throw new HyperionException("Docker seems to be missing; cannot process document!");
+        }
+
         final var names = Converters.convertToSortedList(node.fieldNames());
         final var matcher = Matcher.of(names);
 

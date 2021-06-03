@@ -9,6 +9,7 @@ nav:
        - hyperion.md
        - groovy.md
        - shell.md
+       - docker-container.md
        - templating.md
        - matrix.md
        - Internal:

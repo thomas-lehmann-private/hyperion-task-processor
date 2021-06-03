@@ -1,0 +1,13 @@
+---
+taskgroups:
+  - title: build of Hyperion
+    tasks:
+    - type: docker-container
+      image-name: debian
+      code: |
+        apt-get -y clean
+        apt-get -y update
+        apt-get -y install git openjdk-11-jdk
+        git clone https://github.com/thomas-lehmann-private/hyperion.git
+        cd hyperion
+        ./mvnw -Dline.coverage=0.0 clean package javadoc:jar verify
