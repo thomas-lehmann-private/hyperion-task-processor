@@ -53,7 +53,15 @@
 </li>
                                     
 <li>
+    <a href="../docker-container/" class="dropdown-item">Docker container task</a>
+</li>
+                                    
+<li>
     <a href="../templating/" class="dropdown-item">Templating</a>
+</li>
+                                    
+<li>
+    <a href="../matrix/" class="dropdown-item">Matrix</a>
 </li>
                                     
   <li class="dropdown-submenu">
@@ -76,7 +84,7 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../templating/" class="nav-link">
+                                <a rel="prev" href="../matrix/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
@@ -144,7 +152,7 @@
 Nevertheless it should be documented how it works...</p>
 <h2 id="defining-an-option">Defining an option</h2>
 <p>The creation of an option is best explained by an example:</p>
-<pre><code class="language-java">final var option = CliOption.builder()
+<pre><code class="java">final var option = CliOption.builder()
     .setLongName(&quot;file&quot;)
     .setShortName(&quot;f&quot;)
     .setDescription(&quot;Provide document to process&quot;)
@@ -153,6 +161,7 @@ Nevertheless it should be documented how it works...</p>
     .setRepeatable(false)
     .build();
 </code></pre>
+
 <p>The <strong>build()</strong> will throw an CliException when the validation of your definition has failed.</p>
 <h3 id="long-names">Long names</h3>
 <ol>
@@ -217,12 +226,13 @@ throwing a <em>CliException</em> when validation has failed.</p>
 <h2 id="defining-a-command">Defining a command</h2>
 <p>The creation of a command is working pretty the same way as for the options.
 The definition of the command options is exactly the same thing.</p>
-<pre><code class="language-java">final var command = CliCommand.builder()
+<pre><code class="java">final var command = CliCommand.builder()
     .setName(&quot;run&quot;)
     .setDescription(&quot;processing a document with tasks&quot;)
     .addOption(fileOption)
     .build();
 </code></pre>
+
 <h3 id="name">Name</h3>
 <ul>
 <li>The name is required.</li>
@@ -263,13 +273,14 @@ The <strong>build()</strong> function finally does also the validation:</p>
 <p>These option list is required for the parser.</p>
 <h2 id="using-the-parser">Using the parser</h2>
 <p>The parser does parse the command line arguments.</p>
-<pre><code class="language-java">final var parser = CliParser.builder()
+<pre><code class="java">final var parser = CliParser.builder()
    .setGlobalOptions(globalOptions)
    .setCommands(commands)
    .build();
 
 final var result = parser.parse(arguments);
 </code></pre>
+
 <h3 id="global-options">Global options</h3>
 <p>You set the list of global options (see option list - CliOptionList).</p>
 <h3 id="commands">Commands</h3>
@@ -307,7 +318,7 @@ three information are available then:</p>
 <p>The setup of the help printer works similar as the parser. In addition to the defined
 options and commands you specify the execution, the product version, the build timestamp
 and the author:</p>
-<pre><code class="language-java">private void printHelp() throws CliException {
+<pre><code class="java">private void printHelp() throws CliException {
     final var helpPrinter = CliHelpPrinter.builder()
             .setExecution(&quot;java -jar &quot;
                     + this.properties.getProperty(PROPERTY_FINAL_NAME) + &quot;.jar&quot;)
@@ -320,6 +331,7 @@ and the author:</p>
     helpPrinter.print(LoggerFactory.getLogger(&quot;HELP&quot;)::info);
 }
 </code></pre>
+
 <p>The code is extracted from the Hyperion application as I'm using it iself. With Maven
 and resource filtering I'm passing the information like the final name of the jar,
 the product version, the build timestamp and the author.</p>

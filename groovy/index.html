@@ -53,7 +53,15 @@
 </li>
                                     
 <li>
+    <a href="../docker-container/" class="dropdown-item">Docker container task</a>
+</li>
+                                    
+<li>
     <a href="../templating/" class="dropdown-item">Templating</a>
+</li>
+                                    
+<li>
+    <a href="../matrix/" class="dropdown-item">Matrix</a>
 </li>
                                     
   <li class="dropdown-submenu">
@@ -138,18 +146,19 @@ documentation for details on it. It's about the Groovy task.</p>
 <p>The minimal example does not require a variable but the task
 does have one (always) with the name '<strong>default</strong>'.
 The default regex is the whole text, and the default group is 0.</p>
-<pre><code class="language-yaml">---
+<pre><code class="yaml">---
 taskgroups:
   - title: test
     tasks:
       - type: groovy
         code: println 'hello world!'
 </code></pre>
+
 <h2 id="minimal-example-with-tags">Minimal example with tags</h2>
 <p>The application can be called with the repeatable option --tag. Specifying the
 those filter task will be executed only contain those tags. Task with other tags
 or even without any tags will be ignored then.</p>
-<pre><code class="language-yaml">---
+<pre><code class="yaml">---
 taskgroups:
   - title: test
     tasks:
@@ -159,12 +168,13 @@ taskgroups:
           - simple
           - example         
 </code></pre>
+
 <h2 id="example-with-variable">Example with variable</h2>
 <p>The example with variable shows how to use the variable to extract information.
 It's exactly the same way as it does work for other tasks.
 You can specify the regex for filtering and - if required - the regex group;
 the default group is 0.</p>
-<pre><code class="language-yaml">---
+<pre><code class="yaml">---
 taskgroups:
   - title: test
     tasks:
@@ -176,6 +186,7 @@ taskgroups:
               regex: &quot;&gt;(.*)&lt;&quot;
               group: 1
 </code></pre>
+
 <h2 id="example-with-templating">Example with templating</h2>
 <p>The task group does store a map of key/value where key is the name of the variable, and
 the value is a variable. If you do not specify a name for a variable the name is
@@ -183,7 +194,7 @@ the value is a variable. If you do not specify a name for a variable the name is
 the variable, and the second task does evaluate the value from the first task.
 Of course the second one write into the same variable its output since also there
 no name has been specified.</p>
-<pre><code class="language-yaml">---
+<pre><code class="yaml">---
 taskgroups:
   - title: test
     tasks:
@@ -194,8 +205,9 @@ taskgroups:
         title: a simple example 2
         code: println '{{ variables.default.value }}'
 </code></pre>
+
 <p>In addition, you can evaluate the model if you have one.</p>
-<pre><code class="language-yaml">---
+<pre><code class="yaml">---
 model:
   description: some description
 
@@ -206,6 +218,7 @@ taskgroups:
         title: a simple example 1
         code: println '{{ model.attributest.description }}'
 </code></pre>
+
 <p>The rules on how to access the individual elements of a model are
 explained <a href="../templating/">here</a>.</p></div>
             </div>
