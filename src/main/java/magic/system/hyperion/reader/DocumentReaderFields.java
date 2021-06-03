@@ -90,7 +90,22 @@ public enum DocumentReaderFields {
     /**
      * Parameters of a matrix item.
      */
-    PARAMETERS("parameters");
+    PARAMETERS("parameters"),
+
+    /**
+     * Name of the Docker image.
+     */
+    IMAGE_NAME("image-name"),
+
+    /**
+     * Version of the Docker image.
+     */
+    IMAGE_VERSION("image-version"),
+
+    /**
+     * The the platform used for containers by Docker (is Windows or Unix).
+     */
+    PLATFORM("platform");
 
     /**
      * Name of the field.

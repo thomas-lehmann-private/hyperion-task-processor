@@ -50,6 +50,22 @@ import java.util.stream.Stream;
  */
 public class DockerContainerTask extends AbstractTask {
     /**
+     * Platform Windows.
+     */
+    public static final String PLATFORM_WINDOWS = "windows";
+
+    /**
+     * Platform Unix.
+     */
+    public static final String PLATFORM_UNIX = "unix";
+
+    /**
+     * Readonly file extensions to use depending on target environment in Docker container.
+     */
+    public static final Map<String, String> FILE_EXTENSIONS
+            = Map.of(PLATFORM_WINDOWS, ".cmd", PLATFORM_UNIX, ".sh");
+
+    /**
      * Logger for this class.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(DockerContainerTask.class);
@@ -58,11 +74,6 @@ public class DockerContainerTask extends AbstractTask {
      * Newline character.
      */
     private static final String NEWLINE = "\n";
-
-    /**
-     * File extensions to use depending on target environment in Docker container.
-     */
-    private static final Map<Boolean, String> FILE_EXTENSIONS = Map.of(true, ".cmd", false, ".sh");
 
     /**
      * Name of the Docker image.
@@ -76,8 +87,9 @@ public class DockerContainerTask extends AbstractTask {
 
     /**
      * When true the cmd shell is used, otherwise the sh shell (default: sh shell).
+     * Can also be used later on together with --platform (not yet implemented).
      */
-    private boolean bIsWindows;
+    private String strPlatform;
 
     /**
      * Initialize task.
@@ -89,7 +101,7 @@ public class DockerContainerTask extends AbstractTask {
         super(strInitTitle, strInitCode);
         this.strImageName = "";
         this.strImageVersion = "latest";
-        this.bIsWindows = false;
+        this.strPlatform = PLATFORM_UNIX;
     }
 
     /**
@@ -132,21 +144,23 @@ public class DockerContainerTask extends AbstractTask {
     }
 
     /**
-     * Change target environment inside of the Docker container.
+     * Change target environment (platform) inside of the Docker container.
      *
-     * @param bInitIsWindows new target environment.
+     * @param strInitPlatform new target environment (platform).
      */
-    public void setWindows(final boolean bInitIsWindows) {
-        this.bIsWindows = bInitIsWindows;
+    public void setPlatform(final String strInitPlatform) {
+        if (List.of(PLATFORM_WINDOWS, PLATFORM_UNIX).contains(strInitPlatform)) {
+            this.strPlatform = strInitPlatform;
+        }
     }
 
     /**
-     * Check target environment inside of the Docker container.
+     * Check target environment (platform) inside of the Docker container.
      *
-     * @return true when Docker container runs Windows environment.
+     * @return true when Docker container runs Windows platform (Windows container).
      */
-    public boolean isWindows() {
-        return this.bIsWindows;
+    public String getPlatform() {
+        return this.strPlatform;
     }
 
     @Override
@@ -155,7 +169,7 @@ public class DockerContainerTask extends AbstractTask {
 
         try {
             final var temporaryScriptPath = FileUtils.createTemporaryFile(
-                    "hyperion-docker-container-task-", FILE_EXTENSIONS.get(this.bIsWindows));
+                    "hyperion-docker-container-task-", FILE_EXTENSIONS.get(this.strPlatform));
 
             final var engine = new TemplateEngine();
             final var renderedText = engine.render(getCode(),
@@ -209,7 +223,8 @@ public class DockerContainerTask extends AbstractTask {
                 "-i", this.strImageName + ":" + this.strImageVersion);
 
         final var strCommand = String.join(" ", Stream.of(baseCommand,
-                this.bIsWindows ? List.of("cmd", "/C") : List.of("sh", "-c"),
+                this.strPlatform.equals(PLATFORM_WINDOWS)
+                        ? List.of("cmd", "/C") : List.of("sh", "-c"),
                 List.of("/hosttmp/" + fileName.toString()))
                 .flatMap(Collection::stream).collect(Collectors.toList()));
 

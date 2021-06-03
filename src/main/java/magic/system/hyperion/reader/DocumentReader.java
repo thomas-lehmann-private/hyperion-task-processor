@@ -28,9 +28,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import magic.system.hyperion.components.Document;
 import magic.system.hyperion.components.TaskGroup;
-import magic.system.hyperion.components.Variable;
 import magic.system.hyperion.components.tasks.AbstractTask;
-import magic.system.hyperion.components.tasks.CodedTaskCreator;
 import magic.system.hyperion.components.tasks.TaskType;
 import magic.system.hyperion.data.AttributeMap;
 import magic.system.hyperion.data.ListOfValues;
@@ -38,6 +36,7 @@ import magic.system.hyperion.exceptions.HyperionException;
 import magic.system.hyperion.generics.Converters;
 import magic.system.hyperion.interfaces.ICodeTaskCreator;
 import magic.system.hyperion.matcher.Matcher;
+import magic.system.hyperion.tools.Factory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,6 +59,11 @@ public class DocumentReader {
     private static final Logger LOGGER = LoggerFactory.getLogger(DocumentReader.class);
 
     /**
+     * Factory for coded tasks.
+     */
+    private final Factory<AbstractTask> tasksFactory;
+
+    /**
      * Final document.
      */
     private final Document document;
@@ -73,9 +77,9 @@ public class DocumentReader {
      * Initialize document reader with path of the document.
      *
      * @param initPath path of the document.
-     * @version 1.0.0
      */
     public DocumentReader(final Path initPath) {
+        this.tasksFactory = new Factory<>("magic.system.hyperion.components.tasks.creator");
         this.document = new Document();
         this.path = initPath;
     }
@@ -133,7 +137,7 @@ public class DocumentReader {
         final var iter = node.fields();
         while (iter.hasNext()) {
             final var currentField = iter.next();
-            switch(currentField.getValue().getNodeType()) {
+            switch (currentField.getValue().getNodeType()) {
                 case STRING:
                 case NUMBER:
                 case BOOLEAN: {
@@ -164,7 +168,7 @@ public class DocumentReader {
         final var iter = node.elements();
         while (iter.hasNext()) {
             final var currentElement = iter.next();
-            switch(currentElement.getNodeType()) {
+            switch (currentElement.getNodeType()) {
                 case STRING:
                 case NUMBER:
                 case BOOLEAN: {
@@ -234,8 +238,28 @@ public class DocumentReader {
 
         final var strType = node.get(DocumentReaderFields.TYPE.getFieldName()).asText();
         final var type = TaskType.fromValue(strType);
-        readCodeTask(taskGroup, node, (strTitle, strCode)
-                -> CodedTaskCreator.createTask(type, strTitle, strCode));
+
+        switch (type) {
+            case DOCKER_CONTAINER: {
+                new DockerContainerTaskReader(taskGroup, (strTitle, strCode) -> {
+                    final var task = tasksFactory.create(type.getTypeName());
+                    task.setTitle(strTitle);
+                    task.setCode(strCode);
+                    return task;
+                }).read(node);
+                break;
+            }
+
+            default: {
+                readCodeTask(taskGroup, node, (strTitle, strCode) -> {
+                    final var task = tasksFactory.create(type.getTypeName());
+                    task.setTitle(strTitle);
+                    task.setCode(strCode);
+                    return task;
+                });
+            }
+        }
+
     }
 
     /**
@@ -268,45 +292,14 @@ public class DocumentReader {
                 node.get(DocumentReaderFields.CODE.getFieldName()).asText());
 
         if (node.has(DocumentReaderFields.VARIABLE.getFieldName())) {
-            readVariable(task.getVariable(),
-                    node.get(DocumentReaderFields.VARIABLE.getFieldName()));
+            new VariableReader(task.getVariable())
+                    .read(node.get(DocumentReaderFields.VARIABLE.getFieldName()));
         }
 
         if (node.has(DocumentReaderFields.TAGS.getFieldName())) {
-            readTags(task, node.get(DocumentReaderFields.TAGS.getFieldName()));
+            new TagsReader(task).read(node.get(DocumentReaderFields.TAGS.getFieldName()));
         }
 
         taskGroup.add(task);
-    }
-
-    private void readVariable(final Variable variable, final JsonNode node) {
-        final var names = Converters.convertToSortedList(node.fieldNames());
-        final var matcher = Matcher.of(names);
-
-        matcher.requireExactlyOnce(DocumentReaderFields.NAME.getFieldName());
-        matcher.requireExactlyOnce(DocumentReaderFields.REGEX.getFieldName());
-        matcher.allow(DocumentReaderFields.GROUP.getFieldName());
-
-        if (matcher.matches(names)) {
-            variable.setName(node.get(DocumentReaderFields.NAME.getFieldName()).asText());
-            variable.setRegex(node.get(DocumentReaderFields.REGEX.getFieldName()).asText());
-            if (node.has(DocumentReaderFields.GROUP.getFieldName())) {
-                variable.setRegexGroup(
-                        node.get(DocumentReaderFields.GROUP.getFieldName()).asInt());
-            }
-        }
-    }
-
-    /**
-     * Reading tags into the task.
-     *
-     * @param task the concrete task where to add the tags.
-     * @param node the node where to read the tags from.
-     */
-    private void readTags(final AbstractTask task, final JsonNode node) {
-        final var iter = node.elements();
-        while (iter.hasNext()) {
-            task.addTag(iter.next().asText());
-        }
     }
 }

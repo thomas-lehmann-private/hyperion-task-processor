@@ -54,7 +54,12 @@ public enum TaskType {
     /**
      * Type for JShell task.
      */
-    JSHELL("jshell");
+    JSHELL("jshell"),
+
+    /**
+     * Type for docker container task.
+     */
+    DOCKER_CONTAINER("docker-container");
 
     /**
      * Type of task (the concrete type name to be used in YAML).

@@ -1,0 +1,26 @@
+---
+taskgroups:
+  - title: test
+    parallel: false
+    tasks:
+      - type: docker-container
+        title: a simple example
+        code: echo "hello world!"
+        image-name: debian
+
+      - type: docker-container
+        code: echo "---> this is a demo <---"
+        image-name: debian
+        image-version: latest
+        platform: unix
+        variable:
+          name: test2
+          regex: ">(.*)<"
+          group: 1
+
+      - type: docker-container
+        code: echo "hello world!"
+        image-name: debian
+        tags:
+          - tag support
+          - third example

@@ -29,7 +29,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
@@ -56,13 +55,13 @@ public class DockerContainerTaskTest {
         assertEquals("test", task.getTitle());
         assertEquals("debian", task.getImageName());
         assertEquals("latest", task.getImageVersion());
-        assertFalse(task.isWindows());
+        assertEquals(DockerContainerTask.PLATFORM_UNIX, task.getPlatform());
         assertEquals("hello world!", result.getVariable().getValue().strip());
         assertTrue(result.isSuccess());
 
         // Just checking the two other setter
-        task.setWindows(true);
-        assertTrue(task.isWindows());
+        task.setPlatform(DockerContainerTask.PLATFORM_WINDOWS);
+        assertEquals(DockerContainerTask.PLATFORM_WINDOWS, task.getPlatform());
         task.setImageVersion("10");
         assertEquals("10", task.getImageVersion());
     }

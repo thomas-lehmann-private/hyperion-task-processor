@@ -178,6 +178,27 @@ public class DocumentReaderTest {
     }
 
     @Test
+    public void testDockerContainerTask() throws URISyntaxException {
+        final var path = Paths.get(getClass().getResource(
+                "/documents/document-with-docker-container.yml").toURI());
+        final var reader = new DocumentReader(path);
+        final var document = reader.read();
+        assertNotNull(document, "Document shouldn't be null");
+        assertEquals(1, document.getListOfTaskGroups().size());
+        //CHECKSTYLE.OFF: MagicNumber - ok here
+        assertEquals(3, document.getListOfTaskGroups().get(0).getListOfTasks().size());
+        //CHECKSTYLE.ON: MagicNumber
+        final var tags = document.getListOfTaskGroups().get(0).getListOfTasks().get(2).getTags();
+        assertEquals("tag support", tags.get(0));
+        assertEquals("third example", tags.get(1));
+
+        MessagesCollector.clear();
+        document.run(List.of());
+        assertTrue(MessagesCollector.getMessages().contains("set variable default=hello world!"));
+        assertTrue(MessagesCollector.getMessages().contains("set variable test2=this is a demo"));
+    }
+
+    @Test
     public void testReadHasFailed() throws URISyntaxException {
         final var path = Paths.get(getClass().getResource(
                 "/documents/valid-document-with-just-a-model.yml").toURI());

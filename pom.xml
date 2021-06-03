@@ -53,6 +53,7 @@
         <commons.lang3.version>3.12.0</commons.lang3.version>
         <pebble.version>3.1.5</pebble.version>
         <groovy.version>3.0.7</groovy.version>
+        <reflections.version>0.9.12</reflections.version>
 
         <!-- Build Plugins -->
         <git.commit.id.plugin.version>4.0.0</git.commit.id.plugin.version>
@@ -153,8 +154,14 @@
             <artifactId>groovy</artifactId>
             <version>${groovy.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>${reflections.version}</version>
+        </dependency>
     </dependencies>
-    
+
     <build>
         <resources>
             <resource>
