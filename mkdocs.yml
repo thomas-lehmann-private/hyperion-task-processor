@@ -13,6 +13,7 @@ nav:
        - templating.md
        - matrix.md
        - Internal:
+          - build.cmd
           - cli.md
 
 theme:
