@@ -1,35 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url>
      <loc>https://thomas-lehmann-private.github.io/hyperion/</loc>
-     <lastmod>2021-06-03</lastmod>
+     <lastmod>2021-06-04</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://thomas-lehmann-private.github.io/hyperion/hyperion/</loc>
-     <lastmod>2021-06-03</lastmod>
+     <lastmod>2021-06-04</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://thomas-lehmann-private.github.io/hyperion/groovy/</loc>
-     <lastmod>2021-06-03</lastmod>
+     <lastmod>2021-06-04</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://thomas-lehmann-private.github.io/hyperion/shell/</loc>
-     <lastmod>2021-06-03</lastmod>
+     <lastmod>2021-06-04</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://thomas-lehmann-private.github.io/hyperion/docker-container/</loc>
-     <lastmod>2021-06-03</lastmod>
+     <lastmod>2021-06-04</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://thomas-lehmann-private.github.io/hyperion/templating/</loc>
-     <lastmod>2021-06-03</lastmod>
+     <lastmod>2021-06-04</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://thomas-lehmann-private.github.io/hyperion/matrix/</loc>
-     <lastmod>2021-06-03</lastmod>
+     <lastmod>2021-06-04</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://thomas-lehmann-private.github.io/hyperion/build/</loc>
+     <lastmod>2021-06-04</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://thomas-lehmann-private.github.io/hyperion/cli/</loc>
-     <lastmod>2021-06-03</lastmod>
+     <lastmod>2021-06-04</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>
