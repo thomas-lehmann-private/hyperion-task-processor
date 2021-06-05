@@ -1,6 +1,6 @@
 # Build
 
-# Quick and easy
+ä# Quick and easy
 The build is organized with Maven. You don't have to install Maven because **Maven Wrapper**
 (https://github.com/takari/maven-wrapper) is used. On any system following command is sufficient
 as long as Java is given (**minimum Version**: 11):
@@ -13,7 +13,7 @@ On Unix based systems this is the exact filename of the script that is executed.
 **mvnw.cmd** script (anyway you do not have to specify the extension that's why it looks
 and feel identical on all systems).
 
-# Maven Profiles
+## Maven Profiles
 
 There are two profiles; one for Windows and one for Unix based systems. The main reason for
 two profiles is that the code coverage is different since not every test can be executed on
@@ -21,7 +21,7 @@ every system (example: The UnixShellTaskTest can run on Unix based systems only)
 to use a profile in general is to be able to define default goals, so you do not have
 to specify them on command line each time (convenience reason).
 
-# Default goals
+## Default goals
 
 The default goals are:
 
@@ -36,9 +36,9 @@ clean package javadoc:jar verify
  - **javadoc:jar** - generate the Javadoc HTML documentation and the javadoc jar.
  - **verify** - is running all static code analysis (including the analysis of the code coverage).
 
-# Maven Dependencies
+## Maven Dependencies
 
-## Test dependencies
+### Test dependencies
 
 Those dependencies are available only while testing.
 
@@ -48,7 +48,7 @@ org.junit.jupiter:junit-jupiter-api:5.5.2 | https://junit.org/junit5/ | [Eclipse
 org.junit.jupiter:junit-jupiter-engine:5.5.2 | https://junit.org/junit5/ | [Eclipse Public License - v 2.0](https://github.com/junit-team/junit5/blob/main/LICENSE.md) | Unittests
 org.junit.jupiter:junit-jupiter-params:5.5.2 | https://junit.org/junit5/ | [Eclipse Public License - v 2.0](https://github.com/junit-team/junit5/blob/main/LICENSE.md) | Unittests
 
-## Runtime dependencies
+### Runtime dependencies
 
 Those dependencies are required at runtime and taken by the Maven shade plugin when packaging.
 
@@ -61,7 +61,7 @@ io.pebbletemplates:pebble:3.1.5 | https://pebbletemplates.io/ | [Pebble License]
 org.codehaus.groovy:groovy:3.0.7 | http://www.groovy-lang.org/ | [Apache 2.0 License](https://github.com/apache/groovy/blob/master/LICENSE) | Embedded Language for GroovyTask
 org.reflections:reflections:0.9.12 | https://github.com/ronmamo/reflections | [Reflections License](https://github.com/ronmamo/reflections/blob/master/COPYING.txt) | Searching for classes
 
-## Build dependencies
+### Build dependencies
 
 Those dependencies are required while building only.
 
