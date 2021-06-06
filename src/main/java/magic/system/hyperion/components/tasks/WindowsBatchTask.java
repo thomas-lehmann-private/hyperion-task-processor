@@ -23,43 +23,16 @@
  */
 package magic.system.hyperion.components.tasks;
 
-import magic.system.hyperion.components.TaskParameters;
-import magic.system.hyperion.components.TaskResult;
-import magic.system.hyperion.tools.ProcessResults;
-import magic.system.hyperion.tools.TemplateEngine;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 /**
  * Providing Windows Batch task.
  *
  * @author Thomas Lehmann
  */
-public class WindowsBatchTask extends AbstractTask {
-    /**
-     * Logger for this class.
-     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(WindowsBatchTask.class);
-
-    /**
-     * Newline character.
-     */
-    private static final String NEWLINE = "\n";
-
-    /**
-     * Valid Batch file extensions.
-     */
-    private static final List<String> FILE_EXTENSIONS = List.of(".cmd", ".bat");
-
+public class WindowsBatchTask extends AbstractShellTask {
     /**
      * Initialize task.
      *
@@ -71,52 +44,13 @@ public class WindowsBatchTask extends AbstractTask {
     }
 
     @Override
-    public boolean isRegularFile() {
-        final String[] tokens = getCode().split("\\.");
-        return super.isRegularFile() && tokens.length > 0
-                && FILE_EXTENSIONS.contains(tokens[tokens.length-1]);
+    protected String getTempFilePrefix() {
+        return "hyperion-windows-batch-task-";
     }
 
     @Override
-    public TaskResult run(final TaskParameters parameters) {
-        TaskResult taskResult;
-
-        try {
-            if (isRegularFile()) {
-                final var process = runFile(Paths.get(getCode()));
-                final var processResults = ProcessResults.of(process);
-                this.getVariable().setValue(String.join(NEWLINE,
-                        processResults.getStdout()));
-                taskResult = new TaskResult(processResults.getExitCode() == 0,
-                        getVariable());
-            } else {
-                final var temporaryScriptPath = Files.createTempFile(
-                        "hyperion-windows-batch-task-",
-                        UUID.randomUUID() + FILE_EXTENSIONS.get(0));
-
-                final var engine = new TemplateEngine();
-                final var renderedText = engine.render(getCode(),
-                        Map.of("model", parameters.getModel().getData(),
-                                "matrix", parameters.getMatrixParameters(),
-                                "variables", parameters.getVariables()));
-
-                Files.write(temporaryScriptPath, renderedText.getBytes(
-                        Charset.defaultCharset()));
-
-                final var process = runFile(temporaryScriptPath);
-                final var processResults = ProcessResults.of(process);
-                Files.delete(temporaryScriptPath);
-                this.getVariable().setValue(String.join(NEWLINE,
-                        processResults.getStdout()));
-                processResults.getStdout().forEach(LOGGER::info);
-                taskResult = new TaskResult(processResults.getExitCode() == 0,
-                        getVariable());
-            }
-        } catch (IOException e) {
-            taskResult = new TaskResult(false, this.getVariable());
-        }
-
-        return taskResult;
+    protected List<String> getFileExtensions() {
+        return List.of(".cmd", ".bat");
     }
 
     /**
@@ -126,7 +60,8 @@ public class WindowsBatchTask extends AbstractTask {
      * @return process.
      * @throws IOException when starting of the process has failed.
      */
-    private static Process runFile(final Path path) throws IOException {
+    @Override
+    protected Process runFile(final Path path) throws IOException {
         return new ProcessBuilder(List.of("cmd", "/q", "/c",
                 path.toString()).toArray(String[]::new)).start();
     }

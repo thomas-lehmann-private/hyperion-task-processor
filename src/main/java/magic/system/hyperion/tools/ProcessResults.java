@@ -94,10 +94,11 @@ public final class ProcessResults {
      *
      * @param process - last executed process.
      * @return lines written to stdout and stderr and the process exit code.
+     * @throws InterruptedException when the process gets interrupted.
      */
-    public static ProcessResults of(final Process process) {
-        final var linesStdout = ProcessTools.getStdout(process);
-        final var linesStderr = ProcessTools.getStderr(process);
-        return new ProcessResults(linesStdout, linesStderr, process.exitValue());
+    public static ProcessResults of(final Process process) throws InterruptedException {
+        final var result = ProcessTools.captureOutput(process);
+        process.waitFor();
+        return new ProcessResults(result.getFirst(), result.getSecond(), process.exitValue());
     }
 }

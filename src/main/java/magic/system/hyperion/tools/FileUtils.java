@@ -23,6 +23,9 @@
  */
 package magic.system.hyperion.tools;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -40,6 +43,11 @@ import java.util.UUID;
  * @author Thomas Lehmann
  */
 public final class FileUtils {
+    /**
+     * Logger of this class.
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileUtils.class);
+
     /**
      * Should be never instantiated.
      */
@@ -84,5 +92,18 @@ public final class FileUtils {
         }
 
         return temporaryScriptPath;
+    }
+
+    /**
+     * Deletes a file or folder.
+     *
+     * @param path path to file or folder.
+     */
+    public static void deletePath(final Path path) {
+        try {
+            Files.delete(path);
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
     }
 }

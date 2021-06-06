@@ -23,19 +23,12 @@
  */
 package magic.system.hyperion.components.tasks;
 
-import magic.system.hyperion.components.TaskParameters;
-import magic.system.hyperion.components.TaskResult;
 import magic.system.hyperion.exceptions.HyperionException;
 import magic.system.hyperion.tools.Capabilities;
-import magic.system.hyperion.tools.FileUtils;
-import magic.system.hyperion.tools.ProcessResults;
-import magic.system.hyperion.tools.TemplateEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
@@ -48,7 +41,7 @@ import java.util.stream.Stream;
  *
  * @author Thomas Lehmann
  */
-public class DockerContainerTask extends AbstractTask {
+public class DockerContainerTask extends AbstractShellTask {
     /**
      * Platform Windows.
      */
@@ -69,11 +62,6 @@ public class DockerContainerTask extends AbstractTask {
      * Logger for this class.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(DockerContainerTask.class);
-
-    /**
-     * Newline character.
-     */
-    private static final String NEWLINE = "\n";
 
     /**
      * Name of the Docker image.
@@ -164,51 +152,18 @@ public class DockerContainerTask extends AbstractTask {
     }
 
     @Override
-    public TaskResult run(TaskParameters parameters) {
-        TaskResult taskResult;
-
-        try {
-            final var temporaryScriptPath = FileUtils.createTemporaryFile(
-                    "hyperion-docker-container-task-", FILE_EXTENSIONS.get(this.strPlatform));
-
-            final var engine = new TemplateEngine();
-            final var renderedText = engine.render(getCode(),
-                    Map.of("model", parameters.getModel().getData(),
-                            "matrix", parameters.getMatrixParameters(),
-                            "variables", parameters.getVariables()));
-
-            Files.write(temporaryScriptPath, renderedText.getBytes(
-                    Charset.defaultCharset()));
-
-            final var process = runFile(temporaryScriptPath);
-            process.waitFor();
-            final var processResults = ProcessResults.of(process);
-            Files.delete(temporaryScriptPath);
-
-            if (!processResults.getStderr().isEmpty()) {
-                processResults.getStderr().forEach(LOGGER::error);
-            }
-
-            this.getVariable().setValue(String.join(NEWLINE,
-                    processResults.getStdout()));
-            taskResult = new TaskResult(processResults.getExitCode() == 0,
-                    getVariable());
-        } catch (IOException | InterruptedException | HyperionException e) {
-            taskResult = new TaskResult(false, this.getVariable());
-        }
-
-        return taskResult;
+    protected String getTempFilePrefix() {
+        return "hyperion-docker-container-task-";
     }
 
-    /**
-     * Running Unix shell and providing process.
-     *
-     * @param path the path and name of the Batch file
-     * @return process.
-     * @throws IOException when starting of the process has failed.
-     */
+    @Override
+    protected List<String> getFileExtensions() {
+        return List.of(FILE_EXTENSIONS.get(this.strPlatform));
+    }
+
     @SuppressWarnings("checkstyle:multiplestringliterals")
-    private Process runFile(final Path path) throws IOException, HyperionException {
+    @Override
+    protected Process runFile(final Path path) throws IOException, HyperionException {
         final Path parentPath = path.getParent();
         final Path fileName = path.getFileName();
 
@@ -219,7 +174,7 @@ public class DockerContainerTask extends AbstractTask {
         // how to call docker on current environment
         final var baseCommand = List.of("docker", "run", "--rm", "-v",
                 System.getProperty("user.dir") + ":/work",
-                "-w", "/work", "-v", parentPath.toString() + ":/hosttmp",
+                "-v", parentPath.toString() + ":/hosttmp",
                 "-i", this.strImageName + ":" + this.strImageVersion);
 
         final var strCommand = String.join(" ", Stream.of(baseCommand,

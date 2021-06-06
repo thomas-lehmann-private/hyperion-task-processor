@@ -23,45 +23,16 @@
  */
 package magic.system.hyperion.components.tasks;
 
-import magic.system.hyperion.components.TaskParameters;
-import magic.system.hyperion.components.TaskResult;
-import magic.system.hyperion.tools.ProcessResults;
-import magic.system.hyperion.tools.TemplateEngine;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.util.Map;
-import java.util.UUID;
+import java.nio.file.Path;
+import java.util.List;
 
 /**
  * Task for running a powershell script.
  *
  * @author Thomas Lehmann
  */
-public class PowershellTask extends AbstractTask {
-    /**
-     * Logger for this class.
-     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(PowershellTask.class);
-
-    /**
-     * Newline character.
-     */
-    private static final String NEWLINE = "\n";
-
-    /**
-     * Powershell command for executing a script file.
-     */
-    private static final String POWERSHELL_COMMAND = "powershell -File ";
-
-    /**
-     * Powershell file extension.
-     */
-    private static final String FILE_EXTENSION = ".ps1";
-
+public class PowershellTask extends AbstractShellTask {
     /**
      * Initialize Powershell task.
      */
@@ -80,51 +51,18 @@ public class PowershellTask extends AbstractTask {
     }
 
     @Override
-    public boolean isRegularFile() {
-        return super.isRegularFile() && getCode().endsWith(FILE_EXTENSION);
+    protected String getTempFilePrefix() {
+        return "hyperion-powershell-task-";
     }
 
     @Override
-    public TaskResult run(final TaskParameters parameters) {
-        TaskResult taskResult;
+    protected List<String> getFileExtensions() {
+        return List.of(".ps1");
+    }
 
-        try {
-            if (isRegularFile()) {
-                final var strCommand = POWERSHELL_COMMAND + getCode();
-                final var process = Runtime.getRuntime().exec(strCommand);
-                final var processResults = ProcessResults.of(process);
-                this.getVariable().setValue(String.join(NEWLINE,
-                        processResults.getStdout()));
-                taskResult = new TaskResult(processResults.getExitCode() == 0,
-                        getVariable());
-            } else {
-                final var temporaryScriptPath = Files.createTempFile(
-                        "hyperion-powershell-task-",
-                        UUID.randomUUID() + FILE_EXTENSION);
-
-                final var engine = new TemplateEngine();
-                final var renderedText = engine.render(getCode(),
-                        Map.of("model", parameters.getModel().getData(),
-                                "matrix", parameters.getMatrixParameters(),
-                                "variables", parameters.getVariables()));
-
-                Files.write(temporaryScriptPath, renderedText.getBytes(
-                        Charset.defaultCharset()));
-
-                final var strCommand = POWERSHELL_COMMAND + temporaryScriptPath;
-                final var process = Runtime.getRuntime().exec(strCommand);
-                final var processResults = ProcessResults.of(process);
-                Files.delete(temporaryScriptPath);
-                this.getVariable().setValue(String.join(NEWLINE,
-                        processResults.getStdout()));
-                processResults.getStdout().forEach(LOGGER::info);
-                taskResult = new TaskResult(processResults.getExitCode() == 0,
-                        getVariable());
-            }
-        } catch (IOException e) {
-            taskResult = new TaskResult(false, this.getVariable());
-        }
-
-        return taskResult;
+    @Override
+    protected Process runFile(Path path) throws IOException {
+        return new ProcessBuilder(List.of("powershell", "-File",
+                path.toString()).toArray(String[]::new)).start();
     }
 }

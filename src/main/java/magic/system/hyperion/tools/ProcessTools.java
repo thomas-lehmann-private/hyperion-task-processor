@@ -23,16 +23,18 @@
  */
 package magic.system.hyperion.tools;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
+import magic.system.hyperion.generics.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.util.Collections;
+import java.util.List;
+import java.util.Vector;
 
 /**
  * Process tools.
@@ -46,40 +48,54 @@ public final class ProcessTools {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProcessTools.class);
 
     /**
-     * Provides lines written to stdout by the given process.
+     * Provide stdout and stderr lines of the process and logging those outputs too.
      *
-     * @param process - the executed process.
-     * @return lines written to stdout.
+     * @param process the process to capture the output from.
+     * @return lines of stdout and stderr.
      */
-    public static List<String> getStdout(final Process process) {
-        final List<String> lines = new ArrayList<>();
+    public static Pair<List<String>, List<String>> captureOutput(final Process process) {
+        final List<String> stdout = new Vector<>();
+        final List<String> stderr = new Vector<>();
 
-        try (var reader = new BufferedReader(new InputStreamReader(
-                process.getInputStream(), Charset.defaultCharset()))) {
-            lines.addAll(reader.lines().collect(Collectors.toList()));
-        } catch (IOException e) {
+        final var stdoutCaptureThread = createCaptureThread(process.getInputStream(), stdout);
+        final var stderrCaptureThread = createCaptureThread(process.getErrorStream(), stderr);
+
+        stdoutCaptureThread.start();
+        stderrCaptureThread.start();
+
+        try {
+            // waiting for the finishing of both threads.
+            stdoutCaptureThread.join();
+            stderrCaptureThread.join();
+        } catch (InterruptedException e) {
             LOGGER.error(e.getMessage(), e);
         }
 
-        return lines;
+        return Pair.of(Collections.unmodifiableList(stdout), Collections.unmodifiableList(stderr));
     }
 
     /**
-     * Provides lines written to stderr by the given process.
+     * The capture thread implementation capturing either stdout or stderr depending on the
+     * the passes stream.
      *
-     * @param process - the executed process.
-     * @return lines written to stderr.
+     * @param stream either {@link Process#getInputStream()} or {@link Process#getErrorStream()}.
+     * @param capturedLines container to add captured lines.
+     * @return Thread to be started.
      */
-    public static List<String> getStderr(final Process process) {
-        final List<String> lines = new ArrayList<>();
+    private static Thread createCaptureThread(final InputStream stream,
+                                              final List<String> capturedLines) {
+        return  new Thread(() -> {
+            try (var reader = new BufferedReader(
+                    new InputStreamReader(stream, Charset.defaultCharset()))) {
 
-        try (var reader = new BufferedReader(new InputStreamReader(
-                process.getErrorStream(), Charset.defaultCharset()))) {
-            lines.addAll(reader.lines().collect(Collectors.toList()));
-        } catch (IOException e) {
-            LOGGER.error(e.getMessage(), e);
-        }
-
-        return lines;
+                String strLine;
+                while ((strLine = reader.readLine()) != null) {
+                    capturedLines.add(strLine);
+                    LOGGER.info(strLine);
+                }
+            } catch (IOException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
+        });
     }
 }
