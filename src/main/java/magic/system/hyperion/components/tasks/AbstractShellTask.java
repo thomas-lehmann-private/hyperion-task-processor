@@ -38,7 +38,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * Base class for shell classes.
@@ -65,13 +64,14 @@ public abstract class AbstractShellTask extends AbstractTask {
     public boolean isRegularFile() {
         final String[] tokens = getCode().split("\\.");
         return super.isRegularFile() && tokens.length > 0
-                && getFileExtensions().contains(tokens[tokens.length-1]);
+                && getFileExtensions().contains(tokens[tokens.length - 1]);
     }
 
     @Override
     public TaskResult run(final TaskParameters parameters) {
         TaskResult taskResult;
-        ISimpleRunnable cleanup = () -> {};
+        ISimpleRunnable cleanup = () -> {
+        };
 
         try {
             if (isRegularFile()) {
@@ -82,9 +82,8 @@ public abstract class AbstractShellTask extends AbstractTask {
                 taskResult = new TaskResult(processResults.getExitCode() == 0,
                         getVariable());
             } else {
-                final var temporaryScriptPath = Files.createTempFile(
-                        getTempFilePrefix(),
-                        UUID.randomUUID() + getFileExtensions().get(0));
+                final var temporaryScriptPath = FileUtils.createTemporaryFile(
+                        getTempFilePrefix(), getFileExtensions().get(0));
 
                 cleanup = () -> FileUtils.deletePath(temporaryScriptPath);
 
@@ -131,7 +130,7 @@ public abstract class AbstractShellTask extends AbstractTask {
      *
      * @param path path to the shell script.
      * @return the process for the execution.
-     * @throws IOException when file execution failed.
+     * @throws IOException       when file execution failed.
      * @throws HyperionException when an application error occurs.
      */
     protected abstract Process runFile(Path path) throws IOException, HyperionException;
