@@ -30,6 +30,7 @@ import magic.system.hyperion.components.Document;
 import magic.system.hyperion.components.TaskGroup;
 import magic.system.hyperion.components.tasks.AbstractTask;
 import magic.system.hyperion.components.tasks.TaskType;
+import magic.system.hyperion.components.tasks.creator.ITaskCreator;
 import magic.system.hyperion.data.AttributeMap;
 import magic.system.hyperion.data.ListOfValues;
 import magic.system.hyperion.exceptions.HyperionException;
@@ -79,7 +80,7 @@ public class DocumentReader {
      * @param initPath path of the document.
      */
     public DocumentReader(final Path initPath) {
-        this.tasksFactory = new Factory<>("magic.system.hyperion.components.tasks.creator");
+        this.tasksFactory = new Factory<AbstractTask>(ITaskCreator.class);
         this.document = new Document();
         this.path = initPath;
     }

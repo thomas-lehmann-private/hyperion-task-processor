@@ -25,39 +25,28 @@ package magic.system.hyperion.tools;
 
 import magic.system.hyperion.annotations.Named;
 import magic.system.hyperion.interfaces.ICreator;
-import org.reflections.Reflections;
-import org.reflections.scanners.SubTypesScanner;
-import org.reflections.util.ClasspathHelper;
-import org.reflections.util.ConfigurationBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.InvocationTargetException;
+import java.util.ServiceLoader;
 
 /**
  * Factory for creator of type E.
  *
- * @param <E> the instances of type E that should be created.
+ * @param <E> creator of type E.
  * @author Thomas Lehmann
  */
 public class Factory<E> {
     /**
-     * Logger for this class.
+     * Creator class.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(Factory.class);
+    private final Class<? extends ICreator<E>> creatorClass;
 
     /**
-     * The package where to look for the classes.
-     */
-    private final String strPackageName;
-
-    /**
-     * Initialize with package name where to search for the types.
+     * Initialize factory with creator class.
      *
-     * @param strInitPackageName the package name.
+     * @param initCreatorClass creator class.
      */
-    public Factory(final String strInitPackageName) {
-        this.strPackageName = strInitPackageName;
+    public Factory(final Class<? extends ICreator<E>> initCreatorClass) {
+        this.creatorClass = initCreatorClass;
     }
 
     /**
@@ -67,30 +56,24 @@ public class Factory<E> {
      * @return created instance or null if failed.
      */
     public E create(final String strName) {
-        final var reflections = new Reflections(new ConfigurationBuilder()
-                .setUrls(ClasspathHelper.forPackage(this.strPackageName))
-                .addScanners(new SubTypesScanner()));
-
-        final var foundTypes = reflections.getSubTypesOf(ICreator.class);
+        final var loader = ServiceLoader.load(this.creatorClass);
+        final var iterator = loader.iterator();
         E instance = null;
 
-        try {
-            for (final var type : foundTypes) {
-                for (final var annotation : type.getAnnotations()) {
-                    if (annotation instanceof Named
-                            && ((Named) annotation).value().equals(strName)) {
-                        // creating the creator instance
-                        final var creatorInstance
-                                = (ICreator<E>) type.getDeclaredConstructors()[0].newInstance();
-                        // creating the instance of interest
-                        instance = creatorInstance.create();
-                        break;
-                    }
+        while (iterator.hasNext()) {
+            final var creator = iterator.next();
+
+            for (final var annotation: creator.getClass().getAnnotations()) {
+                if (annotation instanceof Named
+                        && ((Named) annotation).value().equals(strName)) {
+                    instance = (E) creator.create();
+                    break;
                 }
             }
-        } catch (InvocationTargetException | InstantiationException | IllegalAccessException e) {
-            LOGGER.error(e.getMessage(), e);
-            instance = null;
+
+            if (instance != null) {
+                break;
+            }
         }
 
         return instance;

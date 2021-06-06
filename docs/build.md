@@ -59,7 +59,6 @@ ch.qos.logback:logback-classic:1.2.3 | http://logback.qos.ch/ | [Logback License
 org.apache.commons:commons-lang3:3.12:0 | https://commons.apache.org/proper/commons-lang/ | [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0) | Tool classes
 io.pebbletemplates:pebble:3.1.5 | https://pebbletemplates.io/ | [Pebble License](https://github.com/PebbleTemplates/pebble/blob/master/LICENSE) | Template Engine
 org.codehaus.groovy:groovy:3.0.7 | http://www.groovy-lang.org/ | [Apache 2.0 License](https://github.com/apache/groovy/blob/master/LICENSE) | Embedded Language for GroovyTask
-org.reflections:reflections:0.9.12 | https://github.com/ronmamo/reflections | [Reflections License](https://github.com/ronmamo/reflections/blob/master/COPYING.txt) | Searching for classes
 
 ### Build dependencies
 

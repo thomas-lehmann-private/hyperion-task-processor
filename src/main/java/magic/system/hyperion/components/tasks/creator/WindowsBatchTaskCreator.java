@@ -26,7 +26,6 @@ package magic.system.hyperion.components.tasks.creator;
 import magic.system.hyperion.annotations.Named;
 import magic.system.hyperion.components.tasks.AbstractTask;
 import magic.system.hyperion.components.tasks.WindowsBatchTask;
-import magic.system.hyperion.interfaces.ICreator;
 
 /**
  * Creator for a Windows batch task.
@@ -34,7 +33,7 @@ import magic.system.hyperion.interfaces.ICreator;
  * @author Thomas Lehmann
  */
 @Named("batch")
-public class WindowsBatchTaskCreator implements ICreator<AbstractTask> {
+public class WindowsBatchTaskCreator implements ITaskCreator {
     @Override
     public AbstractTask create() {
         return new WindowsBatchTask("", "");

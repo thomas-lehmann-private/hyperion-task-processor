@@ -23,19 +23,14 @@
  */
 package magic.system.hyperion.components.tasks.creator;
 
-import magic.system.hyperion.annotations.Named;
 import magic.system.hyperion.components.tasks.AbstractTask;
-import magic.system.hyperion.components.tasks.UnixShellTask;
+import magic.system.hyperion.interfaces.ICreator;
 
 /**
- * Creator for a unix shell task.
+ * Task creator interface.
  *
  * @author Thomas Lehmann
  */
-@Named("shell")
-public class UnixShellTaskCreator implements ITaskCreator {
-    @Override
-    public AbstractTask create() {
-        return new UnixShellTask("", "");
-    }
+public interface ITaskCreator extends ICreator<AbstractTask> {
+    // One and only method in ICreator.
 }

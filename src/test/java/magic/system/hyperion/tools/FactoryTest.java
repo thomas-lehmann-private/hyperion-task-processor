@@ -26,6 +26,7 @@ package magic.system.hyperion.tools;
 import magic.system.hyperion.components.tasks.AbstractTask;
 import magic.system.hyperion.components.tasks.GroovyTask;
 import magic.system.hyperion.components.tasks.TaskType;
+import magic.system.hyperion.components.tasks.creator.ITaskCreator;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -44,8 +45,7 @@ public class FactoryTest {
      */
     @Test
     public void testDefault() {
-        final var factory = new Factory<AbstractTask>(
-                "magic.system.hyperion.components.tasks.creator");
+        final var factory = new Factory<AbstractTask>(ITaskCreator.class);
         final var task = factory.create(TaskType.GROOVY.getTypeName());
         assertNotNull(task);
         assertTrue(task instanceof GroovyTask);
@@ -56,8 +56,7 @@ public class FactoryTest {
      */
     @Test
     public void testNotFound() {
-        final var factory = new Factory<AbstractTask>(
-                "magic.system.hyperion.components.tasks.creator");
+        final var factory = new Factory<AbstractTask>(ITaskCreator.class);
         final var task = factory.create("should-not-exist");
         assertNull(task);
     }

@@ -26,7 +26,6 @@ package magic.system.hyperion.components.tasks.creator;
 import magic.system.hyperion.annotations.Named;
 import magic.system.hyperion.components.tasks.AbstractTask;
 import magic.system.hyperion.components.tasks.DockerContainerTask;
-import magic.system.hyperion.interfaces.ICreator;
 
 /**
  * Creator for a Docker container task.
@@ -34,7 +33,7 @@ import magic.system.hyperion.interfaces.ICreator;
  * @author Thomas Lehmann
  */
 @Named("docker-container")
-public class DockerContainerTaskCreator implements ICreator<AbstractTask> {
+public class DockerContainerTaskCreator implements ITaskCreator {
     @Override
     public AbstractTask create() {
         return new DockerContainerTask("", "");
