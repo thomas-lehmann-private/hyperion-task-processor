@@ -40,6 +40,11 @@ public enum ApplicationOptions {
     THIRD_PARTY("", "third-party", "displaying used 3rd party libraries"),
 
     /**
+     * Timeout on each taskgroup.
+     */
+    TIMEOUT_TASKGROUP("", "timeout-taskgroup", "timeout for each taskgroup (minutes)"),
+
+    /**
      * Option for displaying the help.
      */
     HELP("h", "help", "displaying this help"),

@@ -27,6 +27,7 @@ import magic.system.hyperion.components.tasks.AbstractTask;
 import magic.system.hyperion.generics.SimplePublisher;
 import magic.system.hyperion.interfaces.IRunnable;
 import magic.system.hyperion.interfaces.IVariable;
+import magic.system.hyperion.tools.Runner;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.tuple.Triple;
@@ -38,6 +39,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * A group of tasks.
@@ -74,12 +76,11 @@ public class TaskGroup extends Component
     /**
      * Initialize task group.
      *
-     * @param strInitTitle title of the group.
+     * @param strInitTitle            title of the group.
      * @param bInitRunTasksInParallel when true then run tasks in parallel.
-     * @version 1.0.0
      */
     public TaskGroup(final String strInitTitle,
-            final boolean bInitRunTasksInParallel) {
+                     final boolean bInitRunTasksInParallel) {
         super(strInitTitle);
         this.variables = new ConcurrentHashMap<>();
         this.listOfTasks = new ArrayList<>();
@@ -139,34 +140,52 @@ public class TaskGroup extends Component
 
     @Override
     public Boolean run(final Triple<Model, Map<String, String>, List<String>> parameters) {
-        boolean success = true;
+        final AtomicInteger errorCounter = new AtomicInteger(0);
 
         // run parameters
         final var model = parameters.getLeft();
         final var matrixParameters = parameters.getMiddle();
         final var tags = parameters.getRight();
 
-        if (!this.bRunTasksInParallel) {
-            for (var task : this.listOfTasks) {
-                // ignore task when its tags do not match the filter (if the task does
-                // not have tags the task is also ignored)
-                if (!tags.isEmpty() && task.getTags().stream().noneMatch(tags::contains)) {
-                    continue;
-                }
+        final List<Runnable> runnables = new ArrayList<>();
 
-                final var result = task.run(
-                        TaskParameters.of(model, matrixParameters, this.variables));
-                final var copiedVariable = result.getVariable().copy();
-                this.variables.put(copiedVariable.getName(), copiedVariable);
-                LOGGER.info(String.format("set variable %s=%s",
-                        copiedVariable.getName(), copiedVariable.getValue()));
-                this.variablePublisher.submit(copiedVariable);
-                if (!result.isSuccess()) {
-                    success = false;
-                }
+        for (var task : this.listOfTasks) {
+            // ignore task when its tags do not match the filter (if the task does
+            // not have tags the task is also ignored)
+            if (!tags.isEmpty() && task.getTags().stream().noneMatch(tags::contains)) {
+                continue;
             }
+            runnables.add(() -> runOneTask(model, matrixParameters, task, errorCounter));
         }
-        return success;
+
+        final var runner = Runner.of(runnables.toArray(Runnable[]::new));
+        runner.setParallel(this.bRunTasksInParallel);
+        runner.runAll();
+
+        return errorCounter.get() == 0;
+    }
+
+    /**
+     * Running one task (might run in a thread).
+     *
+     * @param model the model from the document.
+     * @param matrixParameters the matrix parameters (eventually).
+     * @param task the concrete task to run.
+     * @param errorCounter the counter to increment on error.
+     */
+    private void runOneTask(final Model model, final Map<String, String> matrixParameters,
+                            final AbstractTask task, final AtomicInteger errorCounter) {
+        final var result = task.run(
+                TaskParameters.of(model, matrixParameters, this.variables));
+        final var copiedVariable = result.getVariable().copy();
+        this.variables.put(copiedVariable.getName(), copiedVariable);
+        LOGGER.info(String.format("set variable %s=%s",
+                copiedVariable.getName(), copiedVariable.getValue()));
+        this.variablePublisher.submit(copiedVariable);
+
+        if (!result.isSuccess()) {
+            errorCounter.incrementAndGet();
+        }
     }
 
     @Override

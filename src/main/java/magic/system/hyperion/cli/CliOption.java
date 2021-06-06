@@ -79,6 +79,11 @@ public class CliOption {
     private final OptionType type;
 
     /**
+     * Default value for option.
+     */
+    private final String strDefault;
+
+    /**
      * Initialize option instance.
      *
      * @param builder builder with defined values.
@@ -90,6 +95,7 @@ public class CliOption {
         this.bRequired = builder.bRequired;
         this.bRepeatable = builder.bRepeatable;
         this.type = builder.type;
+        this.strDefault = builder.strDefault;
     }
 
     /**
@@ -146,6 +152,15 @@ public class CliOption {
         return this.type;
     }
 
+    /**
+     * Get default value.
+     *
+     * @return default value or empty or null if not set.
+     */
+    public String getDefault() {
+        return this.strDefault;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
@@ -154,6 +169,7 @@ public class CliOption {
                 .append("description", this.strDescription)
                 .append("repeatable", this.bRepeatable)
                 .append("required", this.bRequired)
+                .append("default", this.strDefault)
                 .build();
     }
 
@@ -200,6 +216,11 @@ public class CliOption {
          * Type of the option.
          */
         private OptionType type = OptionType.STRING;
+
+        /**
+         * Default value for option.
+         */
+        private String strDefault;
 
         /**
          * Changing long name of option.
@@ -264,6 +285,17 @@ public class CliOption {
          */
         public Builder setType(final OptionType value) {
             this.type = value;
+            return this;
+        }
+
+        /**
+         * Changing default value of option.
+         *
+         * @param strValue new value.
+         * @return builder itself to allow chaining.
+         */
+        public Builder setDefault(final String strValue) {
+            this.strDefault = strValue;
             return this;
         }
 

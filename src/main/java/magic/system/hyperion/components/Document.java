@@ -40,7 +40,7 @@ import java.util.Map;
  *
  * @author Thomas Lehmann
  */
-public class Document implements IRunnable<Void, List<String>> {
+public class Document implements IRunnable<Void, DocumentParameters> {
     /**
      * Logger for this class.
      */
@@ -150,15 +150,16 @@ public class Document implements IRunnable<Void, List<String>> {
     }
 
     @Override
-    public Void run(final List<String> tags) {
+    public Void run(final DocumentParameters parameters) {
         if (this.matrix.isEmpty()) {
             this.listOfTaskGroups.forEach(taskGroup -> taskGroup.run(
-                    Triple.of(this.model, Map.of(), tags)));
+                    Triple.of(this.model, Map.of(), parameters.getTags())));
         } else {
             for (final var matrixParameters: this.matrix) {
                 LOGGER.info("Running Matrix " + matrixParameters.getTitle());
                 this.listOfTaskGroups.forEach(taskGroup -> taskGroup.run(
-                        Triple.of(this.model, matrixParameters.getParameters(), tags)));
+                        Triple.of(this.model, matrixParameters.getParameters(),
+                                parameters.getTags())));
             }
         }
 

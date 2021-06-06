@@ -28,6 +28,7 @@ import magic.system.hyperion.cli.CliException;
 import magic.system.hyperion.cli.CliHelpPrinter;
 import magic.system.hyperion.cli.CliOptionList;
 import magic.system.hyperion.cli.CliParser;
+import magic.system.hyperion.components.DocumentParameters;
 import magic.system.hyperion.reader.DocumentReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -122,7 +123,8 @@ public final class Application {
             final List<String> tags = result.getGlobalOptions().getOrDefault(
                     ApplicationOptions.TAG.getLongName(), Collections.emptyList());
             processDocument(Paths.get(result.getCommandOptions().get(
-                    ApplicationOptions.RUN_FILE.getLongName()).get(0)), tags);
+                    ApplicationOptions.RUN_FILE.getLongName()).get(0)),
+                    DocumentParameters.of(tags));
         }
     }
 
@@ -130,12 +132,12 @@ public final class Application {
      * Processing document.
      *
      * @param path path and filename of document.
-     * @param tags the tags to be used to filter tasks.
+     * @param parameters the document parameters.
      */
-    private void processDocument(final Path path, final List<String> tags) {
+    private void processDocument(final Path path, final DocumentParameters parameters) {
         final var reader = new DocumentReader(path);
         final var document = reader.read();
-        document.run(tags);
+        document.run(parameters);
     }
 
     /**

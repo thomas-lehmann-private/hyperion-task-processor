@@ -1,0 +1,16 @@
+---
+taskgroups:
+  - title: running tasks in parallel
+    parallel: true
+    tasks:
+      - type: groovy
+        code: |
+          sleep(3000)
+          println 'hello world 1'
+      - type: groovy
+        code: |
+          sleep(2000)
+          println 'hello world 2'
+      - type: groovy
+        code: |
+          println 'hello world 3'

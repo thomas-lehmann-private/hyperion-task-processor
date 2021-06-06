@@ -3,14 +3,12 @@ taskgroups:
   - title: build of Hyperion
     tasks:
     - type: docker-container
-      image-name: debian
+      image-name: centos
       code: |
-        echo Updating Debian ...
-        apt-get -y clean > /dev/null
-        apt-get -y update > /dev/null
-        echo Installing Git and OpenJDK 11 ...
-        apt-get -y install git openjdk-11-jdk > /dev/null
+        yum -y install git java-11-openjdk-devel
+        java -version
+        export JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:/bin/java::")
         git clone https://github.com/thomas-lehmann-private/hyperion.git
         cd hyperion
         chmod +x ./mvnw
-        ./mvnw --batch-mode -Dline.coverage=0.0 clean package javadoc:jar verify
+        ./mvnw --batch-mode -Dcom.sun.net.ssl.checkRevocation=false -Dmaven.wagon.http.ssl.insecure=true -Dline.coverage=0.0 clean package javadoc:jar verify

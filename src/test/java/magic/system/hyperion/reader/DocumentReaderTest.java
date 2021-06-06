@@ -23,6 +23,7 @@
  */
 package magic.system.hyperion.reader;
 
+import magic.system.hyperion.components.DocumentParameters;
 import magic.system.hyperion.generics.ListCollector;
 import magic.system.hyperion.interfaces.IVariable;
 import magic.system.hyperion.tools.Capabilities;
@@ -49,7 +50,7 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
  * @author Thomas Lehmann
  */
 @DisplayName("Testing DocumentReader class")
-@SuppressWarnings("checkstyle:multiplestringliterals")
+@SuppressWarnings({"checkstyle:multiplestringliterals", "checkstyle:magicnumber"})
 public class DocumentReaderTest {
 
     /**
@@ -81,15 +82,13 @@ public class DocumentReaderTest {
         final var document = reader.read();
         assertNotNull(document, "Document shouldn't be null");
         assertEquals(1, document.getListOfTaskGroups().size());
-        //CHECKSTYLE.OFF: MagicNumber - ok here
         assertEquals(3, document.getListOfTaskGroups().get(0).getListOfTasks().size());
-        //CHECKSTYLE.ON: MagicNumber
         final var tags = document.getListOfTaskGroups().get(0).getListOfTasks().get(2).getTags();
         assertEquals("tag support", tags.get(0));
         assertEquals("third example", tags.get(1));
 
         MessagesCollector.clear();
-        document.run(List.of());
+        document.run(DocumentParameters.of(List.of()));
         assertTrue(MessagesCollector.getMessages().contains("set variable default=hello world!"));
         assertTrue(MessagesCollector.getMessages().contains("set variable test2=this is a demo"));
     }
@@ -108,15 +107,13 @@ public class DocumentReaderTest {
         final var document = reader.read();
         assertNotNull(document, "Document shouldn't be null");
         assertEquals(1, document.getListOfTaskGroups().size());
-        //CHECKSTYLE.OFF: MagicNumber - ok here
         assertEquals(3, document.getListOfTaskGroups().get(0).getListOfTasks().size());
-        //CHECKSTYLE.ON: MagicNumber
         final var tags = document.getListOfTaskGroups().get(0).getListOfTasks().get(2).getTags();
         assertEquals("tag support", tags.get(0));
         assertEquals("third example", tags.get(1));
 
         MessagesCollector.clear();
-        document.run(List.of());
+        document.run(DocumentParameters.of(List.of()));
         assertTrue(MessagesCollector.getMessages().contains("set variable default=hello world!"));
         assertTrue(MessagesCollector.getMessages().contains("set variable test2=this is a demo"));
     }
@@ -162,12 +159,11 @@ public class DocumentReaderTest {
         final var collector = new ListCollector<IVariable>();
         document.getListOfTaskGroups().forEach(
                 group -> group.getVariablePublisher().subscribe(collector));
-        document.run(List.of());
+        document.run(DocumentParameters.of(List.of()));
 
         final String strLineBreak = System.getProperty("os.name")
                 .toLowerCase(Locale.getDefault()).contains("windows")? "\r\n": "\n";
 
-        //CHECKSTYLE.OFF: MagicNumber: ok here
         assertEquals("Groovy:the first run|hello world 1!|hello world 2!|hello world 3!".
                         replaceAll("\\|", strLineBreak), collector.get(0).getValue());
         assertEquals("JShell:the first run|hello world 1!|hello world 2!|hello world 3!".
@@ -176,7 +172,6 @@ public class DocumentReaderTest {
                 collector.get(2).getValue());
         assertEquals("JShell:the second run|hello world 1!".replaceAll("\\|", strLineBreak),
                 collector.get(3).getValue());
-        //CHECKSTYLE.ON: MagicNumber
     }
 
     @Test
@@ -189,15 +184,13 @@ public class DocumentReaderTest {
         final var document = reader.read();
         assertNotNull(document, "Document shouldn't be null");
         assertEquals(1, document.getListOfTaskGroups().size());
-        //CHECKSTYLE.OFF: MagicNumber - ok here
         assertEquals(3, document.getListOfTaskGroups().get(0).getListOfTasks().size());
-        //CHECKSTYLE.ON: MagicNumber
         final var tags = document.getListOfTaskGroups().get(0).getListOfTasks().get(2).getTags();
         assertEquals("tag support", tags.get(0));
         assertEquals("third example", tags.get(1));
 
         MessagesCollector.clear();
-        document.run(List.of());
+        document.run(DocumentParameters.of(List.of()));
         assertTrue(MessagesCollector.getMessages().contains("set variable default=hello world!"));
         assertTrue(MessagesCollector.getMessages().contains("set variable test2=this is a demo"));
     }
@@ -223,5 +216,29 @@ public class DocumentReaderTest {
 
         assertTrue(MessagesCollector.getMessages()
                 .stream().anyMatch(line -> line.contains("Unknown field 'unknown'!")));
+    }
+
+    /**
+     * Testing a document with Groovy.
+     *
+     * @throws URISyntaxException when loading of the document has failed.
+     */
+    @Test
+    public void testTasksRunningInParallel() throws URISyntaxException {
+        final var path = Paths.get(getClass().getResource(
+                "/documents/document-with-tasks-running-in-parallel.yml").toURI());
+        final var reader = new DocumentReader(path);
+        final var document = reader.read();
+        assertNotNull(document, "Document shouldn't be null");
+        assertEquals(1, document.getListOfTaskGroups().size());
+        assertEquals(3, document.getListOfTaskGroups().get(0).getListOfTasks().size());
+
+        MessagesCollector.clear();
+        document.run(DocumentParameters.of(List.of()));
+
+        // the order is descending because (1 sleeps 3s, 2 sleeps 2s and 3 doesn't sleep)
+        assertEquals("set variable default=hello world 3", MessagesCollector.getMessages().get(0));
+        assertEquals("set variable default=hello world 2", MessagesCollector.getMessages().get(1));
+        assertEquals("set variable default=hello world 1", MessagesCollector.getMessages().get(2));
     }
 }

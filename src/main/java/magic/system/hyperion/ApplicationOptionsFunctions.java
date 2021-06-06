@@ -65,6 +65,13 @@ public final class ApplicationOptionsFunctions {
                         .setType(OptionType.BOOLEAN)
                         .build()).add(
                 CliOption.builder()
+                        .setShortName(ApplicationOptions.TIMEOUT_TASKGROUP.getShortName())
+                        .setLongName(ApplicationOptions.TIMEOUT_TASKGROUP.getLongName())
+                        .setDescription(ApplicationOptions.TIMEOUT_TASKGROUP.getDescription())
+                        .setType(OptionType.INTEGER)
+                        .setDefault("60")
+                        .build()).add(
+                CliOption.builder()
                         .setShortName(ApplicationOptions.TAG.getShortName())
                         .setLongName(ApplicationOptions.TAG.getLongName())
                         .setDescription(ApplicationOptions.TAG.getDescription())
