@@ -25,6 +25,7 @@ package magic.system.hyperion.reader;
 
 import magic.system.hyperion.generics.ListCollector;
 import magic.system.hyperion.interfaces.IVariable;
+import magic.system.hyperion.tools.Capabilities;
 import magic.system.hyperion.tools.MessagesCollector;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -40,6 +41,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 /**
  * Testing class {@link DocumentReader}.
@@ -179,6 +181,8 @@ public class DocumentReaderTest {
 
     @Test
     public void testDockerContainerTask() throws URISyntaxException {
+        assumeTrue(Capabilities.hasDocker());
+
         final var path = Paths.get(getClass().getResource(
                 "/documents/document-with-docker-container.yml").toURI());
         final var reader = new DocumentReader(path);
