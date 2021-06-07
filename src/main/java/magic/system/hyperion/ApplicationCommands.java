@@ -59,6 +59,7 @@ public enum ApplicationCommands {
      * Get name of the command.
      *
      * @return name of the command.
+     * @since 1.0.0
      */
     public String getCommand() {
         return this.strCommand;
@@ -68,6 +69,7 @@ public enum ApplicationCommands {
      * Get description of the command.
      *
      * @return description of the command.
+     * @since 1.0.0
      */
     public String getDescription() {
         return this.strDescription;

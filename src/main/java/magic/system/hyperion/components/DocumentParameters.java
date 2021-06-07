@@ -39,7 +39,13 @@ public final class DocumentParameters {
     private List<String> tags;
 
     /**
+     * Timeout for each task group.
+     */
+    private int iTimeoutTaskgroup;
+
+    /**
      * Please use the "of" method.
+     * @since 1.0.0
      */
     private DocumentParameters() {
         // Nothing else to do.
@@ -49,9 +55,20 @@ public final class DocumentParameters {
      * Readonly access to list of tags.
      *
      * @return list of tags.
+     * @since 1.0.0
      */
     public List<String> getTags() {
         return Collections.unmodifiableList(this.tags);
+    }
+
+    /**
+     * Get timeout for each task group.
+     *
+     * @return timeout for each task group.
+     * @since 1.0.0
+     */
+    public int getTimeoutTaskgroup() {
+        return this.iTimeoutTaskgroup;
     }
 
     /**
@@ -64,14 +81,27 @@ public final class DocumentParameters {
     }
 
     /**
+     * Changing timeout for each task group.
+     *
+     * @param iInitTimeoutTaskgroup new timeout.
+     * @since 1.0.0
+     */
+    private void setTimeoutTaskgroup(final int iInitTimeoutTaskgroup) {
+        this.iTimeoutTaskgroup = iInitTimeoutTaskgroup;
+    }
+
+    /**
      * Create document parameters (for the run method).
      *
      * @param tags list of tags for filtering of tasks.
+     * @param iTimeoutTaskgroup timeout for task groups.
      * @return instance of {@link DocumentParameters}.
+     * @since 1.0.0
      */
-    public static DocumentParameters of(final List<String> tags) {
+    public static DocumentParameters of(final List<String> tags, final int iTimeoutTaskgroup) {
         final var parameters = new DocumentParameters();
         parameters.setTags(tags);
+        parameters.setTimeoutTaskgroup(iTimeoutTaskgroup);
         return parameters;
     }
 }

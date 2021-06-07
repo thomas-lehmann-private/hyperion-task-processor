@@ -23,26 +23,27 @@
  */
 package magic.system.hyperion.tools;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import magic.system.hyperion.cli.CliException;
 
 import java.util.List;
 import java.util.concurrent.Executors;
+import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
 
 /**
  * Running a list of runnables either in order or in parallel.
+ * The default timeout is 15 minutes.
  *
  * @author Thomas Lehmann
  */
 public final class Runner {
     /**
-     * Logger for this class.
+     * Default timeout (minutes).
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(Runner.class);
+    private static final int DEFAULT_TIMEOUT = 10;
 
     /**
-     *  List if runnables.
+     * List if runnables.
      */
     private final List<Runnable> runnables;
 
@@ -52,6 +53,11 @@ public final class Runner {
     private boolean bIsParallel;
 
     /**
+     * Timeout for waiting for finishing of runnables (in minutes).
+     */
+    private int iTimeout;
+
+    /**
      * Initialize runner with a list of runnables.
      *
      * @param initRunnables list of runnables.
@@ -59,21 +65,36 @@ public final class Runner {
     private Runner(final List<Runnable> initRunnables) {
         this.runnables = initRunnables;
         this.bIsParallel = false;
+        this.iTimeout = DEFAULT_TIMEOUT;
     }
 
     /**
      * Change run mode (when true then parallel otherwise in order).
      *
      * @param bInitIsParallel new run mode.
+     * @since 1.0.0
      */
     public void setParallel(final boolean bInitIsParallel) {
         this.bIsParallel = bInitIsParallel;
     }
 
     /**
-     * Running all runnables.
+     * Change timeout for waiting for finishing of runnables.
+     *
+     * @param iInitTimeout new timeout.
+     * @since 1.0.0
      */
-    public void runAll() {
+    public void setTimeout(final int iInitTimeout) {
+        this.iTimeout = iInitTimeout;
+    }
+
+    /**
+     * Running all runnables.
+     *
+     * @throws CliException when thread execution has failed or timeout did happen.
+     * @since 1.0.0
+     */
+    public void runAll() throws CliException {
         if (this.bIsParallel) {
             runInParallel();
         } else {
@@ -86,34 +107,44 @@ public final class Runner {
      *
      * @param arguments array of runnables.
      * @return runner instance.
+     * @since 1.0.0
      */
     public static Runner of(Runnable... arguments) {
         return new Runner(List.of(arguments));
     }
 
     /**
-     * Running all runnables in order.
+     * Running all runnables in order (the list of runnables inside the same thread).
+     *
+     * @throws CliException when thread execution has failed.
      */
-    private void runInOrder() {
-        this.runnables.forEach(Runnable::run);
+    private void runInOrder() throws CliException {
+        final var executor = Executors.newFixedThreadPool(1);
+
+        try {
+            final List<Runnable> wrappedRunnable = List.of(() -> runnables.forEach(Runnable::run));
+            wrappedRunnable.forEach(executor::submit);
+            executor.shutdown();
+            executor.awaitTermination(this.iTimeout, TimeUnit.MINUTES);
+        } catch (final InterruptedException | RejectedExecutionException e) {
+            throw new CliException(e.getMessage());
+        }
     }
 
     /**
      * Running all runnables in parallel.
+     *
+     * @throws CliException when thread execution has failed.
      */
-    private void runInParallel() {
+    private void runInParallel() throws CliException {
         final var executor = Executors.newFixedThreadPool(this.runnables.size());
-        this.runnables.forEach(executor::submit);
-        executor.shutdown();
 
         try {
-            // FIXME: that's something to be configured at
-            //        global options (--taskgroup-timeout=60)
-            //CHECKSTYLE.OFF: MagicNumber: see fixme note above this line
-            executor.awaitTermination(60L, TimeUnit.MINUTES);
-            //CHECKSTYLE.ON: MagicNumber
-        } catch (InterruptedException e) {
-            LOGGER.error(e.getMessage(), e);
+            this.runnables.forEach(executor::submit);
+            executor.shutdown();
+            executor.awaitTermination(this.iTimeout, TimeUnit.MINUTES);
+        } catch (final InterruptedException | RejectedExecutionException e) {
+            throw new CliException(e.getMessage());
         }
     }
 }

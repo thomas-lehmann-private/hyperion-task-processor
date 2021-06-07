@@ -65,6 +65,7 @@ public final class CliCommand {
      * Get name of the command.
      *
      * @return name.
+     * @since 1.0.0
      */
     public String getName() {
         return this.strName;
@@ -74,6 +75,7 @@ public final class CliCommand {
      * Get description of command.
      *
      * @return description.
+     * @since 1.0.0
      */
     public String getDescription() {
         return this.strDescription;
@@ -83,6 +85,7 @@ public final class CliCommand {
      * Get the list of options for the command.
      *
      * @return list of options.
+     * @since 1.0.0
      */
     public List<CliOption> getOptions() {
         return this.options.getOptions();
@@ -93,6 +96,7 @@ public final class CliCommand {
      *
      * @param strOption either short name or long name.
      * @return optional option.
+     * @since 1.0.0
      */
     public Optional<CliOption> findOption(final String strOption) {
         return this.options.findOption(strOption);
@@ -102,6 +106,7 @@ public final class CliCommand {
      * Create builder instance.
      *
      * @return builder instance.
+     * @since 1.0.0
      */
     public static Builder builder() {
         return new Builder();
@@ -155,6 +160,7 @@ public final class CliCommand {
          *
          * @param strValue new name.
          * @return builder itself to allow chaining.
+         * @since 1.0.0
          */
         public Builder setDescription(final String strValue) {
             this.strDescription = strValue;
@@ -166,6 +172,7 @@ public final class CliCommand {
          *
          * @param option new option.
          * @return builder itself to allow chaining.
+         * @since 1.0.0
          */
         public Builder addOption(final CliOption option) {
             this.optionsBuilder.add(option);
@@ -177,6 +184,7 @@ public final class CliCommand {
          *
          * @param optionsToAdd list of options to add.
          * @return builder itself to allow chaining.
+         * @since 1.0.0
          */
         public Builder addAllOptions(final List<CliOption> optionsToAdd) {
             this.optionsBuilder.addAll(optionsToAdd);
@@ -188,6 +196,7 @@ public final class CliCommand {
          *
          * @return instance of {@link CliCommand}.
          * @throws CliException when the options are not valid.
+         * @since 1.0.0
          */
         public CliCommand build() throws CliException {
             validate();

@@ -52,6 +52,10 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 @DisplayName("Testing DocumentReader class")
 @SuppressWarnings({"checkstyle:multiplestringliterals", "checkstyle:magicnumber"})
 public class DocumentReaderTest {
+    /**
+     * If something takes longer than a minute here this would be a problem.
+     */
+    private static final int DEFAULT_TIMEOUT_TASKGROUP = 1;
 
     /**
      * Intention to have a quite complete document.
@@ -88,7 +92,7 @@ public class DocumentReaderTest {
         assertEquals("third example", tags.get(1));
 
         MessagesCollector.clear();
-        document.run(DocumentParameters.of(List.of()));
+        document.run(getDefaultDocumentParameters());
         assertTrue(MessagesCollector.getMessages().contains("set variable default=hello world!"));
         assertTrue(MessagesCollector.getMessages().contains("set variable test2=this is a demo"));
     }
@@ -113,7 +117,7 @@ public class DocumentReaderTest {
         assertEquals("third example", tags.get(1));
 
         MessagesCollector.clear();
-        document.run(DocumentParameters.of(List.of()));
+        document.run(getDefaultDocumentParameters());
         assertTrue(MessagesCollector.getMessages().contains("set variable default=hello world!"));
         assertTrue(MessagesCollector.getMessages().contains("set variable test2=this is a demo"));
     }
@@ -159,7 +163,7 @@ public class DocumentReaderTest {
         final var collector = new ListCollector<IVariable>();
         document.getListOfTaskGroups().forEach(
                 group -> group.getVariablePublisher().subscribe(collector));
-        document.run(DocumentParameters.of(List.of()));
+        document.run(getDefaultDocumentParameters());
 
         final String strLineBreak = System.getProperty("os.name")
                 .toLowerCase(Locale.getDefault()).contains("windows")? "\r\n": "\n";
@@ -190,7 +194,7 @@ public class DocumentReaderTest {
         assertEquals("third example", tags.get(1));
 
         MessagesCollector.clear();
-        document.run(DocumentParameters.of(List.of()));
+        document.run(getDefaultDocumentParameters());
         assertTrue(MessagesCollector.getMessages().contains("set variable default=hello world!"));
         assertTrue(MessagesCollector.getMessages().contains("set variable test2=this is a demo"));
     }
@@ -234,11 +238,20 @@ public class DocumentReaderTest {
         assertEquals(3, document.getListOfTaskGroups().get(0).getListOfTasks().size());
 
         MessagesCollector.clear();
-        document.run(DocumentParameters.of(List.of()));
+        document.run(getDefaultDocumentParameters());
 
         // the order is descending because (1 sleeps 3s, 2 sleeps 2s and 3 doesn't sleep)
         assertEquals("set variable default=hello world 3", MessagesCollector.getMessages().get(0));
         assertEquals("set variable default=hello world 2", MessagesCollector.getMessages().get(1));
         assertEquals("set variable default=hello world 1", MessagesCollector.getMessages().get(2));
+    }
+
+    /**
+     * Provide default document parameters.
+     *
+     * @return default document parameters.
+     */
+    private static DocumentParameters getDefaultDocumentParameters() {
+        return DocumentParameters.of(List.of(), DEFAULT_TIMEOUT_TASKGROUP);
     }
 }

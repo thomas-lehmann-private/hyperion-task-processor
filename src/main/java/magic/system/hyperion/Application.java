@@ -50,7 +50,7 @@ public final class Application {
     /**
      * Logger for this class.
      */
-     private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
 
     /**
      * Escape character.
@@ -105,7 +105,7 @@ public final class Application {
      * @param args provided command line arguments.
      * @throws CliException when validation or the process has failed.
      */
-    void run(final String[] args) throws CliException {
+    private void run(final String[] args) throws CliException {
         this.properties = getApplicationProperties();
         this.globalOptions = ApplicationOptionsFunctions.defineGlobalOptions();
         this.commands = ApplicationOptionsFunctions.defineCommands();
@@ -120,11 +120,21 @@ public final class Application {
                 ApplicationOptions.THIRD_PARTY.getLongName())) {
             print3rdParty();
         } else if (result.getCommandName().equals(ApplicationCommands.RUN.getCommand())) {
-            final List<String> tags = result.getGlobalOptions().getOrDefault(
-                    ApplicationOptions.TAG.getLongName(), Collections.emptyList());
-            processDocument(Paths.get(result.getCommandOptions().get(
-                    ApplicationOptions.RUN_FILE.getLongName()).get(0)),
-                    DocumentParameters.of(tags));
+            try {
+                final List<String> tags = result.getGlobalOptions().getOrDefault(
+                        ApplicationOptions.TAG.getLongName(), Collections.emptyList());
+                final Path pathDocument = Paths.get(result.getCommandOptions().get(
+                        ApplicationOptions.RUN_FILE.getLongName()).get(0));
+                final int iTimeoutTaskGroup = Integer.parseInt(
+                        result.getGlobalOptions().getOrDefault(
+                                ApplicationOptions.TIMEOUT_TASKGROUP.getLongName(),
+                        List.of(this.globalOptions.findOption(
+                                ApplicationOptions.TIMEOUT_TASKGROUP.getLongName())
+                                .get().getDefault())).get(0));
+                processDocument(pathDocument, DocumentParameters.of(tags, iTimeoutTaskGroup));
+            } catch (NumberFormatException e) {
+                throw new CliException(e.getMessage());
+            }
         }
     }
 

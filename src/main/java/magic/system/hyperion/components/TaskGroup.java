@@ -23,6 +23,7 @@
  */
 package magic.system.hyperion.components;
 
+import magic.system.hyperion.cli.CliException;
 import magic.system.hyperion.components.tasks.AbstractTask;
 import magic.system.hyperion.generics.SimplePublisher;
 import magic.system.hyperion.interfaces.IRunnable;
@@ -30,7 +31,6 @@ import magic.system.hyperion.interfaces.IVariable;
 import magic.system.hyperion.tools.Runner;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.tuple.Triple;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,8 +46,9 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  * @author Thomas Lehmann
  */
+@SuppressWarnings("checkstyle:classfanoutcomplexity")  // will be fixed later
 public class TaskGroup extends Component
-        implements IRunnable<Boolean, Triple<Model, Map<String, String>, List<String>>> {
+        implements IRunnable<Boolean, TaskGroupParameters> {
     /**
      * Logger for this class.
      */
@@ -92,7 +93,7 @@ public class TaskGroup extends Component
      * Readonly access to variables.
      *
      * @return variables.
-     * @version 1.0.0
+     * @since 1.0.0
      */
     public Map<String, IVariable> getVariables() {
         return Collections.unmodifiableMap(this.variables);
@@ -102,7 +103,7 @@ public class TaskGroup extends Component
      * Provide list of tasks.
      *
      * @return list of tasks.
-     * @version 1.0.0
+     * @since 1.0.0
      */
     public List<AbstractTask> getListOfTasks() {
         return Collections.unmodifiableList(this.listOfTasks);
@@ -112,7 +113,7 @@ public class TaskGroup extends Component
      * Provide whether to run the tasks in parallel.
      *
      * @return when true then run the tasks in parallel.
-     * @version 1.0.0
+     * @since 1.0.0
      */
     public boolean isRunTasksInParallel() {
         return this.bRunTasksInParallel;
@@ -122,7 +123,7 @@ public class TaskGroup extends Component
      * Get publisher for variable changes.
      *
      * @return variable publisher.
-     * @version 1.0.0
+     * @since 1.0.0
      */
     public SimplePublisher<IVariable> getVariablePublisher() {
         return this.variablePublisher;
@@ -132,20 +133,20 @@ public class TaskGroup extends Component
      * Adding new task.
      *
      * @param task new task.
-     * @version 1.0.0
+     * @since 1.0.0
      */
     public void add(final AbstractTask task) {
         this.listOfTasks.add(task);
     }
 
     @Override
-    public Boolean run(final Triple<Model, Map<String, String>, List<String>> parameters) {
+    public Boolean run(final TaskGroupParameters parameters) {
         final AtomicInteger errorCounter = new AtomicInteger(0);
 
         // run parameters
-        final var model = parameters.getLeft();
-        final var matrixParameters = parameters.getMiddle();
-        final var tags = parameters.getRight();
+        final var model = parameters.getModel();
+        final var matrixParameters = parameters.getMatrixParameters();
+        final var tags = parameters.getDocumentParameters().getTags();
 
         final List<Runnable> runnables = new ArrayList<>();
 
@@ -159,8 +160,15 @@ public class TaskGroup extends Component
         }
 
         final var runner = Runner.of(runnables.toArray(Runnable[]::new));
+        runner.setTimeout(parameters.getDocumentParameters().getTimeoutTaskgroup());
         runner.setParallel(this.bRunTasksInParallel);
-        runner.runAll();
+
+        try {
+            runner.runAll();
+        } catch (final CliException e) {
+            LOGGER.error(e.getMessage(), e);
+            errorCounter.incrementAndGet();
+        }
 
         return errorCounter.get() == 0;
     }

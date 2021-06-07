@@ -26,7 +26,6 @@ package magic.system.hyperion.components;
 import magic.system.hyperion.interfaces.IRunnable;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.tuple.Triple;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -153,13 +152,13 @@ public class Document implements IRunnable<Void, DocumentParameters> {
     public Void run(final DocumentParameters parameters) {
         if (this.matrix.isEmpty()) {
             this.listOfTaskGroups.forEach(taskGroup -> taskGroup.run(
-                    Triple.of(this.model, Map.of(), parameters.getTags())));
+                    TaskGroupParameters.of(parameters, this.model, Map.of())));
         } else {
             for (final var matrixParameters: this.matrix) {
                 LOGGER.info("Running Matrix " + matrixParameters.getTitle());
                 this.listOfTaskGroups.forEach(taskGroup -> taskGroup.run(
-                        Triple.of(this.model, matrixParameters.getParameters(),
-                                parameters.getTags())));
+                        TaskGroupParameters.of(parameters, this.model,
+                                matrixParameters.getParameters())));
             }
         }
 
