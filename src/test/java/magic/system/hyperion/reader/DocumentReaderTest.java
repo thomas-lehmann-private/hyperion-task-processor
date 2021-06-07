@@ -241,9 +241,11 @@ public class DocumentReaderTest {
         document.run(getDefaultDocumentParameters());
 
         // the order is descending because (1 sleeps 3s, 2 sleeps 2s and 3 doesn't sleep)
-        assertEquals("set variable default=hello world 3", MessagesCollector.getMessages().get(0));
-        assertEquals("set variable default=hello world 2", MessagesCollector.getMessages().get(1));
-        assertEquals("set variable default=hello world 1", MessagesCollector.getMessages().get(2));
+        assertEquals("Variable with name 'default' is used 3 times!",
+                MessagesCollector.getMessages().get(0));
+        assertEquals("set variable default=hello world 3", MessagesCollector.getMessages().get(1));
+        assertEquals("set variable default=hello world 2", MessagesCollector.getMessages().get(2));
+        assertEquals("set variable default=hello world 1", MessagesCollector.getMessages().get(3));
     }
 
     /**

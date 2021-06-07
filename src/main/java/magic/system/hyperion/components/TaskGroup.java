@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -149,6 +150,7 @@ public class TaskGroup extends Component
         final var tags = parameters.getDocumentParameters().getTags();
 
         final List<Runnable> runnables = new ArrayList<>();
+        final Map<String, Integer> variableNamesMap = new TreeMap<>();
 
         for (var task : this.listOfTasks) {
             // ignore task when its tags do not match the filter (if the task does
@@ -157,6 +159,22 @@ public class TaskGroup extends Component
                 continue;
             }
             runnables.add(() -> runOneTask(model, matrixParameters, task, errorCounter));
+
+            if (variableNamesMap.containsKey(task.getVariable().getName())) {
+                variableNamesMap.put(task.getVariable().getName(),
+                        variableNamesMap.get(task.getVariable().getName())+1);
+            } else {
+                variableNamesMap.put(task.getVariable().getName(), 1);
+            }
+        }
+
+        if (bRunTasksInParallel) {
+            variableNamesMap.entrySet().forEach(entry -> {
+                if (entry.getValue() > 1) {
+                    LOGGER.warn("Variable with name '{}' is used {} times!",
+                            entry.getKey(), entry.getValue());
+                }
+            });
         }
 
         final var runner = Runner.of(runnables.toArray(Runnable[]::new));
@@ -176,10 +194,10 @@ public class TaskGroup extends Component
     /**
      * Running one task (might run in a thread).
      *
-     * @param model the model from the document.
+     * @param model            the model from the document.
      * @param matrixParameters the matrix parameters (eventually).
-     * @param task the concrete task to run.
-     * @param errorCounter the counter to increment on error.
+     * @param task             the concrete task to run.
+     * @param errorCounter     the counter to increment on error.
      */
     private void runOneTask(final Model model, final Map<String, String> matrixParameters,
                             final AbstractTask task, final AtomicInteger errorCounter) {
