@@ -7,6 +7,7 @@ nav:
     - Home: index.md
     - Index:
        - hyperion.md
+       - taskgroup.md
        - groovy.md
        - shell.md
        - docker-container.md
