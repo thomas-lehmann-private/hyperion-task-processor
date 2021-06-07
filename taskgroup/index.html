@@ -6,9 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <meta name="author" content="Thomas Lehmann <thomas.lehmann.private@gmail.com">
-        <link rel="canonical" href="https://thomas-lehmann-private.github.io/hyperion/shell/">
+        <link rel="canonical" href="https://thomas-lehmann-private.github.io/hyperion/taskgroup/">
         <link rel="shortcut icon" href="../img/favicon.ico">
-        <title>Shell task - Hyperion</title>
+        <title>Taskgroup - Hyperion</title>
         <link href="../css/bootstrap.min.css" rel="stylesheet">
         <link href="../css/font-awesome.min.css" rel="stylesheet">
         <link href="../css/base.css" rel="stylesheet">
@@ -45,7 +45,7 @@
 </li>
                                     
 <li>
-    <a href="../taskgroup/" class="dropdown-item">Taskgroup</a>
+    <a href="./" class="dropdown-item active">Taskgroup</a>
 </li>
                                     
 <li>
@@ -53,7 +53,7 @@
 </li>
                                     
 <li>
-    <a href="./" class="dropdown-item active">Shell task</a>
+    <a href="../shell/" class="dropdown-item">Shell task</a>
 </li>
                                     
 <li>
@@ -92,17 +92,17 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../groovy/" class="nav-link">
+                                <a rel="prev" href="../hyperion/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../docker-container/" class="nav-link">
+                                <a rel="next" href="../groovy/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="https://github.com/thomas-lehmann-private/hyperion/edit/master/docs/shell.md" class="nav-link"><i class="fa fa-github"></i> Edit on GitHub</a>
+                                <a href="https://github.com/thomas-lehmann-private/hyperion/edit/master/docs/taskgroup.md" class="nav-link"><i class="fa fa-github"></i> Edit on GitHub</a>
                             </li>
                     </ul>
                 </div>
@@ -122,21 +122,13 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-level="1"><a href="#shell-task" class="nav-link">Shell task</a>
+            <li class="nav-item" data-level="1"><a href="#taskgroup" class="nav-link">Taskgroup</a>
               <ul class="nav flex-column">
             <li class="nav-item" data-level="2"><a href="#minimal-example" class="nav-link">Minimal example</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#minimal-example-with-tags" class="nav-link">Minimal example with tags</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#example-with-variable" class="nav-link">Example with variable</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#example-with-templating" class="nav-link">Example with templating</a>
+            <li class="nav-item" data-level="2"><a href="#running-tasks-in-parallel" class="nav-link">Running tasks in parallel</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -147,88 +139,64 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="shell-task">Shell task</h1>
-<p>This page doesn't intend to explain Unix shell. So please refer to official Unix shell
-documentation for details on it. It's about the Unix shell task.</p>
+<h1 id="taskgroup">Taskgroup</h1>
+<p>A task group basically has three information:</p>
+<ul>
+<li>a required title</li>
+<li>an optional boolean flag indicating whether tasks should run in parallel or in order</li>
+<li>a required list of tasks</li>
+</ul>
 <h2 id="minimal-example">Minimal example</h2>
-<p>The minimal example does not require a variable but the task
-does have one (always) with the name '<strong>default</strong>'.
-The default regex is the whole text, and the default group is 0.</p>
+<p>The three tasks in this example are <strong>running one after the other
+in the specified order</strong>.</p>
 <pre><code class="yaml">---
 taskgroups:
   - title: test
     tasks:
-      - type: shell
-        code: echo &quot;hello world!&quot;
+      - type: groovy
+        code: println 'hello world 1!'
+      - type: groovy
+        code: println 'hello world 2!'
+      - type: groovy
+        code: println 'hello world 3!'
 </code></pre>
 
-<h2 id="minimal-example-with-tags">Minimal example with tags</h2>
-<p>The application can be called with the repeatable option --tag. Specifying the
-those filter task will be executed only contain those tags. Task with other tags
-or even without any tags will be ignored then.</p>
+<p><strong>Please note</strong>: Also no variables have been specified the variables are there.
+The name of those variables is then "default". You are able to evaluate the value
+of a previously set variable with that name using templating
+with following expression: <strong>{{ variables.default.value }}</strong>.</p>
+<p><strong>See also</strong>: <a href="../templating/">Templating</a></p>
+<h2 id="running-tasks-in-parallel">Running tasks in parallel</h2>
+<p>The three tasks in this example are running in parallel.
+The output will be the inverse order of what has
+been specified because of the sleep statements.</p>
 <pre><code class="yaml">---
 taskgroups:
   - title: test
+    parallel: true
     tasks:
-      - type: shell
-        code: echo &quot;hello world!&quot;
-        tags:
-          - simple
-          - example         
+      - type: groovy
+        code: |
+          sleep(2000)
+          println 'hello world 1!'
+      - type: groovy
+        code: |
+          sleep(1000)
+          println 'hello world 2!'
+      - type: groovy
+        code: |
+          println 'hello world 3!'
 </code></pre>
 
-<h2 id="example-with-variable">Example with variable</h2>
-<p>The example with variable shows how to use the variable to extract information.
-It's exactly the same way as it does work for other tasks.
-You can specify the regex for filtering and - if required - the regex group;
-the default group is 0.</p>
-<pre><code class="yaml">---
-taskgroups:
-  - title: test
-    tasks:
-        - type: shell
-          title: a simple example
-          code: echo &quot;---&gt; this is a demo &lt;---&quot;
-          variable:
-              name: test2
-              regex: &quot;&gt;(.*)&lt;&quot;
-              group: 1
-</code></pre>
-
-<h2 id="example-with-templating">Example with templating</h2>
-<p>The task group does store a map of key/value where key is the name of the variable, and
-the value is a variable. If you do not specify a name for a variable the name is
-'<strong>default</strong>'. In the following example the first task does write 'hello world!' into
-the variable, and the second task does evaluate the value from the first task.
-Of course the second one write into the same variable its output since also there
-no name has been specified.</p>
-<pre><code class="yaml">---
-taskgroups:
-  - title: test
-    tasks:
-      - type: shell
-        title: a simple example 1
-        code: echo &quot;hello world!&quot;
-      - type: shell
-        title: a simple example 2
-        code: echo &quot;{{ variables.default.value }}&quot;
-</code></pre>
-
-<p>In addition, you can evaluate the model if you have one.</p>
-<pre><code class="yaml">---
-model:
-  description: some description
-
-taskgroups:
-  - title: test
-    tasks:
-      - type: shell
-        title: a simple example 1
-        code: echo &quot;{{ model.attributest.description }}&quot;
-</code></pre>
-
-<p>The rules on how to access the individual elements of a model are
-explained <a href="../templating/">here</a>.</p></div>
+<p><strong>Please note</strong>: Also the variables are not specified here they are given. 
+It means that the stdout of the tasks is always stored. If you don't specify 
+the variable yourself then name of the task variable is always "default".
+Running tasks in parallel the situation is unfavorable since you cannot always
+rely on which value will be written into the variable except you control
+the order of the execution like shown in the example. For that situation a warning
+is logged by the tool to inform you that you have duplicate variable names.</p>
+<p>Of course this also will happen if you specify the same name for variables yourself
+multiple times.</p></div>
             </div>
         </div>
 
