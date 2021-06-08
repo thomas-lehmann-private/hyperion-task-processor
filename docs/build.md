@@ -1,6 +1,6 @@
 # Build
 
-ä# Quick and easy
+## Quick and easy
 The build is organized with Maven. You don't have to install Maven because **Maven Wrapper**
 (https://github.com/takari/maven-wrapper) is used. On any system following command is sufficient
 as long as Java is given (**minimum Version**: 11):
@@ -119,10 +119,11 @@ I hope you agree: It's a small file.
    mostly ok when you use suppression.
  - It should never happen that the code is overwhelmed with suppression.
 
-## Links
+## Interesting Links
 
- - https://docs.github.com/en/actions
- - https://github.com/actions/virtual-environments
- - https://www.jenkins.io/doc/book/pipeline/syntax/
- - https://github.com/takari/maven-wrapper
-  
+ - [https://docs.github.com/en/actions](https://docs.github.com/en/actions)
+ - [https://github.com/actions/virtual-environments](https://github.com/actions/virtual-environments)
+ - [https://www.jenkins.io/doc/book/pipeline/syntax](https://www.jenkins.io/doc/book/pipeline/syntax)
+ - [https://github.com/takari/maven-wrapper](https://github.com/takari/maven-wrapper)
+ - [https://docs.github.com/en/actions/guides](https://docs.github.com/en/actions/guides)
+ - [https://github.com/marketplace/actions/deploy-to-github-pages](https://github.com/marketplace/actions/deploy-to-github-pages)

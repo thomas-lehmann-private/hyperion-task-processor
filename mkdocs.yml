@@ -15,9 +15,11 @@ nav:
        - matrix.md
        - Internal:
           - build.md
+          - mkdocs.md
           - cli.md
 
 theme:
     name: flatly
 
 markdown_extensions:
+  - mkdocs_graphviz
