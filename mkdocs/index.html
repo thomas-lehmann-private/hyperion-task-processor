@@ -6,9 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <meta name="author" content="Thomas Lehmann <thomas.lehmann.private@gmail.com">
-        <link rel="canonical" href="https://thomas-lehmann-private.github.io/hyperion/templating/">
+        <link rel="canonical" href="https://thomas-lehmann-private.github.io/hyperion/mkdocs/">
         <link rel="shortcut icon" href="../img/favicon.ico">
-        <title>Templating - Hyperion</title>
+        <title>Mkdocs - Hyperion</title>
         <link href="../css/bootstrap.min.css" rel="stylesheet">
         <link href="../css/font-awesome.min.css" rel="stylesheet">
         <link href="../css/base.css" rel="stylesheet">
@@ -61,7 +61,7 @@
 </li>
                                     
 <li>
-    <a href="./" class="dropdown-item active">Templating</a>
+    <a href="../templating/" class="dropdown-item">Templating</a>
 </li>
                                     
 <li>
@@ -77,7 +77,7 @@
 </li>
             
 <li>
-    <a href="../mkdocs/" class="dropdown-item">Mkdocs</a>
+    <a href="./" class="dropdown-item active">Mkdocs</a>
 </li>
             
 <li>
@@ -96,17 +96,17 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../docker-container/" class="nav-link">
+                                <a rel="prev" href="../build/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../matrix/" class="nav-link">
+                                <a rel="next" href="../cli/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="https://github.com/thomas-lehmann-private/hyperion/edit/master/docs/templating.md" class="nav-link"><i class="fa fa-github"></i> Edit on GitHub</a>
+                                <a href="https://github.com/thomas-lehmann-private/hyperion/edit/master/docs/mkdocs.md" class="nav-link"><i class="fa fa-github"></i> Edit on GitHub</a>
                             </li>
                     </ul>
                 </div>
@@ -126,21 +126,21 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-level="1"><a href="#templating" class="nav-link">Templating</a>
+            <li class="nav-item" data-level="1"><a href="#mkdocs" class="nav-link">Mkdocs</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-level="2"><a href="#introduction" class="nav-link">Introduction</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#accessing-the-variables" class="nav-link">Accessing the variables</a>
+            <li class="nav-item" data-level="2"><a href="#installation" class="nav-link">Installation</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#accessing-the-model" class="nav-link">Accessing the model</a>
+            <li class="nav-item" data-level="2"><a href="#configuration" class="nav-link">Configuration</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#near-future-enhancements" class="nav-link">(Near) Future enhancements</a>
+            <li class="nav-item" data-level="2"><a href="#testing" class="nav-link">Testing</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#deploying" class="nav-link">Deploying</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -151,75 +151,60 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="templating">Templating</h1>
-<h2 id="introduction">Introduction</h2>
-<p>One of the most powerful feature of the Hyperion tool is the templating that
-allows you to the dynamic replacement in the code of the part.</p>
-<p>Hyperion offers currently two data sources:</p>
+<h1 id="mkdocs">Mkdocs</h1>
+<h2 id="installation">Installation</h2>
+<p>It requires Python.</p>
+<pre><code>pip install mkdocs mkdocs-bootswatch mkdocs-graphviz
+</code></pre>
+
+<h2 id="configuration">Configuration</h2>
+<h3 id="description">Description</h3>
+<p>The configuration of the project is defined in the <strong>mkdocs.yml</strong> in the root
+of the repository.</p>
 <ul>
-<li>the model</li>
-<li>the task group variables</li>
+<li>At the top you define the meta data of the project like<ul>
+<li>name of the project</li>
+<li>author of the project</li>
+<li>Url of the Github pages where these site will be located later on</li>
+<li>The url of the Github repository.</li>
 </ul>
-<p>The <strong>model</strong> is a kind of freestyle hierarchical structure you can define to model
-the required data when running your tasks. The task group variables are initially
-empty and filled whenever a task has finished successfully.</p>
-<h2 id="accessing-the-variables">Accessing the variables</h2>
-<p>Assuming you missed defining a variable on a task the name of a variable is "default".
-You then can access the variable in your task code with <strong>{{ variables.default.value }}</strong>.</p>
-<p>Assuming you evaluate a special path in your task writing it to a named variable "path"
-the possible evaluation in the next task would be <strong>{{ variables.path.value }}</strong>.</p>
-<p>It depends on of course whether tasks are running ordered or in parallel whether one
-task can read a variable of a previous task. Even more it's unpredictable for parallel
-tasks with same names to know which value will be given when you access it.</p>
-<h2 id="accessing-the-model">Accessing the model</h2>
-<p>The model - once understood - is a great way to modularize your task code also allowing
-reuse. For the next examples a few explanations:</p>
-<ul>
-<li><strong>attributes</strong> - the term means that the object behind stores for a key a value;
-   of course the can be multiple keys. The value can be a string, a number, a boolean,
-   a list or - again - a key/value object.</li>
-<li><strong>values</strong> - the means a list. The value can be a string, a number, a boolean or
-  a key/value object.</li>
+</li>
+<li>In the middle section you define the navigation:<ul>
+<li>With <strong>Home</strong> the main page is define which you see first.</li>
+<li>With <strong>Index</strong> you get a menu "Index" in the top bar and all sub menu
+  items are those ones listed unter the index entry.</li>
 </ul>
-<pre><code class="yaml">---
-model:
-    description: this is a simple example
-</code></pre>
-
-<p>Trying to access this description you have to write <strong>{{ model.attributes.description }}</strong>.</p>
-<pre><code class="yaml">---
-model:
-    subModel:
-        description: this is a simple example
-</code></pre>
-
-<p>Here the value you get with <strong>{{ model.attributes.subModel.attributes.description }}</strong></p>
-<pre><code class="yaml">---
-model:
-    descriptions:
-        - this is a simple example
-</code></pre>
-
-<p>Here the value you get with <strong>{{ model.attributes.descriptions.values[0] }}</strong>.</p>
-<pre><code class="yaml">model:
-    actions:
-        - name: action A
-          command: println 'hello world 1 !'
-</code></pre>
-
-<p>Here the name and the command can be accessed this way:</p>
-<ul>
-<li><strong>{{ model.attributes.actions.values[0].attributes.name }}</strong></li>
-<li><strong>{{ model.attributes.actions.values[0].attributes.command }}</strong></li>
+</li>
+<li>At he bottom there two sections:</li>
+<li><strong>theme</strong> is for the look and feel. Therefore the <strong>mkdocs-bootswatch</strong> is needed.</li>
+<li><strong>markdown_extensions</strong> are markdown extensions for rendering:<ul>
+<li><strong>mkdocs_graphviz</strong> is for rendering Graphviz syntax as SVG.</li>
 </ul>
-<p>If you want to know more about how this works then please also read here: <br/>
-https://pebbletemplates.io/wiki/guide/basic-usage/ <br/>
-(it shows internal usage as well as what you can do with it)</p>
-<h2 id="near-future-enhancements">(Near) Future enhancements</h2>
-<ul>
-<li>Matrix variables (a matrix runs all task groups again for a different set of variables)</li>
-<li>Defining task group variables in the document</li>
-</ul></div>
+</li>
+</ul>
+<h3 id="graphviz-example">Graphviz Example</h3>
+<p>Following simple example (you have to add <strong>dot</strong> behind the first three backticks):</p>
+<pre><code>```
+digraph D { 
+   A -&gt; B;
+}
+```
+</code></pre>
+
+<p>produces</p>
+<p><img alt="noname.svg" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+Cgo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8IS0tIEdlbmVyYXRlZCBieSBncmFwaHZpeiB2ZXJzaW9uIDIuNDcuMiAoMjAyMTA1MjcuMDA1MykNCiAtLT4NCjwhLS0gVGl0bGU6IEQgUGFnZXM6IDEgLS0+DQo8c3ZnIHdpZHRoPSI2MnB0IiBoZWlnaHQ9IjExNnB0Ig0gdmlld0JveD0iMC4wMCAwLjAwIDYyLjAwIDExNi4wMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+DQo8ZyBpZD0iZ3JhcGgwIiBjbGFzcz0iZ3JhcGgiIHRyYW5zZm9ybT0ic2NhbGUoMSAxKSByb3RhdGUoMCkgdHJhbnNsYXRlKDQgMTEyKSI+DQo8dGl0bGU+RDwvdGl0bGU+DQo8cG9seWdvbiBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSJ0cmFuc3BhcmVudCIgcG9pbnRzPSItNCw0IC00LC0xMTIgNTgsLTExMiA1OCw0IC00LDQiLz4NCjwhLS0gQSAtLT4NCjxnIGlkPSJub2RlMSIgY2xhc3M9Im5vZGUiPg0KPHRpdGxlPkE8L3RpdGxlPg0KPGVsbGlwc2UgZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgY3g9IjI3IiBjeT0iLTkwIiByeD0iMjciIHJ5PSIxOCIvPg0KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMjciIHk9Ii04Ni4zIiBmb250LWZhbWlseT0iVGltZXMgTmV3IFJvbWFuLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5BPC90ZXh0Pg0KPC9nPg0KPCEtLSBCIC0tPg0KPGcgaWQ9Im5vZGUyIiBjbGFzcz0ibm9kZSI+DQo8dGl0bGU+QjwvdGl0bGU+DQo8ZWxsaXBzZSBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBjeD0iMjciIGN5PSItMTgiIHJ4PSIyNyIgcnk9IjE4Ii8+DQo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyNyIgeT0iLTE0LjMiIGZvbnQtZmFtaWx5PSJUaW1lcyBOZXcgUm9tYW4sc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPkI8L3RleHQ+DQo8L2c+DQo8IS0tIEEmIzQ1OyZndDtCIC0tPg0KPGcgaWQ9ImVkZ2UxIiBjbGFzcz0iZWRnZSI+DQo8dGl0bGU+QSYjNDU7Jmd0O0I8L3RpdGxlPg0KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTI3LC03MS43QzI3LC02My45OCAyNywtNTQuNzEgMjcsLTQ2LjExIi8+DQo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIzMC41LC00Ni4xIDI3LC0zNi4xIDIzLjUsLTQ2LjEgMzAuNSwtNDYuMSIvPg0KPC9nPg0KPC9nPg0KPC9zdmc+DQo=" /></p>
+<h2 id="testing">Testing</h2>
+<p>It does <strong>build</strong> the site and after that 
+you can open your browser at <a href="http://localhost:8000">http://localhost:8000</a>
+to see the result. Changes to  known Markdown files will be recognized,
+so you just have to refresh your Browser to see the results.</p>
+<pre><code>mkdocs serve
+</code></pre>
+
+<h2 id="deploying">Deploying</h2>
+<p>Later on it should be done automatically via Github workflow with a Github action but
+for now I'm doing it on a <strong>gh-pages</strong> branch manually by copying the content
+of the <strong>site</strong> folder - generates by <strong>mkdocs build</strong> - into that branch.</p></div>
             </div>
         </div>
 
