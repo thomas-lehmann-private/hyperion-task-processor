@@ -5,7 +5,7 @@ repo_url: 'https://github.com/thomas-lehmann-private/hyperion'
 
 nav:
     - Home: index.md
-    - Index:
+    - User Guide:
        - hyperion.md
        - taskgroup.md
        - groovy.md
@@ -13,13 +13,18 @@ nav:
        - docker-container.md
        - templating.md
        - matrix.md
-       - Internal:
-          - build.md
-          - mkdocs.md
-          - cli.md
+    - Developer Guide:
+       - build.md
+       - junit5.md
+       - mkdocs.md
+       - cli.md
 
 theme:
     name: flatly
+
+plugins:
+  - search
+  - mermaid2
 
 markdown_extensions:
   - mkdocs_graphviz

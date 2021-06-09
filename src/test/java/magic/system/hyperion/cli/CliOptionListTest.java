@@ -24,7 +24,9 @@
 package magic.system.hyperion.cli;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -34,6 +36,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * Testing of class {@link CliOptionList}.
  */
 @DisplayName("Testing CliOptionList class")
+@TestMethodOrder(value = MethodOrderer.Random.class)
 public class CliOptionListTest {
     /**
      * Testing simple.

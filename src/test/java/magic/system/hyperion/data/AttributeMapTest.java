@@ -25,7 +25,9 @@ package magic.system.hyperion.data;
 
 import magic.system.hyperion.generics.Pair;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -42,7 +44,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  *
  * @author Thomas Lehmann
  */
-@DisplayName("Testing AttributeMap")
+@DisplayName("Testing AttributeMap class")
+@TestMethodOrder(value = MethodOrderer.Random.class)
 @SuppressWarnings("checkstyle:multiplestringliterals")
 public class AttributeMapTest {
 

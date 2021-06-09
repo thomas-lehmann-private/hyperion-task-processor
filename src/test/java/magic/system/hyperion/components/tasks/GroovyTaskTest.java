@@ -28,7 +28,9 @@ import magic.system.hyperion.components.TaskParameters;
 import magic.system.hyperion.components.Variable;
 import magic.system.hyperion.reader.DocumentReader;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -48,8 +50,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  *
  * @author Thomas Lehmann
  */
-@DisplayName("Testing class GroovyTask")
-@SuppressWarnings({"checkstyle:multiplestringliterals", "checkstyle:classdataabstractioncoupling"})
+@DisplayName("Testing GroovyTask class")
+@TestMethodOrder(value = MethodOrderer.Random.class)
+@SuppressWarnings({"checkstyle:multiplestringliterals",
+        "checkstyle:classdataabstractioncoupling", "checkstyle:classfanoutcomplexity"})
 public class GroovyTaskTest {
     /**
      * Test output.
@@ -173,6 +177,11 @@ public class GroovyTaskTest {
         }
     }
 
+    /**
+     * Create test data for testing hashCode and equals.
+     *
+     * @return test data.
+     */
     private static Stream<Arguments> provideComparableTasksData() {
         return Stream.of(
                 Arguments.of(true,

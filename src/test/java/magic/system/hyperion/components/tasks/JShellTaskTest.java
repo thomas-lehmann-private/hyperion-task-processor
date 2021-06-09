@@ -27,7 +27,9 @@ import magic.system.hyperion.components.Model;
 import magic.system.hyperion.components.TaskParameters;
 import magic.system.hyperion.components.Variable;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 import java.util.Map;
 
@@ -40,7 +42,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  *
  * @author Thomas Lehmann
  */
-@DisplayName("Testing class JShellTask")
+@DisplayName("Testing JShellTask class")
+@TestMethodOrder(value = MethodOrderer.Random.class)
 public class JShellTaskTest {
     /**
      * Testing simple example.

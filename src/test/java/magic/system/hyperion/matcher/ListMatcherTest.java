@@ -23,15 +23,19 @@
  */
 package magic.system.hyperion.matcher;
 
-import java.util.List;
-import java.util.stream.Stream;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.List;
+import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Testing of class {@link ListMatcher}.
@@ -39,6 +43,7 @@ import org.junit.jupiter.params.provider.MethodSource;
  * @author Thomas Lehmann
  */
 @DisplayName("Testing ListMatcher class")
+@TestMethodOrder(value = MethodOrderer.Random.class)
 public class ListMatcherTest {
 
     /**

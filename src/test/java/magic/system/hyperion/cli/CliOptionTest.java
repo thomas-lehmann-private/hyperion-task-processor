@@ -23,13 +23,15 @@
  */
 package magic.system.hyperion.cli;
 
-import java.util.stream.Stream;
-
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -43,6 +45,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author Thomas Lehmann
  */
 @DisplayName("Testing of CliOption class")
+@TestMethodOrder(value = MethodOrderer.Random.class)
 public class CliOptionTest {
 
     /**
@@ -98,7 +101,7 @@ public class CliOptionTest {
      * @param strMessage hint for the case the assertion does fail.
      */
     @ParameterizedTest(
-            name = "test long name - #{index} value={0}, expected to fail={1}, message={2}")
+            name = "test long name - #{index} expected to fail={0}, value={1}, message={2}")
     @MethodSource("provideLongNameValidationTestData")
     public void testLongNameValidation(
             final boolean bExpectedToFail,

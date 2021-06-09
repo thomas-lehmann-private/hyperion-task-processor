@@ -25,7 +25,9 @@ package magic.system.hyperion.generics;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 import java.util.List;
 
@@ -34,7 +36,8 @@ import java.util.List;
  *
  * @author Thomas Lehmann
  */
-@DisplayName("Testing Converters")
+@DisplayName("Testing Converters class")
+@TestMethodOrder(value = MethodOrderer.Random.class)
 public class ConvertersTest {
 
     /**
