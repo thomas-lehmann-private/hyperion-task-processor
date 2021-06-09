@@ -26,7 +26,9 @@ package magic.system.hyperion.components.tasks;
 import magic.system.hyperion.components.TaskParameters;
 import magic.system.hyperion.tools.Capabilities;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -37,7 +39,8 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
  *
  * @author Thomas Lehmann
  */
-@DisplayName("Testing DockerContainerTask")
+@DisplayName("Testing DockerContainerTask class")
+@TestMethodOrder(value = MethodOrderer.Random.class)
 @SuppressWarnings("checkstyle:multiplestringliterals")
 public class DockerContainerTaskTest {
     /**

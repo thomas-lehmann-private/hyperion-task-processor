@@ -29,7 +29,9 @@ import magic.system.hyperion.interfaces.IVariable;
 import magic.system.hyperion.tools.Capabilities;
 import magic.system.hyperion.tools.MessagesCollector;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.condition.EnabledOnOs;
 import org.junit.jupiter.api.condition.OS;
 
@@ -50,6 +52,7 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
  * @author Thomas Lehmann
  */
 @DisplayName("Testing DocumentReader class")
+@TestMethodOrder(value = MethodOrderer.Random.class)
 @SuppressWarnings({"checkstyle:multiplestringliterals", "checkstyle:magicnumber"})
 public class DocumentReaderTest {
     /**
@@ -204,7 +207,7 @@ public class DocumentReaderTest {
         final var path = Paths.get(getClass().getResource(
                 "/documents/valid-document-with-just-a-model.yml").toURI());
         // change path to one that does not exist.
-        final var reader = new DocumentReader(Paths.get(path.toString() + "yml"));
+        final var reader = new DocumentReader(Paths.get(path + "yml"));
         final var document = reader.read();
         assertNull(document);
     }

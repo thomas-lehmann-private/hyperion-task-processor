@@ -28,7 +28,9 @@ import magic.system.hyperion.components.TaskParameters;
 import magic.system.hyperion.components.Variable;
 import magic.system.hyperion.tools.FileUtils;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.condition.EnabledOnOs;
 import org.junit.jupiter.api.condition.OS;
 
@@ -44,8 +46,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  *
  * @author Thomas Lehmann
  */
-@DisplayName("Testing UnixShellTask")
+@DisplayName("Testing UnixShellTask class")
 @EnabledOnOs({OS.LINUX, OS.MAC})
+@TestMethodOrder(value = MethodOrderer.Random.class)
 public class UnixShellTaskTest {
     /**
      * Test task title.

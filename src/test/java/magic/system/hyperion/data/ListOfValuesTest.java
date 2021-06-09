@@ -25,18 +25,22 @@ package magic.system.hyperion.data;
 
 import magic.system.hyperion.generics.Pair;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Testing of class {@link ListOfValues}.
  */
-@DisplayName("Testing of ListOfValues")
+@DisplayName("Testing ListOfValues class")
+@TestMethodOrder(value = MethodOrderer.Random.class)
 public class ListOfValuesTest {
     /**
      * Testing without adding values.
@@ -92,7 +96,7 @@ public class ListOfValuesTest {
 
         assertEquals("hello", list.getString(0));
         assertEquals("world", list.getString(1));
-        assertEquals(null, list.getString(2));
+        assertNull(list.getString(2));
         //CHECKSTYLE.ON: MultipleStringLiterals
     }
 }

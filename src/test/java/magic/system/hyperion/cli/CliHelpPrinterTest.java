@@ -24,7 +24,9 @@
 package magic.system.hyperion.cli;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -41,6 +43,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * Testing of class {@link CliHelpPrinter}.
  */
 @DisplayName("Testing class CliHelpPrinter")
+@TestMethodOrder(value = MethodOrderer.Random.class)
 public class CliHelpPrinterTest {
     /**
      * Testing of header part for help.
@@ -111,7 +114,7 @@ public class CliHelpPrinterTest {
         assertEquals("    -t<str>,  --tag=<str>     - filtering by this tag [repeatable]",
                 lines.get(ix++));
         assertEquals("    -f<path>, --file=<path>   - document to process [required, repeatable]",
-                lines.get(ix++));
+                lines.get(ix));
         //CHECKSTYLE.ON: MultipleStringLiterals
     }
 
@@ -159,7 +162,7 @@ public class CliHelpPrinterTest {
         assertEquals("    -t<str>,  --tag=<str>     - filtering by this tag [repeatable]",
                 lines.get(ix++));
         assertEquals("    -f<path>, --file=<path>   - document to process [required, repeatable]",
-                lines.get(ix++));
+                lines.get(ix));
         //CHECKSTYLE.ON: MultipleStringLiterals
     }
 

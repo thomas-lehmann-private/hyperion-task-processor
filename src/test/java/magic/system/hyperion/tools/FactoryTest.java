@@ -23,11 +23,13 @@
  */
 package magic.system.hyperion.tools;
 
-import magic.system.hyperion.components.tasks.AbstractTask;
 import magic.system.hyperion.components.tasks.GroovyTask;
 import magic.system.hyperion.components.tasks.TaskType;
 import magic.system.hyperion.components.tasks.creator.ITaskCreator;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -38,6 +40,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  *
  * @author Thomas Lehmann
  */
+@DisplayName("Testing Factory class")
+@TestMethodOrder(value = MethodOrderer.Random.class)
 @SuppressWarnings("checkstyle:multiplestringliterals")
 public class FactoryTest {
     /**
@@ -45,7 +49,7 @@ public class FactoryTest {
      */
     @Test
     public void testDefault() {
-        final var factory = new Factory<AbstractTask>(ITaskCreator.class);
+        final var factory = new Factory<>(ITaskCreator.class);
         final var task = factory.create(TaskType.GROOVY.getTypeName());
         assertNotNull(task);
         assertTrue(task instanceof GroovyTask);
@@ -56,7 +60,7 @@ public class FactoryTest {
      */
     @Test
     public void testNotFound() {
-        final var factory = new Factory<AbstractTask>(ITaskCreator.class);
+        final var factory = new Factory<>(ITaskCreator.class);
         final var task = factory.create("should-not-exist");
         assertNull(task);
     }

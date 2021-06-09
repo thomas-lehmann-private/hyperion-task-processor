@@ -77,6 +77,19 @@ org.apache.maven.plugins:maven-shade-plugin:3.2.4 | https://maven.apache.org/plu
 org.apache.maven.plugins:maven-javadoc-plugin:3.2.0 | http://maven.apache.org/plugins/maven-javadoc-plugin/ | [Apache License. 2.0](https://www.apache.org/licenses/LICENSE-2.0) | API Documentation tool
 org.apache.maven.plugins:maven-dependency-plugin:3.1.2 | https://maven.apache.org/plugins/maven-dependency-plugin/ | [Apache License. 2.0](https://www.apache.org/licenses/LICENSE-2.0) | Maven dependencies tool
 
+### Test configuration
+
+The configuration of the **surefire** Maven plugin is the scope here:
+
+ - The configuration option `<runOrder>random</runOrder>` ensures that tests classes
+   are running in random order.
+ - There is another very special configuration I don't like much but found it somewhere
+   on the internet to handle the output on Console as well as the XML. They Junit5 guys
+   did somehow a break in the format of the JUnit XML and you have to configure that
+   it somehow works for current tools. Please don't ask me for details. Simply copy
+   the configuration or leave it or find another solution on internet (I doubt you find
+   much more than I habe found).
+
 ## Github actions
 
 It's surprisingly easy to organize a build for all three platforms and multiple Java versions

@@ -23,11 +23,15 @@
  */
 package magic.system.hyperion.tools;
 
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+
 import java.util.List;
 import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 
 /**
  * Testing class {@link TemplateEngine}.
@@ -35,6 +39,7 @@ import org.junit.jupiter.api.Test;
  * @author Thomas Lehmann
  */
 @DisplayName("Testing TemplateEngine class")
+@TestMethodOrder(value = MethodOrderer.Random.class)
 public class TemplateEngineTest {
 
     /**

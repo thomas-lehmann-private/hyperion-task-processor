@@ -24,6 +24,8 @@
 package magic.system.hyperion.cli;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -39,6 +41,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * Testing of class {@link CliParser}.
  */
 @DisplayName("Testing CliParser class")
+@TestMethodOrder(value = MethodOrderer.Random.class)
 public class CliParserTest {
     /**
      * Testing global options.

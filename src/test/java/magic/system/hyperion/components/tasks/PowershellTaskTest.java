@@ -27,8 +27,10 @@ import magic.system.hyperion.components.Model;
 import magic.system.hyperion.components.TaskParameters;
 import magic.system.hyperion.components.Variable;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.condition.EnabledOnOs;
 import org.junit.jupiter.api.condition.OS;
 
@@ -49,6 +51,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @Tag("windows")
 @DisplayName("Testing PowershellTask class")
 @EnabledOnOs(OS.WINDOWS)
+@TestMethodOrder(value = MethodOrderer.Random.class)
 public class PowershellTaskTest {
 
     /**
