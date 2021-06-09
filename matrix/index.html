@@ -1,152 +1,135 @@
 <!DOCTYPE html>
+
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
-        <meta name="author" content="Thomas Lehmann <thomas.lehmann.private@gmail.com">
-        <link rel="canonical" href="https://thomas-lehmann-private.github.io/hyperion/matrix/">
-        <link rel="shortcut icon" href="../img/favicon.ico">
-        <title>Matrix - Hyperion</title>
-        <link href="../css/bootstrap.min.css" rel="stylesheet">
-        <link href="../css/font-awesome.min.css" rel="stylesheet">
-        <link href="../css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/docco.min.css">
-
-        <script src="../js/jquery-1.10.2.min.js" defer></script>
-        <script src="../js/bootstrap.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-        <script>hljs.initHighlightingOnLoad();</script> 
-    </head>
-
-    <body>
-        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
-            <div class="container">
-                <a class="navbar-brand" href="..">Hyperion</a>
-                <!-- Expander button -->
-                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <!-- Expanded navigation -->
-                <div id="navbar-collapse" class="navbar-collapse collapse">
-                        <!-- Main navigation -->
-                        <ul class="nav navbar-nav">
-                            <li class="navitem">
-                                <a href=".." class="nav-link">Home</a>
-                            </li>
-                            <li class="dropdown active">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Index <b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    
-<li>
-    <a href="../hyperion/" class="dropdown-item">Application</a>
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="Thomas Lehmann &lt;thomas.lehmann.private@gmail.com" name="author"/>
+<link href="https://thomas-lehmann-private.github.io/hyperion/matrix/" rel="canonical"/>
+<link href="../img/favicon.ico" rel="shortcut icon"/>
+<title>Matrix - Hyperion</title>
+<link href="../css/bootstrap.min.css" rel="stylesheet"/>
+<link href="../css/font-awesome.min.css" rel="stylesheet"/>
+<link href="../css/base.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/docco.min.css" rel="stylesheet"/>
+<script defer="" src="../js/jquery-1.10.2.min.js"></script>
+<script defer="" src="../js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+<div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+<div class="container">
+<a class="navbar-brand" href="..">Hyperion</a>
+<!-- Expander button -->
+<button class="navbar-toggler" data-target="#navbar-collapse" data-toggle="collapse" type="button">
+<span class="navbar-toggler-icon"></span>
+</button>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse" id="navbar-collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li class="navitem">
+<a class="nav-link" href="..">Home</a>
 </li>
-                                    
+<li class="dropdown active">
+<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">User Guide <b class="caret"></b></a>
+<ul class="dropdown-menu">
 <li>
-    <a href="../taskgroup/" class="dropdown-item">Taskgroup</a>
+<a class="dropdown-item" href="../hyperion/">Application</a>
 </li>
-                                    
 <li>
-    <a href="../groovy/" class="dropdown-item">Groovy task</a>
+<a class="dropdown-item" href="../taskgroup/">Taskgroup</a>
 </li>
-                                    
 <li>
-    <a href="../shell/" class="dropdown-item">Shell task</a>
+<a class="dropdown-item" href="../groovy/">Groovy task</a>
 </li>
-                                    
 <li>
-    <a href="../docker-container/" class="dropdown-item">Docker container task</a>
+<a class="dropdown-item" href="../shell/">Shell task</a>
 </li>
-                                    
 <li>
-    <a href="../templating/" class="dropdown-item">Templating</a>
+<a class="dropdown-item" href="../docker-container/">Docker container task</a>
 </li>
-                                    
 <li>
-    <a href="./" class="dropdown-item active">Matrix</a>
+<a class="dropdown-item" href="../templating/">Templating</a>
 </li>
-                                    
-  <li class="dropdown-submenu">
-    <a href="#" class="dropdown-item">Internal</a>
-    <ul class="dropdown-menu">
-            
 <li>
-    <a href="../build/" class="dropdown-item">Build</a>
+<a class="dropdown-item active" href="./">Matrix</a>
 </li>
-            
+</ul>
+</li>
+<li class="dropdown">
+<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Developer Guide <b class="caret"></b></a>
+<ul class="dropdown-menu">
 <li>
-    <a href="../mkdocs/" class="dropdown-item">Mkdocs</a>
+<a class="dropdown-item" href="../build/">Build</a>
 </li>
-            
 <li>
-    <a href="../cli/" class="dropdown-item">CLI</a>
+<a class="dropdown-item" href="../junit5/">JUnit5</a>
 </li>
-    </ul>
-  </li>
-                                </ul>
-                            </li>
-                        </ul>
-
-                    <ul class="nav navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
-                                <i class="fa fa-search"></i> Search
+<li>
+<a class="dropdown-item" href="../mkdocs/">Mkdocs</a>
+</li>
+<li>
+<a class="dropdown-item" href="../cli/">CLI</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav ml-auto">
+<li class="nav-item">
+<a class="nav-link" data-target="#mkdocs_search_modal" data-toggle="modal" href="#">
+<i class="fa fa-search"></i> Search
                             </a>
-                        </li>
-                            <li class="nav-item">
-                                <a rel="prev" href="../templating/" class="nav-link">
-                                    <i class="fa fa-arrow-left"></i> Previous
+</li>
+<li class="nav-item">
+<a class="nav-link" href="../templating/" rel="prev">
+<i class="fa fa-arrow-left"></i> Previous
                                 </a>
-                            </li>
-                            <li class="nav-item">
-                                <a rel="next" href="../build/" class="nav-link">
+</li>
+<li class="nav-item">
+<a class="nav-link" href="../build/" rel="next">
                                     Next <i class="fa fa-arrow-right"></i>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="https://github.com/thomas-lehmann-private/hyperion/edit/master/docs/matrix.md" class="nav-link"><i class="fa fa-github"></i> Edit on GitHub</a>
-                            </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="container">
-            <div class="row">
-                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
-            <span class="fa fa-angle-down"></span>
-        </button>
-    </div>
-
-    
-    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
-        <ul class="nav flex-column">
-            
-            <li class="nav-item" data-level="1"><a href="#matrix" class="nav-link">Matrix</a>
-              <ul class="nav flex-column">
-            <li class="nav-item" data-level="2"><a href="#example" class="nav-link">Example</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#setup" class="nav-link">Setup</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#behaviour" class="nav-link">Behaviour</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-              </ul>
-            </li>
-        </ul>
-    </div>
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="https://github.com/thomas-lehmann-private/hyperion/edit/master/docs/matrix.md"><i class="fa fa-github"></i> Edit on GitHub</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="row">
+<div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+<div class="navbar-header">
+<button class="navbar-toggler collapsed" data-target="#toc-collapse" data-toggle="collapse" title="Table of Contents" type="button">
+<span class="fa fa-angle-down"></span>
+</button>
+</div>
+<div class="navbar-collapse collapse card bg-secondary" id="toc-collapse">
+<ul class="nav flex-column">
+<li class="nav-item" data-level="1"><a class="nav-link" href="#matrix">Matrix</a>
+<ul class="nav flex-column">
+<li class="nav-item" data-level="2"><a class="nav-link" href="#example">Example</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+<li class="nav-item" data-level="2"><a class="nav-link" href="#setup">Setup</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+<li class="nav-item" data-level="2"><a class="nav-link" href="#behaviour">Behaviour</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
 </div></div>
-                    <div class="col-md-9" role="main">
-
+<div class="col-md-9" role="main">
 <h1 id="matrix">Matrix</h1>
 <h2 id="example">Example</h2>
 <pre><code class="yaml">---
@@ -171,7 +154,6 @@ taskgroups:
             println 'hello world ' + ix + '!'
           }
 </code></pre>
-
 <h2 id="setup">Setup</h2>
 <ul>
 <li>A matrix starts with the element matrix placed on same level as taskgroups.</li>
@@ -180,88 +162,85 @@ taskgroups:
 <li>The value for <strong>parameters</strong> is a key/value map (keys and values are interpreted as strings).</li>
 </ul>
 <h2 id="behaviour">Behaviour</h2>
-<p><img alt="noname.svg" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+Cgo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8IS0tIEdlbmVyYXRlZCBieSBncmFwaHZpeiB2ZXJzaW9uIDIuNDcuMiAoMjAyMTA1MjcuMDA1MykNCiAtLT4NCjwhLS0gVGl0bGU6IE1hdHJpeCBQYWdlczogMSAtLT4NCjxzdmcgd2lkdGg9IjI0NHB0IiBoZWlnaHQ9IjQ2cHQiDSB2aWV3Qm94PSIwLjAwIDAuMDAgMjQ0LjAwIDQ2LjAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4NCjxnIGlkPSJncmFwaDAiIGNsYXNzPSJncmFwaCIgdHJhbnNmb3JtPSJzY2FsZSgxIDEpIHJvdGF0ZSgwKSB0cmFuc2xhdGUoNCA0MikiPg0KPHRpdGxlPk1hdHJpeDwvdGl0bGU+DQo8cG9seWdvbiBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSJ0cmFuc3BhcmVudCIgcG9pbnRzPSItNCw0IC00LC00MiAyNDAsLTQyIDI0MCw0IC00LDQiLz4NCjwhLS0gTWF0cml4IC0tPg0KPGcgaWQ9Im5vZGUxIiBjbGFzcz0ibm9kZSI+DQo8dGl0bGU+TWF0cml4PC90aXRsZT4NCjxwb2x5Z29uIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iNTQsLTM3IDAsLTM3IDAsLTEgNTQsLTEgNTQsLTM3Ii8+DQo8dGV4dCB0ZXh0LWFuY2hvcj0ic3RhcnQiIHg9IjkuNSIgeT0iLTE1LjMiIGZvbnQtZmFtaWx5PSJUaW1lcyBOZXcgUm9tYW4sc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPm1hdHJpeDwvdGV4dD4NCjwvZz4NCjwhLS0gVGFza2dyb3VwcyAtLT4NCjxnIGlkPSJub2RlMiIgY2xhc3M9Im5vZGUiPg0KPHRpdGxlPlRhc2tncm91cHM8L3RpdGxlPg0KPHBvbHlnb24gZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIyMzYsLTM4IDE1NCwtMzggMTU0LDAgMjM2LDAgMjM2LC0zOCIvPg0KPHRleHQgdGV4dC1hbmNob3I9InN0YXJ0IiB4PSIxNzkiIHk9Ii0yMi44IiBmb250LWZhbWlseT0iVGltZXMgTmV3IFJvbWFuLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5saXN0IG9mPC90ZXh0Pg0KPHRleHQgdGV4dC1hbmNob3I9InN0YXJ0IiB4PSIxNjIiIHk9Ii03LjgiIGZvbnQtZmFtaWx5PSJUaW1lcyBOZXcgUm9tYW4sc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPnRhc2sgZ3JvdXBzPC90ZXh0Pg0KPC9nPg0KPCEtLSBNYXRyaXgmIzQ1OyZndDtUYXNrZ3JvdXBzIC0tPg0KPGcgaWQ9ImVkZ2UxIiBjbGFzcz0iZWRnZSI+DQo8dGl0bGU+TWF0cml4JiM0NTsmZ3Q7VGFza2dyb3VwczwvdGl0bGU+DQo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNNTQuMywtMTlDNzguMjYsLTE5IDExNC4zLC0xOSAxNDMuNzcsLTE5Ii8+DQo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIxNDMuODksLTIyLjUgMTUzLjg5LC0xOSAxNDMuODksLTE1LjUgMTQzLjg5LC0yMi41Ii8+DQo8dGV4dCB0ZXh0LWFuY2hvcj0ic3RhcnQiIHg9IjkxLjUiIHk9Ii0yMiIgZm9udC1mYW1pbHk9IlRpbWVzIE5ldyBSb21hbixzZXJpZiIgZm9udC1zaXplPSIxMC4wMCI+cmVwZWF0PC90ZXh0Pg0KPC9nPg0KPCEtLSBUYXNrZ3JvdXBzJiM0NTsmZ3Q7TWF0cml4IC0tPg0KPGcgaWQ9ImVkZ2UyIiBjbGFzcz0iZWRnZSI+DQo8dGl0bGU+VGFza2dyb3VwcyYjNDU7Jmd0O01hdHJpeDwvdGl0bGU+DQo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNMTUzLjY5LC03LjE5QzE0Ny44LC01Ljg3IDE0MS43OCwtNC43NCAxMzYsLTQgMTA3Ljc4LC0wLjQxIDEwMC4wNiwwLjY1IDcyLC00IDY5LjMzLC00LjQ0IDY2LjYxLC01LjAzIDYzLjg4LC01LjcxIi8+DQo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSI2Mi44LC0yLjM4IDU0LjE2LC04LjUyIDY0Ljc0LC05LjEgNjIuOCwtMi4zOCIvPg0KPHRleHQgdGV4dC1hbmNob3I9InN0YXJ0IiB4PSI3MiIgeT0iLTciIGZvbnQtZmFtaWx5PSJUaW1lcyBOZXcgUm9tYW4sc2VyaWYiIGZvbnQtc2l6ZT0iMTAuMDAiPnJlYWQgcGFyYW1ldGVyczwvdGV4dD4NCjwvZz4NCjwvZz4NCjwvc3ZnPg0K" /></p>
+<p><img alt="noname.svg" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+Cgo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8IS0tIEdlbmVyYXRlZCBieSBncmFwaHZpeiB2ZXJzaW9uIDIuNDcuMiAoMjAyMTA1MjcuMDA1MykNCiAtLT4NCjwhLS0gVGl0bGU6IE1hdHJpeCBQYWdlczogMSAtLT4NCjxzdmcgd2lkdGg9IjI0NHB0IiBoZWlnaHQ9IjQ2cHQiDSB2aWV3Qm94PSIwLjAwIDAuMDAgMjQ0LjAwIDQ2LjAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4NCjxnIGlkPSJncmFwaDAiIGNsYXNzPSJncmFwaCIgdHJhbnNmb3JtPSJzY2FsZSgxIDEpIHJvdGF0ZSgwKSB0cmFuc2xhdGUoNCA0MikiPg0KPHRpdGxlPk1hdHJpeDwvdGl0bGU+DQo8cG9seWdvbiBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSJ0cmFuc3BhcmVudCIgcG9pbnRzPSItNCw0IC00LC00MiAyNDAsLTQyIDI0MCw0IC00LDQiLz4NCjwhLS0gTWF0cml4IC0tPg0KPGcgaWQ9Im5vZGUxIiBjbGFzcz0ibm9kZSI+DQo8dGl0bGU+TWF0cml4PC90aXRsZT4NCjxwb2x5Z29uIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iNTQsLTM3IDAsLTM3IDAsLTEgNTQsLTEgNTQsLTM3Ii8+DQo8dGV4dCB0ZXh0LWFuY2hvcj0ic3RhcnQiIHg9IjkuNSIgeT0iLTE1LjMiIGZvbnQtZmFtaWx5PSJUaW1lcyBOZXcgUm9tYW4sc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPm1hdHJpeDwvdGV4dD4NCjwvZz4NCjwhLS0gVGFza2dyb3VwcyAtLT4NCjxnIGlkPSJub2RlMiIgY2xhc3M9Im5vZGUiPg0KPHRpdGxlPlRhc2tncm91cHM8L3RpdGxlPg0KPHBvbHlnb24gZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIyMzYsLTM4IDE1NCwtMzggMTU0LDAgMjM2LDAgMjM2LC0zOCIvPg0KPHRleHQgdGV4dC1hbmNob3I9InN0YXJ0IiB4PSIxNzkiIHk9Ii0yMi44IiBmb250LWZhbWlseT0iVGltZXMgTmV3IFJvbWFuLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5saXN0IG9mPC90ZXh0Pg0KPHRleHQgdGV4dC1hbmNob3I9InN0YXJ0IiB4PSIxNjIiIHk9Ii03LjgiIGZvbnQtZmFtaWx5PSJUaW1lcyBOZXcgUm9tYW4sc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPnRhc2sgZ3JvdXBzPC90ZXh0Pg0KPC9nPg0KPCEtLSBNYXRyaXgmIzQ1OyZndDtUYXNrZ3JvdXBzIC0tPg0KPGcgaWQ9ImVkZ2UxIiBjbGFzcz0iZWRnZSI+DQo8dGl0bGU+TWF0cml4JiM0NTsmZ3Q7VGFza2dyb3VwczwvdGl0bGU+DQo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNNTQuMywtMTlDNzguMjYsLTE5IDExNC4zLC0xOSAxNDMuNzcsLTE5Ii8+DQo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIxNDMuODksLTIyLjUgMTUzLjg5LC0xOSAxNDMuODksLTE1LjUgMTQzLjg5LC0yMi41Ii8+DQo8dGV4dCB0ZXh0LWFuY2hvcj0ic3RhcnQiIHg9IjkxLjUiIHk9Ii0yMiIgZm9udC1mYW1pbHk9IlRpbWVzIE5ldyBSb21hbixzZXJpZiIgZm9udC1zaXplPSIxMC4wMCI+cmVwZWF0PC90ZXh0Pg0KPC9nPg0KPCEtLSBUYXNrZ3JvdXBzJiM0NTsmZ3Q7TWF0cml4IC0tPg0KPGcgaWQ9ImVkZ2UyIiBjbGFzcz0iZWRnZSI+DQo8dGl0bGU+VGFza2dyb3VwcyYjNDU7Jmd0O01hdHJpeDwvdGl0bGU+DQo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNMTUzLjY5LC03LjE5QzE0Ny44LC01Ljg3IDE0MS43OCwtNC43NCAxMzYsLTQgMTA3Ljc4LC0wLjQxIDEwMC4wNiwwLjY1IDcyLC00IDY5LjMzLC00LjQ0IDY2LjYxLC01LjAzIDYzLjg4LC01LjcxIi8+DQo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSI2Mi44LC0yLjM4IDU0LjE2LC04LjUyIDY0Ljc0LC05LjEgNjIuOCwtMi4zOCIvPg0KPHRleHQgdGV4dC1hbmNob3I9InN0YXJ0IiB4PSI3MiIgeT0iLTciIGZvbnQtZmFtaWx5PSJUaW1lcyBOZXcgUm9tYW4sc2VyaWYiIGZvbnQtc2l6ZT0iMTAuMDAiPnJlYWQgcGFyYW1ldGVyczwvdGV4dD4NCjwvZz4NCjwvZz4NCjwvc3ZnPg0K"/></p>
 <ul>
 <li>For each matrix item all existing task groups are running again.</li>
 <li>All variables stored in a previous run (per task group) are dropped.</li>
 </ul></div>
-            </div>
-        </div>
-
-        <footer class="col-md-12">
-            <hr>
-            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
-        </footer>
-        <script>
+</div>
+</div>
+<footer class="col-md-12">
+<hr/>
+<p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+</footer>
+<script>
             var base_url = "..",
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
-        <script src="../js/base.js" defer></script>
-        <script src="../search/main.js" defer></script>
-
-        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="searchModalLabel">Search</h4>
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-            </div>
-            <div class="modal-body">
-                <p>
+<script defer="" src="../js/base.js"></script>
+<script defer="" src="../search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<p>
                     From here you can search these documents. Enter
                     your search terms below.
                 </p>
-                <form>
-                    <div class="form-group">
-                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
-                    </div>
-                </form>
-                <div id="mkdocs-search-results"></div>
-            </div>
-            <div class="modal-footer">
-            </div>
-        </div>
-    </div>
-</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-            </div>
-            <div class="modal-body">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th style="width: 20%;">Keys</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="help shortcut"><kbd>?</kbd></td>
-                    <td>Open this help</td>
-                  </tr>
-                  <tr>
-                    <td class="next shortcut"><kbd>n</kbd></td>
-                    <td>Next page</td>
-                  </tr>
-                  <tr>
-                    <td class="prev shortcut"><kbd>p</kbd></td>
-                    <td>Previous page</td>
-                  </tr>
-                  <tr>
-                    <td class="search shortcut"><kbd>s</kbd></td>
-                    <td>Search</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="modal-footer">
-            </div>
-        </div>
-    </div>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="search"/>
 </div>
-
-    </body>
+</form>
+<div id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+</body>
 </html>

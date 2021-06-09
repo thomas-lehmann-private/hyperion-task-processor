@@ -1,164 +1,161 @@
 <!DOCTYPE html>
+
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
-        <meta name="author" content="Thomas Lehmann <thomas.lehmann.private@gmail.com">
-        <link rel="canonical" href="https://thomas-lehmann-private.github.io/hyperion/mkdocs/">
-        <link rel="shortcut icon" href="../img/favicon.ico">
-        <title>Mkdocs - Hyperion</title>
-        <link href="../css/bootstrap.min.css" rel="stylesheet">
-        <link href="../css/font-awesome.min.css" rel="stylesheet">
-        <link href="../css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/docco.min.css">
-
-        <script src="../js/jquery-1.10.2.min.js" defer></script>
-        <script src="../js/bootstrap.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-        <script>hljs.initHighlightingOnLoad();</script> 
-    </head>
-
-    <body>
-        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
-            <div class="container">
-                <a class="navbar-brand" href="..">Hyperion</a>
-                <!-- Expander button -->
-                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <!-- Expanded navigation -->
-                <div id="navbar-collapse" class="navbar-collapse collapse">
-                        <!-- Main navigation -->
-                        <ul class="nav navbar-nav">
-                            <li class="navitem">
-                                <a href=".." class="nav-link">Home</a>
-                            </li>
-                            <li class="dropdown active">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Index <b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    
-<li>
-    <a href="../hyperion/" class="dropdown-item">Application</a>
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="Thomas Lehmann &lt;thomas.lehmann.private@gmail.com" name="author"/>
+<link href="https://thomas-lehmann-private.github.io/hyperion/mkdocs/" rel="canonical"/>
+<link href="../img/favicon.ico" rel="shortcut icon"/>
+<title>Mkdocs - Hyperion</title>
+<link href="../css/bootstrap.min.css" rel="stylesheet"/>
+<link href="../css/font-awesome.min.css" rel="stylesheet"/>
+<link href="../css/base.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/docco.min.css" rel="stylesheet"/>
+<script defer="" src="../js/jquery-1.10.2.min.js"></script>
+<script defer="" src="../js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+<div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+<div class="container">
+<a class="navbar-brand" href="..">Hyperion</a>
+<!-- Expander button -->
+<button class="navbar-toggler" data-target="#navbar-collapse" data-toggle="collapse" type="button">
+<span class="navbar-toggler-icon"></span>
+</button>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse" id="navbar-collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li class="navitem">
+<a class="nav-link" href="..">Home</a>
 </li>
-                                    
+<li class="dropdown">
+<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">User Guide <b class="caret"></b></a>
+<ul class="dropdown-menu">
 <li>
-    <a href="../taskgroup/" class="dropdown-item">Taskgroup</a>
+<a class="dropdown-item" href="../hyperion/">Application</a>
 </li>
-                                    
 <li>
-    <a href="../groovy/" class="dropdown-item">Groovy task</a>
+<a class="dropdown-item" href="../taskgroup/">Taskgroup</a>
 </li>
-                                    
 <li>
-    <a href="../shell/" class="dropdown-item">Shell task</a>
+<a class="dropdown-item" href="../groovy/">Groovy task</a>
 </li>
-                                    
 <li>
-    <a href="../docker-container/" class="dropdown-item">Docker container task</a>
+<a class="dropdown-item" href="../shell/">Shell task</a>
 </li>
-                                    
 <li>
-    <a href="../templating/" class="dropdown-item">Templating</a>
+<a class="dropdown-item" href="../docker-container/">Docker container task</a>
 </li>
-                                    
 <li>
-    <a href="../matrix/" class="dropdown-item">Matrix</a>
+<a class="dropdown-item" href="../templating/">Templating</a>
 </li>
-                                    
-  <li class="dropdown-submenu">
-    <a href="#" class="dropdown-item">Internal</a>
-    <ul class="dropdown-menu">
-            
 <li>
-    <a href="../build/" class="dropdown-item">Build</a>
+<a class="dropdown-item" href="../matrix/">Matrix</a>
 </li>
-            
+</ul>
+</li>
+<li class="dropdown active">
+<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Developer Guide <b class="caret"></b></a>
+<ul class="dropdown-menu">
 <li>
-    <a href="./" class="dropdown-item active">Mkdocs</a>
+<a class="dropdown-item" href="../build/">Build</a>
 </li>
-            
 <li>
-    <a href="../cli/" class="dropdown-item">CLI</a>
+<a class="dropdown-item" href="../junit5/">JUnit5</a>
 </li>
-    </ul>
-  </li>
-                                </ul>
-                            </li>
-                        </ul>
-
-                    <ul class="nav navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
-                                <i class="fa fa-search"></i> Search
+<li>
+<a class="dropdown-item active" href="./">Mkdocs</a>
+</li>
+<li>
+<a class="dropdown-item" href="../cli/">CLI</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav ml-auto">
+<li class="nav-item">
+<a class="nav-link" data-target="#mkdocs_search_modal" data-toggle="modal" href="#">
+<i class="fa fa-search"></i> Search
                             </a>
-                        </li>
-                            <li class="nav-item">
-                                <a rel="prev" href="../build/" class="nav-link">
-                                    <i class="fa fa-arrow-left"></i> Previous
+</li>
+<li class="nav-item">
+<a class="nav-link" href="../junit5/" rel="prev">
+<i class="fa fa-arrow-left"></i> Previous
                                 </a>
-                            </li>
-                            <li class="nav-item">
-                                <a rel="next" href="../cli/" class="nav-link">
+</li>
+<li class="nav-item">
+<a class="nav-link" href="../cli/" rel="next">
                                     Next <i class="fa fa-arrow-right"></i>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="https://github.com/thomas-lehmann-private/hyperion/edit/master/docs/mkdocs.md" class="nav-link"><i class="fa fa-github"></i> Edit on GitHub</a>
-                            </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="container">
-            <div class="row">
-                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
-            <span class="fa fa-angle-down"></span>
-        </button>
-    </div>
-
-    
-    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
-        <ul class="nav flex-column">
-            
-            <li class="nav-item" data-level="1"><a href="#mkdocs" class="nav-link">Mkdocs</a>
-              <ul class="nav flex-column">
-            <li class="nav-item" data-level="2"><a href="#installation" class="nav-link">Installation</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#configuration" class="nav-link">Configuration</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#testing" class="nav-link">Testing</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#deploying" class="nav-link">Deploying</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-              </ul>
-            </li>
-        </ul>
-    </div>
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="https://github.com/thomas-lehmann-private/hyperion/edit/master/docs/mkdocs.md"><i class="fa fa-github"></i> Edit on GitHub</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="row">
+<div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+<div class="navbar-header">
+<button class="navbar-toggler collapsed" data-target="#toc-collapse" data-toggle="collapse" title="Table of Contents" type="button">
+<span class="fa fa-angle-down"></span>
+</button>
+</div>
+<div class="navbar-collapse collapse card bg-secondary" id="toc-collapse">
+<ul class="nav flex-column">
+<li class="nav-item" data-level="1"><a class="nav-link" href="#mkdocs">Mkdocs</a>
+<ul class="nav flex-column">
+<li class="nav-item" data-level="2"><a class="nav-link" href="#installation">Installation</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+<li class="nav-item" data-level="2"><a class="nav-link" href="#configuration">Configuration</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+<li class="nav-item" data-level="2"><a class="nav-link" href="#graphviz-example">Graphviz Example</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+<li class="nav-item" data-level="2"><a class="nav-link" href="#special-note-boxes">Special note boxes</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+<li class="nav-item" data-level="2"><a class="nav-link" href="#mermaid-example">Mermaid example</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+<li class="nav-item" data-level="2"><a class="nav-link" href="#testing">Testing</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+<li class="nav-item" data-level="2"><a class="nav-link" href="#deploying">Deploying</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+<li class="nav-item" data-level="2"><a class="nav-link" href="#links">Links</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
 </div></div>
-                    <div class="col-md-9" role="main">
-
+<div class="col-md-9" role="main">
 <h1 id="mkdocs">Mkdocs</h1>
 <h2 id="installation">Installation</h2>
 <p>It requires Python.</p>
-<pre><code>pip install mkdocs mkdocs-bootswatch mkdocs-graphviz
+<pre><code>pip install mkdocs mkdocs-bootswatch mkdocs-graphviz pymdown-extensions mkdocs-mermaid2-plugin
 </code></pre>
-
 <h2 id="configuration">Configuration</h2>
-<h3 id="description">Description</h3>
 <p>The configuration of the project is defined in the <strong>mkdocs.yml</strong> in the root
 of the repository.</p>
 <ul>
@@ -175,14 +172,24 @@ of the repository.</p>
   items are those ones listed unter the index entry.</li>
 </ul>
 </li>
-<li>At he bottom there two sections:</li>
+<li>At the bottom there are two sections:</li>
 <li><strong>theme</strong> is for the look and feel. Therefore the <strong>mkdocs-bootswatch</strong> is needed.</li>
 <li><strong>markdown_extensions</strong> are markdown extensions for rendering:<ul>
 <li><strong>mkdocs_graphviz</strong> is for rendering Graphviz syntax as SVG.</li>
+<li><strong>admonition</strong> is for special note boxes.</li>
+<li><strong>footnotes</strong> allows writing footnotes <sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup></li>
+<li><strong>pymdownx.tilde</strong> for <del>strikethrough</del> with <code>~~strikethrough~~</code></li>
+<li>pymdownx.caret</li>
+<li>pymdownx.mark for <mark>marked</mark> with <code>==marked==</code></li>
+<li>pymdownx.magiclink for auto creation of links used in markdown code. </li>
+</ul>
+</li>
+<li><strong>plugins</strong> for plugins like:<ul>
+<li><strong>mkdocs-mermaid2-plugin</strong> for rendering Mermaid diagrams.</li>
 </ul>
 </li>
 </ul>
-<h3 id="graphviz-example">Graphviz Example</h3>
+<h2 id="graphviz-example">Graphviz Example</h2>
 <p>Following simple example (you have to add <strong>dot</strong> behind the first three backticks):</p>
 <pre><code>```
 digraph D { 
@@ -190,9 +197,49 @@ digraph D {
 }
 ```
 </code></pre>
-
 <p>produces</p>
-<p><img alt="noname.svg" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+Cgo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8IS0tIEdlbmVyYXRlZCBieSBncmFwaHZpeiB2ZXJzaW9uIDIuNDcuMiAoMjAyMTA1MjcuMDA1MykNCiAtLT4NCjwhLS0gVGl0bGU6IEQgUGFnZXM6IDEgLS0+DQo8c3ZnIHdpZHRoPSI2MnB0IiBoZWlnaHQ9IjExNnB0Ig0gdmlld0JveD0iMC4wMCAwLjAwIDYyLjAwIDExNi4wMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+DQo8ZyBpZD0iZ3JhcGgwIiBjbGFzcz0iZ3JhcGgiIHRyYW5zZm9ybT0ic2NhbGUoMSAxKSByb3RhdGUoMCkgdHJhbnNsYXRlKDQgMTEyKSI+DQo8dGl0bGU+RDwvdGl0bGU+DQo8cG9seWdvbiBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSJ0cmFuc3BhcmVudCIgcG9pbnRzPSItNCw0IC00LC0xMTIgNTgsLTExMiA1OCw0IC00LDQiLz4NCjwhLS0gQSAtLT4NCjxnIGlkPSJub2RlMSIgY2xhc3M9Im5vZGUiPg0KPHRpdGxlPkE8L3RpdGxlPg0KPGVsbGlwc2UgZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgY3g9IjI3IiBjeT0iLTkwIiByeD0iMjciIHJ5PSIxOCIvPg0KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMjciIHk9Ii04Ni4zIiBmb250LWZhbWlseT0iVGltZXMgTmV3IFJvbWFuLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5BPC90ZXh0Pg0KPC9nPg0KPCEtLSBCIC0tPg0KPGcgaWQ9Im5vZGUyIiBjbGFzcz0ibm9kZSI+DQo8dGl0bGU+QjwvdGl0bGU+DQo8ZWxsaXBzZSBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBjeD0iMjciIGN5PSItMTgiIHJ4PSIyNyIgcnk9IjE4Ii8+DQo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyNyIgeT0iLTE0LjMiIGZvbnQtZmFtaWx5PSJUaW1lcyBOZXcgUm9tYW4sc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPkI8L3RleHQ+DQo8L2c+DQo8IS0tIEEmIzQ1OyZndDtCIC0tPg0KPGcgaWQ9ImVkZ2UxIiBjbGFzcz0iZWRnZSI+DQo8dGl0bGU+QSYjNDU7Jmd0O0I8L3RpdGxlPg0KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTI3LC03MS43QzI3LC02My45OCAyNywtNTQuNzEgMjcsLTQ2LjExIi8+DQo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIzMC41LC00Ni4xIDI3LC0zNi4xIDIzLjUsLTQ2LjEgMzAuNSwtNDYuMSIvPg0KPC9nPg0KPC9nPg0KPC9zdmc+DQo=" /></p>
+<p><img alt="noname.svg" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+Cgo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8IS0tIEdlbmVyYXRlZCBieSBncmFwaHZpeiB2ZXJzaW9uIDIuNDcuMiAoMjAyMTA1MjcuMDA1MykNCiAtLT4NCjwhLS0gVGl0bGU6IEQgUGFnZXM6IDEgLS0+DQo8c3ZnIHdpZHRoPSI2MnB0IiBoZWlnaHQ9IjExNnB0Ig0gdmlld0JveD0iMC4wMCAwLjAwIDYyLjAwIDExNi4wMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+DQo8ZyBpZD0iZ3JhcGgwIiBjbGFzcz0iZ3JhcGgiIHRyYW5zZm9ybT0ic2NhbGUoMSAxKSByb3RhdGUoMCkgdHJhbnNsYXRlKDQgMTEyKSI+DQo8dGl0bGU+RDwvdGl0bGU+DQo8cG9seWdvbiBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSJ0cmFuc3BhcmVudCIgcG9pbnRzPSItNCw0IC00LC0xMTIgNTgsLTExMiA1OCw0IC00LDQiLz4NCjwhLS0gQSAtLT4NCjxnIGlkPSJub2RlMSIgY2xhc3M9Im5vZGUiPg0KPHRpdGxlPkE8L3RpdGxlPg0KPGVsbGlwc2UgZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgY3g9IjI3IiBjeT0iLTkwIiByeD0iMjciIHJ5PSIxOCIvPg0KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMjciIHk9Ii04Ni4zIiBmb250LWZhbWlseT0iVGltZXMgTmV3IFJvbWFuLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5BPC90ZXh0Pg0KPC9nPg0KPCEtLSBCIC0tPg0KPGcgaWQ9Im5vZGUyIiBjbGFzcz0ibm9kZSI+DQo8dGl0bGU+QjwvdGl0bGU+DQo8ZWxsaXBzZSBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBjeD0iMjciIGN5PSItMTgiIHJ4PSIyNyIgcnk9IjE4Ii8+DQo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyNyIgeT0iLTE0LjMiIGZvbnQtZmFtaWx5PSJUaW1lcyBOZXcgUm9tYW4sc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPkI8L3RleHQ+DQo8L2c+DQo8IS0tIEEmIzQ1OyZndDtCIC0tPg0KPGcgaWQ9ImVkZ2UxIiBjbGFzcz0iZWRnZSI+DQo8dGl0bGU+QSYjNDU7Jmd0O0I8L3RpdGxlPg0KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTI3LC03MS43QzI3LC02My45OCAyNywtNTQuNzEgMjcsLTQ2LjExIi8+DQo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIzMC41LC00Ni4xIDI3LC0zNi4xIDIzLjUsLTQ2LjEgMzAuNSwtNDYuMSIvPg0KPC9nPg0KPC9nPg0KPC9zdmc+DQo="/></p>
+<h2 id="special-note-boxes">Special note boxes</h2>
+<div class="admonition note">
+<p class="admonition-title">Please Note</p>
+<p>Some note. You have to choose the right indent</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Attention</p>
+<p>Some warning. Please don't ...</p>
+</div>
+<div class="admonition error">
+<p class="admonition-title">Problem</p>
+<p>You are in trouble if ...</p>
+</div>
+<p>generated by</p>
+<pre><code class="plain">!!! note "Please Note"
+    Some note. You have to choose the right indent
+
+!!! warning "Attention"
+    Some warning. Please don't ...
+
+!!! error "Problem"
+    You are in trouble if ...
+</code></pre>
+<h2 id="mermaid-example">Mermaid example</h2>
+<div class="mermaid">graph LR;
+    A--&gt; B &amp; C &amp; D;
+    B--&gt; A &amp; E;
+    C--&gt; A &amp; E;
+    D--&gt; A &amp; E;
+    E--&gt; B &amp; C &amp; D;
+</div>
+<p>generated by</p>
+<pre><code>```mermaid
+graph LR;
+    A--&gt; B &amp; C &amp; D;
+    B--&gt; A &amp; E;
+    C--&gt; A &amp; E;
+    D--&gt; A &amp; E;
+    E--&gt; B &amp; C &amp; D;
+```
+</code></pre>
 <h2 id="testing">Testing</h2>
 <p>It does <strong>build</strong> the site and after that 
 you can open your browser at <a href="http://localhost:8000">http://localhost:8000</a>
@@ -200,88 +247,99 @@ to see the result. Changes to  known Markdown files will be recognized,
 so you just have to refresh your Browser to see the results.</p>
 <pre><code>mkdocs serve
 </code></pre>
-
 <h2 id="deploying">Deploying</h2>
 <p>Later on it should be done automatically via Github workflow with a Github action but
 for now I'm doing it on a <strong>gh-pages</strong> branch manually by copying the content
-of the <strong>site</strong> folder - generates by <strong>mkdocs build</strong> - into that branch.</p></div>
-            </div>
-        </div>
-
-        <footer class="col-md-12">
-            <hr>
-            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
-        </footer>
-        <script>
+of the <strong>site</strong> folder - generates by <strong>mkdocs build</strong> - into that branch.</p>
+<h2 id="links">Links</h2>
+<ul>
+<li><a href="https://gitlab.com/rodrigo.schwencke/mkdocs-graphviz">https://gitlab.com/rodrigo.schwencke/mkdocs-graphviz</a></li>
+<li><a href="https://squidfunk.github.io/mkdocs-material/reference/admonitions">https://squidfunk.github.io/mkdocs-material/reference/admonitions</a></li>
+<li><a href="https://squidfunk.github.io/mkdocs-material/reference/footnotes/">https://squidfunk.github.io/mkdocs-material/reference/footnotes/</a></li>
+<li><a href="https://facelessuser.github.io/pymdown-extensions/extensions/magiclink/">https://facelessuser.github.io/pymdown-extensions/extensions/magiclink/</a></li>
+</ul>
+<div class="footnote">
+<hr/>
+<ol>
+<li id="fn:1">
+<p>This is footnote one <a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">↩</a></p>
+</li>
+</ol>
+</div></div>
+</div>
+</div>
+<footer class="col-md-12">
+<hr/>
+<p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+</footer>
+<script>
             var base_url = "..",
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
-        <script src="../js/base.js" defer></script>
-        <script src="../search/main.js" defer></script>
-
-        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="searchModalLabel">Search</h4>
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-            </div>
-            <div class="modal-body">
-                <p>
+<script defer="" src="../js/base.js"></script>
+<script defer="" src="../search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<p>
                     From here you can search these documents. Enter
                     your search terms below.
                 </p>
-                <form>
-                    <div class="form-group">
-                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
-                    </div>
-                </form>
-                <div id="mkdocs-search-results"></div>
-            </div>
-            <div class="modal-footer">
-            </div>
-        </div>
-    </div>
-</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-            </div>
-            <div class="modal-body">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th style="width: 20%;">Keys</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="help shortcut"><kbd>?</kbd></td>
-                    <td>Open this help</td>
-                  </tr>
-                  <tr>
-                    <td class="next shortcut"><kbd>n</kbd></td>
-                    <td>Next page</td>
-                  </tr>
-                  <tr>
-                    <td class="prev shortcut"><kbd>p</kbd></td>
-                    <td>Previous page</td>
-                  </tr>
-                  <tr>
-                    <td class="search shortcut"><kbd>s</kbd></td>
-                    <td>Search</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="modal-footer">
-            </div>
-        </div>
-    </div>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="search"/>
 </div>
-
-    </body>
+</form>
+<div id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+<script src="https://unpkg.com/mermaid@8.8.0/dist/mermaid.min.js"></script><script>mermaid.initialize({});</script></body>
 </html>

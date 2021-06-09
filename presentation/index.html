@@ -6,16 +6,16 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <meta name="author" content="Thomas Lehmann <thomas.lehmann.private@gmail.com">
-        
-        <link rel="shortcut icon" href="/hyperion/img/favicon.ico">
-        <title>Hyperion</title>
-        <link href="/hyperion/css/bootstrap.min.css" rel="stylesheet">
-        <link href="/hyperion/css/font-awesome.min.css" rel="stylesheet">
-        <link href="/hyperion/css/base.css" rel="stylesheet">
+        <link rel="canonical" href="https://thomas-lehmann-private.github.io/hyperion/presentation/">
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Hyperion - Hyperion</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/docco.min.css">
 
-        <script src="/hyperion/js/jquery-1.10.2.min.js" defer></script>
-        <script src="/hyperion/js/bootstrap.min.js" defer></script>
+        <script src="../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../js/bootstrap.min.js" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script> 
     </head>
@@ -23,7 +23,7 @@
     <body>
         <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-                <a class="navbar-brand" href="/hyperion/.">Hyperion</a>
+                <a class="navbar-brand" href="..">Hyperion</a>
                 <!-- Expander button -->
                 <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
                     <span class="navbar-toggler-icon"></span>
@@ -34,60 +34,57 @@
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
                             <li class="navitem">
-                                <a href="/hyperion/." class="nav-link">Home</a>
+                                <a href=".." class="nav-link">Home</a>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">User Guide <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Index <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="/hyperion/hyperion/" class="dropdown-item">Application</a>
+    <a href="../hyperion/" class="dropdown-item">Application</a>
 </li>
                                     
 <li>
-    <a href="/hyperion/taskgroup/" class="dropdown-item">Taskgroup</a>
+    <a href="../taskgroup/" class="dropdown-item">Taskgroup</a>
 </li>
                                     
 <li>
-    <a href="/hyperion/groovy/" class="dropdown-item">Groovy task</a>
+    <a href="../groovy/" class="dropdown-item">Groovy task</a>
 </li>
                                     
 <li>
-    <a href="/hyperion/shell/" class="dropdown-item">Shell task</a>
+    <a href="../shell/" class="dropdown-item">Shell task</a>
 </li>
                                     
 <li>
-    <a href="/hyperion/docker-container/" class="dropdown-item">Docker container task</a>
+    <a href="../docker-container/" class="dropdown-item">Docker container task</a>
 </li>
                                     
 <li>
-    <a href="/hyperion/templating/" class="dropdown-item">Templating</a>
+    <a href="../templating/" class="dropdown-item">Templating</a>
 </li>
                                     
 <li>
-    <a href="/hyperion/matrix/" class="dropdown-item">Matrix</a>
-</li>
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Developer Guide <b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    
-<li>
-    <a href="/hyperion/build/" class="dropdown-item">Build</a>
+    <a href="../matrix/" class="dropdown-item">Matrix</a>
 </li>
                                     
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Internal</a>
+    <ul class="dropdown-menu">
+            
 <li>
-    <a href="/hyperion/junit5/" class="dropdown-item">JUnit5</a>
+    <a href="../build/" class="dropdown-item">Build</a>
 </li>
-                                    
+            
 <li>
-    <a href="/hyperion/mkdocs/" class="dropdown-item">Mkdocs</a>
+    <a href="../mkdocs/" class="dropdown-item">Mkdocs</a>
 </li>
-                                    
+            
 <li>
-    <a href="/hyperion/cli/" class="dropdown-item">CLI</a>
+    <a href="../cli/" class="dropdown-item">CLI</a>
 </li>
+    </ul>
+  </li>
                                 </ul>
                             </li>
                         </ul>
@@ -99,7 +96,7 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a href="https://github.com/thomas-lehmann-private/hyperion/" class="nav-link"><i class="fa fa-github"></i> GitHub</a>
+                                <a href="https://github.com/thomas-lehmann-private/hyperion/edit/master/docs/presentation.md" class="nav-link"><i class="fa fa-github"></i> Edit on GitHub</a>
                             </li>
                     </ul>
                 </div>
@@ -108,15 +105,50 @@
 
         <div class="container">
             <div class="row">
-
-    <div class="row-fluid">
-      <div id="main-content" class="span12">
-        <h1 id="404-page-not-found" style="text-align: center">404</h1>
-        <p style="text-align: center"><strong>Page not found</strong></p>
-      </div>
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
     </div>
 
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            
+            
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
 
+<h3 id="the-special-task-processing-tool">The special task processing tool</h3>
+<ul>
+<li>Easy to use</li>
+<li>Running on all main platforms</li>
+<li>Support for Matrix</li>
+<li>Regex based extraction of task output</li>
+<li>Freestyle model</li>
+<li>Templating support</li>
+</ul>
+<hr />
+<h3 id="easy-to-use">Easy to use</h3>
+<ul>
+<li>Command line help</li>
+<li>Well documented (with examples)</li>
+<li>Simple syntax</li>
+</ul>
+<hr />
+<h3 id="tasks">Tasks</h3>
+<ul>
+<li>Code based tasks<ul>
+<li>Groovy and JShell (Embedded)</li>
+<li>Powershell, Windows Batch and Unix Shell</li>
+<li>Docker container</li>
+</ul>
+</li>
+</ul></div>
             </div>
         </div>
 
@@ -125,11 +157,11 @@
             <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
         </footer>
         <script>
-            var base_url = "/hyperion/",
+            var base_url = "..",
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
-        <script src="/hyperion/js/base.js" defer></script>
-        <script src="/hyperion/search/main.js" defer></script>
+        <script src="../js/base.js" defer></script>
+        <script src="../search/main.js" defer></script>
 
         <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
