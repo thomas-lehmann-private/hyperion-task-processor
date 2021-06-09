@@ -5,7 +5,7 @@
 It requires Python.
 
 ```
-pip install mkdocs mkdocs-bootswatch mkdocs-graphviz
+pip install mkdocs mkdocs-bootswatch mkdocs-graphviz pymdown-extensions mkdocs-mermaid2-plugin
 ```
 
 ## Configuration
@@ -118,3 +118,13 @@ mkdocs serve
 Later on it should be done automatically via Github workflow with a Github action but
 for now I'm doing it on a **gh-pages** branch manually by copying the content
 of the **site** folder - generates by **mkdocs build** - into that branch.
+
+
+## Links
+
+ - https://gitlab.com/rodrigo.schwencke/mkdocs-graphviz
+ - https://squidfunk.github.io/mkdocs-material/reference/admonitions
+ - https://squidfunk.github.io/mkdocs-material/reference/footnotes/
+ - https://facelessuser.github.io/pymdown-extensions/extensions/magiclink/
+
+[^1]: This is footnote one

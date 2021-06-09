@@ -28,3 +28,10 @@ plugins:
 
 markdown_extensions:
   - mkdocs_graphviz
+  - admonition
+  - footnotes
+  - pymdownx.tilde
+  - pymdownx.caret
+  - pymdownx.mark
+  - pymdownx.magiclink
+

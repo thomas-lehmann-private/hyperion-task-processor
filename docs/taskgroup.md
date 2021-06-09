@@ -24,10 +24,12 @@ taskgroups:
         code: println 'hello world 3!'
 ```
 
-**Please note**: Also no variables have been specified the variables are there.
-The name of those variables is then "default". You are able to evaluate the value
-of a previously set variable with that name using templating
-with following expression: **{{ variables.default.value }}**.
+!!! note
+    Also no variables have been specified the variables are there.
+    The name of those variables is then "default". You are able to evaluate the value
+    of a previously set variable with that name using templating
+    with following expression: **{{ variables.default.value }}**.
+
 
 **See also**: [Templating](templating.md)
 
@@ -56,13 +58,14 @@ taskgroups:
           println 'hello world 3!'
 ```
 
-**Please note**: Also the variables are not specified here they are given. 
-It means that the stdout of the tasks is always stored. If you don't specify 
-the variable yourself then name of the task variable is always "default".
-Running tasks in parallel the situation is unfavorable since you cannot always
-rely on which value will be written into the variable except you control
-the order of the execution like shown in the example. For that situation a warning
-is logged by the tool to inform you that you have duplicate variable names.
+!!! warning
+    Also the variables are not specified here they are given. 
+    It means that the stdout of the tasks is always stored. If you don't specify 
+    the variable yourself then name of the task variable is always "default".
+    Running tasks in parallel the situation is unfavorable since you cannot always
+    rely on which value will be written into the variable except you control
+    the order of the execution like shown in the example. For that situation a warning
+    is logged by the tool to inform you that you have duplicate variable names.
 
-Of course this also will happen if you specify the same name for variables yourself
-multiple times.
+    Of course this also will happen if you specify the same name for variables yourself
+    multiple times.
