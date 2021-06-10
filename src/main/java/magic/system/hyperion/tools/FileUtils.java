@@ -23,6 +23,9 @@
  */
 package magic.system.hyperion.tools;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -105,5 +108,17 @@ public final class FileUtils {
         } catch (IOException e) {
             LOGGER.error(e.getMessage(), e);
         }
+    }
+
+    /**
+     * Read YAML as tree providing root as {@link JsonNode}.
+     *
+     * @param path where to read the YAML file from.
+     * @return tree
+     * @throws IOException when reading of YAML file has failed.
+     */
+    public static JsonNode readYamlTree(final Path path) throws IOException {
+        final var mapper = new ObjectMapper(new YAMLFactory());
+        return mapper.readTree(path.toUri().toURL());
     }
 }

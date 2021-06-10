@@ -23,6 +23,7 @@
  */
 package magic.system.hyperion.components;
 
+import magic.system.hyperion.components.interfaces.IChangeableDocument;
 import magic.system.hyperion.interfaces.IRunnable;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -39,7 +40,7 @@ import java.util.Map;
  *
  * @author Thomas Lehmann
  */
-public class Document implements IRunnable<Void, DocumentParameters> {
+public class Document implements IChangeableDocument, IRunnable<Void, DocumentParameters> {
     /**
      * Logger for this class.
      */
@@ -106,6 +107,7 @@ public class Document implements IRunnable<Void, DocumentParameters> {
      * @param taskGroup a new task group.
      * @version 1.0.0
      */
+    @Override
     public void add(final TaskGroup taskGroup) {
         this.listOfTaskGroups.add(taskGroup);
     }
@@ -116,6 +118,7 @@ public class Document implements IRunnable<Void, DocumentParameters> {
      * @param matrixParameters a new matrix parameters.
      * @version 1.0.0
      */
+    @Override
     public void add(final MatrixParameters matrixParameters) {
         this.matrix.add(matrixParameters);
     }
