@@ -1,6 +1,7 @@
 /target/
 /.idea/
 /site/
+/venv/
 dependency-reduced-pom.xml
 hyperion.iml
 hyperion.log
