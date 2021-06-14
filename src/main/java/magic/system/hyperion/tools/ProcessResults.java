@@ -51,12 +51,12 @@ public final class ProcessResults {
     /**
      * Initialize with result of process.
      *
-     * @param initStdout - stdout of process.
-     * @param initStderr - stderr of process.
+     * @param initStdout    - stdout of process.
+     * @param initStderr    - stderr of process.
      * @param iInitExitCode - exit code of process.
      */
     private ProcessResults(final List<String> initStdout, final List<String> initStderr,
-            final int iInitExitCode) {
+                           final int iInitExitCode) {
         this.stdout = initStdout;
         this.stderr = initStderr;
         this.iExitCode = iInitExitCode;
@@ -97,7 +97,22 @@ public final class ProcessResults {
      * @throws InterruptedException when the process gets interrupted.
      */
     public static ProcessResults of(final Process process) throws InterruptedException {
-        final var result = ProcessTools.captureOutput(process);
+        final var result = ProcessTools.captureOutput(process, true);
+        process.waitFor();
+        return new ProcessResults(result.getFirst(), result.getSecond(), process.exitValue());
+    }
+
+    /**
+     * Providing process results of last executed process given by parameter.
+     *
+     * @param process  - last executed process.
+     * @param bLogging - when true then logging lines of both streams (otherwise not).
+     * @return lines written to stdout and stderr and the process exit code.
+     * @throws InterruptedException when the process gets interrupted.
+     */
+    public static ProcessResults of(final Process process, final boolean bLogging)
+            throws InterruptedException {
+        final var result = ProcessTools.captureOutput(process, bLogging);
         process.waitFor();
         return new ProcessResults(result.getFirst(), result.getSecond(), process.exitValue());
     }

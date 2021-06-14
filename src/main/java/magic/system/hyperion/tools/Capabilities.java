@@ -36,6 +36,17 @@ import java.util.Locale;
  */
 public class Capabilities {
     /**
+     * Command for printing Docker version.
+     */
+    private static final String DOCKER_VERSION_COMMAND = "docker -v";
+
+    /**
+     * Command for printing Powershell version.
+     */
+    private static final String POWERSHELL_VERSION_COMMAND
+            = "powershell -Command \"($PSVersionTable.PSVersion).toString()\"";
+
+    /**
      * Evaluating whether underlying system is Windows.
      *
      * @return true when system is Windows.
@@ -53,20 +64,74 @@ public class Capabilities {
         boolean bSuccess;
         try {
             final var process = new ProcessBuilder(
-                    createCommand("docker -v")).start();
+                    createCommand(DOCKER_VERSION_COMMAND)).start();
             process.waitFor();
-            final var processResults = ProcessResults.of(process);
-            processResults.getStdout().forEach(System.out::println);
-            processResults.getStderr().forEach(System.out::println);
-            bSuccess = processResults.getStdout().stream().anyMatch(
-                    line -> line.contains("Docker version")) && processResults.getExitCode() == 0;
+            bSuccess = ProcessResults.of(process, false).getExitCode() == 0;
         } catch (IOException | InterruptedException e) {
             bSuccess = false;
         }
         return bSuccess;
     }
 
-    // TODO: Auf Unix klappt es nicht mit den Parametern
+    /**
+     * Checking that Powershell command is available on the current system.
+     *
+     * @return true when Powershell command is available.
+     */
+    public static boolean hasPowershell() {
+        boolean bSuccess;
+        try {
+            final var process = new ProcessBuilder(
+                    createCommand(POWERSHELL_VERSION_COMMAND)).start();
+            process.waitFor();
+            bSuccess = ProcessResults.of(process, false).getExitCode() == 0;
+        } catch (IOException | InterruptedException e) {
+            bSuccess = false;
+        }
+        return bSuccess;
+    }
+
+    /**
+     * Provide Docker version.
+     *
+     * @return version of Docker.
+     */
+    public static String getDockerVersion() {
+        String strResult = "";
+        try {
+            final var process = new ProcessBuilder(
+                    createCommand(DOCKER_VERSION_COMMAND)).start();
+            process.waitFor();
+            final var processResults = ProcessResults.of(process, false);
+            if (!processResults.getStdout().isEmpty() && processResults.getExitCode() == 0) {
+                strResult = processResults.getStdout().get(0).replace("Docker version ", "");
+            }
+        } catch (IOException | InterruptedException e) {
+            strResult = "";
+        }
+        return strResult;
+    }
+
+    /**
+     * Provide Powershell version.
+     *
+     * @return version of Powershell.
+     */
+    public static String getPowershellVersion() {
+        String strResult = "";
+        try {
+            final var process = new ProcessBuilder(
+                    createCommand(POWERSHELL_VERSION_COMMAND)).start();
+            process.waitFor();
+            final var processResults = ProcessResults.of(process, false);
+            if (!processResults.getStdout().isEmpty() && processResults.getExitCode() == 0) {
+                strResult = processResults.getStdout().get(0);
+            }
+        } catch (IOException | InterruptedException e) {
+            strResult = "";
+        }
+        return strResult;
+    }
 
     /**
      * Define shell command on environment.

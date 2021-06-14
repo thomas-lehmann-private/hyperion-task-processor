@@ -30,6 +30,7 @@ import magic.system.hyperion.cli.CliOptionList;
 import magic.system.hyperion.cli.CliParser;
 import magic.system.hyperion.components.DocumentParameters;
 import magic.system.hyperion.reader.DocumentReader;
+import magic.system.hyperion.tools.CapabilitiesPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,9 +54,9 @@ public final class Application {
     private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
 
     /**
-     * Escape character.
+     * Logger name without timestamps.
      */
-    private static final int ESCAPE = 27;
+    private static final String NO_TIMESTAMP = "NO-TIMESTAMP";
 
     /**
      * The key for final name of the jar (without extension).
@@ -76,6 +77,11 @@ public final class Application {
      * They key for the architect and developer of the project.
      */
     private static final String PROPERTY_AUTHOR = "author";
+
+    /**
+     * The key for the groovy version embedded into Hyperion tool.
+     */
+    private static final String PROPERTY_GROOVY_VERSION = "groovyVersion";
 
     /**
      * Application properties.
@@ -116,8 +122,7 @@ public final class Application {
 
         if (result.getGlobalOptions().containsKey(ApplicationOptions.HELP.getLongName())) {
             printHelp();
-        } else if (result.getGlobalOptions().containsKey(
-                ApplicationOptions.THIRD_PARTY.getLongName())) {
+        } else if (result.getCommandName().equals(ApplicationCommands.THIRD_PARTY.getCommand())) {
             print3rdParty();
         } else if (result.getCommandName().equals(ApplicationCommands.RUN.getCommand())) {
             try {
@@ -135,6 +140,10 @@ public final class Application {
             } catch (NumberFormatException e) {
                 throw new CliException(e.getMessage());
             }
+        } else if (result.getCommandName().equals(ApplicationCommands.CAPABILITIES.getCommand())) {
+            final var printer = new CapabilitiesPrinter();
+            printer.setGroovyVersion(this.properties.getProperty(PROPERTY_GROOVY_VERSION));
+            printer.print(LoggerFactory.getLogger(NO_TIMESTAMP)::info);
         }
     }
 
@@ -165,7 +174,7 @@ public final class Application {
                 .setGlobalOptions(this.globalOptions)
                 .setCommands(this.commands)
                 .build();
-        helpPrinter.print(LoggerFactory.getLogger("HELP")::info);
+        helpPrinter.print(LoggerFactory.getLogger(NO_TIMESTAMP)::info);
     }
 
     /**
@@ -185,18 +194,10 @@ public final class Application {
                     final var strGroupId = tokens[0].trim();
                     final var strArtifactId = tokens[1].trim();
 
-                    int iPos = -1;
-                    final var originalBytes = tokens[3].getBytes(Charset.defaultCharset());
-                    for (int ix = 0; ix < originalBytes.length; ++ix) {
-                        if (originalBytes[ix] == ESCAPE) {
-                            iPos = ix;
-                            break;
-                        }
-                    }
-
-                    if (iPos >= 0) {
+                    final int iPos = tokens[3].indexOf(" -- ");
+                    if (iPos >= 0)  {
                         final var strVersion = tokens[3].substring(0, iPos).trim();
-                        final var logger = LoggerFactory.getLogger("3RDPARTY");
+                        final var logger = LoggerFactory.getLogger(NO_TIMESTAMP);
                         logger.info(String.format("group id: %s, artifact id: %s, version: %s",
                                 strGroupId, strArtifactId, strVersion));
                     }

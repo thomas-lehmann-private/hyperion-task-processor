@@ -59,12 +59,6 @@ public final class ApplicationOptionsFunctions {
                         .setType(OptionType.BOOLEAN)
                         .build()).add(
                 CliOption.builder()
-                        .setShortName(ApplicationOptions.THIRD_PARTY.getShortName())
-                        .setLongName(ApplicationOptions.THIRD_PARTY.getLongName())
-                        .setDescription(ApplicationOptions.THIRD_PARTY.getDescription())
-                        .setType(OptionType.BOOLEAN)
-                        .build()).add(
-                CliOption.builder()
                         .setShortName(ApplicationOptions.TIMEOUT_TASKGROUP.getShortName())
                         .setLongName(ApplicationOptions.TIMEOUT_TASKGROUP.getLongName())
                         .setDescription(ApplicationOptions.TIMEOUT_TASKGROUP.getDescription())
@@ -89,16 +83,24 @@ public final class ApplicationOptionsFunctions {
      */
     static List<CliCommand> defineCommands() throws CliException {
         return List.of(CliCommand.builder()
-                .setName(ApplicationCommands.RUN.getCommand())
-                .setDescription(ApplicationCommands.RUN.getDescription())
-                .addOption(CliOption.builder()
-                        .setShortName(ApplicationOptions.RUN_FILE.getShortName())
-                        .setLongName(ApplicationOptions.RUN_FILE.getLongName())
-                        .setDescription(ApplicationOptions.RUN_FILE.getDescription())
-                        .setRequired(true)
-                        .setType(OptionType.PATH)
-                        .build())
-                .build()
+                        .setName(ApplicationCommands.RUN.getCommand())
+                        .setDescription(ApplicationCommands.RUN.getDescription())
+                        .addOption(CliOption.builder()
+                                .setShortName(ApplicationOptions.RUN_FILE.getShortName())
+                                .setLongName(ApplicationOptions.RUN_FILE.getLongName())
+                                .setDescription(ApplicationOptions.RUN_FILE.getDescription())
+                                .setRequired(true)
+                                .setType(OptionType.PATH)
+                                .build())
+                        .build(),
+                CliCommand.builder()
+                        .setName(ApplicationCommands.THIRD_PARTY.getCommand())
+                        .setDescription(ApplicationCommands.THIRD_PARTY.getDescription())
+                        .build(),
+                CliCommand.builder()
+                        .setName(ApplicationCommands.CAPABILITIES.getCommand())
+                        .setDescription(ApplicationCommands.CAPABILITIES.getDescription())
+                        .build()
         );
     }
 }

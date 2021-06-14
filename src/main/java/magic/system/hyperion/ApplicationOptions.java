@@ -35,11 +35,6 @@ public enum ApplicationOptions {
     TAG("t", "tag", "provide tag to filter tasks"),
 
     /**
-     * Option for displaying the third party information.
-     */
-    THIRD_PARTY("", "third-party", "displaying used 3rd party libraries"),
-
-    /**
      * Timeout on each taskgroup.
      */
     TIMEOUT_TASKGROUP("", "timeout-taskgroup", "timeout for each taskgroup (minutes)"),
