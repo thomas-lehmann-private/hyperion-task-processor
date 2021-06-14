@@ -84,6 +84,10 @@ public class ApplicationTest {
                 ApplicationCommands.CAPABILITIES.getCommand()).toArray(String[]::new));
         final var lines = MessagesCollector.getMessages();
         assertTrue(lines.stream().anyMatch(line -> line.contains("Docker:")));
+        assertTrue(lines.stream().anyMatch(line -> line.contains("Powershell:")));
+        assertTrue(lines.stream().anyMatch(line -> line.contains("Groovy (embedded):")));
+        assertTrue(lines.stream().anyMatch(line -> line.contains("Java:")));
+        assertTrue(lines.stream().anyMatch(line -> line.contains("Operating System:")));
     }
 
     /**
