@@ -81,11 +81,11 @@ public class CapabilitiesPrinter {
      * @param consumer it's on the caller to decide how to print.
      */
     public void print(final Consumer<String> consumer) {
-        consumer.accept(printableKeyValue(JAVA, System.getProperty("java.version"),
-                "class version=" + System.getProperty("java.class.version")));
+        consumer.accept(printableKeyValue(JAVA, Capabilities.getJavaVersion(),
+                "class version=" + Capabilities.getJavaClassVersion()));
 
-        consumer.accept(printableKeyValue(OS, System.getProperty("os.name"),
-                "arch=" + System.getProperty("os.arch")));
+        consumer.accept(printableKeyValue(OS, Capabilities.getOperatingSystemName(),
+                "arch=" + Capabilities.getOperatingSystemArchitecture()));
 
         consumer.accept(printableKeyValue(GROOVY, this.strGroovyVersion, ""));
 

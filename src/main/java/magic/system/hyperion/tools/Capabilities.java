@@ -23,7 +23,12 @@
  */
 package magic.system.hyperion.tools;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -35,6 +40,11 @@ import java.util.Locale;
  * @author Thomas Lehmann
  */
 public class Capabilities {
+    /**
+     * Logger for this class.
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(Capabilities.class);
+
     /**
      * Command for printing Docker version.
      */
@@ -52,7 +62,7 @@ public class Capabilities {
      * @return true when system is Windows.
      */
     public static boolean isWindows() {
-        return System.getProperty("os.name").toLowerCase(Locale.getDefault()).startsWith("windows");
+        return getOperatingSystemName().toLowerCase(Locale.getDefault()).startsWith("windows");
     }
 
     /**
@@ -131,6 +141,76 @@ public class Capabilities {
             strResult = "";
         }
         return strResult;
+    }
+
+    /**
+     * Provide Java version.
+     *
+     * @return Java version.
+     */
+    public static String getJavaVersion() {
+        return System.getProperty("java.version");
+    }
+
+    /**
+     * Provide Java version.
+     *
+     * @return Java class version.
+     * @see <a href="https://javaalmanac.io/bytecode/versions/">
+     *     https://javaalmanac.io/bytecode/versions/</a>
+     */
+    public static String getJavaClassVersion() {
+        return System.getProperty("java.class.version");
+    }
+
+    /**
+     * Provide operating system name.
+     *
+     * @return operating system name.
+     */
+    public static String getOperatingSystemName() {
+        return System.getProperty("os.name");
+    }
+
+    /**
+     * Provide operating system architecture.
+     *
+     * @return operating system architecture.
+     */
+    public static String getOperatingSystemArchitecture() {
+        return System.getProperty("os.arch");
+    }
+
+    /**
+     * Get current host name.
+     *
+     * @return name of current host.
+     */
+    public static String getHostName()  {
+        String strHostName = "";
+        try {
+            strHostName = InetAddress.getLocalHost().getHostName();
+        } catch (final UnknownHostException e) {
+            LOGGER.error(e.getMessage(), e);
+            strHostName = "";
+        }
+        return strHostName;
+    }
+
+    /**
+     * Get current host address.
+     *
+     * @return current host address.
+     */
+    public static String getHostAddress() {
+        String strHostAddress = "";
+        try {
+            strHostAddress = InetAddress.getLocalHost().getHostAddress();
+        } catch (UnknownHostException e) {
+            LOGGER.error(e.getMessage(), e);
+            strHostAddress = "";
+        }
+        return strHostAddress;
     }
 
     /**

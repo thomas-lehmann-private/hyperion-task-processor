@@ -30,6 +30,7 @@ import magic.system.hyperion.cli.CliOptionList;
 import magic.system.hyperion.cli.CliParser;
 import magic.system.hyperion.components.DocumentParameters;
 import magic.system.hyperion.reader.DocumentReader;
+import magic.system.hyperion.tools.Capabilities;
 import magic.system.hyperion.tools.CapabilitiesPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -79,6 +80,11 @@ public final class Application {
     private static final String PROPERTY_AUTHOR = "author";
 
     /**
+     * They key for the git commit id.
+     */
+    private static final String PROPERTY_GIT_COMMIT_ID = "gitCommitId";
+
+    /**
      * The key for the groovy version embedded into Hyperion tool.
      */
     private static final String PROPERTY_GROOVY_VERSION = "groovyVersion";
@@ -125,6 +131,7 @@ public final class Application {
         } else if (result.getCommandName().equals(ApplicationCommands.THIRD_PARTY.getCommand())) {
             print3rdParty();
         } else if (result.getCommandName().equals(ApplicationCommands.RUN.getCommand())) {
+            logEnvironment();
             try {
                 final List<String> tags = result.getGlobalOptions().getOrDefault(
                         ApplicationOptions.TAG.getLongName(), Collections.emptyList());
@@ -145,6 +152,22 @@ public final class Application {
             printer.setGroovyVersion(this.properties.getProperty(PROPERTY_GROOVY_VERSION));
             printer.print(LoggerFactory.getLogger(NO_TIMESTAMP)::info);
         }
+    }
+
+    /**
+     * Logging of environment.
+     */
+    private void logEnvironment() {
+        final String strFormat = "{}: {} ({})";
+        LOGGER.info(strFormat, "Hyperion Version",
+                this.properties.getProperty(PROPERTY_PRODUCT_VERSION),
+                "git commit=" + this.properties.getProperty(PROPERTY_GIT_COMMIT_ID));
+        LOGGER.info(strFormat, "Operating System", Capabilities.getOperatingSystemName(),
+                "arch=" + Capabilities.getOperatingSystemArchitecture());
+        LOGGER.info(strFormat, "Host Name", Capabilities.getHostName(),
+                "address=" + Capabilities.getHostAddress());
+        LOGGER.info(strFormat, "Java", Capabilities.getJavaVersion(),
+                "java class=" + Capabilities.getJavaClassVersion());
     }
 
     /**
