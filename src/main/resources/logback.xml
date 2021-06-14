@@ -23,15 +23,12 @@
         </encoder>
     </appender>
 
-    <logger name="HELP" additivity="false">
-        <appender-ref ref="JUST-THE-MESSAGE"/>
-    </logger>
-
-    <logger name="3RDPARTY" additivity="false">
+    <logger name="NO-TIMESTAMP" additivity="false">
         <appender-ref ref="JUST-THE-MESSAGE"/>
     </logger>
 
     <root level="info">
+        <appender-ref ref="NO-TIMESTAMP"/>
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="FILE"/>
     </root>

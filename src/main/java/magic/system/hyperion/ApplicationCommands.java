@@ -32,7 +32,17 @@ public enum ApplicationCommands {
     /**
      * Command to process document with tasks.
      */
-    RUN("run", "Running one document with tasks to be processed");
+    RUN("run", "Running one document with tasks to be processed"),
+
+    /**
+     * Reporting the used third party libraries.
+     */
+    THIRD_PARTY("thirdparty", "Reporting the used third-party libraries"),
+
+    /**
+     * Command for reporting system capabilities.
+     */
+    CAPABILITIES("capabilities", "Reporting capabilities of system where Hyperion should run");
 
     /**
      * Command name.

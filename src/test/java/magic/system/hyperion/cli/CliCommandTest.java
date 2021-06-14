@@ -23,16 +23,18 @@
  */
 package magic.system.hyperion.cli;
 
-import java.util.List;
-import java.util.stream.Stream;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.List;
+import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Testing of class {@link CliCommand}.
@@ -185,8 +187,8 @@ public class CliCommandTest {
                 Arguments.of("ru", false),
                 Arguments.of("r", true),
                 Arguments.of("RUN", true),
-                Arguments.of("runrunrunr", false),
-                Arguments.of("runrunrunru", true)
+                Arguments.of("runrunrunrunrunr", true),
+                Arguments.of("runrunrunrunrun", false)
         );
     }
 

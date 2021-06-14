@@ -219,7 +219,7 @@ public final class CliCommand {
                 throw new CliException(CliMessage.COMMAND_DESCRIPTION_MISSING.getMessage());
             }
 
-            final var pattern = Pattern.compile("^[a-z]{2,10}$");
+            final var pattern = Pattern.compile("^[a-z]{2,15}$");
             final var matcher = pattern.matcher(this.strName);
             if (!matcher.find()) {
                 throw new CliException(CliMessage.COMMAND_NAME_INVALID.getMessage());

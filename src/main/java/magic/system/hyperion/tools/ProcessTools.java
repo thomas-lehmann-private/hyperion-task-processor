@@ -50,15 +50,19 @@ public final class ProcessTools {
     /**
      * Provide stdout and stderr lines of the process and logging those outputs too.
      *
-     * @param process the process to capture the output from.
+     * @param process  the process to capture the output from.
+     * @param bLogging when true then logging lines of both streams.
      * @return lines of stdout and stderr.
      */
-    public static Pair<List<String>, List<String>> captureOutput(final Process process) {
+    public static Pair<List<String>, List<String>> captureOutput(final Process process,
+                                                                 final boolean bLogging) {
         final List<String> stdout = new Vector<>();
         final List<String> stderr = new Vector<>();
 
-        final var stdoutCaptureThread = createCaptureThread(process.getInputStream(), stdout);
-        final var stderrCaptureThread = createCaptureThread(process.getErrorStream(), stderr);
+        final var stdoutCaptureThread
+                = createCaptureThread(process.getInputStream(), stdout, bLogging);
+        final var stderrCaptureThread
+                = createCaptureThread(process.getErrorStream(), stderr, bLogging);
 
         stdoutCaptureThread.start();
         stderrCaptureThread.start();
@@ -78,20 +82,25 @@ public final class ProcessTools {
      * The capture thread implementation capturing either stdout or stderr depending on the
      * the passes stream.
      *
-     * @param stream either {@link Process#getInputStream()} or {@link Process#getErrorStream()}.
+     * @param stream        either {@link Process#getInputStream()} or
+     *                      {@link Process#getErrorStream()}.
      * @param capturedLines container to add captured lines.
+     * @param bLogging      when true then logging the lines of the stream.
      * @return Thread to be started.
      */
     private static Thread createCaptureThread(final InputStream stream,
-                                              final List<String> capturedLines) {
-        return  new Thread(() -> {
+                                              final List<String> capturedLines,
+                                              final boolean bLogging) {
+        return new Thread(() -> {
             try (var reader = new BufferedReader(
                     new InputStreamReader(stream, Charset.defaultCharset()))) {
 
                 String strLine;
                 while ((strLine = reader.readLine()) != null) {
                     capturedLines.add(strLine);
-                    LOGGER.info(strLine);
+                    if (bLogging) {
+                        LOGGER.info(strLine);
+                    }
                 }
             } catch (IOException e) {
                 LOGGER.error(e.getMessage(), e);

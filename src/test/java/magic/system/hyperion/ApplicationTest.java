@@ -60,13 +60,30 @@ public class ApplicationTest {
     @Test
     public void test3rdParty() {
         MessagesCollector.clear();
-        Application.main(List.of("--third-party").toArray(String[]::new));
+        Application.main(List.of(
+                ApplicationCommands.THIRD_PARTY.getCommand()).toArray(String[]::new));
         final var lines = MessagesCollector.getMessages();
+        var count = 0;
 
         // probe testing (we do not construct the 3rd party again here).
         for (final var line: lines) {
             assertTrue(Pattern.matches("group id: .*, artifact id: .*, version: .*", line));
+            count += 1;
         }
+
+        assertTrue(count > 0, "there should be at least one dependency");
+    }
+
+    /**
+     * Checking for capabilities.
+     */
+    @Test
+    public void testCapabilities() {
+        MessagesCollector.clear();
+        Application.main(List.of(
+                ApplicationCommands.CAPABILITIES.getCommand()).toArray(String[]::new));
+        final var lines = MessagesCollector.getMessages();
+        assertTrue(lines.stream().anyMatch(line -> line.contains("Docker:")));
     }
 
     /**
