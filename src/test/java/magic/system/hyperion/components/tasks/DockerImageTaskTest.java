@@ -49,7 +49,8 @@ public class DockerImageTaskTest {
     @Test
     public void testEmbeddedCode() {
         final var strCode = "FROM centos:latest\n"
-                + "COPY target/test-classes/scripts/say-hello-world.sh .";
+                + "COPY target/test-classes/scripts/say-hello-world.sh .\n"
+                + "RUN chmod +x /say-hello-world.sh";
         final var dockerImageTask = new DockerImageTask("test", strCode);
         dockerImageTask.setRepositoryTag("image-test:latest");
         var result = dockerImageTask.run(getDefaultTaskParameters());
