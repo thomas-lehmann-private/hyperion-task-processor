@@ -6,9 +6,9 @@
 <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <meta content="Thomas Lehmann &lt;thomas.lehmann.private@gmail.com" name="author"/>
-<link href="https://thomas-lehmann-private.github.io/hyperion/matrix/" rel="canonical"/>
+<link href="https://thomas-lehmann-private.github.io/hyperion/docker-image/" rel="canonical"/>
 <link href="../img/favicon.ico" rel="shortcut icon"/>
-<title>Matrix - Hyperion</title>
+<title>Docker image task - Hyperion</title>
 <link href="../css/bootstrap.min.css" rel="stylesheet"/>
 <link href="../css/font-awesome.min.css" rel="stylesheet"/>
 <link href="../css/base.css" rel="stylesheet"/>
@@ -58,7 +58,7 @@
 <a class="dropdown-item" href="../shell/">Shell task</a>
 </li>
 <li>
-<a class="dropdown-item" href="../docker-image/">Docker image task</a>
+<a class="dropdown-item active" href="./">Docker image task</a>
 </li>
 <li>
 <a class="dropdown-item" href="../docker-container/">Docker container task</a>
@@ -67,7 +67,7 @@
 <a class="dropdown-item" href="../templating/">Templating</a>
 </li>
 <li>
-<a class="dropdown-item active" href="./">Matrix</a>
+<a class="dropdown-item" href="../matrix/">Matrix</a>
 </li>
 </ul>
 </li>
@@ -99,17 +99,17 @@
                             </a>
 </li>
 <li class="nav-item">
-<a class="nav-link" href="../templating/" rel="prev">
+<a class="nav-link" href="../shell/" rel="prev">
 <i class="fa fa-arrow-left"></i> Previous
                                 </a>
 </li>
 <li class="nav-item">
-<a class="nav-link" href="../requirements/" rel="next">
+<a class="nav-link" href="../docker-container/" rel="next">
                                     Next <i class="fa fa-arrow-right"></i>
 </a>
 </li>
 <li class="nav-item">
-<a class="nav-link" href="https://github.com/thomas-lehmann-private/hyperion/edit/master/docs/matrix.md"><i class="fa fa-github"></i> Edit on GitHub</a>
+<a class="nav-link" href="https://github.com/thomas-lehmann-private/hyperion/edit/master/docs/docker-image.md"><i class="fa fa-github"></i> Edit on GitHub</a>
 </li>
 </ul>
 </div>
@@ -125,17 +125,17 @@
 </div>
 <div class="navbar-collapse collapse card bg-secondary" id="toc-collapse">
 <ul class="nav flex-column">
-<li class="nav-item" data-level="1"><a class="nav-link" href="#matrix">Matrix</a>
+<li class="nav-item" data-level="1"><a class="nav-link" href="#docker-image-task">Docker image task</a>
 <ul class="nav flex-column">
-<li class="nav-item" data-level="2"><a class="nav-link" href="#example">Example</a>
-<ul class="nav flex-column">
-</ul>
-</li>
-<li class="nav-item" data-level="2"><a class="nav-link" href="#setup">Setup</a>
+<li class="nav-item" data-level="2"><a class="nav-link" href="#the-basic-coded-task-features">The basic coded task features</a>
 <ul class="nav flex-column">
 </ul>
 </li>
-<li class="nav-item" data-level="2"><a class="nav-link" href="#behaviour">Behaviour</a>
+<li class="nav-item" data-level="2"><a class="nav-link" href="#the-minimal-example">The minimal example</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+<li class="nav-item" data-level="2"><a class="nav-link" href="#external-documentation">External Documentation</a>
 <ul class="nav flex-column">
 </ul>
 </li>
@@ -145,42 +145,61 @@
 </div>
 </div></div>
 <div class="col-md-9" role="main">
-<h1 id="matrix">Matrix</h1>
-<h2 id="example">Example</h2>
-<pre><code class="yaml">---
-matrix:
-  - title: first run
-    parameters:
-      description: the first run
-      sayHelloWorldCount: 3
-  - title: second run
-    parameters:
-      description: the second run
-      sayHelloWorldCount: 2
-
-taskgroups:
-  - title: test group one
-    tasks:
-      - type: groovy
-        title: running a Groovy task
-        code: |
-          println 'Groovy:{{ matrix.description }}'
-          for (int ix = 1; ix &lt;= {{ matrix.sayHelloWorldCount }}; ++ix) {
-            println 'hello world ' + ix + '!'
-          }
-</code></pre>
-<h2 id="setup">Setup</h2>
+<h1 id="docker-image-task">Docker image task</h1>
+<p>This doesn't intend to explain Docker. Please refer to official Docker
+documentation for details on it. It's about the Docker container task.</p>
+<p>However a few things to mention here:</p>
 <ul>
-<li>A matrix starts with the element matrix placed on same level as taskgroups.</li>
-<li>A matrix is a list.</li>
-<li>Each matrix item has two fields: <strong>title</strong> and <strong>parameters</strong>.</li>
-<li>The value for <strong>parameters</strong> is a key/value map (keys and values are interpreted as strings).</li>
+<li>Docker is an external tool that must exist otherwise you cannot
+  use the task; even more the Hyperion tool will throw an error
+  when the Docker tool has not been found.</li>
+<li>The default is to run create Unix images. On Windows you are
+  able to switch to Windows platform so you could run Windows batch code inside
+  the Docker container that does prepare the image. Usually you can switch to either
+  use the one platform or the other platform but not both at same time. From documentation, it seems an
+  experimental feature that can be turned on allowing you to specify the
+  parameter <strong>--platform</strong> with the values <strong>windows</strong> or <strong>unix</strong> so you could
+  use both at same time. Since it is experimental and I cannot rely on yet that this
+  is turned on by default I don't generate that parameter; means you cannot
+  use both at same time for now.</li>
 </ul>
-<h2 id="behaviour">Behaviour</h2>
-<p><img alt="noname.svg" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+Cgo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8IS0tIEdlbmVyYXRlZCBieSBncmFwaHZpeiB2ZXJzaW9uIDIuNDcuMiAoMjAyMTA1MjcuMDA1MykNCiAtLT4NCjwhLS0gVGl0bGU6IE1hdHJpeCBQYWdlczogMSAtLT4NCjxzdmcgd2lkdGg9IjI0NHB0IiBoZWlnaHQ9IjQ2cHQiDSB2aWV3Qm94PSIwLjAwIDAuMDAgMjQ0LjAwIDQ2LjAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4NCjxnIGlkPSJncmFwaDAiIGNsYXNzPSJncmFwaCIgdHJhbnNmb3JtPSJzY2FsZSgxIDEpIHJvdGF0ZSgwKSB0cmFuc2xhdGUoNCA0MikiPg0KPHRpdGxlPk1hdHJpeDwvdGl0bGU+DQo8cG9seWdvbiBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSJ0cmFuc3BhcmVudCIgcG9pbnRzPSItNCw0IC00LC00MiAyNDAsLTQyIDI0MCw0IC00LDQiLz4NCjwhLS0gTWF0cml4IC0tPg0KPGcgaWQ9Im5vZGUxIiBjbGFzcz0ibm9kZSI+DQo8dGl0bGU+TWF0cml4PC90aXRsZT4NCjxwb2x5Z29uIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iNTQsLTM3IDAsLTM3IDAsLTEgNTQsLTEgNTQsLTM3Ii8+DQo8dGV4dCB0ZXh0LWFuY2hvcj0ic3RhcnQiIHg9IjkuNSIgeT0iLTE1LjMiIGZvbnQtZmFtaWx5PSJUaW1lcyBOZXcgUm9tYW4sc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPm1hdHJpeDwvdGV4dD4NCjwvZz4NCjwhLS0gVGFza2dyb3VwcyAtLT4NCjxnIGlkPSJub2RlMiIgY2xhc3M9Im5vZGUiPg0KPHRpdGxlPlRhc2tncm91cHM8L3RpdGxlPg0KPHBvbHlnb24gZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIyMzYsLTM4IDE1NCwtMzggMTU0LDAgMjM2LDAgMjM2LC0zOCIvPg0KPHRleHQgdGV4dC1hbmNob3I9InN0YXJ0IiB4PSIxNzkiIHk9Ii0yMi44IiBmb250LWZhbWlseT0iVGltZXMgTmV3IFJvbWFuLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5saXN0IG9mPC90ZXh0Pg0KPHRleHQgdGV4dC1hbmNob3I9InN0YXJ0IiB4PSIxNjIiIHk9Ii03LjgiIGZvbnQtZmFtaWx5PSJUaW1lcyBOZXcgUm9tYW4sc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPnRhc2sgZ3JvdXBzPC90ZXh0Pg0KPC9nPg0KPCEtLSBNYXRyaXgmIzQ1OyZndDtUYXNrZ3JvdXBzIC0tPg0KPGcgaWQ9ImVkZ2UxIiBjbGFzcz0iZWRnZSI+DQo8dGl0bGU+TWF0cml4JiM0NTsmZ3Q7VGFza2dyb3VwczwvdGl0bGU+DQo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNNTQuMywtMTlDNzguMjYsLTE5IDExNC4zLC0xOSAxNDMuNzcsLTE5Ii8+DQo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIxNDMuODksLTIyLjUgMTUzLjg5LC0xOSAxNDMuODksLTE1LjUgMTQzLjg5LC0yMi41Ii8+DQo8dGV4dCB0ZXh0LWFuY2hvcj0ic3RhcnQiIHg9IjkxLjUiIHk9Ii0yMiIgZm9udC1mYW1pbHk9IlRpbWVzIE5ldyBSb21hbixzZXJpZiIgZm9udC1zaXplPSIxMC4wMCI+cmVwZWF0PC90ZXh0Pg0KPC9nPg0KPCEtLSBUYXNrZ3JvdXBzJiM0NTsmZ3Q7TWF0cml4IC0tPg0KPGcgaWQ9ImVkZ2UyIiBjbGFzcz0iZWRnZSI+DQo8dGl0bGU+VGFza2dyb3VwcyYjNDU7Jmd0O01hdHJpeDwvdGl0bGU+DQo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNMTUzLjY5LC03LjE5QzE0Ny44LC01Ljg3IDE0MS43OCwtNC43NCAxMzYsLTQgMTA3Ljc4LC0wLjQxIDEwMC4wNiwwLjY1IDcyLC00IDY5LjMzLC00LjQ0IDY2LjYxLC01LjAzIDYzLjg4LC01LjcxIi8+DQo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSI2Mi44LC0yLjM4IDU0LjE2LC04LjUyIDY0Ljc0LC05LjEgNjIuOCwtMi4zOCIvPg0KPHRleHQgdGV4dC1hbmNob3I9InN0YXJ0IiB4PSI3MiIgeT0iLTciIGZvbnQtZmFtaWx5PSJUaW1lcyBOZXcgUm9tYW4sc2VyaWYiIGZvbnQtc2l6ZT0iMTAuMDAiPnJlYWQgcGFyYW1ldGVyczwvdGV4dD4NCjwvZz4NCjwvZz4NCjwvc3ZnPg0K"/></p>
+<h2 id="the-basic-coded-task-features">The basic coded task features</h2>
+<p>Following features are basic task features:</p>
 <ul>
-<li>For each matrix item all existing task groups are running again.</li>
-<li>All variables stored in a previous run (per task group) are dropped.</li>
+<li>variable</li>
+<li>templating (model, matrix variables, task group variables)</li>
+<li>tagging</li>
+</ul>
+<p>Those features are documented in <a href="../basic-coded-task-features/">basic coded task features</a>,</p>
+<h2 id="the-minimal-example">The minimal example</h2>
+<p>It doesn't differ much from other task. Following details:</p>
+<ul>
+<li>The attribute <strong>repository-tag</strong> defines the <strong>repository</strong> and <strong>tag</strong> of
+   the image when the build of the image has been successful.</li>
+<li>The following code also can be found in the <strong>example</strong> folder.
+   The batch <strong>hello-world-docker-image-for-unix.cmd</strong> demonstrates what the
+   Hyperion tool is basically doing.</li>
+<li>The <strong>code</strong> also can reference a path and filename of an existing Dockerfile.</li>
+</ul>
+<pre><code class="yaml">---
+taskgroups:
+  - title: test
+    parallel: false
+    tasks:
+      - type: docker-image
+        repository-tag: hello-world:latest
+        code: |
+          FROM centos:latest
+          COPY hello-world.sh .
+      - type: docker-container
+        title: a simple example
+        code: /hello-world.sh
+        image-name: hello-world
+</code></pre>
+<h2 id="external-documentation">External Documentation</h2>
+<ul>
+<li><a href="https://docs.docker.com/engine/reference/builder/">https://docs.docker.com/engine/reference/builder/</a></li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/tag/">https://docs.docker.com/engine/reference/commandline/tag/</a></li>
 </ul></div>
 </div>
 </div>
