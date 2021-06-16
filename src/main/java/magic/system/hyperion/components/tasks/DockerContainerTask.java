@@ -161,6 +161,11 @@ public class DockerContainerTask extends AbstractShellTask {
         return List.of(FILE_EXTENSIONS.get(this.strPlatform));
     }
 
+    @Override
+    protected boolean isTempFileRelativePath() {
+        return false;
+    }
+
     @SuppressWarnings("checkstyle:multiplestringliterals")
     @Override
     protected Process runFile(final Path path) throws IOException, HyperionException {

@@ -1,0 +1,2 @@
+FROM centos:latest
+COPY target/test-classes/scripts/say-hello-world.sh .

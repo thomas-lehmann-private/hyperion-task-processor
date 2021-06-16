@@ -26,7 +26,6 @@ package magic.system.hyperion.reader;
 import magic.system.hyperion.components.DocumentParameters;
 import magic.system.hyperion.generics.ListCollector;
 import magic.system.hyperion.interfaces.IVariable;
-import magic.system.hyperion.tools.Capabilities;
 import magic.system.hyperion.tools.MessagesCollector;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
@@ -44,7 +43,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 /**
  * Testing class {@link DocumentReader}.
@@ -179,27 +177,6 @@ public class DocumentReaderTest {
                 collector.get(2).getValue());
         assertEquals("JShell:the second run|hello world 1!".replaceAll("\\|", strLineBreak),
                 collector.get(3).getValue());
-    }
-
-    @Test
-    public void testDockerContainerTask() throws URISyntaxException {
-        assumeTrue(Capabilities.hasDocker());
-
-        final var path = Paths.get(getClass().getResource(
-                "/documents/document-with-docker-container.yml").toURI());
-        final var reader = new DocumentReader(path);
-        final var document = reader.read();
-        assertNotNull(document, "Document shouldn't be null");
-        assertEquals(1, document.getListOfTaskGroups().size());
-        assertEquals(3, document.getListOfTaskGroups().get(0).getListOfTasks().size());
-        final var tags = document.getListOfTaskGroups().get(0).getListOfTasks().get(2).getTags();
-        assertEquals("tag support", tags.get(0));
-        assertEquals("third example", tags.get(1));
-
-        MessagesCollector.clear();
-        document.run(getDefaultDocumentParameters());
-        assertTrue(MessagesCollector.getMessages().contains("set variable default=hello world!"));
-        assertTrue(MessagesCollector.getMessages().contains("set variable test2=this is a demo"));
     }
 
     @Test

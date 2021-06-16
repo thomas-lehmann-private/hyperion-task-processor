@@ -103,9 +103,14 @@ public enum DocumentReaderFields {
     IMAGE_VERSION("image-version"),
 
     /**
-     * The the platform used for containers by Docker (is Windows or Unix).
+     * The platform used for containers by Docker (is Windows or Unix).
      */
-    PLATFORM("platform");
+    PLATFORM("platform"),
+
+    /**
+     * The repository:tag for the image (option -t of docker build).
+     */
+    REPOSITORY_TAG("repository-tag");
 
     /**
      * Name of the field.

@@ -84,6 +84,16 @@ public class TaskReader implements INodeReader {
                 break;
             }
 
+            case DOCKER_IMAGE: {
+                new DockerImageTaskReader(taskGroup, (strTitle, strCode) -> {
+                    final var task = tasksFactory.create(type.getTypeName());
+                    task.setTitle(strTitle);
+                    task.setCode(strCode);
+                    return task;
+                }).read(node);
+                break;
+            }
+
             default: {
                 new CodedTaskReader(taskGroup, (strTitle, strCode) -> {
                     final var task = tasksFactory.create(type.getTypeName());

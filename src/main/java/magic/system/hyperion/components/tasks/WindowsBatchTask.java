@@ -53,6 +53,11 @@ public class WindowsBatchTask extends AbstractShellTask {
         return List.of(".cmd", ".bat");
     }
 
+    @Override
+    protected boolean isTempFileRelativePath() {
+        return false;
+    }
+
     /**
      * Running Batch and providing process.
      *

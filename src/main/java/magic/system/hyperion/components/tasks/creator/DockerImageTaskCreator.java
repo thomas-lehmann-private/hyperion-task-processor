@@ -21,46 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package magic.system.hyperion.components.tasks;
+package magic.system.hyperion.components.tasks.creator;
 
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.List;
+import magic.system.hyperion.annotations.Named;
+import magic.system.hyperion.components.tasks.AbstractTask;
+import magic.system.hyperion.components.tasks.DockerImageTask;
 
 /**
- * Providing Unix shell task.
+ * Creator for instance of class {@link DockerImageTask}.
  *
  * @author Thomas Lehmann
  */
-public class UnixShellTask extends AbstractShellTask {
-    /**
-     * Initialize task.
-     *
-     * @param strInitTitle - title of the task.
-     * @param strInitCode  - Path and name of file of script or inline script.
-     */
-    public UnixShellTask(String strInitTitle, String strInitCode) {
-        super(strInitTitle, strInitCode);
-    }
-
+@Named("docker-image")
+public class DockerImageTaskCreator implements ITaskCreator {
     @Override
-    protected String getTempFilePrefix() {
-        return "hyperion-unix-shell-task-";
-    }
-
-    @Override
-    protected List<String> getFileExtensions() {
-        return List.of("sh");
-    }
-
-    @Override
-    protected boolean isTempFileRelativePath() {
-        return false;
-    }
-
-    @Override
-    protected Process runFile(final Path path) throws IOException {
-        return new ProcessBuilder(List.of("/bin/sh", path.toString())
-                .toArray(String[]::new)).start();
+    public AbstractTask create() {
+        return new DockerImageTask("", "");
     }
 }

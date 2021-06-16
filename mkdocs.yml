@@ -8,8 +8,12 @@ nav:
     - User Guide:
        - hyperion.md
        - taskgroup.md
+       - basic-coded-task-features.md
        - groovy.md
+       - powershell.md
+       - windows-batch.md
        - shell.md
+       - docker-image.md
        - docker-container.md
        - templating.md
        - matrix.md

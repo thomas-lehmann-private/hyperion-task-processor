@@ -25,26 +25,26 @@ package magic.system.hyperion.reader;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import magic.system.hyperion.components.TaskGroup;
-import magic.system.hyperion.components.tasks.DockerContainerTask;
+import magic.system.hyperion.components.tasks.DockerImageTask;
 import magic.system.hyperion.exceptions.HyperionException;
 import magic.system.hyperion.generics.Converters;
 import magic.system.hyperion.interfaces.ICodeTaskCreator;
 import magic.system.hyperion.tools.Capabilities;
 
 /**
- * Reading a docker container task in a document.
+ * Reading a docker image task in a document.
  *
  * @author Thomas Lehmann
  */
-public class DockerContainerTaskReader extends DockerTaskReader implements INodeReader {
+public class DockerImageTaskReader extends DockerTaskReader implements INodeReader {
     /**
-     * Initialize with task group where to add the coded task.
+     * Initialize with task group where to add the docker image task.
      *
      * @param initTaskGroup   keeper of the list of tasks.
-     * @param initTaskCreator the function that provides the creator for a task.
+     * @param initTaskCreator the function that provides the creator for the docker image task.
      */
-    public DockerContainerTaskReader(final TaskGroup initTaskGroup,
-                                     final ICodeTaskCreator initTaskCreator) {
+    public DockerImageTaskReader(final TaskGroup initTaskGroup,
+                                 final ICodeTaskCreator initTaskCreator) {
         super(initTaskGroup, initTaskCreator);
     }
 
@@ -55,32 +55,21 @@ public class DockerContainerTaskReader extends DockerTaskReader implements INode
         }
 
         final var matcher = getMatcher(node);
-        matcher.requireExactlyOnce(DocumentReaderFields.IMAGE_NAME.getFieldName());
-        matcher.allow(DocumentReaderFields.IMAGE_VERSION.getFieldName());
-        matcher.allow(DocumentReaderFields.PLATFORM.getFieldName());
+        matcher.requireExactlyOnce(DocumentReaderFields.REPOSITORY_TAG.getFieldName());
 
         final var names = Converters.convertToSortedList(node.fieldNames());
         if (!matcher.matches(names)) {
-            throw new HyperionException("The Docker container task fields are not correct!");
+            throw new HyperionException("The Docker image task fields are not correct!");
         }
 
         final var strTitle = node.has(DocumentReaderFields.TITLE.getFieldName())
                 ? node.get(DocumentReaderFields.TITLE.getFieldName()).asText() : "";
 
-        final var task = (DockerContainerTask) taskCreator.createTask(strTitle,
+        final var task = (DockerImageTask) taskCreator.createTask(strTitle,
                 node.get(DocumentReaderFields.CODE.getFieldName()).asText());
 
-        task.setImageName(node.get(DocumentReaderFields.IMAGE_NAME.getFieldName()).asText());
-
-        if (node.has(DocumentReaderFields.IMAGE_VERSION.getFieldName())) {
-            task.setImageVersion(
-                    node.get(DocumentReaderFields.IMAGE_VERSION.getFieldName()).asText());
-        }
-
-        if (node.has(DocumentReaderFields.PLATFORM.getFieldName())) {
-            task.setPlatform(
-                    node.get(DocumentReaderFields.PLATFORM.getFieldName()).asText());
-        }
+        task.setRepositoryTag(node.get(
+                DocumentReaderFields.REPOSITORY_TAG.getFieldName()).asText());
 
         if (node.has(DocumentReaderFields.VARIABLE.getFieldName())) {
             new VariableReader(task.getVariable())
