@@ -11,6 +11,7 @@ taskgroups:
         code: |
           FROM centos:latest
           COPY target/test-classes/scripts/say-hello-world.sh .
+          RUN chmod +x /say-hello-world.sh
 
       - type: docker-container
         title: a simple example
