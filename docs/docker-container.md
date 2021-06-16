@@ -10,7 +10,7 @@ However a few things to mention here:
    when the Docker tool has not been found.
  - The default is to run Docker container with Unix images. On Windows you are
    able to switch to Windows container so you could run Windows batch code inside
-   the Docker container. Usually you can switch to either use the one paltform or
+   the Docker container. Usually you can switch to either use the one platform or
    the other platform but not both at same time. From documentation, it seems an
    experimental feature that can be turned on allowing you to specify the
    parameter **--platform** with the values **windows** or **unix** so you could

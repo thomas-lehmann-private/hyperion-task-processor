@@ -1,19 +1,22 @@
-# Provide Powershell task
+# Providing a Docker image task
 
 ### Document meta data
  - **Type**: Requirement
- - **Id**: 2
+ - **Id**: 4
  - **Context**: task feature
 
 ### Description
 
-As a **devops engineer** you should be able to write a Powershell script as task.
-The Powershell code can be embedded in the document or referencing
-a valid path and filename. The standard parameters are those of a coded task.
+As a **devop engineer** you should be able to create a docker image by a task.
+The **Dockerfile** code can be embedded in the document or referencing
+a valid path and filename. The standard parameters are those of a coded task
+with additional following parameters:
+
+ - **repository-tag** - for details please read the external documentation (see links). 
    
 ### Contraints
 
-The task is supposed to run on Windows systems only (the moment).
+No constraints.
 
 ### Criticality and Risk
 
@@ -25,3 +28,13 @@ The task is supposed to run on Windows systems only (the moment).
     There is a risk that the user will be blocked in his work if the tool does not work
     properly, but there is no guarantee due to the license. Nevertheless, the author is
     extremely interested in correcting all reported errors in the near future.
+
+### Dependencies
+
+ - [Provide coded tasks](req-provide%20coded%20tasks.md)
+
+
+### External Documentation
+
+ - https://docs.docker.com/engine/reference/builder/
+ - https://docs.docker.com/engine/reference/commandline/tag/

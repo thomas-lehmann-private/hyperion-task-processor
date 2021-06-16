@@ -37,3 +37,9 @@ Please also provide concrete examples that I'm able to reproduce the problem.
 The current documentation will be [here](https://thomas-lehmann-private.github.io/hyperion/).
 Have a look at the top menu under menu entry **Index**. As mentioned the tool is not yet
 production ready - so please be patient - there will be detailed documentation **and** examples.
+
+## The name
+
+"*In Greek mythology, Hyperion was one of the twelve Titan children of Gaia (Earth)*" <br/>
+(see https://en.wikipedia.org/wiki/Hyperion_(Titan)). <br/>
+A nice name and I like mythology - just a little bit; that's all.

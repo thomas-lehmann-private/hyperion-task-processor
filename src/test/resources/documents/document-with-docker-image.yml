@@ -1,0 +1,19 @@
+---
+taskgroups:
+  - title: test
+    parallel: false
+    tasks:
+      # Tagging is not tested since it doesn't make sense here.
+      # Anyway tagging is not a feature of the concrete task but of the base class and
+      # it's tested by many other concrete tasks examples.
+      - type: docker-image
+        repository-tag: image-test:latest
+        code: |
+          FROM centos:latest
+          COPY target/test-classes/scripts/say-hello-world.sh .
+          RUN chmod +x /say-hello-world.sh
+
+      - type: docker-container
+        title: a simple example
+        code: /say-hello-world.sh
+        image-name: image-test

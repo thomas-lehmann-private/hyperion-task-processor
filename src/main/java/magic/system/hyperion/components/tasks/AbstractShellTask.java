@@ -63,8 +63,8 @@ public abstract class AbstractShellTask extends AbstractTask {
     @Override
     public boolean isRegularFile() {
         final String[] tokens = getCode().split("\\.");
-        return super.isRegularFile() && tokens.length > 0
-                && getFileExtensions().contains(tokens[tokens.length - 1]);
+        return super.isRegularFile() && (getFileExtensions().isEmpty()
+                || tokens.length > 0 && getFileExtensions().contains(tokens[tokens.length - 1]));
     }
 
     @Override
@@ -82,9 +82,7 @@ public abstract class AbstractShellTask extends AbstractTask {
                 taskResult = new TaskResult(processResults.getExitCode() == 0,
                         getVariable());
             } else {
-                final var temporaryScriptPath = FileUtils.createTemporaryFile(
-                        getTempFilePrefix(), getFileExtensions().get(0));
-
+                final var temporaryScriptPath = createTemporaryFile();
                 cleanup = () -> FileUtils.deletePath(temporaryScriptPath);
 
                 final var engine = new TemplateEngine();
@@ -112,6 +110,38 @@ public abstract class AbstractShellTask extends AbstractTask {
     }
 
     /**
+     * Providing temporary file.
+     *
+     * @return temporary script path.
+     * @throws IOException when creation of temporary file has failed.
+     * @throws HyperionException when filename is null (should never happen)
+     */
+    private Path createTemporaryFile() throws IOException, HyperionException {
+        final var strPostFix
+                = getFileExtensions().isEmpty() ? "" : getFileExtensions().get(0);
+        final var temporaryScriptPath = FileUtils.createTemporaryFile(
+                getTempFilePrefix(), strPostFix);
+
+        var finalTemporaryScriptPath = temporaryScriptPath;
+
+        if (isTempFileRelativePath()) {
+            final var path =  temporaryScriptPath.getFileName();
+            if (path == null) {
+                throw new HyperionException(
+                        "Failed to get file name for " + temporaryScriptPath.toString());
+            }
+
+            final var currentPath = Paths.get(System.getProperty("user.dir"));
+            final var temporaryRelativeScriptPath = Paths.get(
+                    currentPath.toString(), path.toString());
+            Files.move(temporaryScriptPath, temporaryRelativeScriptPath);
+            finalTemporaryScriptPath = temporaryRelativeScriptPath;
+        }
+
+        return finalTemporaryScriptPath;
+    }
+
+    /**
      * Provide prefix for tempfile for shell script.
      *
      * @return Provide prefix for tempfile for shell script.
@@ -124,6 +154,13 @@ public abstract class AbstractShellTask extends AbstractTask {
      * @return list of valid file extensions.
      */
     protected abstract List<String> getFileExtensions();
+
+    /**
+     * Provide whether path of temporary file is relative to current path.
+     *
+     * @return when true then path of temporary file is relative to current path.
+     */
+    protected abstract boolean isTempFileRelativePath();
 
     /**
      * Does execute the concrete shell script.

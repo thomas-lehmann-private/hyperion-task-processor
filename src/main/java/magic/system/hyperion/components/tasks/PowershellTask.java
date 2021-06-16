@@ -61,6 +61,11 @@ public class PowershellTask extends AbstractShellTask {
     }
 
     @Override
+    protected boolean isTempFileRelativePath() {
+        return false;
+    }
+
+    @Override
     protected Process runFile(Path path) throws IOException {
         return new ProcessBuilder(List.of("powershell", "-File",
                 path.toString()).toArray(String[]::new)).start();
