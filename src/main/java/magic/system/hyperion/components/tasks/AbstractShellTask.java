@@ -37,7 +37,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Base class for shell classes.
@@ -86,10 +85,8 @@ public abstract class AbstractShellTask extends AbstractTask {
                 cleanup = () -> FileUtils.deletePath(temporaryScriptPath);
 
                 final var engine = new TemplateEngine();
-                final var renderedText = engine.render(getCode(),
-                        Map.of("model", parameters.getModel().getData(),
-                                "matrix", parameters.getMatrixParameters(),
-                                "variables", parameters.getVariables()));
+                final var renderedText = engine.render(
+                        getCode(), parameters.getTemplatingContext());
 
                 Files.write(temporaryScriptPath, renderedText.getBytes(
                         Charset.defaultCharset()));

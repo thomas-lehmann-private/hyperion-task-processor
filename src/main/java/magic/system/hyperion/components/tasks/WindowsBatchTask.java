@@ -70,4 +70,9 @@ public class WindowsBatchTask extends AbstractShellTask {
         return new ProcessBuilder(List.of("cmd", "/q", "/c",
                 path.toString()).toArray(String[]::new)).start();
     }
+
+    @Override
+    public AbstractTask copy() {
+        return new WindowsBatchTask(getTitle(), getCode());
+    }
 }

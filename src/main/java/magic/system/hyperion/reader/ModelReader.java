@@ -26,10 +26,7 @@ package magic.system.hyperion.reader;
 import com.fasterxml.jackson.databind.JsonNode;
 import magic.system.hyperion.components.Model;
 import magic.system.hyperion.data.AttributeMap;
-import magic.system.hyperion.data.ListOfValues;
 import magic.system.hyperion.exceptions.HyperionException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Reader for the model part of the document.
@@ -37,11 +34,6 @@ import org.slf4j.LoggerFactory;
  * @author Thomas Lehmann
  */
 public class ModelReader implements INodeReader {
-    /**
-     * Logger for this class.
-     */
-    private static  final Logger LOGGER = LoggerFactory.getLogger(ModelReader.class);
-
     /**
      * Model to fill.
      */
@@ -59,78 +51,8 @@ public class ModelReader implements INodeReader {
 
     @Override
     public void read(JsonNode node) throws HyperionException {
-        this.model.getData().addAll(readAttributeMap(node));
-    }
-
-    /**
-     * Reading attributes.
-     *
-     * @param node where to find the attributes.
-     * @return attributes.
-     */
-    private AttributeMap readAttributeMap(final JsonNode node) {
-        final AttributeMap newAttributeMap = new AttributeMap();
-        final var iter = node.fields();
-
-        while (iter.hasNext()) {
-            final var currentField = iter.next();
-            switch (currentField.getValue().getNodeType()) {
-                case STRING:
-                case NUMBER:
-                case BOOLEAN: {
-                    newAttributeMap.set(currentField.getKey(), currentField.getValue().asText());
-                    break;
-                }
-                case OBJECT: {
-                    newAttributeMap.set(currentField.getKey(),
-                            readAttributeMap(currentField.getValue()));
-                    break;
-                }
-                case ARRAY: {
-                    newAttributeMap.set(currentField.getKey(),
-                            readListOfValues(currentField.getValue()));
-                    break;
-                }
-                default: {
-                    LOGGER.warn(DocumentReaderMessage.NODE_TYPE_NOT_SUPPORTED.getMessage(),
-                            currentField.getValue().getNodeType());
-                }
-            }
-        }
-
-        return newAttributeMap;
-    }
-
-    /**
-     * Reading a list.
-     *
-     * @param node the node where to read the list.
-     * @return list of values.
-     */
-    private ListOfValues readListOfValues(final JsonNode node) {
-        final var newList = new ListOfValues();
-        final var iter = node.elements();
-
-        while (iter.hasNext()) {
-            final var currentElement = iter.next();
-            switch (currentElement.getNodeType()) {
-                case STRING:
-                case NUMBER:
-                case BOOLEAN: {
-                    newList.add(currentElement.asText());
-                    break;
-                }
-                case OBJECT: {
-                    newList.add(readAttributeMap(currentElement));
-                    break;
-                }
-                default: {
-                    LOGGER.warn(DocumentReaderMessage.NODE_TYPE_NOT_SUPPORTED.getMessage(),
-                            currentElement.getNodeType());
-                }
-            }
-        }
-
-        return newList;
+        final var newAttributeMap = new AttributeMap();
+        new AttributeMapReader(newAttributeMap).read(node);
+        this.model.getData().addAll(newAttributeMap);
     }
 }

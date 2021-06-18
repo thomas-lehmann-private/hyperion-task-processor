@@ -23,12 +23,15 @@
  */
 package magic.system.hyperion.components.tasks;
 
+import magic.system.hyperion.components.Model;
 import magic.system.hyperion.components.TaskParameters;
 import magic.system.hyperion.tools.Capabilities;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -53,7 +56,7 @@ public class DockerContainerTaskTest {
 
         final var task = new DockerContainerTask("test", "echo \"hello world!\"");
         task.setImageName("debian");
-        final var result = task.run(new TaskParameters());
+        final var result = task.run(TaskParameters.of(Model.of(), Map.of(), Map.of(), null));
 
         assertEquals("test", task.getTitle());
         assertEquals("debian", task.getImageName());
@@ -67,5 +70,15 @@ public class DockerContainerTaskTest {
         assertEquals(DockerContainerTask.PLATFORM_WINDOWS, task.getPlatform());
         task.setImageVersion("10");
         assertEquals("10", task.getImageVersion());
+    }
+
+    /**
+     * Testing copying of task.
+     */
+    @Test
+    public void testCopy() {
+        final var task = new DockerContainerTask("test", "echo \"hello world!\"");
+        task.setImageName("debian");
+        assertEquals(task, task.copy());
     }
 }

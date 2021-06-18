@@ -52,7 +52,7 @@ public class JShellTaskTest {
     public void testSimple() {
         //CHECKSTYLE.OFF: MultipleStringLiterals - ok here
         final var task = new JShellTask("test", "System.out.println(\"hello world\")");
-        final var result = task.run(new TaskParameters());
+        final var result = task.run(TaskTestsTools.getDefaultTaskParameters());
         assertTrue(result.isSuccess());
         assertEquals("hello world", result.getVariable().getValue());
         //CHECKSTYLE.ON: MultipleStringLiterals
@@ -65,7 +65,7 @@ public class JShellTaskTest {
     public void testFailure() {
         //CHECKSTYLE.OFF: MultipleStringLiterals - ok here
         final var task = new JShellTask("test", "System.out.println(");
-        final var result = task.run(new TaskParameters());
+        final var result = task.run(TaskTestsTools.getDefaultTaskParameters());
         assertFalse(result.isSuccess());
         //CHECKSTYLE.ON: MultipleStringLiterals
     }
@@ -82,7 +82,8 @@ public class JShellTaskTest {
         final var task = new JShellTask(
                 "test", "System.out.println(\"{{ variables.text.value }}\")");
 
-        final var parameters = new TaskParameters(new Model(), Map.of(), Map.of("text", variable));
+        final var parameters = TaskParameters.of(
+                new Model(), Map.of(), Map.of("text", variable), null);
         final var result = task.run(parameters);
 
         assertTrue(result.isSuccess());

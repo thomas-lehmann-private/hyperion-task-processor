@@ -47,8 +47,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author Thomas Lehmann
  */
 @DisplayName("Testing UnixShellTask class")
-@EnabledOnOs({OS.LINUX, OS.MAC})
 @TestMethodOrder(value = MethodOrderer.Random.class)
+@SuppressWarnings("checkstyle:multiplestringliterals")
 public class UnixShellTaskTest {
     /**
      * Test task title.
@@ -69,11 +69,12 @@ public class UnixShellTaskTest {
      * Testing Batch code inline in YAML.
      */
     @Test
+    @EnabledOnOs({OS.LINUX, OS.MAC})
     public void testHelloWorldInline() {
         final var task = new UnixShellTask(PRINT_HELLO_WORLD_TITLE,
                 "echo " + HELLO_WORD_TEXT);
         assertEquals(PRINT_HELLO_WORLD_TITLE, task.getTitle());
-        final var result = task.run(new TaskParameters());
+        final var result = task.run(TaskTestsTools.getDefaultTaskParameters());
 
         assertEquals(HELLO_WORD_TEXT, result.getVariable().getValue());
         assertTrue(task.getTags().isEmpty());
@@ -88,10 +89,11 @@ public class UnixShellTaskTest {
      * @throws URISyntaxException when URL is bad
      */
     @Test
+    @EnabledOnOs({OS.LINUX, OS.MAC})
     public void testHelloWorldFile() throws URISyntaxException {
         final var scriptPath = FileUtils.getResourcePath("/scripts/say-hello-world.sh");
         final var task = new UnixShellTask(PRINT_HELLO_WORLD_TITLE, scriptPath.toString());
-        final var result = task.run(new TaskParameters());
+        final var result = task.run(TaskTestsTools.getDefaultTaskParameters());
 
         assertEquals(HELLO_WORD_TEXT, result.getVariable().getValue());
         assertTrue(result.isSuccess());
@@ -104,10 +106,11 @@ public class UnixShellTaskTest {
      * @throws URISyntaxException when the syntax of the URI is wrong.
      */
     @Test
+    @EnabledOnOs({OS.LINUX, OS.MAC})
     public void testScriptWithStderr() throws URISyntaxException {
         final var scriptPath = FileUtils.getResourcePath("/scripts/say-error.sh");
         final var task = new UnixShellTask("print error", scriptPath.toString());
-        final var result = task.run(new TaskParameters());
+        final var result = task.run(TaskTestsTools.getDefaultTaskParameters());
 
         assertTrue(result.getVariable().getValue().isEmpty());
         assertTrue(result.isSuccess());
@@ -118,10 +121,11 @@ public class UnixShellTaskTest {
      * {@link UnixShellTask#run(TaskParameters)} with an exit code not 0.
      */
     @Test
+    @EnabledOnOs({OS.LINUX, OS.MAC})
     public void testExitCode() {
         final var task = new UnixShellTask("testing exit code",
                 "exit " + PROCESS_EXIT_CODE+ ";");
-        final var result = task.run(new TaskParameters());
+        final var result = task.run(TaskTestsTools.getDefaultTaskParameters());
         assertFalse(result.isSuccess());
         // FIXME: somehow to provide the concrete exit code (Attribute?)
     }
@@ -132,6 +136,7 @@ public class UnixShellTaskTest {
      * rendering variables.
      */
     @Test
+    @EnabledOnOs({OS.LINUX, OS.MAC})
     public void testHelloWorldInlineWithVariables() {
         final var variable = new Variable();
         variable.setValue(HELLO_WORD_TEXT);
@@ -140,10 +145,22 @@ public class UnixShellTaskTest {
                 "echo \"{{ variables.text.value }}\";");
         assertEquals(PRINT_HELLO_WORLD_TITLE, task.getTitle());
 
-        final var parameters = new TaskParameters(new Model(), Map.of(), Map.of("text", variable));
+        final var parameters = TaskParameters.of(
+                new Model(), Map.of(), Map.of("text", variable), null);
         final var result = task.run(parameters);
 
         assertEquals(HELLO_WORD_TEXT, result.getVariable().getValue());
         assertTrue(result.isSuccess());
+    }
+
+    /**
+     * Testing copying of task.
+     */
+    @Test
+    public void testCopy() {
+        final var task = new UnixShellTask(PRINT_HELLO_WORLD_TITLE,
+                "echo \"{{ variables.text.value }}\";");
+
+        assertEquals(task, task.copy());
     }
 }

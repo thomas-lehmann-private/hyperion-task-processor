@@ -69,9 +69,20 @@ public class DockerImageTask extends AbstractShellTask {
      * Change repository:tag.
      *
      * @param strInitRepositoryTag new value for repository:tag.
+     * @since 1.0.0
      */
     public void setRepositoryTag(final String strInitRepositoryTag) {
         this.strRepositoryTag = strInitRepositoryTag;
+    }
+
+    /**
+     * Get repository and tag.
+     *
+     * @return repository and tag.
+     * @since 1.0.0
+     */
+    public String getRepositoryTag() {
+        return this.strRepositoryTag;
     }
 
     @Override
@@ -104,5 +115,12 @@ public class DockerImageTask extends AbstractShellTask {
         final var finalCommand = Capabilities.createCommand(strCommand);
         LOGGER.info("Running command: {}", String.join(DELIMITER, finalCommand));
         return new ProcessBuilder(finalCommand).start();
+    }
+
+    @Override
+    public AbstractTask copy() {
+        final var task = new DockerImageTask(getTitle(), getCode());
+        task.setRepositoryTag(getRepositoryTag());
+        return task;
     }
 }

@@ -34,7 +34,6 @@ import org.slf4j.LoggerFactory;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.nio.charset.Charset;
-import java.util.Map;
 
 /**
  * Provide JShell task. The JShell task is not considered for file usage.
@@ -60,10 +59,8 @@ public class JShellTask extends AbstractTask {
         TaskResult taskResult = null;
 
         final var engine = new TemplateEngine();
-        final var renderedText = engine.render(getCode(),
-                Map.of("model", parameters.getModel().getData(),
-                        "matrix", parameters.getMatrixParameters(),
-                        "variables", parameters.getVariables()));
+        final var renderedText = engine.render(
+                getCode(), parameters.getTemplatingContext());
 
         try {
             final var stream1 = new ByteArrayOutputStream();
@@ -92,5 +89,10 @@ public class JShellTask extends AbstractTask {
 
         return taskResult;
 
+    }
+
+    @Override
+    public AbstractTask copy() {
+        return new JShellTask(getTitle(), getCode());
     }
 }

@@ -23,14 +23,11 @@
  */
 package magic.system.hyperion.components.tasks;
 
-import magic.system.hyperion.components.Model;
-import magic.system.hyperion.components.TaskParameters;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.net.URISyntaxException;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -53,12 +50,12 @@ public class DockerImageTaskTest {
                 + "RUN chmod +x /say-hello-world.sh";
         final var dockerImageTask = new DockerImageTask("test", strCode);
         dockerImageTask.setRepositoryTag("image-test:latest");
-        var result = dockerImageTask.run(getDefaultTaskParameters());
+        var result = dockerImageTask.run(TaskTestsTools.getDefaultTaskParameters());
         assertTrue(result.isSuccess());
 
         final var dockerContainerTask = new DockerContainerTask("test", "/say-hello-world.sh");
         dockerContainerTask.setImageName("image-test");
-        result = dockerContainerTask.run(getDefaultTaskParameters());
+        result = dockerContainerTask.run(TaskTestsTools.getDefaultTaskParameters());
         assertEquals("hello world!", result.getVariable().getValue().strip());
     }
 
@@ -72,21 +69,25 @@ public class DockerImageTaskTest {
 
         final var dockerImageTask = new DockerImageTask("test", file.getAbsolutePath());
         dockerImageTask.setRepositoryTag("image-test:latest");
-        var result = dockerImageTask.run(getDefaultTaskParameters());
+        var result = dockerImageTask.run(TaskTestsTools.getDefaultTaskParameters());
         assertTrue(result.isSuccess());
 
         final var dockerContainerTask = new DockerContainerTask("test", "/say-hello-world.sh");
         dockerContainerTask.setImageName("image-test");
-        result = dockerContainerTask.run(getDefaultTaskParameters());
+        result = dockerContainerTask.run(TaskTestsTools.getDefaultTaskParameters());
         assertEquals("hello world!", result.getVariable().getValue().strip());
     }
 
     /**
-     * Provide default task parameters (no templating content).
-     *
-     * @return default task parameters.
+     * Testing copying of task.
      */
-    private static TaskParameters getDefaultTaskParameters() {
-        return TaskParameters.of(new Model(), Map.of(), Map.of());
+    @Test
+    public void testCopy() {
+        final var strCode = "FROM centos:latest\n"
+                + "COPY target/test-classes/scripts/say-hello-world.sh .\n"
+                + "RUN chmod +x /say-hello-world.sh";
+        final var dockerImageTask = new DockerImageTask("test", strCode);
+
+        assertEquals(dockerImageTask, dockerImageTask.copy());
     }
 }

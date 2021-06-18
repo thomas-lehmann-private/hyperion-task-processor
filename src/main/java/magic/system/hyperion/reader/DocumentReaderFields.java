@@ -68,9 +68,14 @@ public enum DocumentReaderFields {
      */
     GROUP("group"),
     /**
-     * Each task (at least) may have a list of one or more tags.
+     * Each task may have a list of one or more tags.
      */
     TAGS("tags"),
+
+    /**
+     * Each task may have a list of one or more values and for each value the task is repeated.
+     */
+    WITH("with"),
 
     /**
      * Field which maintains the list of task groups.
