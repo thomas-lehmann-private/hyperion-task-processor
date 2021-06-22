@@ -158,7 +158,17 @@ public class TaskGroup extends Component
             if (!tags.isEmpty() && task.getTags().stream().noneMatch(tags::contains)) {
                 continue;
             }
-            runnables.add(() -> runOneTask(model, matrixParameters, task, errorCounter));
+
+            if (task.getWithValues().isEmpty()) {
+                runnables.add(() -> runOneTask(model, matrixParameters, null, task, errorCounter));
+            } else {
+                for (int iSubTask = 0; iSubTask < task.getWithValues().size(); ++iSubTask) {
+                    final var withParameters
+                            = WithParameters.of(iSubTask, task.getWithValues().get(iSubTask));
+                    runnables.add(() -> runOneTask(
+                            model, matrixParameters, withParameters, task.copy(), errorCounter));
+                }
+            }
 
             if (variableNamesMap.containsKey(task.getVariable().getName())) {
                 variableNamesMap.put(task.getVariable().getName(),
@@ -196,13 +206,16 @@ public class TaskGroup extends Component
      *
      * @param model            the model from the document.
      * @param matrixParameters the matrix parameters (eventually).
+     * @param withParameters   current index and current value of "with values" or null
+     *                         if attribute has not been specified.
      * @param task             the concrete task to run.
      * @param errorCounter     the counter to increment on error.
      */
     private void runOneTask(final Model model, final Map<String, String> matrixParameters,
+                            final WithParameters withParameters,
                             final AbstractTask task, final AtomicInteger errorCounter) {
         final var result = task.run(
-                TaskParameters.of(model, matrixParameters, this.variables));
+                TaskParameters.of(model, matrixParameters, this.variables, withParameters));
         final var copiedVariable = result.getVariable().copy();
         this.variables.put(copiedVariable.getName(), copiedVariable);
         LOGGER.info(String.format("set variable %s=%s",

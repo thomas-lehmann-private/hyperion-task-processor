@@ -30,6 +30,8 @@ import magic.system.hyperion.interfaces.ISimpleRunnable;
 import magic.system.hyperion.tools.FileUtils;
 import magic.system.hyperion.tools.ProcessResults;
 import magic.system.hyperion.tools.TemplateEngine;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -37,7 +39,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Base class for shell classes.
@@ -45,6 +46,11 @@ import java.util.Map;
  * @author Thomas Lehmann
  */
 public abstract class AbstractShellTask extends AbstractTask {
+    /**
+     * Logger of this class.
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractShellTask.class);
+
     /**
      * Newline character.
      */
@@ -73,6 +79,10 @@ public abstract class AbstractShellTask extends AbstractTask {
         ISimpleRunnable cleanup = () -> {
         };
 
+        if (!getTitle().isEmpty()) {
+            LOGGER.info("Running task '{}'", getTitle());
+        }
+
         try {
             if (isRegularFile()) {
                 final var process = runFile(Paths.get(getCode()));
@@ -86,10 +96,8 @@ public abstract class AbstractShellTask extends AbstractTask {
                 cleanup = () -> FileUtils.deletePath(temporaryScriptPath);
 
                 final var engine = new TemplateEngine();
-                final var renderedText = engine.render(getCode(),
-                        Map.of("model", parameters.getModel().getData(),
-                                "matrix", parameters.getMatrixParameters(),
-                                "variables", parameters.getVariables()));
+                final var renderedText = engine.render(
+                        getCode(), parameters.getTemplatingContext());
 
                 Files.write(temporaryScriptPath, renderedText.getBytes(
                         Charset.defaultCharset()));

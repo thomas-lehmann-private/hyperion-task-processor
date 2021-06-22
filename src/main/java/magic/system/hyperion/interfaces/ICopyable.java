@@ -24,23 +24,17 @@
 package magic.system.hyperion.interfaces;
 
 /**
- * Interface for a variable with readonly access.
+ * Interface for providing a copy of given type.
  *
+ * @param <E> type for which to provide a copy.
  * @author Thomas Lehmann
  */
-public interface IVariable extends ICopyable<IVariable> {
-
+public interface ICopyable<E> {
     /**
-     * Provide Name of the variable.
+     * Provide a copy of given type.
      *
-     * @return name
+     * @return copy of given type.
+     * @since 1.0.0
      */
-    String getName();
-
-    /**
-     * Provide value of variable.
-     *
-     * @return value.
-     */
-    String getValue();
+    E copy();
 }

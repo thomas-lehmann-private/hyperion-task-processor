@@ -27,6 +27,8 @@ import magic.system.hyperion.generics.Pair;
 import magic.system.hyperion.interfaces.IValue;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.util.List;
 import java.util.Map;
@@ -206,6 +208,12 @@ public class AttributeMap implements IValue {
      */
     public IValue get(final String strKey) {
         return this.attributes.get(strKey);
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(ToStringStyle.SHORT_PREFIX_STYLE)
+                .append(this.attributes).build();
     }
 
     @Override

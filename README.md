@@ -8,7 +8,7 @@
 [![CodeScene Code Health](https://codescene.io/projects/16089/status-badges/code-health)](https://codescene.io/projects/16089)
 
 # hyperion
-Special task processing tool
+Powerful and free task processing tool
 
 ## Main goals
 

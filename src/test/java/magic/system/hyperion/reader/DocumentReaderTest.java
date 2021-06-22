@@ -38,6 +38,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -94,8 +95,12 @@ public class DocumentReaderTest {
 
         MessagesCollector.clear();
         document.run(getDefaultDocumentParameters());
-        assertTrue(MessagesCollector.getMessages().contains("set variable default=hello world!"));
-        assertTrue(MessagesCollector.getMessages().contains("set variable test2=this is a demo"));
+
+        final var lines = MessagesCollector.getMessages().stream().filter(
+                line -> line.contains("set variable")).collect(Collectors.toList());
+
+        assertTrue(lines.contains("set variable default=hello world!"));
+        assertTrue(lines.contains("set variable test2=this is a demo"));
     }
 
     /**
@@ -220,12 +225,14 @@ public class DocumentReaderTest {
         MessagesCollector.clear();
         document.run(getDefaultDocumentParameters());
 
+        final var lines = MessagesCollector.getMessages().stream().filter(
+                line -> !line.contains("Running task")).collect(Collectors.toList());
+
         // the order is descending because (1 sleeps 3s, 2 sleeps 2s and 3 doesn't sleep)
-        assertEquals("Variable with name 'default' is used 3 times!",
-                MessagesCollector.getMessages().get(0));
-        assertEquals("set variable default=hello world 3", MessagesCollector.getMessages().get(1));
-        assertEquals("set variable default=hello world 2", MessagesCollector.getMessages().get(2));
-        assertEquals("set variable default=hello world 1", MessagesCollector.getMessages().get(3));
+        assertEquals("Variable with name 'default' is used 3 times!", lines.get(0));
+        assertEquals("set variable default=hello world 3", lines.get(1));
+        assertEquals("set variable default=hello world 2", lines.get(2));
+        assertEquals("set variable default=hello world 1", lines.get(3));
     }
 
     /**

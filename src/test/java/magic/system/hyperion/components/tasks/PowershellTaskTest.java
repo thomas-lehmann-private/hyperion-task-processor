@@ -50,8 +50,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 @Tag("windows")
 @DisplayName("Testing PowershellTask class")
-@EnabledOnOs(OS.WINDOWS)
 @TestMethodOrder(value = MethodOrderer.Random.class)
+@SuppressWarnings("checkstyle:multiplestringliterals")
 public class PowershellTaskTest {
 
     /**
@@ -74,11 +74,12 @@ public class PowershellTaskTest {
      * run method in context of inline code.
      */
     @Test
+    @EnabledOnOs(OS.WINDOWS)
     public void testHelloWorldInline() {
         final var task = new PowershellTask(PRINT_HELLO_WORLD_TITLE,
                 "Write-Host \"" + HELLO_WORD_TEXT + "\"");
         assertEquals(PRINT_HELLO_WORLD_TITLE, task.getTitle());
-        final var result = task.run(new TaskParameters());
+        final var result = task.run(TaskTestsTools.getDefaultTaskParameters());
 
         assertEquals(HELLO_WORD_TEXT, result.getVariable().getValue());
         assertTrue(result.isSuccess());
@@ -92,12 +93,13 @@ public class PowershellTaskTest {
      * @throws URISyntaxException when URL is bad
      */
     @Test
+    @EnabledOnOs(OS.WINDOWS)
     public void testHelloWorldFile() throws URISyntaxException {
         final var scriptUrl = getClass().getResource("/scripts/say-hello-world.ps1");
         final var file = new File(scriptUrl.toURI());
 
         final var task = new PowershellTask(PRINT_HELLO_WORLD_TITLE, file.getAbsolutePath());
-        final var result = task.run(new TaskParameters());
+        final var result = task.run(TaskTestsTools.getDefaultTaskParameters());
 
         assertEquals(HELLO_WORD_TEXT, result.getVariable().getValue());
         assertTrue(result.isSuccess());
@@ -110,11 +112,12 @@ public class PowershellTaskTest {
      * @throws java.net.URISyntaxException when the syntax of the URI is wrong.
      */
     @Test
+    @EnabledOnOs(OS.WINDOWS)
     public void testScriptWithStderr() throws URISyntaxException {
         final var scriptPath = Paths.get(getClass().getResource(
                 "/scripts/say-error.ps1").toURI()).normalize().toString();
         final var task = new PowershellTask("print error", scriptPath);
-        final var result = task.run(new TaskParameters());
+        final var result = task.run(TaskTestsTools.getDefaultTaskParameters());
 
         assertTrue(result.getVariable().getValue().isEmpty());
         assertTrue(result.isSuccess());
@@ -125,10 +128,11 @@ public class PowershellTaskTest {
      * {@link PowershellTask#run(TaskParameters)} with an exit code not 0.
      */
     @Test
+    @EnabledOnOs(OS.WINDOWS)
     public void testExitCode() {
         final var task = new PowershellTask("testing exit code",
                 "exit " + PROCESS_EXIT_CODE);
-        final var result = task.run(new TaskParameters());
+        final var result = task.run(TaskTestsTools.getDefaultTaskParameters());
         assertFalse(result.isSuccess());
         // FIXME: somehow to provide the concrete exit code (Attribute?)
     }
@@ -139,6 +143,7 @@ public class PowershellTaskTest {
      * rendering variables.
      */
     @Test
+    @EnabledOnOs(OS.WINDOWS)
     public void testHelloWorldInlineWithVariables() {
         final var variable = new Variable();
         variable.setValue(HELLO_WORD_TEXT);
@@ -147,10 +152,21 @@ public class PowershellTaskTest {
                 "Write-Host \"{{ variables.text.value }}\"");
         assertEquals(PRINT_HELLO_WORLD_TITLE, task.getTitle());
 
-        final var parameters = new TaskParameters(new Model(), Map.of(), Map.of("text", variable));
+        final var parameters = TaskParameters.of(
+                new Model(), Map.of(), Map.of("text", variable), null);
         final var result = task.run(parameters);
 
         assertEquals(HELLO_WORD_TEXT, result.getVariable().getValue());
         assertTrue(result.isSuccess());
+    }
+
+    /**
+     * Testing copying of task.
+     */
+    @Test
+    public void testCopy() {
+        final var task = new PowershellTask(PRINT_HELLO_WORLD_TITLE,
+                "Write-Host \"" + HELLO_WORD_TEXT + "\"");
+        assertEquals(task, task.copy());
     }
 }

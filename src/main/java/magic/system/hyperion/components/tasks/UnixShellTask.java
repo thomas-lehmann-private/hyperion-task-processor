@@ -63,4 +63,9 @@ public class UnixShellTask extends AbstractShellTask {
         return new ProcessBuilder(List.of("/bin/sh", path.toString())
                 .toArray(String[]::new)).start();
     }
+
+    @Override
+    public AbstractTask copy() {
+        return new UnixShellTask(getTitle(), getCode());
+    }
 }

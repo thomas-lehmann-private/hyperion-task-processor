@@ -51,6 +51,7 @@ public class CodedTaskReader implements INodeReader {
      *
      * @param initTaskGroup keeper of the list of tasks.
      * @param initTaskCreator the function that provides the creator for a task.
+     * @since 1.0.0
      */
     public CodedTaskReader(final TaskGroup initTaskGroup, final ICodeTaskCreator initTaskCreator) {
         this.taskGroup = initTaskGroup;
@@ -67,6 +68,7 @@ public class CodedTaskReader implements INodeReader {
         matcher.allow(DocumentReaderFields.TITLE.getFieldName());
         matcher.allow(DocumentReaderFields.VARIABLE.getFieldName());
         matcher.allow(DocumentReaderFields.TAGS.getFieldName());
+        matcher.allow(DocumentReaderFields.WITH.getFieldName());
 
         if (!matcher.matches(names)) {
             throw new HyperionException("The task fields are not correct!");
@@ -85,6 +87,11 @@ public class CodedTaskReader implements INodeReader {
 
         if (node.has(DocumentReaderFields.TAGS.getFieldName())) {
             new TagsReader(task).read(node.get(DocumentReaderFields.TAGS.getFieldName()));
+        }
+
+        if (node.has(DocumentReaderFields.WITH.getFieldName())) {
+            new ListOfValuesReader(task.getWithValues()).read(
+                    node.get(DocumentReaderFields.WITH.getFieldName()));
         }
 
         this.taskGroup.add(task);

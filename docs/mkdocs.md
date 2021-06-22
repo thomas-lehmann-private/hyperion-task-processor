@@ -5,7 +5,7 @@
 It requires Python.
 
 ```
-pip install mkdocs mkdocs-bootswatch mkdocs-graphviz pymdown-extensions mkdocs-mermaid2-plugin
+pip install mkdocs mkdocs-bootswatch mkdocs-graphviz pymdown-extensions mkdocs-mermaid2-plugin mkdocs-autolinks-plugin
 ```
 
 ## Configuration
@@ -34,6 +34,7 @@ of the repository.
      - pymdownx.magiclink for auto creation of links used in markdown code. 
    - **plugins** for plugins like:
      - **mkdocs-mermaid2-plugin** for rendering Mermaid diagrams.
+     - **mkdocs-autolinks-plugin** for autolink that you don't have to worry about paths.
        
 ## Graphviz Example
 

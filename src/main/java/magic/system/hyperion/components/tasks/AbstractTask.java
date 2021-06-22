@@ -27,6 +27,8 @@ import magic.system.hyperion.components.Component;
 import magic.system.hyperion.components.TaskParameters;
 import magic.system.hyperion.components.TaskResult;
 import magic.system.hyperion.components.Variable;
+import magic.system.hyperion.data.ListOfValues;
+import magic.system.hyperion.interfaces.ICopyable;
 import magic.system.hyperion.interfaces.IRunnable;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -45,7 +47,7 @@ import java.util.List;
  * @author Thomas Lehmann
  */
 public abstract class AbstractTask extends Component
-        implements IRunnable<TaskResult, TaskParameters> {
+        implements IRunnable<TaskResult, TaskParameters>, ICopyable<AbstractTask> {
 
     /**
      * Path and name of file of script or inline script.
@@ -63,10 +65,15 @@ public abstract class AbstractTask extends Component
     private List<String> tags;
 
     /**
+     * Values provided via "with" attribute for repeating task for each entry.
+     */
+    private ListOfValues withValues;
+
+    /**
      * Initialize task.
      *
      * @param strInitTitle - title of the task.
-     * @param strInitCode - Path and name of file of script or inline script.
+     * @param strInitCode  - Path and name of file of script or inline script.
      */
     public AbstractTask(final String strInitTitle, final String strInitCode) {
         super(strInitTitle);
@@ -74,12 +81,14 @@ public abstract class AbstractTask extends Component
         this.variable = new Variable();
         this.variable.setName("default");
         this.tags = new ArrayList<>();
+        this.withValues = new ListOfValues();
     }
 
     /**
      * Provide Script code or path and filename to script.
      *
      * @return Path and name of file of script or inline script.
+     * @since 1.0.0
      */
     public String getCode() {
         return this.strCode;
@@ -89,6 +98,7 @@ public abstract class AbstractTask extends Component
      * Provide variable representing task result.
      *
      * @return variable.
+     * @since 1.0.0
      */
     public Variable getVariable() {
         return this.variable;
@@ -98,6 +108,7 @@ public abstract class AbstractTask extends Component
      * Change code.
      *
      * @param strInitCode new value for code.
+     * @since 1.0.0
      */
     public void setCode(final String strInitCode) {
         this.strCode = strInitCode;
@@ -105,7 +116,9 @@ public abstract class AbstractTask extends Component
 
     /**
      * Get list of tags (read only).
+     *
      * @return list of tags.
+     * @since 1.0.0
      */
     public List<String> getTags() {
         return Collections.unmodifiableList(this.tags);
@@ -115,6 +128,7 @@ public abstract class AbstractTask extends Component
      * Adding a tag that doesn't exist yet.
      *
      * @param strTag new tag to add.
+     * @since 1.0.0
      */
     public void addTag(final String strTag) {
         if (!this.tags.contains(strTag)) {
@@ -123,9 +137,32 @@ public abstract class AbstractTask extends Component
     }
 
     /**
+     * Changing "with" values (if not null).
+     *
+     * @param initWithValues new values.
+     * @since 1.0.0
+     */
+    public void setWithValues(final ListOfValues initWithValues) {
+        if (initWithValues != null) {
+            this.withValues = initWithValues;
+        }
+    }
+
+    /**
+     * Get "with" values. When not specified it's an empty list.
+     *
+     * @return "with" values.
+     * @since 1.0.0
+     */
+    public ListOfValues getWithValues() {
+        return this.withValues;
+    }
+
+    /**
      * Checking for code to represent an existing path and filename.
      *
      * @return true when given code represents an existing path and filename.
+     * @since 1.0.0
      */
     public boolean isRegularFile() {
         boolean success;
@@ -144,6 +181,7 @@ public abstract class AbstractTask extends Component
                 .append(this.strCode)
                 .append(this.variable)
                 .append(this.tags)
+                .append(this.withValues)
                 .build();
     }
 
@@ -165,6 +203,7 @@ public abstract class AbstractTask extends Component
                 .append(this.strCode, other.getCode())
                 .append(this.variable, other.getVariable())
                 .append(this.tags, other.getTags())
+                .append(this.withValues, other.getWithValues())
                 .build();
     }
 }

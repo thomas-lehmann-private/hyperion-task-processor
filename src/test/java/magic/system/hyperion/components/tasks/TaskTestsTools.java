@@ -23,56 +23,31 @@
  */
 package magic.system.hyperion.components.tasks;
 
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.List;
+import magic.system.hyperion.components.Model;
+import magic.system.hyperion.components.TaskParameters;
+
+import java.util.Map;
 
 /**
- * Task for running a powershell script.
+ * Test tools for tasks.
  *
  * @author Thomas Lehmann
  */
-public class PowershellTask extends AbstractShellTask {
+public final class TaskTestsTools {
     /**
-     * Initialize Powershell task.
+     * Instantiation not wanted.
      */
-    public PowershellTask() {
-        super("", "");
+    private TaskTestsTools() {
+        // Nothing to do.
     }
 
     /**
-     * Initialize Powershell task.
+     * Provide default task parameters (no templating content).
      *
-     * @param strInitTitle - title of the task.
-     * @param strInitCode  - Path and name of file of script or inline script.
+     * @return default task parameters.
      */
-    public PowershellTask(final String strInitTitle, final String strInitCode) {
-        super(strInitTitle, strInitCode);
+    public static TaskParameters getDefaultTaskParameters() {
+        return TaskParameters.of(new Model(), Map.of(), Map.of(), null);
     }
 
-    @Override
-    protected String getTempFilePrefix() {
-        return "hyperion-powershell-task-";
-    }
-
-    @Override
-    protected List<String> getFileExtensions() {
-        return List.of(".ps1");
-    }
-
-    @Override
-    protected boolean isTempFileRelativePath() {
-        return false;
-    }
-
-    @Override
-    protected Process runFile(Path path) throws IOException {
-        return new ProcessBuilder(List.of("powershell", "-File",
-                path.toString()).toArray(String[]::new)).start();
-    }
-
-    @Override
-    public AbstractTask copy() {
-        return new PowershellTask(getTitle(), getCode());
-    }
 }

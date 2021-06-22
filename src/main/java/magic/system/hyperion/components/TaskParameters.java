@@ -25,6 +25,7 @@ package magic.system.hyperion.components;
 
 import magic.system.hyperion.interfaces.IVariable;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -33,7 +34,7 @@ import java.util.TreeMap;
  *
  * @author Thomas Lehmann
  */
-public class TaskParameters {
+public final class TaskParameters {
     /**
      * Model (usually a reference to the model of the document).
      */
@@ -47,17 +48,12 @@ public class TaskParameters {
     /**
      * Variables (usually a reference to the variables of the task group).
      */
-    private Map<String, IVariable> variables;
+    private final Map<String, IVariable> variables;
 
     /**
-     * Initialize task parameters (empty model, no variables).
-     * @version 1.0.0
+     * Current index and current value of the "with" values.
      */
-    public TaskParameters() {
-        this.model = new Model();
-        this.matrixParameters = new TreeMap<>();
-        this.variables = new TreeMap<>();
-    }
+    private final WithParameters withParameters;
 
     /**
      * Initialize task parameters.
@@ -65,20 +61,24 @@ public class TaskParameters {
      * @param initModel model to use.
      * @param initMatrixParameters matrix parameters to use.
      * @param initVariables variables to use.
+     * @param initWithParameters current index and current value of the "with" values
+     * @since 1.0.0
      */
-    public TaskParameters(final Model initModel,
+    private TaskParameters(final Model initModel,
                           final Map<String, String> initMatrixParameters,
-                          final Map<String, IVariable> initVariables) {
+                          final Map<String, IVariable> initVariables,
+                          final WithParameters initWithParameters) {
         this.model = initModel;
         this.matrixParameters = new TreeMap<>(initMatrixParameters);
         this.variables = initVariables;
+        this.withParameters = initWithParameters;
     }
 
     /**
      * Get model.
      *
      * @return model.
-     * @version 1.0.0
+     * @since 1.0.0
      */
     public Model getModel() {
         return this.model;
@@ -88,7 +88,7 @@ public class TaskParameters {
      * Get matrix parameters.
      *
      * @return matrix parameters.
-     * @version 1.0.0
+     * @since 1.0.0
      */
     public Map<String, String> getMatrixParameters() {
         return this.matrixParameters;
@@ -98,10 +98,45 @@ public class TaskParameters {
      * Get variables.
      *
      * @return variables.
-     * @version 1.0.0
+     * @since 1.0.0
      */
     public Map<String, IVariable> getVariables() {
         return this.variables;
+    }
+
+    /**
+     * Get current index and current value of "with" values.
+     *
+     * @return current index and current value of "with" values.
+     * @since 1.0.0
+     */
+    public WithParameters getWithParameters() {
+        return this.withParameters;
+    }
+
+    /**
+     * Get dynamic templating context.
+     *
+     * @return templating context.
+     * @since 1.0.0
+     */
+    public Map<String, Object> getTemplatingContext() {
+        final Map<String, Object> context = new HashMap<>();
+        context.put("model", this.model.getData());
+
+        if (!this.matrixParameters.isEmpty()) {
+            context.put("matrix", this.matrixParameters);
+        }
+
+        if (!this.variables.isEmpty()) {
+            context.put("variables", this.variables);
+        }
+
+        if (this.withParameters != null) {
+            context.put("with", this.withParameters);
+        }
+
+        return context;
     }
 
     /**
@@ -110,12 +145,14 @@ public class TaskParameters {
      * @param model mode to use.
      * @param matrixParameters matrix parameters.
      * @param variables variables to use.
-     * @return task parameters instance.
-     * @version 1.0.0
+     * @param withParameters current index and current value of "with" values.
+     * @return instance of {@link TaskParameters}.
+     * @since 1.0.0
      */
     public static TaskParameters of(final Model model,
                                     final Map<String,String> matrixParameters,
-                                    final Map<String, IVariable> variables) {
-        return new TaskParameters(model,matrixParameters, variables);
+                                    final Map<String, IVariable> variables,
+                                    final WithParameters withParameters) {
+        return new TaskParameters(model,matrixParameters, variables, withParameters);
     }
 }

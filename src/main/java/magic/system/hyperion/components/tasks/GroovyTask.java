@@ -78,6 +78,10 @@ public class GroovyTask extends AbstractTask {
             final var binding = new Binding(Map.of("out", new PrintWriter(writer)));
             final var shell = new GroovyShell(binding);
 
+            if (!getTitle().isEmpty()) {
+                LOGGER.info("Running task '{}'", getTitle());
+            }
+
             if (isRegularFile()) {
                 LOGGER.info("Processing Groovy file {}", getCode());
                 final var strContent = Files.readString(Paths.get(getCode()));
@@ -86,10 +90,8 @@ public class GroovyTask extends AbstractTask {
                 taskResult = new TaskResult(true, getVariable());
             } else {
                 final var engine = new TemplateEngine();
-                final var renderedText = engine.render(getCode(),
-                        Map.of("model", parameters.getModel().getData(),
-                                "matrix", parameters.getMatrixParameters(),
-                                "variables", parameters.getVariables()));
+                final var renderedText = engine.render(
+                        getCode(), parameters.getTemplatingContext());
 
                 shell.evaluate(renderedText);
                 getVariable().setValue(writer.toString());
@@ -101,5 +103,10 @@ public class GroovyTask extends AbstractTask {
         }
 
         return taskResult;
+    }
+
+    @Override
+    public AbstractTask copy() {
+        return new GroovyTask(this.getTitle(), this.getCode());
     }
 }

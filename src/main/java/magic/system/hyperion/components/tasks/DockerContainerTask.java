@@ -96,7 +96,7 @@ public class DockerContainerTask extends AbstractShellTask {
      * Change image name.
      *
      * @param strInitImageName new image name.
-     * @version 1.0.0
+     * @since 1.0.0
      */
     public void setImageName(final String strInitImageName) {
         this.strImageName = strInitImageName;
@@ -106,7 +106,7 @@ public class DockerContainerTask extends AbstractShellTask {
      * Get image name.
      *
      * @return image name.
-     * @version 1.0.0
+     * @since 1.0.0
      */
     public String getImageName() {
         return this.strImageName;
@@ -116,7 +116,7 @@ public class DockerContainerTask extends AbstractShellTask {
      * Change version of image.
      *
      * @param strInitImageVersion new version of image.
-     * @version 1.0.0
+     * @since 1.0.0
      */
     public void setImageVersion(final String strInitImageVersion) {
         this.strImageVersion = strInitImageVersion;
@@ -193,5 +193,14 @@ public class DockerContainerTask extends AbstractShellTask {
 
         LOGGER.info("Running command: {}", String.join(" ", finalCommand));
         return new ProcessBuilder(finalCommand).start();
+    }
+
+    @Override
+    public AbstractTask copy() {
+        final var task = new DockerContainerTask(getTitle(), getCode());
+        task.setImageName(getImageName());
+        task.setImageVersion(getImageVersion());
+        task.setPlatform(getPlatform());
+        return task;
     }
 }

@@ -1,0 +1,28 @@
+---
+taskgroups:
+  - title: test
+    parallel: false
+    tasks:
+      - type: groovy
+        title: a simple example I
+        code: println '{{ with.value }}'
+        with:
+          - hello world 1!
+          - hello world 2!
+          - hello world 3!
+
+      - type: groovy
+        title: a simple example II
+        code: |
+          {% if with.index == 0 %}
+          println '{{ with.value }}'
+          {% else %}
+          println '{{ with.value.attributes.test3.attributes.test4.value }}'
+          {% endif %}
+        with:
+          - hello world 1!
+          - test1:
+              - hello world 2!
+            test2: hello world 3!
+            test3:
+              test4: hello world 4!
