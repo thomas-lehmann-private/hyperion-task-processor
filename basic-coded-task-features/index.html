@@ -133,6 +133,10 @@
 <ul class="nav flex-column">
 </ul>
 </li>
+<li class="nav-item" data-level="1"><a class="nav-link" href="#using-the-with-attribute">Using the "with" attribute</a>
+<ul class="nav flex-column">
+</ul>
+</li>
 </ul>
 </div>
 </div></div>
@@ -153,12 +157,28 @@ are:</p>
 <li><strong>title</strong> - the title is optional and is used for logging to show which task is running</li>
 <li><strong>code</strong> - the code depends on implementation (see list above). Optional the code also
    might be a valid path and filename. The code (currently the embedded one only) also
-   allows <a href="../templating/">templating</a>.</li>
+   allows <a href="../templating/">templating</a>. You can write multiline code by using a <strong>pipe</strong>
+   symbol in the first line:
+   ```yqml</li>
+<li>type: groovy
+     code: |
+         println 'hello world 1'
+         println 'hello world 2'
+         println 'hello world 3'
+   ```</li>
 <li><strong>tags</strong> - an optional list with texts that can be used to filter tasks.
    See <a href="../hyperion/">hyperion</a> for the command line options on how to use tags.</li>
 <li><strong>variable</strong> - an optional variable definition. If not provided the default
    name of the variable is "<strong>default</strong>" and the whole stdout of the task (process)
    is captured.</li>
+<li><strong>with</strong> - an optional list with values. For each entry the task will be executed.
+   Through <a href="../templating/">templating</a> th current value of the entry and the zero
+   based index of the entry will be available in the <strong>code</strong> (<strong>{{ with.index }}</strong> and <strong>{{ with.value }}</strong>).
+   Finally the use of it does not differ from writing as many tasks as you have "with"
+   entries one after the other; it's a short way to write it using the attribute. In a task group where
+   <strong>parallel</strong> is set to <strong>false</strong>  the tasks are running in the order they appear
+   otherwise they run in parallel (including the "with" tasks). The value of the "with" list is
+   not checked to be equal in its structure; the user has to care for it when this is the case.</li>
 </ul>
 <h1 id="variable">Variable</h1>
 <p>A variable has following attributes:</p>
@@ -168,7 +188,27 @@ are:</p>
 <li><strong>group</strong> optional regex group. The default regex group is 0.</li>
 <li><strong>linebyline</strong> optional boolean to apply regex per line instead on whole captured stdout.
    The default is false.</li>
-</ul></div>
+</ul>
+<h1 id="using-the-with-attribute">Using the "with" attribute</h1>
+<p>The following example demonstrates one way to handle the situation that two entries
+are different in its structure. The used Template Engine (see <a href="../build/">build</a>) allows
+to use an <strong>if/else</strong>. This example is also used in the Unittests.</p>
+<pre><code class="yaml">- type: groovy
+  title: a simple example
+  code: |
+    {% if with.index == 0 %}
+    println '{{ with.value }}'
+    {% else %}
+    println '{{ with.value.attributes.test3.attributes.test4.value }}'
+    {% endif %}
+  with:
+    - hello world 1!
+    - test1:
+        - hello world 2!
+      test2: hello world 3!
+      test3:
+        test4: hello world 4!
+</code></pre></div>
 </div>
 </div>
 <footer class="col-md-12">
