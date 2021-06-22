@@ -2,8 +2,16 @@
 
 This doesn't intend to explain Docker. Please refer to official Docker
 documentation for details on it. It's about the Docker container task.
+The [basic coded task features](basic-coded-task-features.md) are language
+independent and explained in the link including:
 
-However a few things to mention here:
+- Having an optional **title** attribute
+- Using the **code** in attribute with same name
+- Having an optional **tag** attribute
+- Having an optional **variable** attribute
+- Having an optional **with** attribute
+
+A few things to mention here about Docker:
 
 - Docker is an external tool that must exist otherwise you cannot
   use the task; even more the Hyperion tool will throw an error

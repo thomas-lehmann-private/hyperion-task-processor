@@ -30,6 +30,8 @@ import magic.system.hyperion.interfaces.ISimpleRunnable;
 import magic.system.hyperion.tools.FileUtils;
 import magic.system.hyperion.tools.ProcessResults;
 import magic.system.hyperion.tools.TemplateEngine;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -44,6 +46,11 @@ import java.util.List;
  * @author Thomas Lehmann
  */
 public abstract class AbstractShellTask extends AbstractTask {
+    /**
+     * Logger of this class.
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractShellTask.class);
+
     /**
      * Newline character.
      */
@@ -71,6 +78,10 @@ public abstract class AbstractShellTask extends AbstractTask {
         TaskResult taskResult;
         ISimpleRunnable cleanup = () -> {
         };
+
+        if (!getTitle().isEmpty()) {
+            LOGGER.info("Running task '{}'", getTitle());
+        }
 
         try {
             if (isRegularFile()) {

@@ -58,6 +58,10 @@ public class JShellTask extends AbstractTask {
     public TaskResult run(final TaskParameters parameters) {
         TaskResult taskResult = null;
 
+        if (!getTitle().isEmpty()) {
+            LOGGER.info("Running task '{}'", getTitle());
+        }
+
         final var engine = new TemplateEngine();
         final var renderedText = engine.render(
                 getCode(), parameters.getTemplatingContext());

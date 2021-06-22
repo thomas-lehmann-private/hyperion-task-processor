@@ -2,6 +2,14 @@
 
 This page doesn't intend to explain Windows batch. So please refer to official Windows batch
 documentation for details on it. It's about the Windows batch task.
+The [basic coded task features](basic-coded-task-features.md) are language
+independent and explained in the link including:
+
+- Having an optional **title** attribute
+- Using the **code** in attribute with same name
+- Having an optional **tag** attribute
+- Having an optional **variable** attribute
+- Having an optional **with** attribute
 
 ## Minimal example
 
