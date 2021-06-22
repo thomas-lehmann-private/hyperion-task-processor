@@ -6,6 +6,7 @@
 [![codecov](https://codecov.io/gh/thomas-lehmann-private/hyperion/branch/main/graph/badge.svg?token=FF17P27UW6)](https://codecov.io/gh/thomas-lehmann-private/hyperion)
 [![CodeFactor](https://www.codefactor.io/repository/github/thomas-lehmann-private/hyperion/badge)](https://www.codefactor.io/repository/github/thomas-lehmann-private/hyperion)
 [![CodeScene Code Health](https://codescene.io/projects/16089/status-badges/code-health)](https://codescene.io/projects/16089)
+[![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/thomas-lehmann-private/hyperion.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/thomas-lehmann-private/hyperion/context:java)
 
 # hyperion
 Powerful and free task processing tool
