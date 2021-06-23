@@ -26,6 +26,7 @@ package magic.system.hyperion.reader;
 import magic.system.hyperion.components.DocumentParameters;
 import magic.system.hyperion.generics.ListCollector;
 import magic.system.hyperion.interfaces.IVariable;
+import magic.system.hyperion.tools.Capabilities;
 import magic.system.hyperion.tools.MessagesCollector;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
@@ -37,7 +38,6 @@ import org.junit.jupiter.api.condition.OS;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -153,6 +153,7 @@ public class DocumentReaderTest {
                         .getAttributeList(2)
                         .getList("subList").toString());
     }
+
     /**
      * Testing of a matrix run.
      *
@@ -171,16 +172,17 @@ public class DocumentReaderTest {
                 group -> group.getVariablePublisher().subscribe(collector));
         document.run(getDefaultDocumentParameters());
 
-        final String strLineBreak = System.getProperty("os.name")
-                .toLowerCase(Locale.getDefault()).contains("windows")? "\r\n": "\n";
-
-        assertEquals("Groovy:the first run|hello world 1!|hello world 2!|hello world 3!".
-                        replaceAll("\\|", strLineBreak), collector.get(0).getValue());
-        assertEquals("JShell:the first run|hello world 1!|hello world 2!|hello world 3!".
-                        replaceAll("\\|", strLineBreak), collector.get(1).getValue());
-        assertEquals("Groovy:the second run|hello world 1!".replaceAll("\\|", strLineBreak),
+        assertEquals("Groovy:the first run|hello world 1!|hello world 2!|hello world 3!"
+                        .replaceAll("\\|", Capabilities.getLineBreak()),
+                collector.get(0).getValue());
+        assertEquals("JShell:the first run|hello world 1!|hello world 2!|hello world 3!"
+                        .replaceAll("\\|", Capabilities.getLineBreak()),
+                collector.get(1).getValue());
+        assertEquals("Groovy:the second run|hello world 1!"
+                        .replaceAll("\\|", Capabilities.getLineBreak()),
                 collector.get(2).getValue());
-        assertEquals("JShell:the second run|hello world 1!".replaceAll("\\|", strLineBreak),
+        assertEquals("JShell:the second run|hello world 1!"
+                        .replaceAll("\\|", Capabilities.getLineBreak()),
                 collector.get(3).getValue());
     }
 

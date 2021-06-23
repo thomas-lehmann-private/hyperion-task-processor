@@ -27,6 +27,7 @@ import magic.system.hyperion.components.Model;
 import magic.system.hyperion.components.TaskParameters;
 import magic.system.hyperion.components.Variable;
 import magic.system.hyperion.reader.DocumentReader;
+import magic.system.hyperion.tools.Capabilities;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -106,12 +107,11 @@ public class GroovyTaskTest {
         final var scriptUrl = getClass().getResource("/scripts/say-something.groovy");
         final var file = new File(scriptUrl.toURI());
 
-
         final var task = new GroovyTask(TASK_TITLE, file.getAbsolutePath());
         final var result = task.run(TaskTestsTools.getSimpleTaskParameters());
 
-        final var strExpected = "hello world 1!\r\nhello world 2!\r\n"
-                + "hello world 3!\r\n2\r\nhello world 4!";
+        final var strExpected = "hello world 1!|hello world 2!|hello world 3!|2|hello world 4!"
+                .replaceAll("\\|", Capabilities.getLineBreak());
         assertEquals(strExpected, result.getVariable().getValue().strip());
         assertTrue(result.isSuccess());
     }

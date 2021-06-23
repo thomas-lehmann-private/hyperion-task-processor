@@ -231,4 +231,14 @@ public class Capabilities {
         command.addAll(Arrays.asList(arguments));
         return command.toArray(String[]::new);
     }
+
+    /**
+     * Get linebreak depending on system.
+     *
+     * @return linebreak depending on system.
+     */
+    public static String getLineBreak() {
+        return isWindows() ? "\r\n": "\n";
+    }
+
 }
