@@ -24,7 +24,9 @@
 package magic.system.hyperion.components.tasks;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 import java.io.File;
 import java.net.URISyntaxException;
@@ -39,6 +41,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 @DisplayName("Testing DockerImage class")
 @SuppressWarnings("checkstyle:multiplestringliterals")
+@TestMethodOrder(value = MethodOrderer.Random.class)
 public class DockerImageTaskTest {
     /**
      * Testing Docker image creation with embedded Dockerfile content.

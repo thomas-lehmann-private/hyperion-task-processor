@@ -97,6 +97,26 @@ public class GroovyTaskTest {
     }
 
     /**
+     * Testing file execution with templating.
+     *
+     * @throws URISyntaxException when URL is bad
+     */
+    @Test
+    public void testFileWithTemplating() throws URISyntaxException {
+        final var scriptUrl = getClass().getResource("/scripts/say-something.groovy");
+        final var file = new File(scriptUrl.toURI());
+
+
+        final var task = new GroovyTask(TASK_TITLE, file.getAbsolutePath());
+        final var result = task.run(TaskTestsTools.getSimpleTaskParameters());
+
+        final var strExpected = "hello world 1!\r\nhello world 2!\r\n"
+                + "hello world 3!\r\n2\r\nhello world 4!";
+        assertEquals(strExpected, result.getVariable().getValue().strip());
+        assertTrue(result.isSuccess());
+    }
+
+    /**
      * Testing templating evaluating a variable.
      */
     @Test

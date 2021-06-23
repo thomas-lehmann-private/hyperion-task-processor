@@ -25,6 +25,10 @@ package magic.system.hyperion.components.tasks;
 
 import magic.system.hyperion.components.Model;
 import magic.system.hyperion.components.TaskParameters;
+import magic.system.hyperion.components.Variable;
+import magic.system.hyperion.components.WithParameters;
+import magic.system.hyperion.data.StringValue;
+import magic.system.hyperion.generics.Pair;
 
 import java.util.Map;
 
@@ -33,6 +37,7 @@ import java.util.Map;
  *
  * @author Thomas Lehmann
  */
+@SuppressWarnings("checkstyle:multiplestringliterals")
 public final class TaskTestsTools {
     /**
      * Instantiation not wanted.
@@ -48,6 +53,22 @@ public final class TaskTestsTools {
      */
     public static TaskParameters getDefaultTaskParameters() {
         return TaskParameters.of(new Model(), Map.of(), Map.of(), null);
+    }
+
+    /**
+     * Provide a simple setup for some concrete task parameters.
+     *
+     * @return simple task parameters.
+     */
+    public static TaskParameters getSimpleTaskParameters() {
+        final var variable = new Variable();
+        variable.setValue("hello world 3!");
+
+        return TaskParameters.of(
+                Model.of(Pair.of("test", StringValue.of("hello world 1!"))),
+                Map.of("test", "hello world 2!"),
+                Map.of("test", variable),
+                WithParameters.of(2, StringValue.of("hello world 4!")));
     }
 
 }

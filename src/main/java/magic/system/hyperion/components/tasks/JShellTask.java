@@ -83,8 +83,7 @@ public class JShellTask extends AbstractTask {
             }
 
             if (taskResult == null) {
-                getVariable().setValue(
-                        new String(stream1.toByteArray(), Charset.defaultCharset()));
+                getVariable().setValue(stream1.toString(Charset.defaultCharset()));
                 taskResult = new TaskResult(true, getVariable());
             }
         } catch (IllegalStateException e) {

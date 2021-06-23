@@ -84,30 +84,28 @@ public abstract class AbstractShellTask extends AbstractTask {
         }
 
         try {
+            var strContent = getCode();
+
             if (isRegularFile()) {
-                final var process = runFile(Paths.get(getCode()));
-                final var processResults = ProcessResults.of(process);
-                this.getVariable().setValue(String.join(NEWLINE,
-                        processResults.getStdout()));
-                taskResult = new TaskResult(processResults.getExitCode() == 0,
-                        getVariable());
-            } else {
-                final var temporaryScriptPath = createTemporaryFile();
-                cleanup = () -> FileUtils.deletePath(temporaryScriptPath);
-
-                final var engine = new TemplateEngine();
-                final var renderedText = engine.render(
-                        getCode(), parameters.getTemplatingContext());
-
-                Files.write(temporaryScriptPath, renderedText.getBytes(
-                        Charset.defaultCharset()));
-
-                final var process = runFile(temporaryScriptPath);
-                final var processResults = ProcessResults.of(process);
-                this.getVariable().setValue(String.join(NEWLINE, processResults.getStdout()));
-                taskResult = new TaskResult(processResults.getExitCode() == 0,
-                        getVariable());
+                LOGGER.info("Processing file {}", getCode());
+                strContent = Files.readString(Paths.get(getCode()));
             }
+
+            final var temporaryScriptPath = createTemporaryFile();
+            cleanup = () -> FileUtils.deletePath(temporaryScriptPath);
+
+            final var engine = new TemplateEngine();
+            final var renderedText = engine.render(
+                    strContent, parameters.getTemplatingContext());
+
+            Files.write(temporaryScriptPath, renderedText.getBytes(
+                    Charset.defaultCharset()));
+
+            final var process = runFile(temporaryScriptPath);
+             final var processResults = ProcessResults.of(process);
+            this.getVariable().setValue(String.join(NEWLINE, processResults.getStdout()));
+            taskResult = new TaskResult(processResults.getExitCode() == 0,
+                    getVariable());
         } catch (IOException | InterruptedException | HyperionException e) {
             taskResult = new TaskResult(false, this.getVariable());
         } finally {
@@ -126,7 +124,7 @@ public abstract class AbstractShellTask extends AbstractTask {
      */
     private Path createTemporaryFile() throws IOException, HyperionException {
         final var strPostFix
-                = getFileExtensions().isEmpty() ? "" : getFileExtensions().get(0);
+                = getFileExtensions().isEmpty() ? "" : "." + getFileExtensions().get(0);
         final var temporaryScriptPath = FileUtils.createTemporaryFile(
                 getTempFilePrefix(), strPostFix);
 
