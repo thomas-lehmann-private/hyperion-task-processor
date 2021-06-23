@@ -1,0 +1,5 @@
+Write-Output "{{ model.attributes.test }}"
+Write-Output "{{ matrix.test }}"
+Write-Output "{{ variables.test.value }}"
+Write-Output "{{ with.index }}"
+Write-Output "{{ with.value }}"

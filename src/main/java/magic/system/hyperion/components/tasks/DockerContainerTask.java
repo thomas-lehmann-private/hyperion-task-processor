@@ -25,6 +25,7 @@ package magic.system.hyperion.components.tasks;
 
 import magic.system.hyperion.exceptions.HyperionException;
 import magic.system.hyperion.tools.Capabilities;
+import magic.system.hyperion.tools.FileExtensions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,8 +56,9 @@ public class DockerContainerTask extends AbstractShellTask {
     /**
      * Readonly file extensions to use depending on target environment in Docker container.
      */
-    public static final Map<String, String> FILE_EXTENSIONS
-            = Map.of(PLATFORM_WINDOWS, ".cmd", PLATFORM_UNIX, ".sh");
+    public static final Map<String, String> FILE_EXTENSIONS = Map.of(
+            PLATFORM_WINDOWS, FileExtensions.CMD.getValue(),
+            PLATFORM_UNIX, FileExtensions.SH.getValue());
 
     /**
      * Logger for this class.

@@ -105,6 +105,21 @@ public class PowershellTaskTest {
         assertTrue(result.isSuccess());
     }
 
+    @Test
+    @EnabledOnOs(OS.WINDOWS)
+    public void testFileWithTemplating() throws URISyntaxException {
+        final var scriptUrl = getClass().getResource("/scripts/say-something.ps1");
+        final var file = new File(scriptUrl.toURI());
+
+        final var task = new PowershellTask(PRINT_HELLO_WORLD_TITLE, file.getAbsolutePath());
+        final var result = task.run(TaskTestsTools.getSimpleTaskParameters());
+
+        final var strExpected = "hello world 1!\nhello world 2!\n"
+                + "hello world 3!\n2\nhello world 4!";
+        assertEquals(strExpected, result.getVariable().getValue());
+        assertTrue(result.isSuccess());
+    }
+
     /**
      * Testing (finally) of {@link AbstractTask#getTitle()} and
      * {@link PowershellTask#run(TaskParameters)}} with errors from the script.

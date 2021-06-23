@@ -57,7 +57,7 @@ public class PowershellTask extends AbstractShellTask {
 
     @Override
     protected List<String> getFileExtensions() {
-        return List.of(".ps1");
+        return List.of("ps1");
     }
 
     @Override

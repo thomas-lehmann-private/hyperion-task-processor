@@ -28,6 +28,7 @@ import groovy.lang.GroovyRuntimeException;
 import groovy.lang.GroovyShell;
 import magic.system.hyperion.components.TaskParameters;
 import magic.system.hyperion.components.TaskResult;
+import magic.system.hyperion.tools.FileExtensions;
 import magic.system.hyperion.tools.TemplateEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,11 +51,6 @@ public class GroovyTask extends AbstractTask {
     private static final Logger LOGGER = LoggerFactory.getLogger(GroovyTask.class);
 
     /**
-     * Groovy file extension.
-     */
-    private static final String FILE_EXTENSION = ".groovy";
-
-    /**
      * Initialize task.
      *
      * @param strInitTitle - title of the task.
@@ -66,7 +62,7 @@ public class GroovyTask extends AbstractTask {
 
     @Override
     public boolean isRegularFile() {
-        return super.isRegularFile() && getCode().endsWith(FILE_EXTENSION);
+        return super.isRegularFile() && getCode().endsWith(FileExtensions.GROOVY.getValue());
     }
 
     @Override
@@ -82,21 +78,20 @@ public class GroovyTask extends AbstractTask {
                 LOGGER.info("Running task '{}'", getTitle());
             }
 
+            var strContent = getCode();
+
             if (isRegularFile()) {
                 LOGGER.info("Processing Groovy file {}", getCode());
-                final var strContent = Files.readString(Paths.get(getCode()));
-                shell.evaluate(strContent);
-                getVariable().setValue(writer.toString());
-                taskResult = new TaskResult(true, getVariable());
-            } else {
-                final var engine = new TemplateEngine();
-                final var renderedText = engine.render(
-                        getCode(), parameters.getTemplatingContext());
-
-                shell.evaluate(renderedText);
-                getVariable().setValue(writer.toString());
-                taskResult = new TaskResult(true, getVariable());
+                strContent = Files.readString(Paths.get(getCode()));
             }
+
+            final var engine = new TemplateEngine();
+            final var renderedText = engine.render(
+                    strContent, parameters.getTemplatingContext());
+
+            shell.evaluate(renderedText);
+            getVariable().setValue(writer.toString());
+            taskResult = new TaskResult(true, getVariable());
         } catch (GroovyRuntimeException | IOException e) {
             LOGGER.error(e.getMessage(), e);
             taskResult = new TaskResult(false, getVariable());

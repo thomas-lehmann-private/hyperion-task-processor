@@ -23,6 +23,8 @@
  */
 package magic.system.hyperion.components.tasks;
 
+import magic.system.hyperion.tools.FileExtensions;
+
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
@@ -50,7 +52,7 @@ public class WindowsBatchTask extends AbstractShellTask {
 
     @Override
     protected List<String> getFileExtensions() {
-        return List.of(".cmd", ".bat");
+        return List.of(FileExtensions.CMD.getValue(), FileExtensions.BAT.getValue());
     }
 
     @Override

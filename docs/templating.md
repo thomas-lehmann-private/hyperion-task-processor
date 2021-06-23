@@ -5,14 +5,21 @@
 One of the most powerful feature of the Hyperion tool is the templating that
 allows you to the dynamic replacement in the code of the part.
 
-Hyperion offers currently two data sources:
+Hyperion offers currently following data sources:
 
- - the model
- - the task group variables
+ - the **model**
+ - the **task group variables**
+ - the **matrix** parameters (see [matrix](matrix.md))
+ - the **with** parameters
 
 The **model** is a kind of freestyle hierarchical structure you can define to model
 the required data when running your tasks. The task group variables are initially
-empty and filled whenever a task has finished successfully.
+empty and filled whenever a task has finished successfully. The matrix variables
+is a map of key/value both of type string and the "with" parameters is a list of
+value where each value is as powerful as a model; one entry is provided with index
+and current value of the list.
+
+Rendering is applied on embedded code as well as on referenced files.
 
 ## Accessing the variables
 
@@ -79,5 +86,4 @@ https://pebbletemplates.io/wiki/guide/basic-usage/ <br/>
 
 ## (Near) Future enhancements
 
-- Matrix variables (a matrix runs all task groups again for a different set of variables)
 - Defining task group variables in the document

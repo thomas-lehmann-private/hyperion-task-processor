@@ -27,6 +27,7 @@ import magic.system.hyperion.components.Model;
 import magic.system.hyperion.components.TaskParameters;
 import magic.system.hyperion.components.Variable;
 import magic.system.hyperion.reader.DocumentReader;
+import magic.system.hyperion.tools.Capabilities;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -93,6 +94,25 @@ public class GroovyTaskTest {
 
         assertEquals(TASK_TITLE, task.getTitle());
         assertEquals(HELLO_WORD_TEXT, result.getVariable().getValue().strip());
+        assertTrue(result.isSuccess());
+    }
+
+    /**
+     * Testing file execution with templating.
+     *
+     * @throws URISyntaxException when URL is bad
+     */
+    @Test
+    public void testFileWithTemplating() throws URISyntaxException {
+        final var scriptUrl = getClass().getResource("/scripts/say-something.groovy");
+        final var file = new File(scriptUrl.toURI());
+
+        final var task = new GroovyTask(TASK_TITLE, file.getAbsolutePath());
+        final var result = task.run(TaskTestsTools.getSimpleTaskParameters());
+
+        final var strExpected = "hello world 1!|hello world 2!|hello world 3!|2|hello world 4!"
+                .replaceAll("\\|", Capabilities.getLineBreak());
+        assertEquals(strExpected, result.getVariable().getValue().strip());
         assertTrue(result.isSuccess());
     }
 
