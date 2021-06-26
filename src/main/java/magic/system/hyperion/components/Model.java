@@ -25,7 +25,7 @@ package magic.system.hyperion.components;
 
 import magic.system.hyperion.data.AttributeMap;
 import magic.system.hyperion.generics.Pair;
-import magic.system.hyperion.interfaces.IValue;
+import magic.system.hyperion.data.interfaces.IValue;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 

@@ -21,35 +21,45 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package magic.system.hyperion.data;
+package magic.system.hyperion.data.interfaces;
 
-import magic.system.hyperion.generics.Pair;
-import magic.system.hyperion.data.interfaces.IValue;
+import magic.system.hyperion.data.AttributeMap;
+import magic.system.hyperion.data.ListOfValues;
+import magic.system.hyperion.data.StringValue;
 
 /**
- * Attribute class for handling of values implementing the {@link IValue} interface.
+ * Visitor for data classes.
  *
  * @author Thomas Lehmann
  */
-public class Attribute extends Pair<String, IValue> {
+public interface IDataVisitor {
     /**
-     * Initialize attribute.
+     * Visit of an attribute map.
      *
-     * @param strKey key of the attribute.
-     * @param value value of the attribute.
+     * @param attributeMap attribute map to visit.
      */
-    public Attribute(final String strKey, final IValue value) {
-        super(strKey, value);
-    }
+    void visit(AttributeMap attributeMap);
 
     /**
-     * Creating instance of an attribute.
+     * Visit of a list of values.
      *
-     * @param strKey key of the attribute.
-     * @param value value of the attribute.
-     * @return instance of new attribute.
+     * @param listOfValues list of values to visit.
      */
-    public static Attribute of(final String strKey, final IValue value) {
-        return new Attribute(strKey, value);
-    }
+    void visit(ListOfValues listOfValues);
+
+    /**
+     * Visit of a string value.
+     *
+     * @param stringValue string value to visit.
+     */
+    void visit(StringValue stringValue);
+
+    /**
+     * Visit of the generic value.
+     * The interface intends to enforce that this method delegates
+     * to the other visitor methods depending on concrete value.
+     *
+     * @param value generic value to visit.
+     */
+    void visit(IValue value);
 }

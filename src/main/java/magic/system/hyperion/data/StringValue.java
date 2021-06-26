@@ -23,19 +23,21 @@
  */
 package magic.system.hyperion.data;
 
-import magic.system.hyperion.interfaces.IValue;
+import magic.system.hyperion.data.interfaces.IDataVisitable;
+import magic.system.hyperion.data.interfaces.IDataVisitor;
+import magic.system.hyperion.data.interfaces.IValue;
 
 /**
  * Wrapper for string value.
  *
  * @author Thomas Lehmann
  */
-public class StringValue implements IValue {
+public class StringValue implements IValue, IDataVisitable {
 
     /**
      * String value.
      */
-    private final String strValue;
+    private String strValue;
 
     /**
      * Initialize string value.
@@ -53,6 +55,15 @@ public class StringValue implements IValue {
      */
     public String getValue() {
         return this.strValue;
+    }
+
+    /**
+     * Change value.
+     *
+     * @param strInitValue new value.
+     */
+    public void setValue(final String strInitValue) {
+        this.strValue = strInitValue;
     }
 
     /**
@@ -88,5 +99,10 @@ public class StringValue implements IValue {
         }
 
         return this.strValue.equals(((StringValue) obj).getValue());
+    }
+
+    @Override
+    public void accept(final IDataVisitor visitor) {
+        visitor.visit(this);
     }
 }

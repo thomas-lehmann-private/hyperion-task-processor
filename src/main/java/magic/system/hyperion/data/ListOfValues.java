@@ -23,7 +23,9 @@
  */
 package magic.system.hyperion.data;
 
-import magic.system.hyperion.interfaces.IValue;
+import magic.system.hyperion.data.interfaces.IDataVisitable;
+import magic.system.hyperion.data.interfaces.IDataVisitor;
+import magic.system.hyperion.data.interfaces.IValue;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,7 +36,7 @@ import java.util.List;
  *
  * @author Thomas Lehmann
  */
-public class ListOfValues implements IValue {
+public class ListOfValues implements IValue, IDataVisitable {
     /**
      * List of IValue elements.
      */
@@ -181,5 +183,10 @@ public class ListOfValues implements IValue {
         }
 
         return this.values.equals(((ListOfValues)obj).getValues());
+    }
+
+    @Override
+    public void accept(final IDataVisitor visitor) {
+        this.values.forEach(visitor::visit);
     }
 }

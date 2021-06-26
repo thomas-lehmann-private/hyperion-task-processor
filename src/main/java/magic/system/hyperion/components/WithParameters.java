@@ -23,7 +23,7 @@
  */
 package magic.system.hyperion.components;
 
-import magic.system.hyperion.interfaces.IValue;
+import magic.system.hyperion.data.interfaces.IValue;
 
 /**
  * With parameters are the current value of the list and the related index (zero based).

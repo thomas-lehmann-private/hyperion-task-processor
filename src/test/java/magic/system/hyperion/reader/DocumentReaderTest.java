@@ -147,7 +147,7 @@ public class DocumentReaderTest {
         assertEquals("this is a sub model inside a list of the main model",
                 document.getModel().getData().getList("listOfAnything")
                         .getAttributeList(1)
-                        .getAttributeList("subModel1").getString("description"));
+                        .getMap("subModel1").getString("description"));
         assertEquals(List.of("entry 1", "entry 2", "entry 3").toString(),
                 document.getModel().getData().getList("listOfAnything")
                         .getAttributeList(2)
