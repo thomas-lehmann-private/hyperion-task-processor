@@ -28,18 +28,14 @@ import magic.system.hyperion.cli.CliException;
 import magic.system.hyperion.cli.CliHelpPrinter;
 import magic.system.hyperion.cli.CliOptionList;
 import magic.system.hyperion.cli.CliParser;
-import magic.system.hyperion.components.DocumentParameters;
-import magic.system.hyperion.reader.DocumentReader;
+import magic.system.hyperion.command.RunCommandProcessor;
+import magic.system.hyperion.command.ThirdPartyCommandProcessor;
 import magic.system.hyperion.tools.Capabilities;
 import magic.system.hyperion.tools.CapabilitiesPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
@@ -129,24 +125,11 @@ public final class Application {
         if (result.getGlobalOptions().containsKey(ApplicationOptions.HELP.getLongName())) {
             printHelp();
         } else if (result.getCommandName().equals(ApplicationCommands.THIRD_PARTY.getCommand())) {
-            print3rdParty();
+            new ThirdPartyCommandProcessor(
+                    this.globalOptions, this.commands, result).processCommand();
         } else if (result.getCommandName().equals(ApplicationCommands.RUN.getCommand())) {
             logEnvironment();
-            try {
-                final List<String> tags = result.getGlobalOptions().getOrDefault(
-                        ApplicationOptions.TAG.getLongName(), Collections.emptyList());
-                final Path pathDocument = Paths.get(result.getCommandOptions().get(
-                        ApplicationOptions.RUN_FILE.getLongName()).get(0));
-                final int iTimeoutTaskGroup = Integer.parseInt(
-                        result.getGlobalOptions().getOrDefault(
-                                ApplicationOptions.TIMEOUT_TASKGROUP.getLongName(),
-                        List.of(this.globalOptions.findOption(
-                                ApplicationOptions.TIMEOUT_TASKGROUP.getLongName())
-                                .get().getDefault())).get(0));
-                processDocument(pathDocument, DocumentParameters.of(tags, iTimeoutTaskGroup));
-            } catch (NumberFormatException e) {
-                throw new CliException(e.getMessage());
-            }
+            new RunCommandProcessor(this.globalOptions, this.commands, result).processCommand();
         } else if (result.getCommandName().equals(ApplicationCommands.CAPABILITIES.getCommand())) {
             final var printer = new CapabilitiesPrinter();
             printer.setGroovyVersion(this.properties.getProperty(PROPERTY_GROOVY_VERSION));
@@ -171,18 +154,6 @@ public final class Application {
     }
 
     /**
-     * Processing document.
-     *
-     * @param path path and filename of document.
-     * @param parameters the document parameters.
-     */
-    private void processDocument(final Path path, final DocumentParameters parameters) {
-        final var reader = new DocumentReader(path);
-        final var document = reader.read();
-        document.run(parameters);
-    }
-
-    /**
      * Print the help.
      *
      * @throws CliException when validation has failed.
@@ -198,38 +169,6 @@ public final class Application {
                 .setCommands(this.commands)
                 .build();
         helpPrinter.print(LoggerFactory.getLogger(NO_TIMESTAMP)::info);
-    }
-
-    /**
-     * Displaying 3rd party information.
-     *
-     * @throws CliException when reading of the dependencies has failed.
-     */
-    private void print3rdParty() throws CliException {
-        try (var stream = getClass().getResourceAsStream("/dependencies.txt")) {
-            final List<String> lines = List.of(new String(
-                    stream.readAllBytes(), Charset.defaultCharset()).split("\n"));
-
-            //CHECKSTYLE.OFF: MagicNumber: ok here
-            for (var strLine : lines) {
-                final var tokens = strLine.split(":");
-                if (tokens.length >= 4) {
-                    final var strGroupId = tokens[0].trim();
-                    final var strArtifactId = tokens[1].trim();
-
-                    final int iPos = tokens[3].indexOf(" -- ");
-                    if (iPos >= 0)  {
-                        final var strVersion = tokens[3].substring(0, iPos).trim();
-                        final var logger = LoggerFactory.getLogger(NO_TIMESTAMP);
-                        logger.info(String.format("group id: %s, artifact id: %s, version: %s",
-                                strGroupId, strArtifactId, strVersion));
-                    }
-                }
-            }
-            //CHECKSTYLE.ON: MagicNumber:
-        } catch (IOException e) {
-            throw new CliException(e.getMessage());
-        }
     }
 
     /**

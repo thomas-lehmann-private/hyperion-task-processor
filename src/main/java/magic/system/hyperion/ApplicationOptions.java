@@ -45,9 +45,14 @@ public enum ApplicationOptions {
     HELP("h", "help", "displaying this help"),
 
     /**
-     * FDor the command "run" the option file to specify document to process tasks.
+     * For the command "run" the option file to specify document to process tasks.
      */
-    RUN_FILE("f", "file", "Document with tasks to be processed");
+    RUN_FILE("f", "file", "Document with tasks to be processed"),
+
+    /**
+     *  Option to define path where to place temporary files.
+     */
+    TEMPORARY_PATH("", "temporary-path", "Defining temporary path");
 
     /**
      * Option short name.
@@ -70,7 +75,7 @@ public enum ApplicationOptions {
      * @param strInitShortName short name of option.
      * @param strInitLongName long name of option.
      * @param strInitDescription description of option.
-     * @version 1.0.0
+     * @since 1.0.0
      */
     ApplicationOptions(final String strInitShortName, final String strInitLongName,
                        final String strInitDescription) {
@@ -83,7 +88,7 @@ public enum ApplicationOptions {
      * Get short name of option.
      *
      * @return short name of option.
-     * @version 1.0.0
+     * @since 1.0.0
      */
     public String getShortName() {
         return this.strShortName;
@@ -93,7 +98,7 @@ public enum ApplicationOptions {
      * Get long name of option.
      *
      * @return long name of option.
-     * @version 1.0.0
+     * @since 1.0.0
      */
     public String getLongName() {
         return this.strLongName;
@@ -103,7 +108,7 @@ public enum ApplicationOptions {
      * Get description of option.
      *
      * @return description of option.
-     * @version 1.0.0
+     * @since 1.0.0
      */
     public String getDescription() {
         return this.strDescription;

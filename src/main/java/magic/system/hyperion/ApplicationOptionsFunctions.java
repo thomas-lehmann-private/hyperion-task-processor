@@ -92,6 +92,13 @@ public final class ApplicationOptionsFunctions {
                                 .setRequired(true)
                                 .setType(OptionType.PATH)
                                 .build())
+                        .addOption(CliOption.builder()
+                                .setShortName(ApplicationOptions.TEMPORARY_PATH.getShortName())
+                                .setLongName(ApplicationOptions.TEMPORARY_PATH.getLongName())
+                                .setDescription(ApplicationOptions.TEMPORARY_PATH.getDescription())
+                                .setRequired(false)
+                                .setType(OptionType.PATH)
+                                .build())
                         .build(),
                 CliCommand.builder()
                         .setName(ApplicationCommands.THIRD_PARTY.getCommand())
