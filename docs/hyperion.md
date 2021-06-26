@@ -18,7 +18,7 @@ That's the current list and will be updated when new tasks will be added.
 The current command line options look like following:
 ```
 java -jar hyperion-1.0.0-SNAPSHOT.jar [global options] [command [command options]]
-    version: 1.0.0-SNAPSHOT, build timestamp: 2021-06-13 09:20
+    version: 1.0.0-SNAPSHOT, build timestamp: 2021-06-26 14:55
     author: Thomas Lehmann <thomas.lehmann.private@gmail.com>
 
 Global options:
@@ -32,7 +32,8 @@ List of available commands:
     capabilities - Reporting capabilities of system where Hyperion should run
 
 Options for command 'run':
-    -f<path>, --file=<path> - Document with tasks to be processed [required]
+    -f<path>, --file=<path>           - Document with tasks to be processed [required]
+              --temporary-path=<path> - Defining temporary path
 ```
 
 Also those help should be good enough to help on usage here a few notes:
@@ -48,6 +49,13 @@ Also those help should be good enough to help on usage here a few notes:
 ## Run command
 
 The **run** command allows to run one document with tasks.
+
+ - the required **--file** option is the path and filename of the **YAML** document
+   containing the tasks.
+ - the optional **--temporary-path** option allows you to specify a different path
+   for temporary files than specified by the system. The path must exist and
+   is required to be a directory. You have to ensure that all necessary permissions
+   are given (as they are usually given for the default temporary path).
 
 ## Thirdparty command
 

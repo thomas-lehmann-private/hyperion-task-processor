@@ -24,6 +24,10 @@ please check before that the issue isn't already there. The issue tracker is [he
 Please do not assign tags (please leave that to me). Thank you.
 Please also provide concrete examples that I'm able to reproduce the problem.
 
+## Discussions
+
+Please feel to start/contribute in discussions at https://github.com/thomas-lehmann-private/hyperion/discussions.
+
 ## Documentation
 
 The current documentation will be [here](https://thomas-lehmann-private.github.io/hyperion/).

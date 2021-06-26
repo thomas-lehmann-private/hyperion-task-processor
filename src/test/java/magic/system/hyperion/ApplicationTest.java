@@ -31,7 +31,9 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -66,7 +68,7 @@ public class ApplicationTest {
         var count = 0;
 
         // probe testing (we do not construct the 3rd party again here).
-        for (final var line: lines) {
+        for (final var line : lines) {
             assertTrue(Pattern.matches("group id: .*, artifact id: .*, version: .*", line));
             count += 1;
         }
@@ -107,6 +109,30 @@ public class ApplicationTest {
                 .stream().anyMatch(line -> line.contains("hello world 1!")));
         assertTrue(MessagesCollector.getMessages()
                 .stream().anyMatch(line -> line.contains("hello world 2!")));
+        assertTrue(MessagesCollector.getMessages()
+                .stream().anyMatch(line -> line.contains("hello world 3!")));
+    }
+
+    /**
+     * Testing process a document with a temporary path.
+     *
+     * @throws URISyntaxException when URL for document has wrong syntax.
+     */
+    @Test
+    public void testTemporaryFileOption() throws URISyntaxException {
+        final var temporaryPathUrl = getClass().getResource("/");
+        final var url = getClass().getResource("/documents/document-for-application-test.yml");
+        final var temporaryPath = new File(temporaryPathUrl.toURI()).getAbsolutePath();
+
+        MessagesCollector.clear();
+        Application.main(List.of("run", "--file", new File(url.toURI()).getAbsolutePath(),
+                "--temporary-path", temporaryPath).toArray(String[]::new));
+
+        final var lines = MessagesCollector.getMessages().stream()
+                .filter(line -> line.contains("Running script")).collect(Collectors.toList());
+
+        assertEquals(1, lines.size());
+        assertTrue(lines.get(0).contains(temporaryPath));
     }
 
     /**
@@ -120,7 +146,7 @@ public class ApplicationTest {
         final var file = new File(url.toURI());
 
         MessagesCollector.clear();
-        Application.main(List.of("--tag", "test1","run",
+        Application.main(List.of("--tag", "test1", "run",
                 "--file", file.getAbsolutePath()).toArray(String[]::new));
 
         assertTrue(MessagesCollector.getMessages()

@@ -10,3 +10,6 @@ taskgroups:
         code: println 'hello world 2!'
         tags:
           - test2
+      - type: docker-container
+        code: echo "hello world 3!"
+        image-name: debian

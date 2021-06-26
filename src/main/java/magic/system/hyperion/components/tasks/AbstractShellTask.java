@@ -103,6 +103,7 @@ public abstract class AbstractShellTask extends AbstractTask {
             Files.write(temporaryScriptPath, renderedText.getBytes(
                     Charset.defaultCharset()));
 
+            LOGGER.info("Running script {}", temporaryScriptPath);
             final var process = runFile(temporaryScriptPath);
             final var processResults = ProcessResults.of(process);
             this.getVariable().setValue(String.join(NEWLINE, processResults.getStdout()));

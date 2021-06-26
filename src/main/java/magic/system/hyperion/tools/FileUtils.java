@@ -52,6 +52,11 @@ public final class FileUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(FileUtils.class);
 
     /**
+     * Temporary path where to create files.
+     */
+    private static Path temporaryPath;
+
+    /**
      * Should be never instantiated.
      */
     private FileUtils() {
@@ -71,6 +76,15 @@ public final class FileUtils {
     }
 
     /**
+     * Change temporary path.
+     *
+     * @param path new temporary path.
+     */
+    public static void setTemporaryPath(final Path path) {
+        temporaryPath = path;
+    }
+
+    /**
      * Create temporary script path. On Unix the script is adjusted for full permission.
      *
      * @param strPrefix prefix of file name
@@ -83,15 +97,28 @@ public final class FileUtils {
         final Path temporaryScriptPath;
 
         if (Capabilities.isWindows()) {
-            temporaryScriptPath = Files.createTempFile(
-                    strPrefix,UUID.randomUUID() + strFileExtension);
+            if (temporaryPath == null) {
+                temporaryScriptPath = Files.createTempFile(
+                        strPrefix, UUID.randomUUID() + strFileExtension);
+            } else {
+                temporaryScriptPath = Files.createTempFile(
+                        temporaryPath,
+                        strPrefix, UUID.randomUUID() + strFileExtension);
+            }
         } else {
             final Set<PosixFilePermission> ownerWritable
                     = PosixFilePermissions.fromString("rwxrwxrwx");
             final FileAttribute<?> permissions
                     = PosixFilePermissions.asFileAttribute(ownerWritable);
-            temporaryScriptPath = Files.createTempFile(
-                    strPrefix,UUID.randomUUID() + strFileExtension, permissions);
+
+            if (temporaryPath == null) {
+                temporaryScriptPath = Files.createTempFile(
+                        strPrefix,UUID.randomUUID() + strFileExtension, permissions);
+            } else {
+                temporaryScriptPath = Files.createTempFile(
+                        temporaryPath,
+                        strPrefix,UUID.randomUUID() + strFileExtension, permissions);
+            }
         }
 
         return temporaryScriptPath;
