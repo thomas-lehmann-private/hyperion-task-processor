@@ -23,6 +23,7 @@
  */
 package magic.system.hyperion.components;
 
+import magic.system.hyperion.data.StringRendererVisitor;
 import magic.system.hyperion.interfaces.IVariable;
 
 import java.util.HashMap;
@@ -134,6 +135,7 @@ public final class TaskParameters {
 
         if (this.withParameters != null) {
             context.put("with", this.withParameters);
+            this.withParameters.getValue().accept(new StringRendererVisitor(context));
         }
 
         return context;

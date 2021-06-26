@@ -23,7 +23,8 @@
  */
 package magic.system.hyperion.data;
 
-import magic.system.hyperion.interfaces.IValue;
+import magic.system.hyperion.data.interfaces.IValueVisitor;
+import magic.system.hyperion.data.interfaces.IValue;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -181,5 +182,10 @@ public class ListOfValues implements IValue {
         }
 
         return this.values.equals(((ListOfValues)obj).getValues());
+    }
+
+    @Override
+    public void accept(final IValueVisitor visitor) {
+        this.values.forEach(visitor::visit);
     }
 }

@@ -59,7 +59,7 @@ public class AttributeMapTest {
                 "No attributes expected");
 
         assertNull(attributeList.getString("Unknown"));
-        assertNull(attributeList.getAttributeList("Unknown"));
+        assertNull(attributeList.getMap("Unknown"));
         assertNull(attributeList.getList("Unknown"));
     }
 
@@ -96,7 +96,7 @@ public class AttributeMapTest {
         assertEquals(1, attributeList.getAttributes().size());
         assertTrue(attributeList.contains("key1"));
         assertEquals("value1.1",
-                attributeList.getAttributeList("key1").getString("key1.1"));
+                attributeList.getMap("key1").getString("key1.1"));
     }
 
     /**

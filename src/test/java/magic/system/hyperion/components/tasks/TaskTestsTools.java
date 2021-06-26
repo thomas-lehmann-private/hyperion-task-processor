@@ -40,6 +40,11 @@ import java.util.Map;
 @SuppressWarnings("checkstyle:multiplestringliterals")
 public final class TaskTestsTools {
     /**
+     * Model test value.
+     */
+    public static final String MODEL_TEST_VALUE = "hello world 1!";
+
+    /**
      * Instantiation not wanted.
      */
     private TaskTestsTools() {
@@ -65,7 +70,7 @@ public final class TaskTestsTools {
         variable.setValue("hello world 3!");
 
         return TaskParameters.of(
-                Model.of(Pair.of("test", StringValue.of("hello world 1!"))),
+                Model.of(Pair.of("test", StringValue.of(MODEL_TEST_VALUE))),
                 Map.of("test", "hello world 2!"),
                 Map.of("test", variable),
                 WithParameters.of(2, StringValue.of("hello world 4!")));

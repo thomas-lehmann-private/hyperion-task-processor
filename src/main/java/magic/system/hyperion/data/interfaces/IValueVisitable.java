@@ -21,13 +21,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package magic.system.hyperion.interfaces;
+package magic.system.hyperion.data.interfaces;
 
 /**
- * Interface for values.
+ * Interface to make value visitable.
  *
  * @author Thomas Lehmann
  */
-public interface IValue {
-    // Nothing to do here
+public interface IValueVisitable {
+    /**
+     * Accept a value visitor.
+     *
+     * @param visitor concrete visitor instance.
+     */
+    void accept(IValueVisitor visitor);
 }

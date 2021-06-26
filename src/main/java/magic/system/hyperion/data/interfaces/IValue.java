@@ -21,35 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package magic.system.hyperion.data;
-
-import magic.system.hyperion.generics.Pair;
-import magic.system.hyperion.data.interfaces.IValue;
+package magic.system.hyperion.data.interfaces;
 
 /**
- * Attribute class for handling of values implementing the {@link IValue} interface.
+ * Interface for values.
  *
  * @author Thomas Lehmann
  */
-public class Attribute extends Pair<String, IValue> {
-    /**
-     * Initialize attribute.
-     *
-     * @param strKey key of the attribute.
-     * @param value value of the attribute.
-     */
-    public Attribute(final String strKey, final IValue value) {
-        super(strKey, value);
-    }
-
-    /**
-     * Creating instance of an attribute.
-     *
-     * @param strKey key of the attribute.
-     * @param value value of the attribute.
-     * @return instance of new attribute.
-     */
-    public static Attribute of(final String strKey, final IValue value) {
-        return new Attribute(strKey, value);
-    }
+public interface IValue extends IValueVisitable {
+    // Nothing to do here
 }

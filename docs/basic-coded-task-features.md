@@ -12,7 +12,8 @@ are:
 
 Following attributes are commonly available:
 
- - **title** - the title is optional and is used for logging to show which task is running
+ - **title** - the title is optional and is used for logging to show which task is running.
+    For the title [templating](templating.md) is supported.
  - **code** - the code depends on implementation (see list above). Optional the code also
    might be a valid path and filename. The code (currently the embedded one only) also
    allows [templating](templating.md). You can write multiline code by using a **pipe**
@@ -37,6 +38,7 @@ Following attributes are commonly available:
    **parallel** is set to **false**  the tasks are running in the order they appear
    otherwise they run in parallel (including the "with" tasks). The value of the "with" list is
    not checked to be equal in its structure; the user has to care for it when this is the case.
+   On each with value (structure) [templating](templating.md) is supported.
    
 # Variable
 

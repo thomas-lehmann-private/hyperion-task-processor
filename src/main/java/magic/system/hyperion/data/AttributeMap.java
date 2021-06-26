@@ -23,8 +23,9 @@
  */
 package magic.system.hyperion.data;
 
+import magic.system.hyperion.data.interfaces.IValueVisitor;
+import magic.system.hyperion.data.interfaces.IValue;
 import magic.system.hyperion.generics.Pair;
-import magic.system.hyperion.interfaces.IValue;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -152,18 +153,18 @@ public class AttributeMap implements IValue {
      * Provide attribute map for given key if value is one.
      *
      * @param strKey key to search.
-     * @return attribute list instance if key has been found and value is an
+     * @return attribute map instance if key has been found and value is an
      * attribute list.
      */
-    public AttributeMap getAttributeList(final String strKey) {
-        AttributeMap attributeList = null;
+    public AttributeMap getMap(final String strKey) {
+        AttributeMap attributeMap = null;
 
         final var value = this.attributes.get(strKey);
         if (value instanceof AttributeMap) {
-            attributeList = (AttributeMap) value;
+            attributeMap = (AttributeMap) value;
         }
 
-        return attributeList;
+        return attributeMap;
     }
 
     /**
@@ -252,5 +253,10 @@ public class AttributeMap implements IValue {
         List.of(arrayOfPairs).forEach(pair ->
                 attributeList.set(pair.getFirst(), pair.getSecond()));
         return attributeList;
+    }
+
+    @Override
+    public void accept(final IValueVisitor visitor) {
+        this.attributes.values().forEach(visitor::visit);
     }
 }

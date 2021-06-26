@@ -19,7 +19,7 @@ The map works as the model. A map can have key/value and the value might be:
  - a map of something
  - a list of something
 
-Each simple value define per entry be rendered (see [templating](templating.md))
+Each value will be rendered (see [templating](templating.md))
 
 Each entry might be different in its structure (if you prefer).
 The tool does not check (validate) for this so you
