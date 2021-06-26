@@ -75,10 +75,12 @@ public class DocumentReaderForTasksWithWithValuesTest {
         final var secondTask = document.getListOfTaskGroups().get(0).getListOfTasks().get(1);
         final var expectedWithValues2 = ListOfValues.of(StringValue.of("hello world 1!"),
                 AttributeMap.of(
-                        Pair.of("test1", ListOfValues.of(StringValue.of("hello world 2!"))),
-                        Pair.of("test2", StringValue.of("hello world 3!")),
+                        Pair.of("test1",
+                                ListOfValues.of(StringValue.of("{{ model.attributes.test1 }}"))),
+                        Pair.of("test2", StringValue.of("{{ model.attributes.test2 }}")),
                         Pair.of("test3", AttributeMap.of(
-                                Pair.of("test4", StringValue.of("hello world 4!"))))));
+                                Pair.of("test4",
+                                        StringValue.of("{{ model.attributes.test4 }}"))))));
         assertEquals(expectedWithValues2, secondTask.getWithValues());
     }
 

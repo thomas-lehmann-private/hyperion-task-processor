@@ -23,8 +23,7 @@
  */
 package magic.system.hyperion.data;
 
-import magic.system.hyperion.data.interfaces.IDataVisitable;
-import magic.system.hyperion.data.interfaces.IDataVisitor;
+import magic.system.hyperion.data.interfaces.IValueVisitor;
 import magic.system.hyperion.data.interfaces.IValue;
 
 /**
@@ -32,7 +31,7 @@ import magic.system.hyperion.data.interfaces.IValue;
  *
  * @author Thomas Lehmann
  */
-public class StringValue implements IValue, IDataVisitable {
+public class StringValue implements IValue {
 
     /**
      * String value.
@@ -102,7 +101,7 @@ public class StringValue implements IValue, IDataVisitable {
     }
 
     @Override
-    public void accept(final IDataVisitor visitor) {
+    public void accept(final IValueVisitor visitor) {
         visitor.visit(this);
     }
 }

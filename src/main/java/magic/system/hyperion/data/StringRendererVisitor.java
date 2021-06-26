@@ -24,7 +24,7 @@
 package magic.system.hyperion.data;
 
 import magic.system.hyperion.components.TaskParameters;
-import magic.system.hyperion.data.interfaces.IDataVisitor;
+import magic.system.hyperion.data.interfaces.IValueVisitor;
 import magic.system.hyperion.data.interfaces.IValue;
 import magic.system.hyperion.tools.TemplateEngine;
 
@@ -33,7 +33,7 @@ import java.util.Map;
 /**
  * Rendering strings.
  */
-public class StringRendererVisitor implements IDataVisitor {
+public class StringRendererVisitor implements IValueVisitor {
     /**
      * Templating context.
      */
@@ -46,12 +46,24 @@ public class StringRendererVisitor implements IDataVisitor {
 
     /**
      * Initialize templating context and template engine.
+     * This constructor is more relevant for testing purpose.
      *
      * @param parameters task parameters with templating context.
      * @since 1.0.0
      */
     public StringRendererVisitor(final TaskParameters parameters) {
         this.templatingContext = parameters.getTemplatingContext();
+        this.engine = new TemplateEngine();
+    }
+
+    /**
+     * Initialize templating context and template engine.
+     *
+     * @param initialTemplatingContext templating context.
+     * @since 1.0.0
+     */
+    public StringRendererVisitor(final Map<String, Object> initialTemplatingContext) {
+        this.templatingContext = initialTemplatingContext;
         this.engine = new TemplateEngine();
     }
 

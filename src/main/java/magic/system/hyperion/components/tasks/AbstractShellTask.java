@@ -79,13 +79,16 @@ public abstract class AbstractShellTask extends AbstractTask {
         ISimpleRunnable cleanup = () -> {
         };
 
+        final var engine = new TemplateEngine();
+        var strContent = getCode();
+
         if (!getTitle().isEmpty()) {
-            LOGGER.info("Running task '{}'", getTitle());
+            final var strRenderedTitle = engine.render(
+                    getTitle(), parameters.getTemplatingContext());
+            LOGGER.info("Running task '{}'", strRenderedTitle);
         }
 
         try {
-            var strContent = getCode();
-
             if (isRegularFile()) {
                 LOGGER.info("Processing file {}", getCode());
                 strContent = Files.readString(Paths.get(getCode()));
@@ -94,7 +97,6 @@ public abstract class AbstractShellTask extends AbstractTask {
             final var temporaryScriptPath = createTemporaryFile();
             cleanup = () -> FileUtils.deletePath(temporaryScriptPath);
 
-            final var engine = new TemplateEngine();
             final var renderedText = engine.render(
                     strContent, parameters.getTemplatingContext());
 
@@ -102,7 +104,7 @@ public abstract class AbstractShellTask extends AbstractTask {
                     Charset.defaultCharset()));
 
             final var process = runFile(temporaryScriptPath);
-             final var processResults = ProcessResults.of(process);
+            final var processResults = ProcessResults.of(process);
             this.getVariable().setValue(String.join(NEWLINE, processResults.getStdout()));
             taskResult = new TaskResult(processResults.getExitCode() == 0,
                     getVariable());
@@ -119,7 +121,7 @@ public abstract class AbstractShellTask extends AbstractTask {
      * Providing temporary file.
      *
      * @return temporary script path.
-     * @throws IOException when creation of temporary file has failed.
+     * @throws IOException       when creation of temporary file has failed.
      * @throws HyperionException when filename is null (should never happen)
      */
     private Path createTemporaryFile() throws IOException, HyperionException {
@@ -131,7 +133,7 @@ public abstract class AbstractShellTask extends AbstractTask {
         var finalTemporaryScriptPath = temporaryScriptPath;
 
         if (isTempFileRelativePath()) {
-            final var path =  temporaryScriptPath.getFileName();
+            final var path = temporaryScriptPath.getFileName();
             if (path == null) {
                 throw new HyperionException(
                         "Failed to get file name for " + temporaryScriptPath.toString());

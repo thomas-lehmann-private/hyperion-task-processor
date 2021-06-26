@@ -57,12 +57,14 @@ public class JShellTask extends AbstractTask {
     @Override
     public TaskResult run(final TaskParameters parameters) {
         TaskResult taskResult = null;
+        final var engine = new TemplateEngine();
 
         if (!getTitle().isEmpty()) {
-            LOGGER.info("Running task '{}'", getTitle());
+            final var strRenderedTitle = engine.render(
+                    getTitle(), parameters.getTemplatingContext());
+            LOGGER.info("Running task '{}'", strRenderedTitle);
         }
 
-        final var engine = new TemplateEngine();
         final var renderedText = engine.render(
                 getCode(), parameters.getTemplatingContext());
 

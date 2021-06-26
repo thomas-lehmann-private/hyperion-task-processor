@@ -23,10 +23,9 @@
  */
 package magic.system.hyperion.data;
 
-import magic.system.hyperion.data.interfaces.IDataVisitable;
-import magic.system.hyperion.data.interfaces.IDataVisitor;
-import magic.system.hyperion.generics.Pair;
+import magic.system.hyperion.data.interfaces.IValueVisitor;
 import magic.system.hyperion.data.interfaces.IValue;
+import magic.system.hyperion.generics.Pair;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -41,7 +40,7 @@ import java.util.TreeMap;
  *
  * @author Thomas Lehmann
  */
-public class AttributeMap implements IValue, IDataVisitable {
+public class AttributeMap implements IValue {
 
     /**
      * List of attributes.
@@ -257,7 +256,7 @@ public class AttributeMap implements IValue, IDataVisitable {
     }
 
     @Override
-    public void accept(final IDataVisitor visitor) {
+    public void accept(final IValueVisitor visitor) {
         this.attributes.values().forEach(visitor::visit);
     }
 }

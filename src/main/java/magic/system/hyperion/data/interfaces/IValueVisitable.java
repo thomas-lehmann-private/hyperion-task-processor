@@ -24,15 +24,15 @@
 package magic.system.hyperion.data.interfaces;
 
 /**
- * Interface to make data visitable.
+ * Interface to make value visitable.
  *
  * @author Thomas Lehmann
  */
-public interface IDataVisitable {
+public interface IValueVisitable {
     /**
-     * Accept a data visitor.
+     * Accept a value visitor.
      *
      * @param visitor concrete visitor instance.
      */
-    void accept(IDataVisitor visitor);
+    void accept(IValueVisitor visitor);
 }

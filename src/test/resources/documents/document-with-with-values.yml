@@ -1,4 +1,9 @@
 ---
+model:
+  test1: hello world 2!
+  test2: hello world 3!
+  test4: hello world 4!
+
 taskgroups:
   - title: test
     parallel: false
@@ -22,7 +27,7 @@ taskgroups:
         with:
           - hello world 1!
           - test1:
-              - hello world 2!
-            test2: hello world 3!
+              - "{{ model.attributes.test1 }}"
+            test2: "{{ model.attributes.test2 }}"
             test3:
-              test4: hello world 4!
+              test4: "{{ model.attributes.test4 }}"

@@ -28,11 +28,11 @@ import magic.system.hyperion.data.ListOfValues;
 import magic.system.hyperion.data.StringValue;
 
 /**
- * Visitor for data classes.
+ * Visitor for value classes.
  *
  * @author Thomas Lehmann
  */
-public interface IDataVisitor {
+public interface IValueVisitor {
     /**
      * Visit of an attribute map.
      *

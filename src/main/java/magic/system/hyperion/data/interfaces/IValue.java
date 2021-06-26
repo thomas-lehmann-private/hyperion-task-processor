@@ -28,6 +28,6 @@ package magic.system.hyperion.data.interfaces;
  *
  * @author Thomas Lehmann
  */
-public interface IValue {
+public interface IValue extends IValueVisitable {
     // Nothing to do here
 }
