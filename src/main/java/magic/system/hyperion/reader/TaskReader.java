@@ -25,6 +25,7 @@ package magic.system.hyperion.reader;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import magic.system.hyperion.components.TaskGroup;
+import magic.system.hyperion.components.tasks.AbstractCodableTask;
 import magic.system.hyperion.components.tasks.AbstractTask;
 import magic.system.hyperion.components.tasks.TaskType;
 import magic.system.hyperion.components.tasks.creator.ITaskCreator;
@@ -76,7 +77,7 @@ public class TaskReader implements INodeReader {
         switch (type) {
             case DOCKER_CONTAINER: {
                 new DockerContainerTaskReader(taskGroup, (strTitle, strCode) -> {
-                    final var task = tasksFactory.create(type.getTypeName());
+                    final var task = (AbstractCodableTask) tasksFactory.create(type.getTypeName());
                     task.setTitle(strTitle);
                     task.setCode(strCode);
                     return task;
@@ -86,7 +87,7 @@ public class TaskReader implements INodeReader {
 
             case DOCKER_IMAGE: {
                 new DockerImageTaskReader(taskGroup, (strTitle, strCode) -> {
-                    final var task = tasksFactory.create(type.getTypeName());
+                    final var task = (AbstractCodableTask) tasksFactory.create(type.getTypeName());
                     task.setTitle(strTitle);
                     task.setCode(strCode);
                     return task;
@@ -96,7 +97,7 @@ public class TaskReader implements INodeReader {
 
             default: {
                 new CodedTaskReader(taskGroup, (strTitle, strCode) -> {
-                    final var task = tasksFactory.create(type.getTypeName());
+                    final var task = (AbstractCodableTask) tasksFactory.create(type.getTypeName());
                     task.setTitle(strTitle);
                     task.setCode(strCode);
                     return task;
