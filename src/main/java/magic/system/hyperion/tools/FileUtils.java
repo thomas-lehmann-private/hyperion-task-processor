@@ -83,6 +83,7 @@ public final class FileUtils {
      * Change temporary path.
      *
      * @param path new temporary path.
+     * @since 1.0.0
      */
     public static void setTemporaryPath(final Path path) {
         temporaryPath = path;
@@ -164,6 +165,7 @@ public final class FileUtils {
      *
      * @param path path to delete recursively.
      * @return true when directory has been successfully removed.
+     * @since 1.0.0
      */
     public static boolean removeDirectoryRecursive(final Path path) {
         try {

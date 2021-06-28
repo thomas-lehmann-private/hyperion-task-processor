@@ -5,4 +5,4 @@ magic.system.hyperion.components.tasks.creator.JShellTaskCreator
 magic.system.hyperion.components.tasks.creator.UnixShellTaskCreator
 magic.system.hyperion.components.tasks.creator.PowershellTaskCreator
 magic.system.hyperion.components.tasks.creator.WindowsBatchTaskCreator
-magic.system.hyperion.components.tasks.creator.CopyFileTaskCreator
+magic.system.hyperion.components.tasks.creator.FileCopyTaskCreator
