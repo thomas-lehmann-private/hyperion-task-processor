@@ -1,0 +1,29 @@
+name: hyperion-release-action
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2           # checks out of repository and download it to the runner
+      - name: Setup Graphviz
+        uses: ts-graphviz/setup-graphviz@v1 # installing graphviz
+      - uses: actions/setup-java@v2         # installing java
+        with:
+          distribution: 'adopt'             # Java distribution
+          java-version: 11                  # Java version
+          check-latest: true                # Checking that cached version is the latest
+      - run: mvn --batch-mode
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            target/hyperion-*-shaded.jar
+            target/hyperion-*-javadoc.jar
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
