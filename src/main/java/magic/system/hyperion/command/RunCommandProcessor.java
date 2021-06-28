@@ -83,8 +83,8 @@ public final class RunCommandProcessor extends AbstractCommandProcessor {
      * @param parameters the document parameters.
      */
     private void processDocument(final Path path, final DocumentParameters parameters) {
-        final var reader = new DocumentReader(path);
-        final var document = reader.read();
+        final var reader = new DocumentReader();
+        final var document = reader.read(path);
         document.run(parameters);
     }
 

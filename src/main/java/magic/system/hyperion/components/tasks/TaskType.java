@@ -64,7 +64,12 @@ public enum TaskType {
     /**
      * Type for docker image task.
      */
-    DOCKER_IMAGE("docker-image");
+    DOCKER_IMAGE("docker-image"),
+
+    /**
+     * Type for copy file task.
+     */
+    COPY_FILE("copy-file");
 
     /**
      * Type of task (the concrete type name to be used in YAML).

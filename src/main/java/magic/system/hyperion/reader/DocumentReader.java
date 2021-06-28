@@ -52,30 +52,42 @@ public class DocumentReader {
     private final Document document;
 
     /**
-     * Path where to find the document.
-     */
-    private final Path path;
-
-    /**
      * Initialize document reader with path of the document.
-     *
-     * @param initPath path of the document.
+     * @version 1.0.0
      */
-    public DocumentReader(final Path initPath) {
+    public DocumentReader() {
         this.document = new Document();
-        this.path = initPath;
     }
 
     /**
      * Reading the YAML document.
      *
+     * @param path reading YAML from a path and filename.
      * @return document when successfully read otherwise null.
      * @version 1.0.0
      */
-    public Document read() {
+    public Document read(final Path path) {
         Document finalDocument = null;
         try {
-            readDocument(FileUtils.readYamlTree(this.path));
+            readDocument(FileUtils.readYamlTree(path));
+            finalDocument = this.document;
+        } catch (IOException | HyperionException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+        return finalDocument;
+    }
+
+    /**
+     * Reading the YAML document.
+     *
+     * @param content reading YAML from a byte content.
+     * @return document when successfully read otherwise null.
+     * @version 1.0.0
+     */
+    public Document read(final byte[] content) {
+        Document finalDocument = null;
+        try {
+            readDocument(FileUtils.readYamlTree(content));
             finalDocument = this.document;
         } catch (IOException | HyperionException e) {
             LOGGER.error(e.getMessage(), e);

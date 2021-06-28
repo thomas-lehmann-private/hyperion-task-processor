@@ -23,6 +23,7 @@
  */
 package magic.system.hyperion.components.tasks;
 
+import magic.system.hyperion.tools.FileUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -40,7 +41,6 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Comparator;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -81,14 +81,7 @@ public class FileCopyTaskTest {
     public void cleanUp() throws IOException, URISyntaxException {
         final URL baseUrl = getClass().getResource("/");
         final var path = Paths.get(Path.of(baseUrl.toURI()).toString(), "tasks");
-
-        Files.walk(path).sorted(Comparator.reverseOrder()).forEach(entry -> {
-            try {
-                Files.delete(entry);
-            } catch (IOException e) {
-                LOGGER.error(e.getMessage(), e);
-            }
-        });
+        assertTrue(FileUtils.removeDirectoryRecursive(path));
     }
 
     /**

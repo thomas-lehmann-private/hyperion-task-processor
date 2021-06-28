@@ -39,6 +39,7 @@ import java.nio.file.Path;
 import java.nio.file.attribute.FileAttribute;
 import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.PosixFilePermissions;
+import java.util.Comparator;
 import java.util.Set;
 import java.util.UUID;
 
@@ -159,6 +160,22 @@ public final class FileUtils {
     }
 
     /**
+     * Removing directory path recursively.
+     *
+     * @param path path to delete recursively.
+     * @return true when directory has been successfully removed.
+     */
+    public static boolean removeDirectoryRecursive(final Path path) {
+        try {
+            Files.walk(path).sorted(Comparator.reverseOrder()).forEach(FileUtils::deletePath);
+        } catch (final IOException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+
+        return !Files.exists(path);
+    }
+
+    /**
      * Read YAML as tree providing root as {@link JsonNode}.
      *
      * @param path where to read the YAML file from.
@@ -169,5 +186,18 @@ public final class FileUtils {
     public static JsonNode readYamlTree(final Path path) throws IOException {
         final var mapper = new ObjectMapper(new YAMLFactory());
         return mapper.readTree(path.toUri().toURL());
+    }
+
+    /**
+     * Read YAML as tree providing root as {@link JsonNode}.
+     *
+     * @param content providing content is your task. Can be from within memory.
+     * @return tree
+     * @throws IOException when reading of YAML has failed.
+     * @since 1.0.0
+     */
+    public static JsonNode readYamlTree(final byte[] content) throws IOException {
+        final var mapper = new ObjectMapper(new YAMLFactory());
+        return mapper.readTree(content);
     }
 }

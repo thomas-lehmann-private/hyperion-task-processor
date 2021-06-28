@@ -259,6 +259,8 @@ public class FileCopyTask extends AbstractTask {
                 }
             }
 
+            LOGGER.info("Copying file from {} to {}",
+                    sourcePath.toString(), destinationPath.toString());
             FileUtils.copyFile(sourcePath, finalDestinationPath);
             taskResult = new TaskResult(true, getVariable());
         } catch (IOException e) {

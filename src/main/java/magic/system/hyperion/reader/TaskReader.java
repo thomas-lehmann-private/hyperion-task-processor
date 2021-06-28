@@ -25,7 +25,6 @@ package magic.system.hyperion.reader;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import magic.system.hyperion.components.TaskGroup;
-import magic.system.hyperion.components.tasks.AbstractCodableTask;
 import magic.system.hyperion.components.tasks.AbstractTask;
 import magic.system.hyperion.components.tasks.TaskType;
 import magic.system.hyperion.components.tasks.creator.ITaskCreator;
@@ -39,6 +38,7 @@ import magic.system.hyperion.tools.Factory;
  *
  * @author Thomas
  */
+@SuppressWarnings("checkstyle:classdataabstractioncoupling") // will be fixed later on
 public class TaskReader implements INodeReader {
     /**
      * The task group where to add the Docker container task when all is fine.
@@ -76,31 +76,29 @@ public class TaskReader implements INodeReader {
 
         switch (type) {
             case DOCKER_CONTAINER: {
-                new DockerContainerTaskReader(taskGroup, (strTitle, strCode) -> {
-                    final var task = (AbstractCodableTask) tasksFactory.create(type.getTypeName());
-                    task.setTitle(strTitle);
-                    task.setCode(strCode);
-                    return task;
+                new DockerContainerTaskReader(taskGroup, () -> {
+                    return tasksFactory.create(type.getTypeName());
                 }).read(node);
                 break;
             }
 
             case DOCKER_IMAGE: {
-                new DockerImageTaskReader(taskGroup, (strTitle, strCode) -> {
-                    final var task = (AbstractCodableTask) tasksFactory.create(type.getTypeName());
-                    task.setTitle(strTitle);
-                    task.setCode(strCode);
-                    return task;
+                new DockerImageTaskReader(taskGroup, () -> {
+                    return tasksFactory.create(type.getTypeName());
+                }).read(node);
+                break;
+            }
+
+            case COPY_FILE: {
+                new FileCopyTaskReader(taskGroup, () -> {
+                    return tasksFactory.create(type.getTypeName());
                 }).read(node);
                 break;
             }
 
             default: {
-                new CodedTaskReader(taskGroup, (strTitle, strCode) -> {
-                    final var task = (AbstractCodableTask) tasksFactory.create(type.getTypeName());
-                    task.setTitle(strTitle);
-                    task.setCode(strCode);
-                    return task;
+                new CodedTaskReader(taskGroup, () -> {
+                    return tasksFactory.create(type.getTypeName());
                 }).read(node);
             }
         }

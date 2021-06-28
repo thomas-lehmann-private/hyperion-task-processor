@@ -1,0 +1,30 @@
+---
+model:
+  # the variable is required to be set while testing!
+  path: PATH
+
+taskgroups:
+  - title: test
+    parallel: false
+    tasks:
+      # copying file to existing path
+      - type: copy-file
+        source: "{{ model.attributes.path.value }}/file-copy-test.txt"
+        destination: "{{ model.attributes.path.value }}/tasks"
+      # copying file to existing path with rename
+      - type: copy-file
+        source: "{{ model.attributes.path.value }}/file-copy-test.txt"
+        destination: "{{ model.attributes.path.value }}/tasks/test1.txt"
+        destination-is-directory: false
+      # copying file to none existing path
+      - type: copy-file
+        source: "{{ model.attributes.path.value }}/file-copy-test.txt"
+        destination: "{{ model.attributes.path.value }}/tasks/a"
+        ensure-path: true
+        destination-is-directory: true
+      # copying file to none existing path with rename
+      - type: copy-file
+        source: "{{ model.attributes.path.value }}/file-copy-test.txt"
+        destination: "{{ model.attributes.path.value }}/tasks/a/test1.txt"
+        ensure-path: true
+        destination-is-directory: true

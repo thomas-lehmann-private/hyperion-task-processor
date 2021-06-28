@@ -34,13 +34,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Document containing the tasks.
  *
  * @author Thomas Lehmann
  */
-public class Document implements IChangeableDocument, IRunnable<Void, DocumentParameters> {
+public class Document implements IChangeableDocument, IRunnable<Integer, DocumentParameters> {
     /**
      * Logger for this class.
      */
@@ -152,19 +153,31 @@ public class Document implements IChangeableDocument, IRunnable<Void, DocumentPa
     }
 
     @Override
-    public Void run(final DocumentParameters parameters) {
+    public Integer run(final DocumentParameters parameters) {
+        final var errorCounter = new AtomicInteger();
+
         if (this.matrix.isEmpty()) {
-            this.listOfTaskGroups.forEach(taskGroup -> taskGroup.run(
-                    TaskGroupParameters.of(parameters, this.model, Map.of())));
+            this.listOfTaskGroups.forEach(taskGroup -> {
+                final boolean bSuccess = taskGroup.run(
+                        TaskGroupParameters.of(parameters, this.model, Map.of()));
+                if (!bSuccess) {
+                    errorCounter.incrementAndGet();
+                }
+            });
         } else {
             for (final var matrixParameters: this.matrix) {
                 LOGGER.info("Running Matrix " + matrixParameters.getTitle());
-                this.listOfTaskGroups.forEach(taskGroup -> taskGroup.run(
-                        TaskGroupParameters.of(parameters, this.model,
-                                matrixParameters.getParameters())));
+                this.listOfTaskGroups.forEach(taskGroup -> {
+                    final boolean bSuccess = taskGroup.run(
+                            TaskGroupParameters.of(parameters, this.model,
+                                    matrixParameters.getParameters()));
+                    if (!bSuccess) {
+                        errorCounter.incrementAndGet();
+                    }
+                });
             }
         }
 
-        return null;
+        return errorCounter.get();
     }
 }

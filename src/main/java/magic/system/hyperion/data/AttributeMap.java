@@ -213,7 +213,7 @@ public class AttributeMap implements IValue {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(ToStringStyle.SHORT_PREFIX_STYLE)
+        return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
                 .append(this.attributes).build();
     }
 
