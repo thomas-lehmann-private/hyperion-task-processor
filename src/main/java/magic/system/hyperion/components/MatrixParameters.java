@@ -105,7 +105,7 @@ public class MatrixParameters extends Component {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(ToStringStyle.SHORT_PREFIX_STYLE)
+        return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
                 .append(this.getTitle())
                 .append(this.parameters)
                 .build();

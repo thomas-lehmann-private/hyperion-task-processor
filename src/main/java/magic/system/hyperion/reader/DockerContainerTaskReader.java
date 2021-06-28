@@ -28,7 +28,7 @@ import magic.system.hyperion.components.TaskGroup;
 import magic.system.hyperion.components.tasks.DockerContainerTask;
 import magic.system.hyperion.exceptions.HyperionException;
 import magic.system.hyperion.generics.Converters;
-import magic.system.hyperion.interfaces.ICodeTaskCreator;
+import magic.system.hyperion.interfaces.ITaskCreator;
 import magic.system.hyperion.tools.Capabilities;
 
 /**
@@ -44,7 +44,7 @@ public class DockerContainerTaskReader extends DockerTaskReader implements INode
      * @param initTaskCreator the function that provides the creator for a task.
      */
     public DockerContainerTaskReader(final TaskGroup initTaskGroup,
-                                     final ICodeTaskCreator initTaskCreator) {
+                                     final ITaskCreator initTaskCreator) {
         super(initTaskGroup, initTaskCreator);
     }
 
@@ -64,11 +64,9 @@ public class DockerContainerTaskReader extends DockerTaskReader implements INode
             throw new HyperionException("The Docker container task fields are not correct!");
         }
 
-        final var strTitle = node.has(DocumentReaderFields.TITLE.getFieldName())
-                ? node.get(DocumentReaderFields.TITLE.getFieldName()).asText() : "";
-
-        final var task = (DockerContainerTask) taskCreator.createTask(strTitle,
-                node.get(DocumentReaderFields.CODE.getFieldName()).asText());
+        final var task = (DockerContainerTask) taskCreator.createTask();
+        readBasic(task, node);
+        task.setCode(node.get(DocumentReaderFields.CODE.getFieldName()).asText());
 
         task.setImageName(node.get(DocumentReaderFields.IMAGE_NAME.getFieldName()).asText());
 
@@ -80,15 +78,6 @@ public class DockerContainerTaskReader extends DockerTaskReader implements INode
         if (node.has(DocumentReaderFields.PLATFORM.getFieldName())) {
             task.setPlatform(
                     node.get(DocumentReaderFields.PLATFORM.getFieldName()).asText());
-        }
-
-        if (node.has(DocumentReaderFields.VARIABLE.getFieldName())) {
-            new VariableReader(task.getVariable())
-                    .read(node.get(DocumentReaderFields.VARIABLE.getFieldName()));
-        }
-
-        if (node.has(DocumentReaderFields.TAGS.getFieldName())) {
-            new TagsReader(task).read(node.get(DocumentReaderFields.TAGS.getFieldName()));
         }
 
         taskGroup.add(task);

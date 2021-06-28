@@ -21,40 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package magic.system.hyperion.reader;
+package magic.system.hyperion.components.tasks.creator;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import magic.system.hyperion.components.TaskGroup;
-import magic.system.hyperion.interfaces.ITaskCreator;
-import magic.system.hyperion.matcher.ListMatcher;
+import magic.system.hyperion.annotations.Named;
+import magic.system.hyperion.components.tasks.AbstractTask;
+import magic.system.hyperion.components.tasks.FileCopyTask;
 
 /**
- * Base class for docker image task reader and docker container task reader.
+ * Creator for a file copy task.
  *
  * @author Thomas Lehmann
  */
-public class DockerTaskReader extends BasicTaskReader {
-    /**
-     * Initialize with task group where to add the coded task.
-     *
-     * @param initTaskGroup   keeper of the list of tasks.
-     * @param initTaskCreator the function that provides the creator for a task.
-     */
-    public DockerTaskReader(final TaskGroup initTaskGroup,
-                            final ITaskCreator initTaskCreator) {
-        super(initTaskGroup, initTaskCreator);
-    }
-
-    /**
-     * Provide match being suitable for both situations.
-     *
-     * @param node current node.
-     * @return matcher.
-     */
+@Named("copy-file")
+public class FileCopyTaskCreator implements ITaskCreator {
     @Override
-    protected ListMatcher<String> getMatcher(final JsonNode node) {
-        final var matcher = super.getMatcher(node);
-        matcher.requireExactlyOnce(DocumentReaderFields.CODE.getFieldName());
-        return matcher;
+    public AbstractTask create() {
+        return new FileCopyTask("");
     }
 }

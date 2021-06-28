@@ -45,7 +45,7 @@ import java.util.List;
  *
  * @author Thomas Lehmann
  */
-public abstract class AbstractShellTask extends AbstractTask {
+public abstract class AbstractShellTask extends AbstractCodableTask {
     /**
      * Logger of this class.
      */

@@ -33,9 +33,6 @@ import magic.system.hyperion.interfaces.IRunnable;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-import java.nio.file.Files;
-import java.nio.file.InvalidPathException;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -48,12 +45,6 @@ import java.util.List;
  */
 public abstract class AbstractTask extends Component
         implements IRunnable<TaskResult, TaskParameters>, ICopyable<AbstractTask> {
-
-    /**
-     * Path and name of file of script or inline script.
-     */
-    private String strCode;
-
     /**
      * Storing the task result.
      */
@@ -62,7 +53,7 @@ public abstract class AbstractTask extends Component
     /**
      * List of tags.
      */
-    private List<String> tags;
+    private final List<String> tags;
 
     /**
      * Values provided via "with" attribute for repeating task for each entry.
@@ -73,25 +64,13 @@ public abstract class AbstractTask extends Component
      * Initialize task.
      *
      * @param strInitTitle - title of the task.
-     * @param strInitCode  - Path and name of file of script or inline script.
      */
-    public AbstractTask(final String strInitTitle, final String strInitCode) {
+    public AbstractTask(final String strInitTitle) {
         super(strInitTitle);
-        this.strCode = strInitCode;
         this.variable = new Variable();
         this.variable.setName("default");
         this.tags = new ArrayList<>();
         this.withValues = new ListOfValues();
-    }
-
-    /**
-     * Provide Script code or path and filename to script.
-     *
-     * @return Path and name of file of script or inline script.
-     * @since 1.0.0
-     */
-    public String getCode() {
-        return this.strCode;
     }
 
     /**
@@ -102,16 +81,6 @@ public abstract class AbstractTask extends Component
      */
     public Variable getVariable() {
         return this.variable;
-    }
-
-    /**
-     * Change code.
-     *
-     * @param strInitCode new value for code.
-     * @since 1.0.0
-     */
-    public void setCode(final String strInitCode) {
-        this.strCode = strInitCode;
     }
 
     /**
@@ -158,27 +127,10 @@ public abstract class AbstractTask extends Component
         return this.withValues;
     }
 
-    /**
-     * Checking for code to represent an existing path and filename.
-     *
-     * @return true when given code represents an existing path and filename.
-     * @since 1.0.0
-     */
-    public boolean isRegularFile() {
-        boolean success;
-        try {
-            success = Files.isRegularFile(Paths.get(this.strCode));
-        } catch (InvalidPathException e) {
-            success = false;
-        }
-        return success;
-    }
-
     @Override
     public int hashCode() {
         return new HashCodeBuilder()
                 .append(this.getTitle())
-                .append(this.strCode)
                 .append(this.variable)
                 .append(this.tags)
                 .append(this.withValues)
@@ -200,7 +152,6 @@ public abstract class AbstractTask extends Component
         final AbstractTask other = (AbstractTask) obj;
         return new EqualsBuilder()
                 .append(this.getTitle(), other.getTitle())
-                .append(this.strCode, other.getCode())
                 .append(this.variable, other.getVariable())
                 .append(this.tags, other.getTags())
                 .append(this.withValues, other.getWithValues())

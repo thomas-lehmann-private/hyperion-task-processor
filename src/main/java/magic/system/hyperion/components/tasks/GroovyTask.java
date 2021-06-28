@@ -44,7 +44,7 @@ import java.util.Map;
  * Task for running a Groovy script.
  */
 @SuppressWarnings("checkstyle:classdataabstractioncoupling")
-public class GroovyTask extends AbstractTask {
+public class GroovyTask extends AbstractCodableTask {
     /**
      * Logger for this class.
      */

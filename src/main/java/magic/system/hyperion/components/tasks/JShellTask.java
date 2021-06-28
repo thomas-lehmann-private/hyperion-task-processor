@@ -38,7 +38,7 @@ import java.nio.charset.Charset;
 /**
  * Provide JShell task. The JShell task is not considered for file usage.
  */
-public class JShellTask extends AbstractTask {
+public class JShellTask extends AbstractCodableTask {
     /**
      * Logger for this class.
      */

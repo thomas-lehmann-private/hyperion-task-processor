@@ -262,7 +262,7 @@ public class Variable implements IVariable {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(ToStringStyle.SHORT_PREFIX_STYLE)
+        return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
                 .append("name", this.strName)
                 .append("regex", this.strRegex)
                 .append("regexGroup", this.iRegexGroup)

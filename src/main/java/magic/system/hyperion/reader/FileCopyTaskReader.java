@@ -25,25 +25,25 @@ package magic.system.hyperion.reader;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import magic.system.hyperion.components.TaskGroup;
-import magic.system.hyperion.components.tasks.AbstractCodableTask;
+import magic.system.hyperion.components.tasks.FileCopyTask;
 import magic.system.hyperion.exceptions.HyperionException;
 import magic.system.hyperion.generics.Converters;
 import magic.system.hyperion.interfaces.ITaskCreator;
 
 /**
- * Reading coded tasks.
+ * Reader for a copy file task.
  *
  * @author Thomas Lehmann
  */
-public class CodedTaskReader extends BasicTaskReader implements INodeReader {
+public class FileCopyTaskReader extends BasicTaskReader implements INodeReader {
     /**
-     * Initialize with task group where to add the coded task.
+     * Initialize with task group where to add the task.
      *
-     * @param initTaskGroup keeper of the list of tasks.
+     * @param initTaskGroup   keeper of the list of tasks.
      * @param initTaskCreator the function that provides the creator for a task.
      * @since 1.0.0
      */
-    public CodedTaskReader(final TaskGroup initTaskGroup, final ITaskCreator initTaskCreator) {
+    public FileCopyTaskReader(TaskGroup initTaskGroup, ITaskCreator initTaskCreator) {
         super(initTaskGroup, initTaskCreator);
     }
 
@@ -51,17 +51,40 @@ public class CodedTaskReader extends BasicTaskReader implements INodeReader {
     public void read(JsonNode node) throws HyperionException {
         final var matcher = getMatcher(node);
 
-        matcher.requireExactlyOnce(DocumentReaderFields.CODE.getFieldName());
+        matcher.requireExactlyOnce(DocumentReaderFields.SOURCE.getFieldName());
+        matcher.requireExactlyOnce(DocumentReaderFields.DESTINATION.getFieldName());
+        matcher.allow(DocumentReaderFields.ENSURE_PATH.getFieldName());
+        matcher.allow(DocumentReaderFields.OVERWRITE.getFieldName());
+        matcher.allow(DocumentReaderFields.DESTINATION_IS_DIRECTORY.getFieldName());
 
         final var names = Converters.convertToSortedList(node.fieldNames());
         if (!matcher.matches(names)) {
-            throw new HyperionException("The task fields are not correct!");
+            throw new HyperionException("The copy file task fields are not correct!");
         }
 
-        final var task = (AbstractCodableTask)taskCreator.createTask();
+        final var task = (FileCopyTask) taskCreator.createTask();
         readBasic(task, node);
 
-        task.setCode(node.get(DocumentReaderFields.CODE.getFieldName()).asText());
+        task.setSourcePath(node.get(
+                DocumentReaderFields.SOURCE.getFieldName()).asText());
+        task.setDestinationPath(node.get(
+                DocumentReaderFields.DESTINATION.getFieldName()).asText());
+
+        if (node.has(DocumentReaderFields.ENSURE_PATH.getFieldName())) {
+            task.setEnsurePath(node.get(
+                    DocumentReaderFields.ENSURE_PATH.getFieldName()).asBoolean());
+        }
+
+        if (node.has(DocumentReaderFields.OVERWRITE.getFieldName())) {
+            task.setOverwrite(node.get(
+                    DocumentReaderFields.OVERWRITE.getFieldName()).asBoolean());
+        }
+
+        if (node.has(DocumentReaderFields.DESTINATION_IS_DIRECTORY.getFieldName())) {
+            task.setDestinationIsDirectory(node.get(
+                    DocumentReaderFields.DESTINATION_IS_DIRECTORY.getFieldName()).asBoolean());
+        }
+
         this.taskGroup.add(task);
     }
 }

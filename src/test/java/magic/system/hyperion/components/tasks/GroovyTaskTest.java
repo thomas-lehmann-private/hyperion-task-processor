@@ -159,8 +159,8 @@ public class GroovyTaskTest {
         final var task = new GroovyTask(TASK_TITLE,
                 String.format("println '{{ %s }}'", strModelPath));
 
-        final var reader = new DocumentReader(path);
-        final var document = reader.read();
+        final var reader = new DocumentReader();
+        final var document = reader.read(path);
 
         final var parameters = TaskParameters.of(
                 document.getModel(), Map.of(), Map.of(), null);

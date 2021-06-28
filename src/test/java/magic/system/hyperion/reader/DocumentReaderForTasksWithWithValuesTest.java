@@ -63,8 +63,8 @@ public class DocumentReaderForTasksWithWithValuesTest {
     public void testRead() throws URISyntaxException {
         final var path = Paths.get(getClass().getResource(
                 "/documents/document-with-with-values.yml").toURI());
-        final var reader = new DocumentReader(path);
-        final var document = reader.read();
+        final var reader = new DocumentReader();
+        final var document = reader.read(path);
         assertNotNull(document, "Document shouldn't be null");
 
         final var firstTask = document.getListOfTaskGroups().get(0).getListOfTasks().get(0);
@@ -93,8 +93,8 @@ public class DocumentReaderForTasksWithWithValuesTest {
     public void testRun() throws URISyntaxException {
         final var path = Paths.get(getClass().getResource(
                 "/documents/document-with-with-values.yml").toURI());
-        final var reader = new DocumentReader(path);
-        final var document = reader.read();
+        final var reader = new DocumentReader();
+        final var document = reader.read(path);
 
         MessagesCollector.clear();
         document.run(getDefaultDocumentParameters());

@@ -115,7 +115,33 @@ public enum DocumentReaderFields {
     /**
      * The repository:tag for the image (option -t of docker build).
      */
-    REPOSITORY_TAG("repository-tag");
+    REPOSITORY_TAG("repository-tag"),
+
+    /**
+     * First time required in copy files for the source path and filename.
+     */
+    SOURCE("source"),
+
+    /**
+     * First time required in copy files for the destination path (filename or directory).
+     */
+    DESTINATION("destination"),
+
+    /**
+     * Boolean option that allows to create missing folders of a path.
+     */
+    ENSURE_PATH("ensure-path"),
+
+    /**
+     * Boolean option that allows overwrite something. For the copy file task it's to allow
+     * overwrite an existing file at destination path.
+     */
+    OVERWRITE("overwrite"),
+
+    /**
+     * Boolean option to tell the task how a destination path is to be interpreted.
+     */
+    DESTINATION_IS_DIRECTORY("destination-is-directory");
 
     /**
      * Name of the field.

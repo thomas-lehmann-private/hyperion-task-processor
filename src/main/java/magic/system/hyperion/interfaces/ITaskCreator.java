@@ -31,14 +31,12 @@ import magic.system.hyperion.exceptions.HyperionException;
  * JShell and so on).
  */
 @FunctionalInterface
-public interface ICodeTaskCreator {
+public interface ITaskCreator {
     /**
      * Create a task with initial title and code.
      *
-     * @param strTitle title of the task.
-     * @param strCode code of the task (or path and filename of the script).
      * @return instance of a concrete task.
      * @throws HyperionException when creating of the task has failed.
      */
-    AbstractTask createTask(String strTitle, String strCode) throws HyperionException;
+    AbstractTask createTask() throws HyperionException;
 }

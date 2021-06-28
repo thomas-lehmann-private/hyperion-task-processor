@@ -64,9 +64,23 @@ public class AttributeMapTest {
     }
 
     /**
+     * Testing removing a key and the related value.
+     */
+    @Test
+    public void testRemove() {
+        final var attributeMap = AttributeMap.of(
+                Pair.of("key1", StringValue.of("value1")),
+                Pair.of("key2", StringValue.of("value2")));
+
+        attributeMap.remove("key1");
+        assertEquals(1, attributeMap.size());
+        assertEquals("value2", attributeMap.get("key2").toString());
+    }
+
+    /**
      * Testing adding a string key and a string value.
      *
-     * @param attributes list of attributes to add.
+     * @param attributes     list of attributes to add.
      * @param expectedValues expected values in order
      */
     @ParameterizedTest(name = "#{index} - attributes to add: {0} - expected values: {1}")
@@ -80,9 +94,21 @@ public class AttributeMapTest {
         }
 
         for (final var attribute : attributeMap.getAttributes().entrySet()) {
-            assertEquals(((StringValue)attribute.getValue()).getValue(),
+            assertEquals(((StringValue) attribute.getValue()).getValue(),
                     attributeMap.getString(attribute.getKey()));
         }
+    }
+
+    /**
+     * Testing toString implementation.
+     */
+    @Test
+    public void testToString() {
+        final var attributeMap = AttributeMap.of(
+                Pair.of("key1", StringValue.of("value1")),
+                Pair.of("key2", StringValue.of("value2")));
+
+        assertEquals("AttributeMap[{key1=value1, key2=value2}]", attributeMap.toString());
     }
 
     /**

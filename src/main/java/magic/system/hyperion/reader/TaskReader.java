@@ -38,6 +38,7 @@ import magic.system.hyperion.tools.Factory;
  *
  * @author Thomas
  */
+@SuppressWarnings("checkstyle:classdataabstractioncoupling") // will be fixed later on
 public class TaskReader implements INodeReader {
     /**
      * The task group where to add the Docker container task when all is fine.
@@ -75,31 +76,29 @@ public class TaskReader implements INodeReader {
 
         switch (type) {
             case DOCKER_CONTAINER: {
-                new DockerContainerTaskReader(taskGroup, (strTitle, strCode) -> {
-                    final var task = tasksFactory.create(type.getTypeName());
-                    task.setTitle(strTitle);
-                    task.setCode(strCode);
-                    return task;
+                new DockerContainerTaskReader(taskGroup, () -> {
+                    return tasksFactory.create(type.getTypeName());
                 }).read(node);
                 break;
             }
 
             case DOCKER_IMAGE: {
-                new DockerImageTaskReader(taskGroup, (strTitle, strCode) -> {
-                    final var task = tasksFactory.create(type.getTypeName());
-                    task.setTitle(strTitle);
-                    task.setCode(strCode);
-                    return task;
+                new DockerImageTaskReader(taskGroup, () -> {
+                    return tasksFactory.create(type.getTypeName());
+                }).read(node);
+                break;
+            }
+
+            case COPY_FILE: {
+                new FileCopyTaskReader(taskGroup, () -> {
+                    return tasksFactory.create(type.getTypeName());
                 }).read(node);
                 break;
             }
 
             default: {
-                new CodedTaskReader(taskGroup, (strTitle, strCode) -> {
-                    final var task = tasksFactory.create(type.getTypeName());
-                    task.setTitle(strTitle);
-                    task.setCode(strCode);
-                    return task;
+                new CodedTaskReader(taskGroup, () -> {
+                    return tasksFactory.create(type.getTypeName());
                 }).read(node);
             }
         }

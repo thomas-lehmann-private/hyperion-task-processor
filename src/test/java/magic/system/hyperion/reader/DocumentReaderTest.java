@@ -68,8 +68,8 @@ public class DocumentReaderTest {
     public void testReader() throws URISyntaxException {
         final var path = Paths.get(getClass().getResource(
                 "/documents/document-is-valid.yml").toURI());
-        final var reader = new DocumentReader(path);
-        final var document = reader.read();
+        final var reader = new DocumentReader();
+        final var document = reader.read(path);
         assertNotNull(document, "Document shouldn't be null");
         assertEquals(1, document.getListOfTaskGroups().size());
         assertEquals(2, document.getListOfTaskGroups().get(0).getListOfTasks().size());
@@ -84,8 +84,8 @@ public class DocumentReaderTest {
     public void testGroovy() throws URISyntaxException {
         final var path = Paths.get(getClass().getResource(
                 "/documents/document-with-groovy.yml").toURI());
-        final var reader = new DocumentReader(path);
-        final var document = reader.read();
+        final var reader = new DocumentReader();
+        final var document = reader.read(path);
         assertNotNull(document, "Document shouldn't be null");
         assertEquals(1, document.getListOfTaskGroups().size());
         assertEquals(3, document.getListOfTaskGroups().get(0).getListOfTasks().size());
@@ -113,8 +113,8 @@ public class DocumentReaderTest {
     public void testUnixShell() throws URISyntaxException {
         final var path = Paths.get(getClass().getResource(
                 "/documents/document-with-unix-shell.yml").toURI());
-        final var reader = new DocumentReader(path);
-        final var document = reader.read();
+        final var reader = new DocumentReader();
+        final var document = reader.read(path);
         assertNotNull(document, "Document shouldn't be null");
         assertEquals(1, document.getListOfTaskGroups().size());
         assertEquals(3, document.getListOfTaskGroups().get(0).getListOfTasks().size());
@@ -137,8 +137,8 @@ public class DocumentReaderTest {
     public void testReaderForJustAModel() throws URISyntaxException {
         final var path = Paths.get(getClass().getResource(
                 "/documents/valid-document-with-just-a-model.yml").toURI());
-        final var reader = new DocumentReader(path);
-        final var document = reader.read();
+        final var reader = new DocumentReader();
+        final var document = reader.read(path);
         assertNotNull(document, "Document shouldn't be null");
         assertEquals("this is a test model (main model)",
                 document.getModel().getData().getString("description"));
@@ -163,8 +163,8 @@ public class DocumentReaderTest {
     public void testMatrix() throws URISyntaxException {
         final var path = Paths.get(getClass().getResource(
                 "/documents/document-with-matrix.yml").toURI());
-        final var reader = new DocumentReader(path);
-        final var document = reader.read();
+        final var reader = new DocumentReader();
+        final var document = reader.read(path);
         assertNotNull(document);
 
         final var collector = new ListCollector<IVariable>();
@@ -191,8 +191,8 @@ public class DocumentReaderTest {
         final var path = Paths.get(getClass().getResource(
                 "/documents/valid-document-with-just-a-model.yml").toURI());
         // change path to one that does not exist.
-        final var reader = new DocumentReader(Paths.get(path + "yml"));
-        final var document = reader.read();
+        final var reader = new DocumentReader();
+        final var document = reader.read(Paths.get(path + "yml"));
         assertNull(document);
     }
 
@@ -200,9 +200,9 @@ public class DocumentReaderTest {
     public void testReadWithUnknownField() throws URISyntaxException {
         final var path = Paths.get(getClass().getResource(
                 "/documents/invalid-document-with-unknown-field.yml").toURI());
-        final var reader = new DocumentReader(path);
+        final var reader = new DocumentReader();
         MessagesCollector.clear();
-        final var document = reader.read();
+        final var document = reader.read(path);
         assertNull(document);
 
         assertTrue(MessagesCollector.getMessages()
@@ -218,8 +218,8 @@ public class DocumentReaderTest {
     public void testTasksRunningInParallel() throws URISyntaxException {
         final var path = Paths.get(getClass().getResource(
                 "/documents/document-with-tasks-running-in-parallel.yml").toURI());
-        final var reader = new DocumentReader(path);
-        final var document = reader.read();
+        final var reader = new DocumentReader();
+        final var document = reader.read(path);
         assertNotNull(document, "Document shouldn't be null");
         assertEquals(1, document.getListOfTaskGroups().size());
         assertEquals(3, document.getListOfTaskGroups().get(0).getListOfTasks().size());
