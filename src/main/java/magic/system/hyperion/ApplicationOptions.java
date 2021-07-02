@@ -24,7 +24,7 @@
 package magic.system.hyperion;
 
 /**
- * Application options.
+ * Application options (global options as well as options related to a command).
  *
  * @author Thomas Lehmann
  */
@@ -35,7 +35,7 @@ public enum ApplicationOptions {
     TAG("t", "tag", "provide tag to filter tasks"),
 
     /**
-     * Timeout on each taskgroup.
+     * Timeout on each task group.
      */
     TIMEOUT_TASKGROUP("", "timeout-taskgroup", "timeout for each taskgroup (minutes)"),
 

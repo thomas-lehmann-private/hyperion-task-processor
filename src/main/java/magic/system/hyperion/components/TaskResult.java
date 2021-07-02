@@ -46,6 +46,7 @@ public class TaskResult {
      * @param bInitSuccess when true the task has been successful.
      * @param initVariable the extracted content from related task (when
      * defined).
+     * @since 1.0.0
      */
     public TaskResult(final boolean bInitSuccess, final Variable initVariable) {
         this.bSuccess = bInitSuccess;
@@ -56,6 +57,7 @@ public class TaskResult {
      * Provide success of related task.
      *
      * @return true when task has been successful.
+     * @since 1.0.0
      */
     public boolean isSuccess() {
         return this.bSuccess;
@@ -65,6 +67,7 @@ public class TaskResult {
      * Provide variable of task.
      *
      * @return provide extracted value from related task (when defined).
+     * @since 1.0.0
      */
     public Variable getVariable() {
         return this.variable;

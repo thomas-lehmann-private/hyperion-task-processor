@@ -59,6 +59,7 @@ public enum ApplicationCommands {
      *
      * @param strInitCommand name of the command.
      * @param strInitDescription description of the commands.
+     * @since 1.0.0
      */
     ApplicationCommands(final String strInitCommand, final String strInitDescription) {
         this.strCommand = strInitCommand;

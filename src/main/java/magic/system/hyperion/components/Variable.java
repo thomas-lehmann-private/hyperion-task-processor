@@ -81,6 +81,7 @@ public class Variable implements IVariable {
      * @param strInitRegex the regex to use for extracting value.
      * @param iInitRegexGroup the regex group to use.
      * @param bInitLineByLine when true then apply regex per line.
+     * @since 1.0.0
      */
     public Variable(final String strInitName, final String strInitRegex,
             final int iInitRegexGroup, final boolean bInitLineByLine) {
@@ -91,11 +92,6 @@ public class Variable implements IVariable {
         this.bLineByLine = bInitLineByLine;
     }
 
-    /**
-     * Provide name of variable.
-     *
-     * @return name of variable.
-     */
     @Override
     public String getName() {
         return this.strName;
@@ -105,16 +101,12 @@ public class Variable implements IVariable {
      * Change name of variable.
      *
      * @param strInitName new name of variable.
+     * @since 1.0.0
      */
     public void setName(final String strInitName) {
         this.strName = strInitName;
     }
 
-    /**
-     * Value of the variable.
-     *
-     * @return value
-     */
     @Override
     public String getValue() {
         return this.strValue;
@@ -132,6 +124,7 @@ public class Variable implements IVariable {
      * Get flag whether to apply regex line by line.
      *
      * @return true when regex should be applied line by line.
+     * @since 1.0.0
      */
     public boolean isLineByLine() {
         return this.bLineByLine;
@@ -141,6 +134,7 @@ public class Variable implements IVariable {
      * Change line by line flag.
      *
      * @param bInitLineByLine new value for line by handling (regex).
+     * @since 1.0.0
      */
     public void setLineByLine(final boolean bInitLineByLine) {
         this.bLineByLine = bInitLineByLine;
@@ -150,6 +144,7 @@ public class Variable implements IVariable {
      * Get defined Regex to extract value.
      *
      * @return defined regex.
+     * @since 1.0.0
      */
     public String getRegex() {
         return this.strRegex;
@@ -159,6 +154,7 @@ public class Variable implements IVariable {
      * Change regex for variable.
      *
      * @param strInitRegex new regex expression.
+     * @since 1.0.0
      */
     public void setRegex(final String strInitRegex) {
         this.strRegex = strInitRegex;
@@ -168,6 +164,7 @@ public class Variable implements IVariable {
      * Get regex group to use.
      *
      * @return regex group.
+     * @since 1.0.0
      */
     public int getRegexGroup() {
         return this.iRegexGroup;
@@ -177,6 +174,7 @@ public class Variable implements IVariable {
      * Change value for regex group.
      *
      * @param iInitRegexGroup new value for regex group.
+     * @since 1.0.0
      */
     public void setRegexGroup(final int iInitRegexGroup) {
         this.iRegexGroup = iInitRegexGroup;
@@ -187,35 +185,65 @@ public class Variable implements IVariable {
      *
      * @param strInitValue some string (text)
      * @return true when regex did work fine.
+     * @since 1.0.0
      */
     public boolean setValue(final String strInitValue) {
         boolean success = false;
-        final var pattern = Pattern.compile(this.strRegex, Pattern.DOTALL);
 
         if (this.bLineByLine) {
-            String strNewValue = "";
-            for (final var line : List.of(strInitValue.split("\\n"))) {
-                final var matcher = pattern.matcher(line);
-                if (!matcher.find()) {
-                    continue;
-                }
-
-                success = true;
-                if (!strNewValue.isEmpty()) {
-                    strNewValue += "\n";
-                }
-                strNewValue += matcher.group(this.iRegexGroup);
-            }
-
-            if (success) {
-                this.strValue = strNewValue.strip();
-            }
+            success = setValueFilterLineByLine(strInitValue);
         } else {
-            final var matcher = pattern.matcher(strInitValue);
-            if (matcher.find()) {
-                success = true;
-                this.strValue = matcher.group(this.iRegexGroup).strip();
+            success = setValueFilterTotal(strInitValue);
+        }
+
+        return success;
+    }
+
+    /**
+     * The regex is applied on each single line of the string content.
+     *
+     * @param strInitValue string content.
+     * @return true regex did find any match.
+     */
+    private boolean setValueFilterLineByLine(final String strInitValue) {
+        boolean success = false;
+        final var pattern = Pattern.compile(this.strRegex, Pattern.DOTALL);
+
+        String strNewValue = "";
+        for (final var line : List.of(strInitValue.split("\\n"))) {
+            final var matcher = pattern.matcher(line);
+            if (!matcher.find()) {
+                continue;
             }
+
+            success = true;
+            if (!strNewValue.isEmpty()) {
+                strNewValue += "\n";
+            }
+            strNewValue += matcher.group(this.iRegexGroup);
+        }
+
+        if (success) {
+            this.strValue = strNewValue.strip();
+        }
+
+        return success;
+    }
+
+    /**
+     * The regex is applied once on whole string content.
+     *
+     * @param strInitValue string content
+     * @return true if regex did find any match.
+     */
+    private boolean setValueFilterTotal(final String strInitValue) {
+        boolean success = false;
+        final var pattern = Pattern.compile(this.strRegex, Pattern.DOTALL);
+
+        final var matcher = pattern.matcher(strInitValue);
+        if (matcher.find()) {
+            success = true;
+            this.strValue = matcher.group(this.iRegexGroup).strip();
         }
 
         return success;

@@ -7,7 +7,7 @@
 
 ### Description
 
-As a **devop engineer** you should be able to create a docker image by a task.
+As a **devops engineer** you should be able to create a docker image by a task.
 The **Dockerfile** code can be embedded in the document or referencing
 a valid path and filename. The standard parameters are those of a coded task
 with additional following parameters:

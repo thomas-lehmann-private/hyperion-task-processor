@@ -32,12 +32,11 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.List;
 
 /**
- * Model with data required for the processing.
+ * Model with data required for the task processing.
  *
  * @author Thomas Lehmann
  */
 public class Model {
-
     /**
      * List of string based attributes with a value being a list of strings or
      * just a string.
@@ -46,6 +45,7 @@ public class Model {
 
     /**
      * Initialize model.
+     * @since 1.0.0
      */
     public Model() {
         this.data = new AttributeMap();
@@ -55,6 +55,7 @@ public class Model {
      * Get model data.
      *
      * @return model data.
+     * @since 1.0.0
      */
     public AttributeMap getData() {
         return this.data;
@@ -64,6 +65,7 @@ public class Model {
      * Checking whether model is empty.
      *
      * @return true when model is empty otherwise false.
+     * @since 1.0.0
      */
     public boolean isEmpty() {
         return this.data.isEmpty();
@@ -99,6 +101,7 @@ public class Model {
      *
      * @param arrayOfPairs array of pairs.
      * @return created model.
+     * @since 1.0.0
      */
     @SafeVarargs
     public static Model of(final Pair<String, IValue>... arrayOfPairs) {

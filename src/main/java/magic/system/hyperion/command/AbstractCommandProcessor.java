@@ -78,6 +78,7 @@ public abstract class AbstractCommandProcessor {
      * Implementing the concrete command.
      *
      * @throws CliException when processing of command has failed.
+     * @since 1.0.0
      */
     public abstract void processCommand() throws CliException;
 }

@@ -77,7 +77,7 @@ public final class RunCommandProcessor extends AbstractCommandProcessor {
     }
 
     /**
-     * Processing document.
+     * Processing one YAML document for given path.
      *
      * @param path       path and filename of document.
      * @param parameters the document parameters.

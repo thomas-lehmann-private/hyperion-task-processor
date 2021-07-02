@@ -43,7 +43,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * A group of tasks.
+ * A group of tasks. The list of task can run in order or in parallel.
  *
  * @author Thomas Lehmann
  */
@@ -80,6 +80,7 @@ public class TaskGroup extends Component
      *
      * @param strInitTitle            title of the group.
      * @param bInitRunTasksInParallel when true then run tasks in parallel.
+     * @since 1.0.0
      */
     public TaskGroup(final String strInitTitle,
                      final boolean bInitRunTasksInParallel) {
@@ -142,41 +143,9 @@ public class TaskGroup extends Component
 
     @Override
     public Boolean run(final TaskGroupParameters parameters) {
-        final AtomicInteger errorCounter = new AtomicInteger(0);
-
-        // run parameters
-        final var model = parameters.getModel();
-        final var matrixParameters = parameters.getMatrixParameters();
-        final var tags = parameters.getDocumentParameters().getTags();
-
-        final List<Runnable> runnables = new ArrayList<>();
+        final var errorCounter = new AtomicInteger(0);
         final Map<String, Integer> variableNamesMap = new TreeMap<>();
-
-        for (var task : this.listOfTasks) {
-            // ignore task when its tags do not match the filter (if the task does
-            // not have tags the task is also ignored)
-            if (!tags.isEmpty() && task.getTags().stream().noneMatch(tags::contains)) {
-                continue;
-            }
-
-            if (task.getWithValues().isEmpty()) {
-                runnables.add(() -> runOneTask(model, matrixParameters, null, task, errorCounter));
-            } else {
-                for (int iSubTask = 0; iSubTask < task.getWithValues().size(); ++iSubTask) {
-                    final var withParameters
-                            = WithParameters.of(iSubTask, task.getWithValues().get(iSubTask));
-                    runnables.add(() -> runOneTask(
-                            model, matrixParameters, withParameters, task.copy(), errorCounter));
-                }
-            }
-
-            if (variableNamesMap.containsKey(task.getVariable().getName())) {
-                variableNamesMap.put(task.getVariable().getName(),
-                        variableNamesMap.get(task.getVariable().getName())+1);
-            } else {
-                variableNamesMap.put(task.getVariable().getName(), 1);
-            }
-        }
+        final var runnables = getRunnables(parameters, errorCounter, variableNamesMap);
 
         if (bRunTasksInParallel) {
             variableNamesMap.entrySet().forEach(entry -> {
@@ -202,20 +171,64 @@ public class TaskGroup extends Component
     }
 
     /**
+     * Get list of runnables (for running run all tasks in order in one thread or run all
+     * tasks in parallel).
+     *
+     * @param parameters       model and matrix parameters.
+     * @param errorCounter     counter for errors.
+     * @param variableNamesMap counter for duplicate variable names.
+     * @return list of runnables.
+     */
+    private List<Runnable> getRunnables(final TaskGroupParameters parameters,
+                                        final AtomicInteger errorCounter,
+                                        final Map<String, Integer> variableNamesMap) {
+        final List<Runnable> runnables = new ArrayList<>();
+        final var tags = parameters.getDocumentParameters().getTags();
+
+        for (var task : this.listOfTasks) {
+            // ignore task when its tags do not match the filter (if the task does
+            // not have tags the task is also ignored)
+            if (!tags.isEmpty() && task.getTags().stream().noneMatch(tags::contains)) {
+                continue;
+            }
+
+            if (task.getWithValues().isEmpty()) {
+                runnables.add(() -> runOneTask(parameters, null, task, errorCounter));
+            } else {
+                for (int iSubTask = 0; iSubTask < task.getWithValues().size(); ++iSubTask) {
+                    final var withParameters
+                            = WithParameters.of(iSubTask, task.getWithValues().get(iSubTask));
+                    runnables.add(() -> runOneTask(parameters, withParameters,
+                            task.copy(), errorCounter));
+                }
+            }
+
+            if (variableNamesMap.containsKey(task.getVariable().getName())) {
+                variableNamesMap.put(task.getVariable().getName(),
+                        variableNamesMap.get(task.getVariable().getName()) + 1);
+            } else {
+                variableNamesMap.put(task.getVariable().getName(), 1);
+            }
+        }
+        return runnables;
+    }
+
+    /**
      * Running one task (might run in a thread).
      *
-     * @param model            the model from the document.
-     * @param matrixParameters the matrix parameters (eventually).
-     * @param withParameters   current index and current value of "with values" or null
-     *                         if attribute has not been specified.
-     * @param task             the concrete task to run.
-     * @param errorCounter     the counter to increment on error.
+     * @param parameters     model and the matrix parameters.
+     * @param withParameters current index and current value of "with values" or null
+     *                       if attribute has not been specified.
+     * @param task           the concrete task to run.
+     * @param errorCounter   the counter to increment on error.
      */
-    private void runOneTask(final Model model, final Map<String, String> matrixParameters,
+    private void runOneTask(final TaskGroupParameters parameters,
                             final WithParameters withParameters,
                             final AbstractTask task, final AtomicInteger errorCounter) {
-        final var result = task.run(
-                TaskParameters.of(model, matrixParameters, this.variables, withParameters));
+        final var result = task.run(TaskParameters.of(
+                parameters.getModel(), parameters.getMatrixParameters(),
+                this.variables, withParameters));
+
         final var copiedVariable = result.getVariable().copy();
         this.variables.put(copiedVariable.getName(), copiedVariable);
         LOGGER.info(String.format("set variable %s=%s",
