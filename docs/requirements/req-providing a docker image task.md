@@ -16,7 +16,7 @@ with additional following parameters:
    
 ### Contraints
 
-No constraints.
+Docker is required to be installed, running and the command should be in the search path. 
 
 ### Criticality and Risk
 

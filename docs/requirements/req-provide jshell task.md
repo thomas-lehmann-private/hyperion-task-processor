@@ -1,20 +1,18 @@
-# Provide windows batch task
+# Provide JShell task
 
 ### Document meta data
  - **Type**: Requirement
- - **Id**: 7
+ - **Id**: 10
  - **Context**: task feature
 
 ### Description
 
-As a **devops engineer** you should be able to write a windows batch script as task.
-The Batch code can be embedded in the document or referencing
-a valid path and filename. The standard parameters are those of a coded task.
-
+As a **devops engineer** you should be able to write a JShell script as task.
+The standard parameters are those of a coded task.
    
 ### Contraints
 
-The task is supposed to run on Windows systems only.
+The script code can be embedded only.
 
 ### Criticality and Risk
 

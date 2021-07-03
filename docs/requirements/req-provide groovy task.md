@@ -1,20 +1,19 @@
-# Provide windows batch task
+# Provide Groovy task
 
 ### Document meta data
  - **Type**: Requirement
- - **Id**: 7
+ - **Id**: 9
  - **Context**: task feature
 
 ### Description
 
-As a **devops engineer** you should be able to write a windows batch script as task.
-The Batch code can be embedded in the document or referencing
+As a **devops engineer** you should be able to write a Groovy script as task.
+The script code can be embedded in the document or referencing
 a valid path and filename. The standard parameters are those of a coded task.
-
-   
+  
 ### Contraints
 
-The task is supposed to run on Windows systems only.
+No constraints.
 
 ### Criticality and Risk
 

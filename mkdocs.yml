@@ -25,6 +25,7 @@ nav:
        - junit5.md
        - mkdocs.md
        - cli.md
+       - finishing-a-milestone.md
 
 theme:
     name: flatly
