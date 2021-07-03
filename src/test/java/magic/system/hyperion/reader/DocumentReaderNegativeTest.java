@@ -44,6 +44,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
  * @author Thomas Lehmann
  */
 @DisplayName("Negative tests for document reader classes")
+@SuppressWarnings("checkstyle:multiplestringliterals")
 public class DocumentReaderNegativeTest {
     /**
      * Testing unknown main field. Usually there should be model,
@@ -63,6 +64,7 @@ public class DocumentReaderNegativeTest {
     /**
      * Testing unknown field in different locations (depends on document).
      *
+     * @param strDocument the path and filename of the YAML document.
      * @throws URISyntaxException when url is invalid.
      */
     @ParameterizedTest(name = "#{index}  document={0}")

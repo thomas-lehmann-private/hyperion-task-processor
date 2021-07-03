@@ -31,7 +31,7 @@ import magic.system.hyperion.data.interfaces.IValue;
  *
  * @author Thomas Lehmann
  */
-public class Attribute extends Pair<String, IValue> {
+public final class Attribute extends Pair<String, IValue> {
     /**
      * Initialize attribute.
      *
