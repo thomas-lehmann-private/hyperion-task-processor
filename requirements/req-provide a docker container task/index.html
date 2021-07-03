@@ -6,9 +6,9 @@
 <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <meta content="Thomas Lehmann &lt;thomas.lehmann.private@gmail.com" name="author"/>
-<link href="https://thomas-lehmann-private.github.io/hyperion/requirements/req-provide%20powershell%20task/" rel="canonical"/>
+<link href="https://thomas-lehmann-private.github.io/hyperion/requirements/req-provide%20a%20docker%20container%20task/" rel="canonical"/>
 <link href="../../img/favicon.ico" rel="shortcut icon"/>
-<title>Provide Powershell task - Hyperion</title>
+<title>Provide a Docker container task - Hyperion</title>
 <link href="../../css/bootstrap.min.css" rel="stylesheet"/>
 <link href="../../css/font-awesome.min.css" rel="stylesheet"/>
 <link href="../../css/base.css" rel="stylesheet"/>
@@ -108,7 +108,7 @@
                             </a>
 </li>
 <li class="nav-item">
-<a class="nav-link" href="https://github.com/thomas-lehmann-private/hyperion/edit/master/docs/requirements/req-provide powershell task.md"><i class="fa fa-github"></i> Edit on GitHub</a>
+<a class="nav-link" href="https://github.com/thomas-lehmann-private/hyperion/edit/master/docs/requirements/req-provide a docker container task.md"><i class="fa fa-github"></i> Edit on GitHub</a>
 </li>
 </ul>
 </div>
@@ -124,7 +124,7 @@
 </div>
 <div class="navbar-collapse collapse card bg-secondary" id="toc-collapse">
 <ul class="nav flex-column">
-<li class="nav-item" data-level="1"><a class="nav-link" href="#provide-powershell-task">Provide Powershell task</a>
+<li class="nav-item" data-level="1"><a class="nav-link" href="#provide-a-docker-container-task">Provide a Docker container task</a>
 <ul class="nav flex-column">
 </ul>
 </li>
@@ -132,19 +132,37 @@
 </div>
 </div></div>
 <div class="col-md-9" role="main">
-<h1 id="provide-powershell-task">Provide Powershell task</h1>
+<h1 id="provide-a-docker-container-task">Provide a Docker container task</h1>
 <h3 id="document-meta-data">Document meta data</h3>
 <ul>
 <li><strong>Type</strong>: Requirement</li>
-<li><strong>Id</strong>: 2</li>
+<li><strong>Id</strong>: 11</li>
 <li><strong>Context</strong>: task feature</li>
 </ul>
 <h3 id="description">Description</h3>
-<p>As a <strong>devops engineer</strong> you should be able to write a Powershell script as task.
-The Powershell code can be embedded in the document or referencing
-a valid path and filename. The standard parameters are those of a coded task.</p>
+<p>As a <strong>devops engineer</strong> you should be able to create a docker container by a task.
+The script code can be embedded in the document or referencing
+a valid path and filename. The standard parameters are those of a coded task
+with additional following parameters:</p>
+<ul>
+<li><strong>image-name</strong> - required parameter. It's the name of the Docker image.</li>
+<li><strong>image-version</strong> - optional parameter. It's the version of the Docker image.
+   If not specified the default version is 'latest'.</li>
+<li><strong>platform</strong> - optional parameter. The default is 'unix'. On Windows you also
+   can use Docker to run so called Windows container. For the moment you can use
+   use the one or the other only by switching manually to the platform you prefer.
+   There's an experimental option in Docker allowing you to specify the platform on command
+   line to run both but - since it is experimental - it is not yet supported by
+   the task.</li>
+</ul>
+<p>The Docker container runs in foreground mode. When the process has finished the Docker
+container is automatically removed. The current working path is mapped into the Docker container as /work.</p>
 <h3 id="constraints">Constraints</h3>
-<p>The task is supposed to run on Windows systems only (the moment).</p>
+<ul>
+<li>Docker is required to be installed, running and the command should be in the search path.</li>
+<li>You have to choose manually which platform to use: Unix or Windows container.</li>
+<li>No ports are published to outside the moment.</li>
+</ul>
 <h3 id="criticality-and-risk">Criticality and Risk</h3>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>

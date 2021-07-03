@@ -6,9 +6,9 @@
 <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <meta content="Thomas Lehmann &lt;thomas.lehmann.private@gmail.com" name="author"/>
-<link href="https://thomas-lehmann-private.github.io/hyperion/requirements/" rel="canonical"/>
+<link href="https://thomas-lehmann-private.github.io/hyperion/copy-file/" rel="canonical"/>
 <link href="../img/favicon.ico" rel="shortcut icon"/>
-<title>Requirements - Hyperion</title>
+<title>File copy task - Hyperion</title>
 <link href="../css/bootstrap.min.css" rel="stylesheet"/>
 <link href="../css/font-awesome.min.css" rel="stylesheet"/>
 <link href="../css/base.css" rel="stylesheet"/>
@@ -33,7 +33,7 @@
 <li class="navitem">
 <a class="nav-link" href="..">Home</a>
 </li>
-<li class="dropdown">
+<li class="dropdown active">
 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">User Guide <b class="caret"></b></a>
 <ul class="dropdown-menu">
 <li>
@@ -67,7 +67,7 @@
 <a class="dropdown-item" href="../docker-container/">Docker container task</a>
 </li>
 <li>
-<a class="dropdown-item" href="../copy-file/">File copy task</a>
+<a class="dropdown-item active" href="./">File copy task</a>
 </li>
 <li>
 <a class="dropdown-item" href="../templating/">Templating</a>
@@ -77,11 +77,11 @@
 </li>
 </ul>
 </li>
-<li class="dropdown active">
+<li class="dropdown">
 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Developer Guide <b class="caret"></b></a>
 <ul class="dropdown-menu">
 <li>
-<a class="dropdown-item active" href="./">Requirements</a>
+<a class="dropdown-item" href="../requirements/">Requirements</a>
 </li>
 <li>
 <a class="dropdown-item" href="../build/">Build</a>
@@ -108,17 +108,17 @@
                             </a>
 </li>
 <li class="nav-item">
-<a class="nav-link" href="../matrix/" rel="prev">
+<a class="nav-link" href="../docker-container/" rel="prev">
 <i class="fa fa-arrow-left"></i> Previous
                                 </a>
 </li>
 <li class="nav-item">
-<a class="nav-link" href="../build/" rel="next">
+<a class="nav-link" href="../templating/" rel="next">
                                     Next <i class="fa fa-arrow-right"></i>
 </a>
 </li>
 <li class="nav-item">
-<a class="nav-link" href="https://github.com/thomas-lehmann-private/hyperion/edit/master/docs/requirements.md"><i class="fa fa-github"></i> Edit on GitHub</a>
+<a class="nav-link" href="https://github.com/thomas-lehmann-private/hyperion/edit/master/docs/copy-file.md"><i class="fa fa-github"></i> Edit on GitHub</a>
 </li>
 </ul>
 </div>
@@ -134,93 +134,101 @@
 </div>
 <div class="navbar-collapse collapse card bg-secondary" id="toc-collapse">
 <ul class="nav flex-column">
-<li class="nav-item" data-level="1"><a class="nav-link" href="#requirements">Requirements</a>
+<li class="nav-item" data-level="1"><a class="nav-link" href="#file-copy-task">File copy task</a>
 <ul class="nav flex-column">
+<li class="nav-item" data-level="2"><a class="nav-link" href="#minimal-examples">Minimal examples</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+<li class="nav-item" data-level="2"><a class="nav-link" href="#variable">Variable</a>
+<ul class="nav flex-column">
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 </div>
 </div></div>
 <div class="col-md-9" role="main">
-<h1 id="requirements">Requirements</h1>
-<table>
-<thead>
-<tr>
-<th>Id</th>
-<th>Title</th>
-<th>Context</th>
-<th>Details</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>Provide coded tasks</td>
-<td>task feature</td>
-<td><a href="req-provide%20coded%20tasks/">details</a></td>
-</tr>
-<tr>
-<td>10</td>
-<td>Provide JShell task</td>
-<td>task feature</td>
-<td><a href="req-provide%20jshell%20task/">details</a></td>
-</tr>
-<tr>
-<td>11</td>
-<td>Provide a Docker container task</td>
-<td>task feature</td>
-<td><a href="req-provide%20a%20docker%20container%20task/">details</a></td>
-</tr>
-<tr>
-<td>2</td>
-<td>Provide Powershell task</td>
-<td>task feature</td>
-<td><a href="req-provide%20powershell%20task/">details</a></td>
-</tr>
-<tr>
-<td>3</td>
-<td>Printing capabilities to console</td>
-<td>system information</td>
-<td><a href="req-printing%20capabilities%20to%20console/">details</a></td>
-</tr>
-<tr>
-<td>4</td>
-<td>Providing a Docker image task</td>
-<td>task feature</td>
-<td><a href="req-providing%20a%20docker%20image%20task/">details</a></td>
-</tr>
-<tr>
-<td>5</td>
-<td>Provide 'with' attribute on tasks allowing to repeat same task for each entry in the list</td>
-<td>task feature</td>
-<td><a href="req-provide%20%27with%27%20attribute%20on%20tasks%20allowing%20to%20repeat%20same%20task%20for%20each%20entry%20in%20the%20list/">details</a></td>
-</tr>
-<tr>
-<td>6</td>
-<td>providing a copy file task</td>
-<td>task feature</td>
-<td><a href="req-providing%20a%20copy%20file%20task/">details</a></td>
-</tr>
-<tr>
-<td>7</td>
-<td>Provide windows batch task</td>
-<td>task feature</td>
-<td><a href="req-provide%20windows%20batch%20task/">details</a></td>
-</tr>
-<tr>
-<td>8</td>
-<td>Provide unix shell task</td>
-<td>task feature</td>
-<td><a href="req-provide%20unix%20shell%20task/">details</a></td>
-</tr>
-<tr>
-<td>9</td>
-<td>Provide Groovy task</td>
-<td>task feature</td>
-<td><a href="req-provide%20groovy%20task/">details</a></td>
-</tr>
-</tbody>
-</table></div>
+<h1 id="file-copy-task">File copy task</h1>
+<p>In addition to the <a href="../basic-task-features/">basic task features</a> the file
+copy task has following attributes:</p>
+<ul>
+<li><strong>source</strong> - required attribute with the path and filename that must exist.
+                The attribute does allow <a href="../templating/">templating</a>.</li>
+<li><strong>destination</strong> - required attribute with the path of filename or directory.
+                The attribute does allow <a href="../templating/">templating</a>.
+                The meaning of the value will be specified with the boolean attribute
+                "destination-is-directory"; when it is set to true the filename of
+                the source is appended to the path otherwise it is assumed that you
+                have specified a path and filename.</li>
+<li><strong>overwrite</strong> - optional boolean attribute. When set to true (default is false)
+                 the copy operation will overwrite the destination otherwise
+                 the task might fail when the destination already exists.</li>
+<li><strong>ensure-path</strong> - optional boolean attribute. When set to true (default is false)
+                 the path of the filename or directory will be created when missing
+                 otherwise the task might fail when the path does not exist.
+   <strong>destination-is-directory</strong>  optional boolean attribute. When set to true
+                 (default is true) then the path defined in "destination"
+                 will be interpreted as directory.</li>
+</ul>
+<h2 id="minimal-examples">Minimal examples</h2>
+<p>The following example does a <strong>copy and rename</strong> of a file at same path;
+when the destination file exists the task operation does fail.</p>
+<pre><code class="yaml">---
+taskgroups:
+  - title: test
+    tasks:
+      - type: copy-file
+        source: c:\temp\test1.txt
+        destination: c:\temp\test2.txt
+</code></pre>
+<p>The following example copies a file (name remains) to a destination
+path; when the destination path doesn't exist it will be created.
+The expected result is here: c:\temp\test\test1.txt. 
+The attribute <strong>destination-is-directory</strong> is required here otherwise
+the task doesn't know that the defined destination is a path.
+When the destination file exists the task operation does fail.</p>
+<pre><code class="yaml">---
+taskgroups:
+  - title: test
+    tasks:
+      - type: copy-file
+        source: c:\temp\test1.txt
+        destination: c:\temp\test
+        destination-is-directory: true
+        ensure-path: true
+</code></pre>
+<p>The following example does a <strong>copy and rename</strong> of a file to a different path;
+when the destination path doesn't exist it will be created.
+The expected result is here: c:\temp\test\test2.txt.
+When the destination file exists the task operation does fail.</p>
+<pre><code class="yaml">---
+taskgroups:
+  - title: test
+    tasks:
+      - type: copy-file
+        source: c:\temp\test1.txt
+        destination: c:\temp\test\test2.txt
+        ensure-path: true
+</code></pre>
+<p>That's the same example as the first one with the additional attribute <strong>overwrite</strong>
+set to true; when the destination exists it will be overwritten.</p>
+<pre><code class="yaml">---
+taskgroups:
+  - title: test
+    tasks:
+      - type: copy-file
+        source: c:\temp\test1.txt
+        destination: c:\temp\test2.txt
+        overwrite: true
+</code></pre>
+<h2 id="variable">Variable</h2>
+<p>Usually a variable is used to capture the stdout; the default is then to capture all.
+In this case there is no stdout output. For this task the variable will contain
+the final path and filename when the copy operation has been successful.
+All variable options as explained in
+<a href="../basic-task-features/">basic task features</a> are still valid.</p></div>
 </div>
 </div>
 <footer class="col-md-12">

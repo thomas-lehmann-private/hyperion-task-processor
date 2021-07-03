@@ -43,6 +43,9 @@
 <a class="dropdown-item" href="../taskgroup/">Taskgroup</a>
 </li>
 <li>
+<a class="dropdown-item" href="../basic-task-features/">Basic tasks features</a>
+</li>
+<li>
 <a class="dropdown-item" href="../basic-coded-task-features/">Basic code tasks</a>
 </li>
 <li>
@@ -62,6 +65,9 @@
 </li>
 <li>
 <a class="dropdown-item" href="../docker-container/">Docker container task</a>
+</li>
+<li>
+<a class="dropdown-item" href="../copy-file/">File copy task</a>
 </li>
 <li>
 <a class="dropdown-item" href="../templating/">Templating</a>
@@ -88,6 +94,9 @@
 </li>
 <li>
 <a class="dropdown-item" href="../cli/">CLI</a>
+</li>
+<li>
+<a class="dropdown-item" href="../finishing-a-milestone/">Finishing a milestone</a>
 </li>
 </ul>
 </li>
@@ -168,7 +177,7 @@ like:</p>
 <h2 id="command-line-interface">Command line interface</h2>
 <p>The current command line options look like following:</p>
 <pre><code>java -jar hyperion-1.0.0-SNAPSHOT.jar [global options] [command [command options]]
-    version: 1.0.0-SNAPSHOT, build timestamp: 2021-06-13 09:20
+    version: 1.0.0-SNAPSHOT, build timestamp: 2021-06-26 14:55
     author: Thomas Lehmann &lt;thomas.lehmann.private@gmail.com&gt;
 
 Global options:
@@ -182,7 +191,8 @@ List of available commands:
     capabilities - Reporting capabilities of system where Hyperion should run
 
 Options for command 'run':
-    -f&lt;path&gt;, --file=&lt;path&gt; - Document with tasks to be processed [required]
+    -f&lt;path&gt;, --file=&lt;path&gt;           - Document with tasks to be processed [required]
+              --temporary-path=&lt;path&gt; - Defining temporary path
 </code></pre>
 <p>Also those help should be good enough to help on usage here a few notes:</p>
 <ul>
@@ -196,6 +206,14 @@ Options for command 'run':
 </ul>
 <h2 id="run-command">Run command</h2>
 <p>The <strong>run</strong> command allows to run one document with tasks.</p>
+<ul>
+<li>the required <strong>--file</strong> option is the path and filename of the <strong>YAML</strong> document
+   containing the tasks.</li>
+<li>the optional <strong>--temporary-path</strong> option allows you to specify a different path
+   for temporary files than specified by the system. The path must exist and
+   is required to be a directory. You have to ensure that all necessary permissions
+   are given (as they are usually given for the default temporary path).</li>
+</ul>
 <h2 id="thirdparty-command">Thirdparty command</h2>
 <p>The <strong>thirdparty</strong> command prints all used third party components.
 Please also have a look at <a href="../build/">build</a>; dependencies are listed there too
