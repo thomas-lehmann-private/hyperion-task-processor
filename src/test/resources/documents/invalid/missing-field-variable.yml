@@ -1,0 +1,10 @@
+---
+taskgroups:
+  - title: test
+    parallel: false
+    tasks:
+      - type: groovy
+        code: println '---> this is a demo <---'
+        variable:
+          regex: ">(.*)<"
+          group: 1

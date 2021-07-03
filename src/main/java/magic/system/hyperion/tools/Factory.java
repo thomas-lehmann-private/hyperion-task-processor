@@ -44,6 +44,7 @@ public class Factory<E> {
      * Initialize factory with creator class.
      *
      * @param initCreatorClass creator class.
+     * @since 1.0.0
      */
     public Factory(final Class<? extends ICreator<E>> initCreatorClass) {
         this.creatorClass = initCreatorClass;
@@ -54,6 +55,7 @@ public class Factory<E> {
      *
      * @param strName name of the creator passes to @Named.
      * @return created instance or null if failed.
+     * @since 1.0.0
      */
     public E create(final String strName) {
         final var loader = ServiceLoader.load(this.creatorClass);

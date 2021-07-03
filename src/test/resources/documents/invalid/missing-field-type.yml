@@ -1,0 +1,6 @@
+---
+taskgroups:
+  - title: test
+    tasks:
+      - title: a simple example
+        code: println 'hello world!'

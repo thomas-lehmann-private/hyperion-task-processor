@@ -54,6 +54,7 @@ public final class ProcessResults {
      * @param initStdout    - stdout of process.
      * @param initStderr    - stderr of process.
      * @param iInitExitCode - exit code of process.
+     * @since 1.0.0
      */
     private ProcessResults(final List<String> initStdout, final List<String> initStderr,
                            final int iInitExitCode) {
@@ -66,6 +67,7 @@ public final class ProcessResults {
      * Readonly access to list of lines written to stdout.
      *
      * @return list of lines written to stdout.
+     * @since 1.0.0
      */
     public List<String> getStdout() {
         return Collections.unmodifiableList(this.stdout);
@@ -75,6 +77,7 @@ public final class ProcessResults {
      * Readonly access to list of lines written to stderr.
      *
      * @return list of lines written to stderr.
+     * @since 1.0.0
      */
     public List<String> getStderr() {
         return Collections.unmodifiableList(this.stderr);
@@ -84,6 +87,7 @@ public final class ProcessResults {
      * Error code written by execution of last process.
      *
      * @return last process exit code.
+     * @since 1.0.0
      */
     public int getExitCode() {
         return this.iExitCode;

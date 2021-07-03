@@ -50,13 +50,14 @@ public class AttributeMapReader implements INodeReader {
      * Initialize reader with instance of {@link AttributeMap}.
      *
      * @param initAttributeMap instance of {@link AttributeMap}.
+     * @since 1.0.0
      */
     public AttributeMapReader(final AttributeMap initAttributeMap) {
         this.attributeMap = initAttributeMap;
     }
 
     @Override
-    public void read(JsonNode node) throws HyperionException {
+    public void read(final JsonNode node) throws HyperionException {
         final var iter = node.fields();
 
         while (iter.hasNext()) {

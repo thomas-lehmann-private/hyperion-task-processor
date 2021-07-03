@@ -70,6 +70,7 @@ public class CapabilitiesPrinter {
      * Change Groovy version.
      *
      * @param strInitGroovyVersion new version.
+     * @since 1.0.0
      */
     public void setGroovyVersion(final String strInitGroovyVersion) {
         this.strGroovyVersion = strInitGroovyVersion;
@@ -79,6 +80,7 @@ public class CapabilitiesPrinter {
      * Print capabilities of the system.
      *
      * @param consumer it's on the caller to decide how to print.
+     * @since 1.0.0
      */
     public void print(final Consumer<String> consumer) {
         consumer.accept(printableKeyValue(JAVA, Capabilities.getJavaVersion(),

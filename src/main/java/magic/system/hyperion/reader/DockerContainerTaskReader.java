@@ -42,6 +42,7 @@ public class DockerContainerTaskReader extends DockerTaskReader implements INode
      *
      * @param initTaskGroup   keeper of the list of tasks.
      * @param initTaskCreator the function that provides the creator for a task.
+     * @since 1.0.0
      */
     public DockerContainerTaskReader(final TaskGroup initTaskGroup,
                                      final ITaskCreator initTaskCreator) {
@@ -49,7 +50,7 @@ public class DockerContainerTaskReader extends DockerTaskReader implements INode
     }
 
     @Override
-    public void read(JsonNode node) throws HyperionException {
+    public void read(final JsonNode node) throws HyperionException {
         if (!Capabilities.hasDocker()) {
             throw new HyperionException("Docker seems to be missing; cannot process document!");
         }

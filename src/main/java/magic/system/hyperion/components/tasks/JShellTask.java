@@ -49,6 +49,7 @@ public class JShellTask extends AbstractCodableTask {
      *
      * @param strInitTitle - title of the task.
      * @param strInitCode - Path and name of file of script or inline script.
+     * @since 1.0.0
      */
     public JShellTask(final String strInitTitle, final String strInitCode) {
         super(strInitTitle, strInitCode);
@@ -57,14 +58,10 @@ public class JShellTask extends AbstractCodableTask {
     @Override
     public TaskResult run(final TaskParameters parameters) {
         TaskResult taskResult = null;
+
+        logTitle(parameters);
+
         final var engine = new TemplateEngine();
-
-        if (!getTitle().isEmpty()) {
-            final var strRenderedTitle = engine.render(
-                    getTitle(), parameters.getTemplatingContext());
-            LOGGER.info("Running task '{}'", strRenderedTitle);
-        }
-
         final var renderedText = engine.render(
                 getCode(), parameters.getTemplatingContext());
 
@@ -88,12 +85,12 @@ public class JShellTask extends AbstractCodableTask {
                 getVariable().setValue(stream1.toString(Charset.defaultCharset()));
                 taskResult = new TaskResult(true, getVariable());
             }
-        } catch (IllegalStateException e) {
+        } catch (final IllegalStateException e) {
+            LOGGER.error(e.getMessage(), e);
             taskResult = new TaskResult(false, getVariable());
         }
 
         return taskResult;
-
     }
 
     @Override

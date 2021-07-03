@@ -76,46 +76,6 @@ public final class TaskParameters {
     }
 
     /**
-     * Get model.
-     *
-     * @return model.
-     * @since 1.0.0
-     */
-    public Model getModel() {
-        return this.model;
-    }
-
-    /**
-     * Get matrix parameters.
-     *
-     * @return matrix parameters.
-     * @since 1.0.0
-     */
-    public Map<String, String> getMatrixParameters() {
-        return this.matrixParameters;
-    }
-
-    /**
-     * Get variables.
-     *
-     * @return variables.
-     * @since 1.0.0
-     */
-    public Map<String, IVariable> getVariables() {
-        return this.variables;
-    }
-
-    /**
-     * Get current index and current value of "with" values.
-     *
-     * @return current index and current value of "with" values.
-     * @since 1.0.0
-     */
-    public WithParameters getWithParameters() {
-        return this.withParameters;
-    }
-
-    /**
      * Get dynamic templating context.
      *
      * @return templating context.

@@ -1,0 +1,11 @@
+---
+taskgroups:
+  - title: test
+    tasks:
+      - type: docker-image
+        repository-tag: image-test:latest
+        code: |
+          FROM centos:latest
+          COPY target/test-classes/scripts/say-hello-world.sh .
+          RUN chmod +x /say-hello-world.sh
+        unknown: unknown

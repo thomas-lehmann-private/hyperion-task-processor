@@ -60,6 +60,7 @@ public class Capabilities {
      * Evaluating whether underlying system is Windows.
      *
      * @return true when system is Windows.
+     * @since 1.0.0
      */
     public static boolean isWindows() {
         return getOperatingSystemName().toLowerCase(Locale.getDefault()).startsWith("windows");
@@ -69,6 +70,7 @@ public class Capabilities {
      * Checking that Docker command is available on the current system.
      *
      * @return true when Docker command is available.
+     * @since 1.0.0
      */
     public static boolean hasDocker() {
         boolean bSuccess;
@@ -87,6 +89,7 @@ public class Capabilities {
      * Checking that Powershell command is available on the current system.
      *
      * @return true when Powershell command is available.
+     * @since 1.0.0
      */
     public static boolean hasPowershell() {
         boolean bSuccess;
@@ -105,6 +108,7 @@ public class Capabilities {
      * Provide Docker version.
      *
      * @return version of Docker.
+     * @since 1.0.0
      */
     public static String getDockerVersion() {
         String strResult = "";
@@ -126,6 +130,7 @@ public class Capabilities {
      * Provide Powershell version.
      *
      * @return version of Powershell.
+     * @since 1.0.0
      */
     public static String getPowershellVersion() {
         String strResult = "";
@@ -147,6 +152,7 @@ public class Capabilities {
      * Provide Java version.
      *
      * @return Java version.
+     * @since 1.0.0
      */
     public static String getJavaVersion() {
         return System.getProperty("java.version");
@@ -158,6 +164,7 @@ public class Capabilities {
      * @return Java class version.
      * @see <a href="https://javaalmanac.io/bytecode/versions/">
      *     https://javaalmanac.io/bytecode/versions/</a>
+     * @since 1.0.0
      */
     public static String getJavaClassVersion() {
         return System.getProperty("java.class.version");
@@ -167,6 +174,7 @@ public class Capabilities {
      * Provide operating system name.
      *
      * @return operating system name.
+     * @since 1.0.0
      */
     public static String getOperatingSystemName() {
         return System.getProperty("os.name");
@@ -176,6 +184,7 @@ public class Capabilities {
      * Provide operating system architecture.
      *
      * @return operating system architecture.
+     * @since 1.0.0
      */
     public static String getOperatingSystemArchitecture() {
         return System.getProperty("os.arch");
@@ -185,6 +194,7 @@ public class Capabilities {
      * Get current host name.
      *
      * @return name of current host.
+     * @since 1.0.0
      */
     public static String getHostName()  {
         String strHostName = "";
@@ -201,6 +211,7 @@ public class Capabilities {
      * Get current host address.
      *
      * @return current host address.
+     * @since 1.0.0
      */
     public static String getHostAddress() {
         String strHostAddress = "";
@@ -218,6 +229,7 @@ public class Capabilities {
      *
      * @param arguments the command to execute.
      * @return command as String array.
+     * @since 1.0.0
      */
     public static String[] createCommand(String... arguments) {
         final var command = new ArrayList<String>();
@@ -236,6 +248,7 @@ public class Capabilities {
      * Get linebreak depending on system.
      *
      * @return linebreak depending on system.
+     * @since 1.0.0
      */
     public static String getLineBreak() {
         return isWindows() ? "\r\n": "\n";

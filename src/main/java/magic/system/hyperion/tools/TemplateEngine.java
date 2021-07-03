@@ -52,6 +52,7 @@ public class TemplateEngine {
 
     /**
      * Initialize concrete template engine.
+     * @since 1.0.0
      */
     public TemplateEngine() {
         // By default it does render from file but string is wanted here:
@@ -64,6 +65,7 @@ public class TemplateEngine {
      * @param strTemplate concrete template code.
      * @param context variables.
      * @return rendered text or original if failed.
+     * @since 1.0.0
      */
     public String render(final String strTemplate, final Map<String, Object> context) {
         final var compiledTemplated = engine.getTemplate(strTemplate);

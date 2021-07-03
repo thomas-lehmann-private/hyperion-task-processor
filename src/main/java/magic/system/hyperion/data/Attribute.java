@@ -37,8 +37,9 @@ public class Attribute extends Pair<String, IValue> {
      *
      * @param strKey key of the attribute.
      * @param value value of the attribute.
+     * @since 1.0.0
      */
-    public Attribute(final String strKey, final IValue value) {
+    private Attribute(final String strKey, final IValue value) {
         super(strKey, value);
     }
 
@@ -48,6 +49,7 @@ public class Attribute extends Pair<String, IValue> {
      * @param strKey key of the attribute.
      * @param value value of the attribute.
      * @return instance of new attribute.
+     * @since 1.0.0
      */
     public static Attribute of(final String strKey, final IValue value) {
         return new Attribute(strKey, value);

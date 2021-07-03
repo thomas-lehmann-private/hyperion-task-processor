@@ -92,10 +92,7 @@ public abstract class AbstractCodableTask extends AbstractTask {
     @Override
     public int hashCode() {
         return new HashCodeBuilder()
-                .append(this.getTitle())
-                .append(this.getVariable())
-                .append(this.getTags())
-                .append(this.getWithValues())
+                .appendSuper(super.hashCode())
                 .append(this.strCode)
                 .build();
     }

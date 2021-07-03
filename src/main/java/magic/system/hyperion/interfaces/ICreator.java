@@ -23,12 +23,18 @@
  */
 package magic.system.hyperion.interfaces;
 
+/**
+ * Interface for implementing a concrete creator.
+ *
+ * @param <E> type for which to implement a concrete creator.
+ */
 @FunctionalInterface
 public interface ICreator<E> {
     /**
      * Creating an instance of type E.
      *
      * @return instance of type E.
+     * @since 1.0.0
      */
     E create();
 }

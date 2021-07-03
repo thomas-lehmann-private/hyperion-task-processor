@@ -1,0 +1,6 @@
+---
+taskgroups:
+  - title: test
+    tasks:
+      - type: groovy
+        title: a simple example

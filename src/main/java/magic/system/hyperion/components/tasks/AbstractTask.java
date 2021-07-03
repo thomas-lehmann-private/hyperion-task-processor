@@ -30,8 +30,11 @@ import magic.system.hyperion.components.Variable;
 import magic.system.hyperion.data.ListOfValues;
 import magic.system.hyperion.interfaces.ICopyable;
 import magic.system.hyperion.interfaces.IRunnable;
+import magic.system.hyperion.tools.TemplateEngine;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,12 +49,17 @@ import java.util.List;
 public abstract class AbstractTask extends Component
         implements IRunnable<TaskResult, TaskParameters>, ICopyable<AbstractTask> {
     /**
+     * Logger of this class.
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractTask.class);
+
+    /**
      * Storing the task result.
      */
     private final Variable variable;
 
     /**
-     * List of tags.
+     * List of tags to be able to filter tasks.
      */
     private final List<String> tags;
 
@@ -61,9 +69,10 @@ public abstract class AbstractTask extends Component
     private ListOfValues withValues;
 
     /**
-     * Initialize task.
+     * Initialize task with defaults.
      *
      * @param strInitTitle - title of the task.
+     * @since 1.0.0
      */
     public AbstractTask(final String strInitTitle) {
         super(strInitTitle);
@@ -125,6 +134,20 @@ public abstract class AbstractTask extends Component
      */
     public ListOfValues getWithValues() {
         return this.withValues;
+    }
+
+    /**
+     * Logging of rendered title.
+     *
+     * @param parameters task parameters to be use for rendering final title.
+     */
+    protected void logTitle(final TaskParameters parameters) {
+        if (!getTitle().isEmpty()) {
+            final var engine = new TemplateEngine();
+            final var strRenderedTitle = engine.render(
+                    getTitle(), parameters.getTemplatingContext());
+            LOGGER.info("Running task '{}'", strRenderedTitle);
+        }
     }
 
     @Override
