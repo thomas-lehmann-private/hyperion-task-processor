@@ -14,7 +14,7 @@ with additional following parameters:
 
  - **repository-tag** - for details please read the external documentation (see links). 
    
-### Contraints
+### Constraints
 
 Docker is required to be installed, running and the command should be in the search path. 
 

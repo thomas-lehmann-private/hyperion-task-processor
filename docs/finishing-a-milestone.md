@@ -23,3 +23,4 @@ Finishing a milestone is done in following phases:
   - Announcing new version at [here](https://github.com/thomas-lehmann-private/hyperion/discussions/categories/announcements).
   - Also communicate that the next milestone is planned and already has stories.
   - Ask the community for interest in new features not yet in the milestone.
+  - Closing the milestone. 

@@ -25,7 +25,7 @@ Each entry might be different in its structure (if you prefer).
 The tool does not check (validate) for this so you
 have take care in the templating logic then.
 
-### Contraints
+### Constraints
 
 No constraints.
 

@@ -24,7 +24,7 @@ with additional following parameters:
                   The default is set to true; the filename of the source is then
                   appended to the destination.
 
-### Contraints
+### Constraints
 
  - the file operation depends on the permissions given on the file system.
 

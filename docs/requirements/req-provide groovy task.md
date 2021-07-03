@@ -11,7 +11,7 @@ As a **devops engineer** you should be able to write a Groovy script as task.
 The script code can be embedded in the document or referencing
 a valid path and filename. The standard parameters are those of a coded task.
   
-### Contraints
+### Constraints
 
 No constraints.
 

@@ -10,7 +10,7 @@
 As a **devops engineer** you should be able to write a JShell script as task.
 The standard parameters are those of a coded task.
    
-### Contraints
+### Constraints
 
 The script code can be embedded only.
 

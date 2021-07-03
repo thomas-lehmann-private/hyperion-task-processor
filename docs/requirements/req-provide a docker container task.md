@@ -25,7 +25,7 @@ with additional following parameters:
 The Docker container runs in foreground mode. When the process has finished the Docker
 container is automatically removed. The current working path is mapped into the Docker container as /work.
    
-### Contraints
+### Constraints
 
  * Docker is required to be installed, running and the command should be in the search path.
  * You have to choose manually which platform to use: Unix or Windows container.

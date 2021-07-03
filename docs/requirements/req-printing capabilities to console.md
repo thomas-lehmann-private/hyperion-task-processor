@@ -10,7 +10,7 @@
 As a **devops engineer** I want to verify which capabilities for the
 Hyperion tool are given.
    
-### Contraints
+### Constraints
 
 No constraints.
 
