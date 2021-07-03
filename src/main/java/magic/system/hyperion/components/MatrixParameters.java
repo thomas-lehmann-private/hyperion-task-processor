@@ -47,7 +47,7 @@ public class MatrixParameters extends Component {
      * Initialize component.
      *
      * @param strInitTitle - title of the matrix parameters.
-     * @version 1.0.0
+     * @since 1.0.0
      */
     public MatrixParameters(String strInitTitle) {
         super(strInitTitle);
@@ -58,7 +58,7 @@ public class MatrixParameters extends Component {
      * Get parameters (readonly).
      *
      * @return parameters.
-     * @version 1.0.0
+     * @since 1.0.0
      */
     public Map<String, String> getParameters() {
         return Collections.unmodifiableMap(this.parameters);
@@ -69,7 +69,7 @@ public class MatrixParameters extends Component {
      * be used by {@link magic.system.hyperion.reader.DocumentReader}.
      *
      * @param initParameters replace all existing parameters with given ones.
-     * @version 1.0.0
+     * @since 1.0.0
      */
     public void setParameters(final Map<String, String> initParameters) {
         this.parameters.clear();

@@ -71,6 +71,7 @@ public enum FileExtensions {
      * Get value.
      *
      * @return value.
+     * @since 1.0.0
      */
     public String getValue() {
         return this.strValue;

@@ -39,18 +39,13 @@ public class DockerTaskReader extends BasicTaskReader {
      *
      * @param initTaskGroup   keeper of the list of tasks.
      * @param initTaskCreator the function that provides the creator for a task.
+     * @since 1.0.0
      */
     public DockerTaskReader(final TaskGroup initTaskGroup,
                             final ITaskCreator initTaskCreator) {
         super(initTaskGroup, initTaskCreator);
     }
 
-    /**
-     * Provide match being suitable for both situations.
-     *
-     * @param node current node.
-     * @return matcher.
-     */
     @Override
     protected ListMatcher<String> getMatcher(final JsonNode node) {
         final var matcher = super.getMatcher(node);

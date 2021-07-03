@@ -55,8 +55,9 @@ public class GroovyTask extends AbstractCodableTask {
      *
      * @param strInitTitle - title of the task.
      * @param strInitCode  - Path and name of file of script or inline script.
+     * @since 1.0.0
      */
-    public GroovyTask(String strInitTitle, String strInitCode) {
+    public GroovyTask(final String strInitTitle, final String strInitCode) {
         super(strInitTitle, strInitCode);
     }
 
@@ -69,17 +70,13 @@ public class GroovyTask extends AbstractCodableTask {
     public TaskResult run(final TaskParameters parameters) {
         TaskResult taskResult = null;
 
+        logTitle(parameters);
+
         try {
             final var writer = new StringWriter();
             final var binding = new Binding(Map.of("out", new PrintWriter(writer)));
             final var shell = new GroovyShell(binding);
             final var engine = new TemplateEngine();
-
-            if (!getTitle().isEmpty()) {
-                final var strRenderedTitle = engine.render(
-                        getTitle(), parameters.getTemplatingContext());
-                LOGGER.info("Running task '{}'", strRenderedTitle);
-            }
 
             var strContent = getCode();
 

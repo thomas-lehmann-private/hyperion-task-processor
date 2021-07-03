@@ -89,7 +89,7 @@ public enum TaskType {
      * Get type name.
      *
      * @return type name.
-     * @version 1.0.0
+     * @since 1.0.0
      */
     public String getTypeName() {
         return this.strTypeName;
@@ -101,6 +101,7 @@ public enum TaskType {
      * @param strName internal (field-)name of the enum value.
      * @return found enum value
      * @throws HyperionException when the name is not known.
+     * @since 1.0.0
      */
     public static TaskType fromValue(final String strName)
             throws HyperionException {
@@ -110,6 +111,6 @@ public enum TaskType {
             }
         }
 
-        throw new HyperionException(String.format("Unknown task type '" + strName + "'!"));
+        throw new HyperionException("Unknown task type '" + strName + "'!");
     }
 }

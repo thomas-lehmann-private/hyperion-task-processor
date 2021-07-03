@@ -86,6 +86,7 @@ public class DockerContainerTask extends AbstractShellTask {
      *
      * @param strInitTitle - title of the task.
      * @param strInitCode  - Path and name of file of script or inline script.
+     * @since 1.0.0
      */
     public DockerContainerTask(String strInitTitle, String strInitCode) {
         super(strInitTitle, strInitCode);
@@ -128,6 +129,7 @@ public class DockerContainerTask extends AbstractShellTask {
      * Get image version.
      *
      * @return image version.
+     * @since 1.0.0
      */
     public String getImageVersion() {
         return this.strImageVersion;
@@ -137,6 +139,7 @@ public class DockerContainerTask extends AbstractShellTask {
      * Change target environment (platform) inside of the Docker container.
      *
      * @param strInitPlatform new target environment (platform).
+     * @since 1.0.0
      */
     public void setPlatform(final String strInitPlatform) {
         if (List.of(PLATFORM_WINDOWS, PLATFORM_UNIX).contains(strInitPlatform)) {
@@ -148,6 +151,7 @@ public class DockerContainerTask extends AbstractShellTask {
      * Check target environment (platform) inside of the Docker container.
      *
      * @return true when Docker container runs Windows platform (Windows container).
+     * @since 1.0.0
      */
     public String getPlatform() {
         return this.strPlatform;
@@ -178,7 +182,10 @@ public class DockerContainerTask extends AbstractShellTask {
             throw new HyperionException("Path or file name of Docker container script invalid!");
         }
 
-        // how to call docker on current environment
+        // specifying how to call docker on current environment
+        // --rm      automatic remove the container when the process has finished.
+        // -v a:b    mount host path <a> onto Docker container path <b>
+        // -i        keep STDIN open even if not attached
         final var baseCommand = List.of("docker", "run", "--rm", "-v",
                 System.getProperty("user.dir") + ":/work",
                 "-v", parentPath.toString() + ":/hosttmp",

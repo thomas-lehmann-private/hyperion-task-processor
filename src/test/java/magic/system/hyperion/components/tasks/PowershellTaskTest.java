@@ -149,7 +149,6 @@ public class PowershellTaskTest {
                 "exit " + PROCESS_EXIT_CODE);
         final var result = task.run(TaskTestsTools.getDefaultTaskParameters());
         assertFalse(result.isSuccess());
-        // FIXME: somehow to provide the concrete exit code (Attribute?)
     }
 
     /**

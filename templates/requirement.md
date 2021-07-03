@@ -13,7 +13,7 @@
     - Who (roles)?
     - Wants to what (concrete action and needed parameters)?
    
-### Contraints
+### Constraints
 
 !!! note "Please note (removable information)"
     Not working on each platform? <br/>

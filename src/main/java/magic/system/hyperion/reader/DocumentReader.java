@@ -53,7 +53,7 @@ public class DocumentReader {
 
     /**
      * Initialize document reader with path of the document.
-     * @version 1.0.0
+     * @since 1.0.0
      */
     public DocumentReader() {
         this.document = new Document();
@@ -64,7 +64,7 @@ public class DocumentReader {
      *
      * @param path reading YAML from a path and filename.
      * @return document when successfully read otherwise null.
-     * @version 1.0.0
+     * @since 1.0.0
      */
     public Document read(final Path path) {
         Document finalDocument = null;
@@ -82,7 +82,7 @@ public class DocumentReader {
      *
      * @param content reading YAML from a byte content.
      * @return document when successfully read otherwise null.
-     * @version 1.0.0
+     * @since 1.0.0
      */
     public Document read(final byte[] content) {
         Document finalDocument = null;

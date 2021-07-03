@@ -24,7 +24,7 @@
 package magic.system.hyperion.components;
 
 /**
- * Process pipeline.
+ * Base class of all components providing the title.
  *
  * @author Thomas Lehmann
  */
@@ -36,7 +36,7 @@ public class Component {
     private String strTitle;
 
     /**
-     * Initialize component.
+     * Initialize component with title.
      *
      * @param strInitTitle - title of the pipeline
      */

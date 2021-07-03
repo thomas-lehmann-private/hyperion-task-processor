@@ -72,6 +72,7 @@ public class ListMatcher<E> implements IMatcher<List<E>> {
          * Change required count.
          *
          * @param iValue new value for required count.
+         * @since 1.0.0
          */
         public void setRequiredCount(final int iValue) {
             this.iRequiredCount = iValue;
@@ -86,6 +87,7 @@ public class ListMatcher<E> implements IMatcher<List<E>> {
          * Checking whether exact required count is wanted.
          *
          * @return true when exact required count is wanted.
+         * @since 1.0.0
          */
         public boolean isExactRequiredCount() {
             return this.bExactRequiredCount;
@@ -94,6 +96,7 @@ public class ListMatcher<E> implements IMatcher<List<E>> {
         /**
          * Change the default from false to true for matching exact required
          * count.
+         * @since 1.0.0
          */
         public void setExactRequiredCount() {
             this.bExactRequiredCount = true;
@@ -103,6 +106,7 @@ public class ListMatcher<E> implements IMatcher<List<E>> {
          * Checking whether given value is allowed.
          *
          * @return true when value is allowed otherwise false.
+         * @since 1.0.0
          */
         public boolean isAllowed() {
             return this.bAllowed;
@@ -112,6 +116,7 @@ public class ListMatcher<E> implements IMatcher<List<E>> {
          * Change the allowed flag.
          *
          * @param bInitAllowed when true values is allowed otherwise false.
+         * @since 1.0.0
          */
         public void setAllowed(final boolean bInitAllowed) {
             this.bAllowed = bInitAllowed;
@@ -146,6 +151,7 @@ public class ListMatcher<E> implements IMatcher<List<E>> {
      *
      * @param value value that is required
      * @return matcher itself for chaining.
+     * @since 1.0.0
      */
     public ListMatcher<E> requireOnce(final E value) {
         return requireCount(value, 1);
@@ -156,6 +162,7 @@ public class ListMatcher<E> implements IMatcher<List<E>> {
      *
      * @param value value that is required
      * @return matcher itself for chaining.
+     * @since 1.0.0
      */
     public ListMatcher<E> requireExactlyOnce(final E value) {
         return requireExactCount(value, 1);
@@ -169,6 +176,7 @@ public class ListMatcher<E> implements IMatcher<List<E>> {
      * @param value value that is required
      * @param iCount the required minimum count of occurences.
      * @return matcher itself for chaining.
+     * @since 1.0.0
      */
     public ListMatcher<E> requireCount(final E value, final int iCount) {
         var detail = this.details.get(value);
@@ -188,6 +196,7 @@ public class ListMatcher<E> implements IMatcher<List<E>> {
      * @param value value that is required
      * @param iCount the required exact count of occurences.
      * @return matcher itself for chaining.
+     * @since 1.0.0
      */
     public ListMatcher<E> requireExactCount(final E value, final int iCount) {
         var detail = this.details.get(value);
@@ -206,6 +215,7 @@ public class ListMatcher<E> implements IMatcher<List<E>> {
      *
      * @param value the value to allow.
      * @return matcher itself for chaining.
+     * @since 1.0.0
      */
     public ListMatcher<E> allow(final E value) {
         this.bStrict = true;

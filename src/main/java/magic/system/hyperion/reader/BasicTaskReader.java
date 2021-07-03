@@ -30,6 +30,11 @@ import magic.system.hyperion.exceptions.HyperionException;
 import magic.system.hyperion.interfaces.ITaskCreator;
 import magic.system.hyperion.matcher.ListMatcher;
 
+/**
+ * Reader for the basic task attributes.
+ *
+ * @author Thomas Lehmann
+ */
 public class BasicTaskReader {
     /**
      * The task group where to add the Docker container task when all is fine.
@@ -46,6 +51,7 @@ public class BasicTaskReader {
      *
      * @param initTaskGroup   keeper of the list of tasks.
      * @param initTaskCreator the function that provides the creator for a task.
+     * @since 1.0.0
      */
     public BasicTaskReader(final TaskGroup initTaskGroup,
                            final ITaskCreator initTaskCreator) {

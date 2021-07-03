@@ -205,11 +205,7 @@ public class FileCopyTask extends AbstractTask {
         TaskResult taskResult = null;
         final var engine = new TemplateEngine();
 
-        if (!getTitle().isEmpty()) {
-            final var strRenderedTitle = engine.render(
-                    getTitle(), parameters.getTemplatingContext());
-            LOGGER.info("Running task '{}'", strRenderedTitle);
-        }
+        logTitle(parameters);
 
         if (this.strSourcePath != null && this.strDestinationPath != null) {
             final var sourcePath = Paths.get(engine.render(
@@ -262,6 +258,7 @@ public class FileCopyTask extends AbstractTask {
             LOGGER.info("Copying file from {} to {}",
                     sourcePath.toString(), destinationPath.toString());
             FileUtils.copyFile(sourcePath, finalDestinationPath);
+            getVariable().setValue(finalDestinationPath.toString());
             taskResult = new TaskResult(true, getVariable());
         } catch (IOException e) {
             LOGGER.error(e.getMessage(), e);

@@ -40,6 +40,7 @@ public class WindowsBatchTask extends AbstractShellTask {
      *
      * @param strInitTitle - title of the task.
      * @param strInitCode  - Path and name of file of script or inline script.
+     * @since 1.0.0
      */
     public WindowsBatchTask(String strInitTitle, String strInitCode) {
         super(strInitTitle, strInitCode);
@@ -60,13 +61,6 @@ public class WindowsBatchTask extends AbstractShellTask {
         return false;
     }
 
-    /**
-     * Running Batch and providing process.
-     *
-     * @param path the path and name of the Batch file
-     * @return process.
-     * @throws IOException when starting of the process has failed.
-     */
     @Override
     protected Process runFile(final Path path) throws IOException {
         return new ProcessBuilder(List.of("cmd", "/q", "/c",

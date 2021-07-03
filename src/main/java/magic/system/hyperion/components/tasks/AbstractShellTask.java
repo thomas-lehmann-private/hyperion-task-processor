@@ -41,7 +41,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 /**
- * Base class for shell classes.
+ * Base class for shell tasks.
  *
  * @author Thomas Lehmann
  */
@@ -61,6 +61,7 @@ public abstract class AbstractShellTask extends AbstractCodableTask {
      *
      * @param strInitTitle - title of the task.
      * @param strInitCode  - Path and name of file of script or inline script.
+     * @since 1.0.0
      */
     public AbstractShellTask(String strInitTitle, String strInitCode) {
         super(strInitTitle, strInitCode);
@@ -79,14 +80,10 @@ public abstract class AbstractShellTask extends AbstractCodableTask {
         ISimpleRunnable cleanup = () -> {
         };
 
+        logTitle(parameters);
+
         final var engine = new TemplateEngine();
         var strContent = getCode();
-
-        if (!getTitle().isEmpty()) {
-            final var strRenderedTitle = engine.render(
-                    getTitle(), parameters.getTemplatingContext());
-            LOGGER.info("Running task '{}'", strRenderedTitle);
-        }
 
         try {
             if (isRegularFile()) {
@@ -124,6 +121,7 @@ public abstract class AbstractShellTask extends AbstractCodableTask {
      * @return temporary script path.
      * @throws IOException       when creation of temporary file has failed.
      * @throws HyperionException when filename is null (should never happen)
+     * @since 1.0.0
      */
     private Path createTemporaryFile() throws IOException, HyperionException {
         final var strPostFix
@@ -154,13 +152,16 @@ public abstract class AbstractShellTask extends AbstractCodableTask {
      * Provide prefix for tempfile for shell script.
      *
      * @return Provide prefix for tempfile for shell script.
+     * @since 1.0.0
      */
     protected abstract String getTempFilePrefix();
 
     /**
-     * Defines valid file extensions.
+     * Defines valid file extensions. When the list is empty it is assumed that
+     * no extension is required.
      *
-     * @return list of valid file extensions.
+     * @return list of valid file extensions or an empty list.
+     * @since 1.0.0
      */
     protected abstract List<String> getFileExtensions();
 
@@ -168,6 +169,7 @@ public abstract class AbstractShellTask extends AbstractCodableTask {
      * Provide whether path of temporary file is relative to current path.
      *
      * @return when true then path of temporary file is relative to current path.
+     * @since 1.0.0
      */
     protected abstract boolean isTempFileRelativePath();
 
@@ -178,6 +180,7 @@ public abstract class AbstractShellTask extends AbstractCodableTask {
      * @return the process for the execution.
      * @throws IOException       when file execution failed.
      * @throws HyperionException when an application error occurs.
+     * @since 1.0.0
      */
     protected abstract Process runFile(Path path) throws IOException, HyperionException;
 }

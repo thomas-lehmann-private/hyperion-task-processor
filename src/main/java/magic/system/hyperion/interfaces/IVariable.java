@@ -34,6 +34,7 @@ public interface IVariable extends ICopyable<IVariable> {
      * Provide Name of the variable.
      *
      * @return name
+     * @since 1.0.0
      */
     String getName();
 
@@ -41,6 +42,7 @@ public interface IVariable extends ICopyable<IVariable> {
      * Provide value of variable.
      *
      * @return value.
+     * @since 1.0.0
      */
     String getValue();
 }

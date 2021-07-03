@@ -1,0 +1,8 @@
+---
+taskgroups:
+  - title: test
+    unknown: unknown
+    tasks:
+      - type: groovy
+        title: a simple example
+        code: println 'hello world!'

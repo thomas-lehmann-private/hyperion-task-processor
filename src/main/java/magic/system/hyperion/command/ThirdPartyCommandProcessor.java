@@ -40,6 +40,26 @@ import java.util.List;
  */
 public final class ThirdPartyCommandProcessor extends AbstractCommandProcessor {
     /**
+     * Minimum token length required to access version of a dependency.
+     */
+    public static final int MINIMUM_TOKEN_LENGTH = 4;
+
+    /**
+     * Index of the token containing the group id of the dependency.
+     */
+    public static final int TOKEN_GROUP_ID = 0;
+
+    /**
+     * Index of the token containing the artifact id of the dependency.
+     */
+    public static final int TOKEN_ARTIFACT_ID = 1;
+
+    /**
+     * Index of the token containing the version of the dependency.
+     */
+    public static final int TOKEN_VERSION = 3;
+
+    /**
      * Initialize with defined options and commands with its options and the parsed one.
      *
      * @param initGlobalOptions defined global options.
@@ -61,22 +81,20 @@ public final class ThirdPartyCommandProcessor extends AbstractCommandProcessor {
 
             final var logger = LoggerFactory.getLogger("NO-TIMESTAMP");
 
-            //CHECKSTYLE.OFF: MagicNumber: ok here
             for (var strLine : lines) {
                 final var tokens = strLine.split(":");
-                if (tokens.length >= 4) {
-                    final var strGroupId = tokens[0].trim();
-                    final var strArtifactId = tokens[1].trim();
+                if (tokens.length >= MINIMUM_TOKEN_LENGTH) {
+                    final var strGroupId = tokens[TOKEN_GROUP_ID].trim();
+                    final var strArtifactId = tokens[TOKEN_ARTIFACT_ID].trim();
 
-                    final int iPos = tokens[3].indexOf(" -- ");
+                    final int iPos = tokens[TOKEN_VERSION].indexOf(" -- ");
                     if (iPos >= 0) {
-                        final var strVersion = tokens[3].substring(0, iPos).trim();
+                        final var strVersion = tokens[TOKEN_VERSION].substring(0, iPos).trim();
                         logger.info(String.format("group id: %s, artifact id: %s, version: %s",
                                 strGroupId, strArtifactId, strVersion));
                     }
                 }
             }
-            //CHECKSTYLE.ON: MagicNumber:
         } catch (IOException e) {
             throw new CliException(e.getMessage());
         }

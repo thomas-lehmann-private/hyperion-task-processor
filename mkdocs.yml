@@ -8,6 +8,7 @@ nav:
     - User Guide:
        - hyperion.md
        - taskgroup.md
+       - basic-task-features.md
        - basic-coded-task-features.md
        - groovy.md
        - powershell.md
@@ -15,6 +16,7 @@ nav:
        - shell.md
        - docker-image.md
        - docker-container.md
+       - copy-file.md
        - templating.md
        - matrix.md
     - Developer Guide:
@@ -23,6 +25,7 @@ nav:
        - junit5.md
        - mkdocs.md
        - cli.md
+       - finishing-a-milestone.md
 
 theme:
     name: flatly

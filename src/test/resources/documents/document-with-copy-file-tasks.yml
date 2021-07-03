@@ -27,4 +27,5 @@ taskgroups:
         source: "{{ model.attributes.path.value }}/file-copy-test.txt"
         destination: "{{ model.attributes.path.value }}/tasks/a/test1.txt"
         ensure-path: true
+        overwrite: false # overwrite is false by default but it is to test the reader
         destination-is-directory: true

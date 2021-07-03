@@ -1,0 +1,8 @@
+---
+unknownField: unknownValue
+taskgroups:
+  - title: test
+    tasks:
+      - type: groovy
+        title: a simple example
+        code: println 'hello world!'

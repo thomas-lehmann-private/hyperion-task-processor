@@ -37,7 +37,18 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Document containing the tasks.
+ * Document containing the model, the matrix and the list of task groups with its tasks.
+ * <pre>
+ *  {@code
+ *  final var reader = new DocumentReader();
+ *  // reading YAML document from given path
+ *  final var document = reader.read(path);
+ *  // no tags and a timeout for each task group after one minute
+ *  final var parameters = DocumentParameters(List.of(), 1);
+ *  // processing all task groups and its tasks
+ *  document.run(parameters);
+ *  }
+ * </pre>
  *
  * @author Thomas Lehmann
  */
@@ -54,7 +65,7 @@ public class Document implements IChangeableDocument, IRunnable<Integer, Documen
 
     /**
      * List of matrix items. For each item all task groups
-     * a processed with the variables of that item.
+     * a processed with the parameters of a one matrix item.
      */
     private final List<MatrixParameters> matrix;
 
@@ -65,6 +76,7 @@ public class Document implements IChangeableDocument, IRunnable<Integer, Documen
 
     /**
      * Initialize document with empty model, empty matrix and empty list of task groups.
+     * @since 1.0.0
      */
     public Document() {
         this.model = new Model();
@@ -76,7 +88,7 @@ public class Document implements IChangeableDocument, IRunnable<Integer, Documen
      * Get the model.
      *
      * @return model.
-     * @version 1.0.0
+     * @since 1.0.0
      */
     public Model getModel() {
         return this.model;
@@ -86,7 +98,7 @@ public class Document implements IChangeableDocument, IRunnable<Integer, Documen
      * Get matrix.
      *
      * @return matrix.
-     * @version 1.0.0
+     * @since 1.0.0
      */
     public List<MatrixParameters> getMatrix() {
         return Collections.unmodifiableList(this.matrix);
@@ -96,7 +108,7 @@ public class Document implements IChangeableDocument, IRunnable<Integer, Documen
      * Provide list of task groups.
      *
      * @return list of task groups.
-     * @version 1.0.0
+     * @since 1.0.0
      */
     public List<TaskGroup> getListOfTaskGroups() {
         return Collections.unmodifiableList(this.listOfTaskGroups);
@@ -106,7 +118,7 @@ public class Document implements IChangeableDocument, IRunnable<Integer, Documen
      * Adding a task group.
      *
      * @param taskGroup a new task group.
-     * @version 1.0.0
+     * @since 1.0.0
      */
     @Override
     public void add(final TaskGroup taskGroup) {
@@ -117,7 +129,7 @@ public class Document implements IChangeableDocument, IRunnable<Integer, Documen
      * Adding matrix parameters.
      *
      * @param matrixParameters a new matrix parameters.
-     * @version 1.0.0
+     * @since 1.0.0
      */
     @Override
     public void add(final MatrixParameters matrixParameters) {

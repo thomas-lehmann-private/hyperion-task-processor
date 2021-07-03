@@ -28,7 +28,7 @@ standard parameters:
    single line to allow filtering otherwise the regex is applied on the whole output
    (default is false)
 
-### Contraints
+### Constraints
 
 No constraints.
 

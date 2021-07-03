@@ -36,7 +36,7 @@ public interface IChangeableDocument {
      * Adding a task group.
      *
      * @param taskGroup a new task group.
-     * @version 1.0.0
+     * @since 1.0.0
      */
     void add(TaskGroup taskGroup);
 
@@ -44,7 +44,7 @@ public interface IChangeableDocument {
      * Adding matrix parameters.
      *
      * @param matrixParameters a new matrix parameters.
-     * @version 1.0.0
+     * @since 1.0.0
      */
     void add(MatrixParameters matrixParameters);
 }

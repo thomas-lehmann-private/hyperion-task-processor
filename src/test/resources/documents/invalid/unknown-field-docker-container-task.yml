@@ -1,0 +1,9 @@
+---
+taskgroups:
+  - title: test
+    tasks:
+      - type: docker-container
+        title: a simple example
+        code: echo "hello world!"
+        image-name: debian
+        unknown: unknown

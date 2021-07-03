@@ -64,9 +64,11 @@ def write_requirements_overview(requirements):
     with open(os.path.join(os.getcwd(), 'docs', 'requirements.md'), 'w') as handle:
         handle.write('# Requirements\n')
 
+        sortedRequirements = sorted(requirements, key=lambda entry: entry['id'])
+
         handle.write('| Id  | Title | Context | Details |\n')
         handle.write('| --- | ----- | ------- | ------- |\n')
-        for requirement in requirements:
+        for requirement in sortedRequirements:
             details = '[details](%s)' % ('requirements/req-' + requirement['title'].lower() + '.md')
             handle.write(requirement['id'] + '|' + requirement['title'] + '|' +
                          requirement['context'] + '|' + details + '\n')

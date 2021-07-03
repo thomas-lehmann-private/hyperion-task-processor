@@ -35,9 +35,7 @@ import magic.system.hyperion.tools.CapabilitiesPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Properties;
 
 /**
  * Hyperion - the special task processing pipeline - the application.
@@ -56,39 +54,9 @@ public final class Application {
     private static final String NO_TIMESTAMP = "NO-TIMESTAMP";
 
     /**
-     * The key for final name of the jar (without extension).
+     * Application properties (wrapper for application.properties).
      */
-    private static final String PROPERTY_FINAL_NAME = "finalName";
-
-    /**
-     * The key for the product version (see pom.xml).
-     */
-    private static final String PROPERTY_PRODUCT_VERSION = "productVersion";
-
-    /**
-     * They key for the build timestamp.
-     */
-    private static final String PROPERTY_BUILD_TIMESTAMP = "buildTimestamp";
-
-    /**
-     * They key for the architect and developer of the project.
-     */
-    private static final String PROPERTY_AUTHOR = "author";
-
-    /**
-     * They key for the git commit id.
-     */
-    private static final String PROPERTY_GIT_COMMIT_ID = "gitCommitId";
-
-    /**
-     * The key for the groovy version embedded into Hyperion tool.
-     */
-    private static final String PROPERTY_GROOVY_VERSION = "groovyVersion";
-
-    /**
-     * Application properties.
-     */
-    private Properties properties;
+    private ApplicationProperties properties;
 
     /**
      * Defined global options for application.
@@ -114,7 +82,7 @@ public final class Application {
      * @throws CliException when validation or the process has failed.
      */
     private void run(final String[] args) throws CliException {
-        this.properties = getApplicationProperties();
+        this.properties = new ApplicationProperties();
         this.globalOptions = ApplicationOptionsFunctions.defineGlobalOptions();
         this.commands = ApplicationOptionsFunctions.defineCommands();
 
@@ -132,7 +100,7 @@ public final class Application {
             new RunCommandProcessor(this.globalOptions, this.commands, result).processCommand();
         } else if (result.getCommandName().equals(ApplicationCommands.CAPABILITIES.getCommand())) {
             final var printer = new CapabilitiesPrinter();
-            printer.setGroovyVersion(this.properties.getProperty(PROPERTY_GROOVY_VERSION));
+            printer.setGroovyVersion(this.properties.getGroovyVersion());
             printer.print(LoggerFactory.getLogger(NO_TIMESTAMP)::info);
         }
     }
@@ -143,8 +111,8 @@ public final class Application {
     private void logEnvironment() {
         final String strFormat = "{}: {} ({})";
         LOGGER.info(strFormat, "Hyperion Version",
-                this.properties.getProperty(PROPERTY_PRODUCT_VERSION),
-                "git commit=" + this.properties.getProperty(PROPERTY_GIT_COMMIT_ID));
+                this.properties.getProductVersion(),
+                "git commit=" + this.properties.getGitCommitId());
         LOGGER.info(strFormat, "Operating System", Capabilities.getOperatingSystemName(),
                 "arch=" + Capabilities.getOperatingSystemArchitecture());
         LOGGER.info(strFormat, "Host Name", Capabilities.getHostName(),
@@ -161,32 +129,14 @@ public final class Application {
     private void printHelp() throws CliException {
         final var helpPrinter = CliHelpPrinter.builder()
                 .setExecution("java -jar "
-                        + this.properties.getProperty(PROPERTY_FINAL_NAME) + ".jar")
-                .setProductVersion(this.properties.getProperty(PROPERTY_PRODUCT_VERSION))
-                .setBuildTimestamp(this.properties.getProperty(PROPERTY_BUILD_TIMESTAMP))
-                .setAuthor(this.properties.getProperty(PROPERTY_AUTHOR))
+                        + this.properties.getFinalName() + ".jar")
+                .setProductVersion(this.properties.getProductVersion())
+                .setBuildTimestamp(this.properties.getBuildTimestamp())
+                .setAuthor(this.properties.getAuthor())
                 .setGlobalOptions(this.globalOptions)
                 .setCommands(this.commands)
                 .build();
         helpPrinter.print(LoggerFactory.getLogger(NO_TIMESTAMP)::info);
-    }
-
-    /**
-     * Load and provide the application properties.
-     *
-     * @return application properties.
-     */
-    private static Properties getApplicationProperties() {
-        final var properties = new Properties();
-
-        try (var stream = Application.class.getResourceAsStream("/application.properties")) {
-            properties.load(stream);
-        } catch (IOException e) {
-            // should never happen (the file should always be in the jar too)
-            LOGGER.error(e.getMessage(), e);
-        }
-
-        return properties;
     }
 
     /**

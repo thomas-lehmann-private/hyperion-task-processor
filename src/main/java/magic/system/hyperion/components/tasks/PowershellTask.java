@@ -35,6 +35,7 @@ import java.util.List;
 public class PowershellTask extends AbstractShellTask {
     /**
      * Initialize Powershell task.
+     * @since 1.0.0
      */
     public PowershellTask() {
         super("", "");
@@ -45,6 +46,7 @@ public class PowershellTask extends AbstractShellTask {
      *
      * @param strInitTitle - title of the task.
      * @param strInitCode  - Path and name of file of script or inline script.
+     * @since 1.0.0
      */
     public PowershellTask(final String strInitTitle, final String strInitCode) {
         super(strInitTitle, strInitCode);

@@ -66,6 +66,7 @@ public final class WithParameters {
      * Get current value.
      *
      * @return current value.
+     * @since 1.0.0
      */
     public IValue getValue() {
         return this.value;

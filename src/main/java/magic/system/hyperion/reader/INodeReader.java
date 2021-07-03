@@ -37,6 +37,7 @@ public interface INodeReader {
      *
      * @param node current node.
      * @throws HyperionException when the read has failed.
+     * @since 1.0.0
      */
     void read(JsonNode node) throws HyperionException;
 }

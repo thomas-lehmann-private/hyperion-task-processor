@@ -39,7 +39,7 @@ public final class DocumentParameters {
     private List<String> tags;
 
     /**
-     * Timeout for each task group.
+     * Timeout for each task group (in minutes).
      */
     private int iTimeoutTaskgroup;
 
@@ -62,9 +62,9 @@ public final class DocumentParameters {
     }
 
     /**
-     * Get timeout for each task group.
+     * Get timeout for each task group (in minutes).
      *
-     * @return timeout for each task group.
+     * @return timeout for each task group (in minutes).
      * @since 1.0.0
      */
     public int getTimeoutTaskgroup() {
@@ -81,9 +81,9 @@ public final class DocumentParameters {
     }
 
     /**
-     * Changing timeout for each task group.
+     * Changing timeout for each task group (in minutes).
      *
-     * @param iInitTimeoutTaskgroup new timeout.
+     * @param iInitTimeoutTaskgroup new timeout (in minutes).
      * @since 1.0.0
      */
     private void setTimeoutTaskgroup(final int iInitTimeoutTaskgroup) {
@@ -94,7 +94,7 @@ public final class DocumentParameters {
      * Create document parameters (for the run method).
      *
      * @param tags list of tags for filtering of tasks.
-     * @param iTimeoutTaskgroup timeout for task groups.
+     * @param iTimeoutTaskgroup timeout for task groups (in minutes).
      * @return instance of {@link DocumentParameters}.
      * @since 1.0.0
      */

@@ -1,8 +1,14 @@
 # Requirements
 | Id  | Title | Context | Details |
 | --- | ----- | ------- | ------- |
-3|Printing capabilities to console|system information|[details](requirements/req-printing capabilities to console.md)
 1|Provide coded tasks|task feature|[details](requirements/req-provide coded tasks.md)
+10|Provide JShell task|task feature|[details](requirements/req-provide jshell task.md)
+11|Provide a Docker container task|task feature|[details](requirements/req-provide a docker container task.md)
 2|Provide Powershell task|task feature|[details](requirements/req-provide powershell task.md)
+3|Printing capabilities to console|system information|[details](requirements/req-printing capabilities to console.md)
 4|Providing a Docker image task|task feature|[details](requirements/req-providing a docker image task.md)
 5|Provide 'with' attribute on tasks allowing to repeat same task for each entry in the list|task feature|[details](requirements/req-provide 'with' attribute on tasks allowing to repeat same task for each entry in the list.md)
+6|providing a copy file task|task feature|[details](requirements/req-providing a copy file task.md)
+7|Provide windows batch task|task feature|[details](requirements/req-provide windows batch task.md)
+8|Provide unix shell task|task feature|[details](requirements/req-provide unix shell task.md)
+9|Provide Groovy task|task feature|[details](requirements/req-provide groovy task.md)

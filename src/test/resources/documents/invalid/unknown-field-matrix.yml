@@ -1,0 +1,21 @@
+---
+matrix:
+  - title: first run
+    parameters:
+      description: the first run
+      sayHelloWorldCount: 3
+  - title: second run
+    unknown:
+      description: the second run
+      sayHelloWorldCount: 1
+
+taskgroups:
+  - title: test group one
+    tasks:
+      - type: groovy
+        title: running a Groovy task
+        code: |
+          println 'Groovy:{{ matrix.description }}'
+          for (int ix = 1; ix <= {{ matrix.sayHelloWorldCount }}; ++ix) {
+            println 'hello world ' + ix + '!'
+          }

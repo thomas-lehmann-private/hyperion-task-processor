@@ -1,0 +1,9 @@
+---
+taskgroups:
+  - title: test
+    tasks:
+      # values are not imported here
+      - type: copy-file
+        source: "some source"
+        destination: "some destination"
+        unknown: unknown

@@ -53,6 +53,7 @@ public final class ProcessTools {
      * @param process  the process to capture the output from.
      * @param bLogging when true then logging lines of both streams.
      * @return lines of stdout and stderr.
+     * @since 1.0.0
      */
     public static Pair<List<String>, List<String>> captureOutput(final Process process,
                                                                  final boolean bLogging) {

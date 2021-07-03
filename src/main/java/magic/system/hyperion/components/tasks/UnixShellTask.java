@@ -40,6 +40,7 @@ public class UnixShellTask extends AbstractShellTask {
      *
      * @param strInitTitle - title of the task.
      * @param strInitCode  - Path and name of file of script or inline script.
+     * @since 1.0.0
      */
     public UnixShellTask(String strInitTitle, String strInitCode) {
         super(strInitTitle, strInitCode);
