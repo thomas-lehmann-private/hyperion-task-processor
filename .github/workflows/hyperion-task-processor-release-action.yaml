@@ -23,7 +23,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            target/hyperion-task-processor-*-shaded.jar
-            target/hyperion-task-processor-*-javadoc.jar
+            target/hyperion-task-processor-1.0.0-shaded.jar
+            target/hyperion-task-processor-1.0.0-javadoc.jar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

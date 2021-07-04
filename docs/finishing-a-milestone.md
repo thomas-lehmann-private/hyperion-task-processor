@@ -13,7 +13,10 @@ Finishing a milestone is done in following phases:
 
 ## Phase 2
 
- - **Changing the version to release** - a pom.xml modification; it can be done without branch.
+ - **Changing the version to release**
+    - a pom.xml modification.
+    - a modification in the workflow yaml for the release (hyperion-task-processor-release-action.yaml).  
+    - it can be done without branch.
  - **Updating the github pages**
  - **Tagging the repository with release version** - it should trigger the related workflow that
    does also one build and finally publishing the artifacts on Github.
