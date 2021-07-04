@@ -26,7 +26,7 @@ Please also provide concrete examples that I'm able to reproduce the problem.
 
 ## Discussions
 
-Please feel to start/contribute in discussions at https://github.com/thomas-lehmann-private/hyperion/discussions.
+Please feel to start/contribute in discussions [here](https://github.com/thomas-lehmann-private/hyperion-task-processor/discussions).
 
 ## Documentation
 

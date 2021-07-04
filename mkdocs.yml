@@ -1,12 +1,12 @@
 site_name: Hyperion
 site_author: 'Thomas Lehmann <thomas.lehmann.private@gmail.com'
-site_url: 'https://thomas-lehmann-private.github.io/hyperion/'
-repo_url: 'https://github.com/thomas-lehmann-private/hyperion'
+site_url: 'https://thomas-lehmann-private.github.io/hyperion-task-processor/'
+repo_url: 'https://github.com/thomas-lehmann-private/hyperion-task-processor'
 
 nav:
     - Home: index.md
     - User Guide:
-       - hyperion.md
+       - hyperion-task-processor.md
        - taskgroup.md
        - basic-task-features.md
        - basic-coded-task-features.md

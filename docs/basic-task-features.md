@@ -5,7 +5,7 @@ Following attributes are commonly available:
  - **title** - the title is optional and is used for logging to show which task is running.
     For the title [templating](templating.md) is supported.
  - **tags** - an optional list with texts that can be used to filter tasks.
-   See [hyperion](hyperion.md) for the command line options on how to use tags.
+   See [hyperion](hyperion-task-processor.md) for the command line options on how to use tags.
  - **variable** - an optional variable definition. If not provided the default
    name of the variable is "**default**" and the whole stdout of the task (process)
    is captured.
