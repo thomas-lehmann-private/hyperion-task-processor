@@ -1,20 +1,20 @@
-![Created](https://badges.pufler.dev/created/thomas-lehmann-private/hyperion)
-[![documentation](https://img.shields.io/badge/documentation-ok-%2300ff00)](https://thomas-lehmann-private.github.io/hyperion)
-![GitHub](https://img.shields.io/github/license/thomas-lehmann-private/hyperion)
+![Created](https://badges.pufler.dev/created/thomas-lehmann-private/hyperion-task-processor)
+[![documentation](https://img.shields.io/badge/documentation-ok-%2300ff00)](https://thomas-lehmann-private.github.io/hyperion-task-processor)
+![GitHub](https://img.shields.io/github/license/thomas-lehmann-private/hyperion-task-processor)
 
-[![build](https://github.com/thomas-lehmann-private/hyperion/actions/workflows/hyperion-build-actions.yml/badge.svg)](https://github.com/thomas-lehmann-private/hyperion/actions)
-[![codecov](https://codecov.io/gh/thomas-lehmann-private/hyperion/branch/main/graph/badge.svg?token=FF17P27UW6)](https://codecov.io/gh/thomas-lehmann-private/hyperion)
-[![CodeFactor](https://www.codefactor.io/repository/github/thomas-lehmann-private/hyperion/badge)](https://www.codefactor.io/repository/github/thomas-lehmann-private/hyperion)
+[![build](https://github.com/thomas-lehmann-private/hyperion-task-processor/actions/workflows/hyperion-build-actions.yml/badge.svg)](https://github.com/thomas-lehmann-private/hyperion-task-processor/actions)
+[![CodeFactor](https://www.codefactor.io/repository/github/thomas-lehmann-private/hyperion-task-processor/badge)](https://www.codefactor.io/repository/github/thomas-lehmann-private/hyperion-task-processor)
+[![CodeFactor](https://www.codefactor.io/repository/github/thomas-lehmann-private/hyperion-task-processor/badge)](https://www.codefactor.io/repository/github/thomas-lehmann-private/hyperion-task-processor)
 [![CodeScene Code Health](https://codescene.io/projects/16089/status-badges/code-health)](https://codescene.io/projects/16089)
-[![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/thomas-lehmann-private/hyperion.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/thomas-lehmann-private/hyperion/context:java)
+[![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/thomas-lehmann-private/hyperion-task-processor.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/thomas-lehmann-private/hyperion-task-processor/context:java)
 
-# hyperion
+# Hyperion task processor
 Powerful and free task processing tool
 
 ## Main goals
 
 For the main goals and the current progress please have a look
-at current [Milestone 1.0.0](https://github.com/thomas-lehmann-private/hyperion/issues?q=is%3Aopen+is%3Aissue+milestone%3A1.0.0).
+at current milestone.
 You can see there which issues are closed and which ones are in the queue.
 The list of open issues is not necessarily complete, it means there might be further
 features added to that milestone.
@@ -28,18 +28,18 @@ The current issue(s) I'm working on are pinned and can be seen at the top of the
 ## Issues
 
 If you are using the tool and find things please report an issue but
-please check before that the issue isn't already there. The issue tracker is [here](https://github.com/thomas-lehmann-private/hyperion/issues).
+please check before that the issue isn't already there. The issue tracker is [here](https://github.com/thomas-lehmann-private/hyperion-task-processor/issues).
 
 Please do not assign tags (please leave that to me). Thank you.
 Please also provide concrete examples that I'm able to reproduce the problem.
 
 ## Discussions
 
-Please feel to start/contribute in discussions at https://github.com/thomas-lehmann-private/hyperion/discussions.
+Please feel to start/contribute in discussions [here](https://github.com/thomas-lehmann-private/hyperion-task-processor/discussions).
 
 ## Documentation
 
-The current documentation will be [here](https://thomas-lehmann-private.github.io/hyperion/).
+The current documentation will be [here](https://thomas-lehmann-private.github.io/hyperion-task-processor/).
 Have a look at the top menu under menu entry **Index**. As mentioned the tool is not yet
 production ready - so please be patient - there will be detailed documentation **and** examples.
 

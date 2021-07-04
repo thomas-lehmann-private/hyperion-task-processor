@@ -2,7 +2,7 @@
 
 ## Introduction
 
-The hyperion tool allows processing a YAML document with tasks. There can be many tasks
+The hyperion task processor tool allows processing a YAML document with tasks. There can be many tasks
 like:
 
  - Powershell (functional on Windows only, for the moment)
@@ -17,7 +17,7 @@ That's the current list and will be updated when new tasks will be added.
 
 The current command line options look like following:
 ```
-java -jar hyperion-1.0.0-SNAPSHOT.jar [global options] [command [command options]]
+java -jar hyperion-task-processor-1.0.0-SNAPSHOT.jar [global options] [command [command options]]
     version: 1.0.0-SNAPSHOT, build timestamp: 2021-06-26 14:55
     author: Thomas Lehmann <thomas.lehmann.private@gmail.com>
 
@@ -69,7 +69,7 @@ The **capabilities** command prints all system capabilities relevant for the
 Hyperion tool. An example output might look like following:
 
 ```
-> java -jar hyperion-1.0.0-SNAPSHOT-shaded.jar capabilities
+> java -jar hyperion-task-processor-1.0.0-SNAPSHOT-shaded.jar capabilities
 Java:                AdoptOpenJDK-11.0.11+9 (class version=55.0)
 Operating System:    Windows 10 (arch=amd64)
 Groovy (embedded):   3.0.7

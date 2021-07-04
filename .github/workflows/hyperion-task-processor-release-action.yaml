@@ -1,4 +1,4 @@
-name: hyperion-release-action
+name: hyperion-task-processor-release-action
 
 on:
   push:
@@ -23,7 +23,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            target/hyperion-*-shaded.jar
-            target/hyperion-*-javadoc.jar
+            target/hyperion-task-processor-*-shaded.jar
+            target/hyperion-task-processor-*-javadoc.jar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

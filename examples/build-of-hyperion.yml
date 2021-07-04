@@ -8,7 +8,7 @@ taskgroups:
         yum -y install git java-11-openjdk-devel
         java -version
         export JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:/bin/java::")
-        git clone https://github.com/thomas-lehmann-private/hyperion.git
-        cd hyperion
+        git clone https://github.com/thomas-lehmann-private/hyperion-task-processor.git
+        cd hyperion-task-processor
         chmod +x ./mvnw
         ./mvnw --batch-mode -Dcom.sun.net.ssl.checkRevocation=false -Dmaven.wagon.http.ssl.insecure=true -Dline.coverage=0.0 clean package javadoc:jar verify

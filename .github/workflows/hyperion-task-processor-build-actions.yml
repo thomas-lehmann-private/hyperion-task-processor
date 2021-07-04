@@ -1,4 +1,4 @@
-name: hyperion-build-actions
+name: hyperion-task-processor-build-actions
 on: [push]
 jobs:
   run-maven-build:
