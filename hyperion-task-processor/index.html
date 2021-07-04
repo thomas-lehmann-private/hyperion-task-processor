@@ -6,7 +6,7 @@
 <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <meta content="Thomas Lehmann &lt;thomas.lehmann.private@gmail.com" name="author"/>
-<link href="https://thomas-lehmann-private.github.io/hyperion/hyperion/" rel="canonical"/>
+<link href="https://thomas-lehmann-private.github.io/hyperion-task-processor/hyperion-task-processor/" rel="canonical"/>
 <link href="../img/favicon.ico" rel="shortcut icon"/>
 <title>Application - Hyperion</title>
 <link href="../css/bootstrap.min.css" rel="stylesheet"/>
@@ -118,7 +118,7 @@
 </a>
 </li>
 <li class="nav-item">
-<a class="nav-link" href="https://github.com/thomas-lehmann-private/hyperion/edit/master/docs/hyperion.md"><i class="fa fa-github"></i> Edit on GitHub</a>
+<a class="nav-link" href="https://github.com/thomas-lehmann-private/hyperion-task-processor/edit/master/docs/hyperion-task-processor.md"><i class="fa fa-github"></i> Edit on GitHub</a>
 </li>
 </ul>
 </div>
@@ -164,7 +164,7 @@
 <div class="col-md-9" role="main">
 <h1 id="application">Application</h1>
 <h2 id="introduction">Introduction</h2>
-<p>The hyperion tool allows processing a YAML document with tasks. There can be many tasks
+<p>The hyperion task processor tool allows processing a YAML document with tasks. There can be many tasks
 like:</p>
 <ul>
 <li>Powershell (functional on Windows only, for the moment)</li>
@@ -176,7 +176,7 @@ like:</p>
 <p>That's the current list and will be updated when new tasks will be added.</p>
 <h2 id="command-line-interface">Command line interface</h2>
 <p>The current command line options look like following:</p>
-<pre><code>java -jar hyperion-1.0.0-SNAPSHOT.jar [global options] [command [command options]]
+<pre><code>java -jar hyperion-task-processor-1.0.0-SNAPSHOT.jar [global options] [command [command options]]
     version: 1.0.0-SNAPSHOT, build timestamp: 2021-06-26 14:55
     author: Thomas Lehmann &lt;thomas.lehmann.private@gmail.com&gt;
 
@@ -221,7 +221,7 @@ additionally with url and license.</p>
 <h2 id="capabilities-command">Capabilities command</h2>
 <p>The <strong>capabilities</strong> command prints all system capabilities relevant for the
 Hyperion tool. An example output might look like following:</p>
-<pre><code>&gt; java -jar hyperion-1.0.0-SNAPSHOT-shaded.jar capabilities
+<pre><code>&gt; java -jar hyperion-task-processor-1.0.0-SNAPSHOT-shaded.jar capabilities
 Java:                AdoptOpenJDK-11.0.11+9 (class version=55.0)
 Operating System:    Windows 10 (arch=amd64)
 Groovy (embedded):   3.0.7
