@@ -20,10 +20,7 @@ jobs:
           check-latest: true                # Checking that cached version is the latest
       - run: mvn --batch-mode
       - name: Release
-        uses: softprops/action-gh-release@v1
+        uses: ncipollo/release-action@v1
         with:
-          files: |
-            target/hyperion-task-processor-1.0.0-shaded.jar
-            target/hyperion-task-processor-1.0.0-javadoc.jar
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          artifacts: target/hyperion-task-processor-*-shaded.jar,target/hyperion-task-processor-*-javadoc.jar
+          token: ${{ secrets.GITHUB_TOKEN }}
