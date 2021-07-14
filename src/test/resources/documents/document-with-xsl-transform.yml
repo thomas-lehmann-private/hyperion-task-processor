@@ -1,0 +1,12 @@
+---
+model:
+  # the variable is required to be set while testing!
+  path: PATH
+
+taskgroups:
+  - title: test
+    parallel: false
+    tasks:
+      - type: xsl-transform
+        xsl: "{{ model.attributes.path.value }}/xmlxsl/test1.xsl"
+        xml: "{{ model.attributes.path.value }}/xmlxsl/test1.xml"

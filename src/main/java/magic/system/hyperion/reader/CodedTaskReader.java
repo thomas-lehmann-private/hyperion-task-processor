@@ -35,7 +35,7 @@ import magic.system.hyperion.interfaces.ITaskCreator;
  *
  * @author Thomas Lehmann
  */
-public class CodedTaskReader extends BasicTaskReader implements INodeReader {
+public class CodedTaskReader extends AbstractBasicTaskReader {
     /**
      * Initialize with task group where to add the coded task.
      *

@@ -141,7 +141,17 @@ public enum DocumentReaderFields {
     /**
      * Boolean option to tell the task how a destination path is to be interpreted.
      */
-    DESTINATION_IS_DIRECTORY("destination-is-directory");
+    DESTINATION_IS_DIRECTORY("destination-is-directory"),
+
+    /**
+     * XSL code or path and filename to XSL.
+     */
+    XSL("xsl"),
+
+    /**
+     * XML code or path and filename to XML.
+     */
+    XML("xml");
 
     /**
      * Name of the field.

@@ -35,7 +35,7 @@ import magic.system.hyperion.interfaces.ITaskCreator;
  *
  * @author Thomas Lehmann
  */
-public class FileCopyTaskReader extends BasicTaskReader implements INodeReader {
+public class FileCopyTaskReader extends AbstractBasicTaskReader {
     /**
      * Initialize with task group where to add the task.
      *
