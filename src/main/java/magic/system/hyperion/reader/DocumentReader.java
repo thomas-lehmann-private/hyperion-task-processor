@@ -27,7 +27,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import magic.system.hyperion.components.Document;
 import magic.system.hyperion.components.TaskGroupsReader;
 import magic.system.hyperion.exceptions.HyperionException;
-import magic.system.hyperion.tools.FileUtils;
+import magic.system.hyperion.tools.YamlTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,7 +69,7 @@ public class DocumentReader {
     public Document read(final Path path) {
         Document finalDocument = null;
         try {
-            readDocument(FileUtils.readYamlTree(path));
+            readDocument(YamlTools.readYamlTree(path));
             finalDocument = this.document;
         } catch (IOException | HyperionException e) {
             LOGGER.error(e.getMessage(), e);
@@ -87,7 +87,7 @@ public class DocumentReader {
     public Document read(final byte[] content) {
         Document finalDocument = null;
         try {
-            readDocument(FileUtils.readYamlTree(content));
+            readDocument(YamlTools.readYamlTree(content));
             finalDocument = this.document;
         } catch (IOException | HyperionException e) {
             LOGGER.error(e.getMessage(), e);

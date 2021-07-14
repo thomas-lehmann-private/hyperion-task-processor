@@ -23,9 +23,6 @@
  */
 package magic.system.hyperion.tools;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,7 +32,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.attribute.FileAttribute;
 import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.PosixFilePermissions;
@@ -178,28 +177,19 @@ public final class FileUtils {
     }
 
     /**
-     * Read YAML as tree providing root as {@link JsonNode}.
+     * Checking given string to be a valid path and a regular file.
      *
-     * @param path where to read the YAML file from.
-     * @return tree
-     * @throws IOException when reading of YAML file has failed.
-     * @since 1.0.0
+     * @param strPath path as string.
+     * @return true when given path is a valid path and is a regular file.
+     * since 2.0.0
      */
-    public static JsonNode readYamlTree(final Path path) throws IOException {
-        final var mapper = new ObjectMapper(new YAMLFactory());
-        return mapper.readTree(path.toUri().toURL());
-    }
-
-    /**
-     * Read YAML as tree providing root as {@link JsonNode}.
-     *
-     * @param content providing content is your task. Can be from within memory.
-     * @return tree
-     * @throws IOException when reading of YAML has failed.
-     * @since 1.0.0
-     */
-    public static JsonNode readYamlTree(final byte[] content) throws IOException {
-        final var mapper = new ObjectMapper(new YAMLFactory());
-        return mapper.readTree(content);
+    public static boolean isRegularFile(final String strPath) {
+        boolean success;
+        try {
+            success = Files.isRegularFile(Paths.get(strPath));
+        } catch (final InvalidPathException e) {
+            success = false;
+        }
+        return success;
     }
 }

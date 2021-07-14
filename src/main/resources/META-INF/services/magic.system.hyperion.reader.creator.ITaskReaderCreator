@@ -1,0 +1,5 @@
+magic.system.hyperion.reader.creator.XlsTransformTaskReaderCreator
+magic.system.hyperion.reader.creator.DockerContainerTaskReaderCreator
+magic.system.hyperion.reader.creator.DockerImageTaskReaderCreator
+magic.system.hyperion.reader.creator.FileCopyTaskReaderCreator
+

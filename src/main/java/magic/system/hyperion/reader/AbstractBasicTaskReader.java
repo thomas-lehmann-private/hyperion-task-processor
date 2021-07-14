@@ -35,11 +35,11 @@ import magic.system.hyperion.matcher.ListMatcher;
  *
  * @author Thomas Lehmann
  */
-public class BasicTaskReader {
+public abstract class AbstractBasicTaskReader implements INodeReader {
     /**
      * The task group where to add the Docker container task when all is fine.
      */
-    protected final TaskGroup taskGroup;
+    protected TaskGroup taskGroup;
 
     /**
      * The creator that does create the concrete task.
@@ -53,10 +53,20 @@ public class BasicTaskReader {
      * @param initTaskCreator the function that provides the creator for a task.
      * @since 1.0.0
      */
-    public BasicTaskReader(final TaskGroup initTaskGroup,
-                           final ITaskCreator initTaskCreator) {
+    public AbstractBasicTaskReader(final TaskGroup initTaskGroup,
+                                   final ITaskCreator initTaskCreator) {
         this.taskGroup = initTaskGroup;
         this.taskCreator = initTaskCreator;
+    }
+
+    /**
+     * Change task group.
+     *
+     * @param initTaskGroup new task group where to add the tasks.
+     * @since 2.0.0
+     */
+    public void setTaskGroup(final TaskGroup initTaskGroup) {
+        this.taskGroup = initTaskGroup;
     }
 
     /**

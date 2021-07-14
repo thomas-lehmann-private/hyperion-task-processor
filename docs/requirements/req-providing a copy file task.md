@@ -12,7 +12,9 @@ destination. The standard parameters are those of a basic task
 with additional following parameters:
 
  - **source** - the source location of a file that must exist. The attribute is required.
+                [Templating](templating.md) is supported on this attribute.
  - **destination** - the destination location of a file. The attribute is required.
+                     [Templating](templating.md) is supported on this attribute.
  - **overwrite** - optional boolean attribute allowing you to overwrite the destination
                   file when the file exists. The default should be false;
                   when the destination path exists the task operation should fail.

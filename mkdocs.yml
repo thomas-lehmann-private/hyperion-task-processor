@@ -17,6 +17,7 @@ nav:
        - docker-image.md
        - docker-container.md
        - copy-file.md
+       - xsl-transform.md
        - templating.md
        - matrix.md
     - Developer Guide:

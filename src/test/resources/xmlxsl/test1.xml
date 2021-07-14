@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<books>
+    <book>
+        <title>Death on the Nile</title>
+        <author>Agatha Christie</author>
+    </book>
+
+    <book>
+        <title>Evil Under the Sun</title>
+        <author>Agatha Christie</author>
+    </book>
+
+    <book>
+        <title>Too Many Cooks</title>
+        <author>Rex Stout</author>
+    </book>
+
+    <book>
+        <title>The Big Sleep</title>
+        <author>Raymond Chandler</author>
+    </book>
+
+    <book>
+        <title>The Long Good-Bye</title>
+        <author>Raymond Chandler</author>
+    </book>
+</books>

@@ -31,6 +31,7 @@ import magic.system.hyperion.components.tasks.creator.ITaskCreator;
 import magic.system.hyperion.exceptions.HyperionException;
 import magic.system.hyperion.generics.Converters;
 import magic.system.hyperion.matcher.Matcher;
+import magic.system.hyperion.reader.creator.ITaskReaderCreator;
 import magic.system.hyperion.tools.Factory;
 
 /**
@@ -38,7 +39,6 @@ import magic.system.hyperion.tools.Factory;
  *
  * @author Thomas
  */
-@SuppressWarnings("checkstyle:classdataabstractioncoupling") // will be fixed later on
 public class TaskReader implements INodeReader {
     /**
      * The task group where to add the Docker container task when all is fine.
@@ -51,6 +51,11 @@ public class TaskReader implements INodeReader {
     private final Factory<AbstractTask> tasksFactory;
 
     /**
+     * Factory for coded tasks.
+     */
+    private final Factory<AbstractBasicTaskReader> taskReaderFactory;
+
+    /**
      * Initialize with task group where to add the coded task.
      *
      * @param initTaskGroup keeper of the list of tasks.
@@ -58,6 +63,7 @@ public class TaskReader implements INodeReader {
     public TaskReader(final TaskGroup initTaskGroup) {
         this.taskGroup = initTaskGroup;
         this.tasksFactory = new Factory<AbstractTask>(ITaskCreator.class);
+        this.taskReaderFactory = new Factory<AbstractBasicTaskReader>(ITaskReaderCreator.class);
     }
 
     @Override
@@ -75,24 +81,13 @@ public class TaskReader implements INodeReader {
         final var type = TaskType.fromValue(strType);
 
         switch (type) {
-            case DOCKER_CONTAINER: {
-                new DockerContainerTaskReader(taskGroup, () -> {
-                    return tasksFactory.create(type.getTypeName());
-                }).read(node);
-                break;
-            }
-
-            case DOCKER_IMAGE: {
-                new DockerImageTaskReader(taskGroup, () -> {
-                    return tasksFactory.create(type.getTypeName());
-                }).read(node);
-                break;
-            }
-
-            case COPY_FILE: {
-                new FileCopyTaskReader(taskGroup, () -> {
-                    return tasksFactory.create(type.getTypeName());
-                }).read(node);
+            case DOCKER_CONTAINER:
+            case DOCKER_IMAGE:
+            case COPY_FILE:
+            case XSLT: {
+                final var taskReader = this.taskReaderFactory.create(type.getTypeName());
+                taskReader.setTaskGroup(taskGroup);
+                taskReader.read(node);
                 break;
             }
 

@@ -21,35 +21,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package magic.system.hyperion.reader;
+package magic.system.hyperion.reader.creator;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import magic.system.hyperion.components.TaskGroup;
-import magic.system.hyperion.interfaces.ITaskCreator;
-import magic.system.hyperion.matcher.ListMatcher;
+import magic.system.hyperion.annotations.Named;
+import magic.system.hyperion.components.tasks.AbstractTask;
+import magic.system.hyperion.components.tasks.TaskType;
+import magic.system.hyperion.components.tasks.creator.ITaskCreator;
+import magic.system.hyperion.reader.AbstractBasicTaskReader;
+import magic.system.hyperion.reader.FileCopyTaskReader;
+import magic.system.hyperion.tools.Factory;
 
 /**
- * Base class for docker image task reader and docker container task reader.
+ * Creator for instance of {@link magic.system.hyperion.reader.FileCopyTaskReader}.
  *
  * @author Thomas Lehmann
  */
-public class DockerTaskReader extends BasicTaskReader {
-    /**
-     * Initialize with task group where to add the coded task.
-     *
-     * @param initTaskGroup   keeper of the list of tasks.
-     * @param initTaskCreator the function that provides the creator for a task.
-     * @since 1.0.0
-     */
-    public DockerTaskReader(final TaskGroup initTaskGroup,
-                            final ITaskCreator initTaskCreator) {
-        super(initTaskGroup, initTaskCreator);
-    }
-
+@Named("copy-file")
+public class FileCopyTaskReaderCreator implements ITaskReaderCreator {
     @Override
-    protected ListMatcher<String> getMatcher(final JsonNode node) {
-        final var matcher = super.getMatcher(node);
-        matcher.requireExactlyOnce(DocumentReaderFields.CODE.getFieldName());
-        return matcher;
+    public AbstractBasicTaskReader create() {
+        final var tasksFactory = new Factory<AbstractTask>(ITaskCreator.class);
+        return new FileCopyTaskReader(null, () -> {
+            return tasksFactory.create(TaskType.COPY_FILE.getTypeName());
+        });
     }
 }

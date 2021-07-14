@@ -36,7 +36,7 @@ import magic.system.hyperion.tools.Capabilities;
  *
  * @author Thomas Lehmann
  */
-public class DockerContainerTaskReader extends DockerTaskReader implements INodeReader {
+public class DockerContainerTaskReader extends AbstractDockerTaskReader {
     /**
      * Initialize with task group where to add the coded task.
      *

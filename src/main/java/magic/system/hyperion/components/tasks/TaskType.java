@@ -69,7 +69,12 @@ public enum TaskType {
     /**
      * Type for copy file task.
      */
-    COPY_FILE("copy-file");
+    COPY_FILE("copy-file"),
+
+    /**
+     * Type for xsl transform task.
+     */
+    XSLT("xsl-transform");
 
     /**
      * Type of task (the concrete type name to be used in YAML).

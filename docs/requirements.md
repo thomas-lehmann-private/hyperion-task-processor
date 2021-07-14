@@ -4,6 +4,7 @@
 1|Provide coded tasks|task feature|[details](requirements/req-provide coded tasks.md)
 10|Provide JShell task|task feature|[details](requirements/req-provide jshell task.md)
 11|Provide a Docker container task|task feature|[details](requirements/req-provide a docker container task.md)
+12|Provide xslt task|task feature|[details](requirements/req-provide xslt task.md)
 2|Provide Powershell task|task feature|[details](requirements/req-provide powershell task.md)
 3|Printing capabilities to console|system information|[details](requirements/req-printing capabilities to console.md)
 4|Providing a Docker image task|task feature|[details](requirements/req-providing a docker image task.md)

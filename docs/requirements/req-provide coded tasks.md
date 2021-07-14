@@ -12,7 +12,8 @@ standard parameters:
 
  - **title** - the title of the task being logged
  - **code** - the concrete code to be executed or the path or filename of the script
-              (depends on implementation of concrete task)
+              (depends on implementation of concrete task).
+              [Templating](templating.md) is supported on this attribute.
  - **variable** - optional to define how the stdout is captured
               (default is to capture all)
  - **tags** - optional a list of strings to allow filtering for concrete tasks
