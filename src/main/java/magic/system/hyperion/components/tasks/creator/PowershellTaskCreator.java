@@ -26,13 +26,14 @@ package magic.system.hyperion.components.tasks.creator;
 import magic.system.hyperion.annotations.Named;
 import magic.system.hyperion.components.tasks.AbstractTask;
 import magic.system.hyperion.components.tasks.PowershellTask;
+import magic.system.hyperion.components.tasks.TaskType;
 
 /**
  * Creator for a powershell task.
  *
  * @author Thomas Lehmann
  */
-@Named("powershell")
+@Named(TaskType.Constants.POWERSHELL)
 public class PowershellTaskCreator implements ITaskCreator {
     @Override
     public AbstractTask create() {

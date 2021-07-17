@@ -64,7 +64,7 @@ def write_requirements_overview(requirements):
     with open(os.path.join(os.getcwd(), 'docs', 'requirements.md'), 'w') as handle:
         handle.write('# Requirements\n')
 
-        sortedRequirements = sorted(requirements, key=lambda entry: entry['id'])
+        sortedRequirements = sorted(requirements, key=lambda entry: int(entry['id']))
 
         handle.write('| Id  | Title | Context | Details |\n')
         handle.write('| --- | ----- | ------- | ------- |\n')

@@ -39,27 +39,22 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
- * Testing of {@link FileCopyTaskReader}.
+ * Testing of {@link WriteFileTaskReader}.
  *
  * @author Thomas Lehmann
  */
-@DisplayName("Testing of FileCopyTaskReader class")
-public class DocumentReaderForFileCopyTasksTest extends DocumentReaderBaseTest {
+@DisplayName("Testing of WriteFileTaskReader")
+public class DocumentReaderForWriteFileTasksTest extends DocumentReaderBaseTest {
     /**
-     * Number of test tasks.
-     */
-    private static final int NUMBER_OF_TASKS = 4;
-
-    /**
-     * Testing copy file task.
+     * Testing write file task.
      *
      * @throws URISyntaxException when url for document is wrong.
      */
     @Test
-    public void testFileCopyTask() throws URISyntaxException, IOException {
+    public void testWriteFileTask() throws URISyntaxException, IOException {
         final var testPath = new File(getClass().getResource("/").toURI()).getAbsolutePath();
         final var path = Paths.get(getClass().getResource(
-                "/documents/document-with-copy-file-tasks.yml").toURI());
+                "/documents/document-with-write-file-tasks.yml").toURI());
 
         final var strContent = Files.readString(path).replace("PATH", testPath);
         final var reader = new DocumentReader();
@@ -70,7 +65,7 @@ public class DocumentReaderForFileCopyTasksTest extends DocumentReaderBaseTest {
         assertEquals(0, document.run(getDefaultDocumentParameters()));
 
         final var lines = MessagesCollector.getMessages().stream()
-                .filter(line -> line.contains("Copying file from")).collect(Collectors.toList());
-        assertEquals(NUMBER_OF_TASKS, lines.size());
+                .filter(line -> line.contains("Writing file to")).collect(Collectors.toList());
+        assertEquals(2, lines.size());
     }
 }

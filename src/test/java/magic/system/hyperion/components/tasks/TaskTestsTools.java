@@ -70,7 +70,9 @@ public final class TaskTestsTools {
         variable.setValue("hello world 3!");
 
         return TaskParameters.of(
-                Model.of(Pair.of("test", StringValue.of(MODEL_TEST_VALUE))),
+                Model.of(
+                        Pair.of("test", StringValue.of(MODEL_TEST_VALUE)),
+                        Pair.of("file", StringValue.of("test.txt"))),
                 Map.of("test", "hello world 2!"),
                 Map.of("test", variable),
                 WithParameters.of(2, StringValue.of("hello world 4!")));

@@ -42,7 +42,7 @@ import java.nio.file.Paths;
  *
  * @author Thomas Lehmann
  */
-public class FileCopyTask extends AbstractTask {
+public class FileCopyTask extends AbstractFileTask {
     /**
      * Logger of this class.
      */
@@ -52,21 +52,6 @@ public class FileCopyTask extends AbstractTask {
      * Source location of file.
      */
     private String strSourcePath;
-
-    /**
-     * Destination location of file.
-     */
-    private String strDestinationPath;
-
-    /**
-     * When true an existing destination file will be overwritten (default: false).
-     */
-    private boolean bOverwrite;
-
-    /**
-     * When true the path where to copy the file will be created (default: false).
-     */
-    private boolean bEnsurePath;
 
     /**
      * When true the specified destination is directory (default: true).
@@ -84,8 +69,6 @@ public class FileCopyTask extends AbstractTask {
      */
     public FileCopyTask(final String strInitTitle) {
         super(strInitTitle);
-        this.bOverwrite = false;
-        this.bEnsurePath = false;
         this.bDestinationIsDirectory = true;
     }
 
@@ -107,66 +90,6 @@ public class FileCopyTask extends AbstractTask {
      */
     public String getSourcePath() {
         return this.strSourcePath;
-    }
-
-    /**
-     * Change destination location of file.
-     *
-     * @param strInitDestinationPath new destination location.
-     * @since 1.0.0
-     */
-    public void setDestinationPath(final String strInitDestinationPath) {
-        this.strDestinationPath = strInitDestinationPath;
-    }
-
-    /**
-     * Get destination path.
-     *
-     * @return destination path.
-     * @since 1.0.0
-     */
-    public String getDestinationPath() {
-        return this.strDestinationPath;
-    }
-
-    /**
-     * Change overwrite mode.
-     *
-     * @param bInitOverwrite new overwrite mode.
-     * @since 1.0.0
-     */
-    public void setOverwrite(final boolean bInitOverwrite) {
-        this.bOverwrite = bInitOverwrite;
-    }
-
-    /**
-     * Get overwrite mode.
-     *
-     * @return overwrite mode.
-     * @since 1.0.0
-     */
-    public boolean isOverwrite() {
-        return this.bOverwrite;
-    }
-
-    /**
-     * Change mode for ensuring destination path.
-     *
-     * @param bInitEnsurePath new mode for ensuring destination path.
-     * @since 1.0.0
-     */
-    public void setEnsurePath(final boolean bInitEnsurePath) {
-        this.bEnsurePath = bInitEnsurePath;
-    }
-
-    /**
-     * Get mode ensuring destination path.
-     *
-     * @return mode ensuring destination path.
-     * @since 1.0.0
-     */
-    public boolean isEnsurePath() {
-        return this.bEnsurePath;
     }
 
     /**
@@ -193,9 +116,9 @@ public class FileCopyTask extends AbstractTask {
     public AbstractTask copy() {
         final var task = new FileCopyTask(getTitle());
         task.setSourcePath(this.strSourcePath);
-        task.setDestinationPath(this.strDestinationPath);
-        task.setOverwrite(this.bOverwrite);
-        task.setEnsurePath(this.bEnsurePath);
+        task.setDestinationPath(getDestinationPath());
+        task.setOverwrite(isOverwrite());
+        task.setEnsurePath(isEnsurePath());
         task.setDestinationIsDirectory(this.bDestinationIsDirectory);
         return task;
     }
@@ -207,15 +130,15 @@ public class FileCopyTask extends AbstractTask {
 
         logTitle(parameters);
 
-        if (this.strSourcePath != null && this.strDestinationPath != null) {
+        if (this.strSourcePath != null && getDestinationPath() != null) {
             final var sourcePath = Paths.get(engine.render(
                     this.strSourcePath, parameters.getTemplatingContext()));
             final var destinationPath = Paths.get(engine.render(
-                    this.strDestinationPath, parameters.getTemplatingContext()));
+                    getDestinationPath(), parameters.getTemplatingContext()));
 
             // not: missing source or existing destination cannot be overwritten?
             final boolean bIsValid = Files.exists(sourcePath) && Files.isRegularFile(sourcePath)
-                    && (this.bOverwrite || !(Files.exists(destinationPath)
+                    && (isOverwrite() || !(Files.exists(destinationPath)
                     && Files.isRegularFile(destinationPath)));
 
             if (bIsValid) {
@@ -241,7 +164,7 @@ public class FileCopyTask extends AbstractTask {
     private TaskResult copyFile(final Path sourcePath, final Path destinationPath) {
         TaskResult taskResult;
         try {
-            if (this.bEnsurePath) {
+            if (isEnsurePath()) {
                 ensurePath(destinationPath);
             }
 
@@ -289,9 +212,7 @@ public class FileCopyTask extends AbstractTask {
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
                 .append("sourcePath", this.strSourcePath)
-                .append("destPath", this.strDestinationPath)
-                .append("overwrite", this.bOverwrite)
-                .append("ensurePath", this.bEnsurePath)
+                .appendSuper(super.toString())
                 .append("destIsDirectory", this.bDestinationIsDirectory)
                 .build();
     }

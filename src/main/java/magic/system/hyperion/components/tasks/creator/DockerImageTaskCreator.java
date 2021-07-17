@@ -26,13 +26,14 @@ package magic.system.hyperion.components.tasks.creator;
 import magic.system.hyperion.annotations.Named;
 import magic.system.hyperion.components.tasks.AbstractTask;
 import magic.system.hyperion.components.tasks.DockerImageTask;
+import magic.system.hyperion.components.tasks.TaskType;
 
 /**
  * Creator for instance of class {@link DockerImageTask}.
  *
  * @author Thomas Lehmann
  */
-@Named("docker-image")
+@Named(TaskType.Constants.DOCKER_IMAGE)
 public class DockerImageTaskCreator implements ITaskCreator {
     @Override
     public AbstractTask create() {

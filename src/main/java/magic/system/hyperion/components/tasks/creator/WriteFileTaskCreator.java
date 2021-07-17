@@ -21,28 +21,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package magic.system.hyperion.reader.creator;
+package magic.system.hyperion.components.tasks.creator;
 
 import magic.system.hyperion.annotations.Named;
 import magic.system.hyperion.components.tasks.AbstractTask;
 import magic.system.hyperion.components.tasks.TaskType;
-import magic.system.hyperion.components.tasks.creator.ITaskCreator;
-import magic.system.hyperion.reader.AbstractBasicTaskReader;
-import magic.system.hyperion.reader.FileCopyTaskReader;
-import magic.system.hyperion.tools.Factory;
+import magic.system.hyperion.components.tasks.WriteFileTask;
 
 /**
- * Creator for instance of {@link magic.system.hyperion.reader.FileCopyTaskReader}.
+ * Creator for instance of {@link WriteFileTask}.
  *
  * @author Thomas Lehmann
  */
-@Named(TaskType.Constants.COPY_FILE)
-public class FileCopyTaskReaderCreator implements ITaskReaderCreator {
+@Named(TaskType.Constants.WRITE_FILE)
+public class WriteFileTaskCreator implements ITaskCreator {
     @Override
-    public AbstractBasicTaskReader create() {
-        final var tasksFactory = new Factory<AbstractTask>(ITaskCreator.class);
-        return new FileCopyTaskReader(null, () -> {
-            return tasksFactory.create(TaskType.COPY_FILE.getTypeName());
-        });
+    public AbstractTask create() {
+        return new WriteFileTask("");
     }
 }

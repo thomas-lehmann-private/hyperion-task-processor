@@ -34,47 +34,52 @@ public enum TaskType {
     /**
      * Type for Powershell task.
      */
-    POWERSHELL("powershell"),
+    POWERSHELL(Constants.POWERSHELL),
 
     /**
      * Type for Windows batch task.
      */
-    BATCH("batch"),
+    BATCH(Constants.BATCH),
 
     /**
      * Type for Unix shell task.
      */
-    SHELL("shell"),
+    SHELL(Constants.SHELL),
 
     /**
      * Type for Groovy task.
      */
-    GROOVY("groovy"),
+    GROOVY(Constants.GROOVY),
 
     /**
      * Type for JShell task.
      */
-    JSHELL("jshell"),
+    JSHELL(Constants.JSHELL),
 
     /**
      * Type for docker container task.
      */
-    DOCKER_CONTAINER("docker-container"),
+    DOCKER_CONTAINER(Constants.DOCKER_CONTAINER),
 
     /**
      * Type for docker image task.
      */
-    DOCKER_IMAGE("docker-image"),
+    DOCKER_IMAGE(Constants.DOCKER_IMAGE),
 
     /**
      * Type for copy file task.
      */
-    COPY_FILE("copy-file"),
+    COPY_FILE(Constants.COPY_FILE),
 
     /**
      * Type for xsl transform task.
      */
-    XSLT("xsl-transform");
+    XSLT(Constants.XSLT),
+
+    /**
+     * Type for write file task.
+     */
+    WRITE_FILE(Constants.WRITE_FILE);
 
     /**
      * Type of task (the concrete type name to be used in YAML).
@@ -117,5 +122,62 @@ public enum TaskType {
         }
 
         throw new HyperionException("Unknown task type '" + strName + "'!");
+    }
+
+    /**
+     * Constants for reuse (like annotations).
+     *
+     * @author Thomas Lehmann
+     */
+    public static class Constants {
+        /**
+         * Value for type for Powershell task.
+         */
+        public static final String POWERSHELL = "powershell";
+
+        /**
+         * Value for type for Windows batch task.
+         */
+        public static final String  BATCH = "batch";
+
+        /**
+         * Value for type for Unix shell task.
+         */
+        public static final String SHELL = "shell";
+
+        /**
+         * Value for type for Groovy task.
+         */
+        public static final String GROOVY = "groovy";
+
+        /**
+         * Value for type for JShell task.
+         */
+        public static final String JSHELL = "jshell";
+
+        /**
+         * Value for type for docker container task.
+         */
+        public static final String DOCKER_CONTAINER = "docker-container";
+
+        /**
+         * Value for type for docker image task.
+         */
+        public static final String DOCKER_IMAGE = "docker-image";
+
+        /**
+         * Value for type for copy file task.
+         */
+        public static final String COPY_FILE = "copy-file";
+
+        /**
+         * Value for type for xsl transform task.
+         */
+        public static final String XSLT = "xsl-transform";
+
+        /**
+         * Value for type for write file task.
+         */
+        public static final String WRITE_FILE = "write-file";
     }
 }

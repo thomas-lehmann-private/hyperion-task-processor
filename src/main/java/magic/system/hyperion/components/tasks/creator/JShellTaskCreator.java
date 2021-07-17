@@ -26,13 +26,14 @@ package magic.system.hyperion.components.tasks.creator;
 import magic.system.hyperion.annotations.Named;
 import magic.system.hyperion.components.tasks.AbstractTask;
 import magic.system.hyperion.components.tasks.JShellTask;
+import magic.system.hyperion.components.tasks.TaskType;
 
 /**
  * Creator for a jshell task.
  *
  * @author Thomas Lehmann
  */
-@Named("jshell")
+@Named(TaskType.Constants.JSHELL)
 public class JShellTaskCreator implements ITaskCreator {
     @Override
     public AbstractTask create() {

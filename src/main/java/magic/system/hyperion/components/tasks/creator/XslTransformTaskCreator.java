@@ -25,6 +25,7 @@ package magic.system.hyperion.components.tasks.creator;
 
 import magic.system.hyperion.annotations.Named;
 import magic.system.hyperion.components.tasks.AbstractTask;
+import magic.system.hyperion.components.tasks.TaskType;
 import magic.system.hyperion.components.tasks.XslTransformTask;
 
 /**
@@ -32,7 +33,7 @@ import magic.system.hyperion.components.tasks.XslTransformTask;
  *
  * @author Thomas Lehmann
  */
-@Named("xsl-transform")
+@Named(TaskType.Constants.XSLT)
 public class XslTransformTaskCreator implements ITaskCreator {
     @Override
     public AbstractTask create() {

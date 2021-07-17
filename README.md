@@ -6,6 +6,7 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/thomas-lehmann-private/hyperion-task-processor/badge)](https://www.codefactor.io/repository/github/thomas-lehmann-private/hyperion-task-processor)
 [![CodeScene Code Health](https://codescene.io/projects/16089/status-badges/code-health)](https://codescene.io/projects/16089)
 [![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/thomas-lehmann-private/hyperion-task-processor.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/thomas-lehmann-private/hyperion-task-processor/context:java)
+[![codecov](https://codecov.io/gh/thomas-lehmann-private/hyperion-task-processor/branch/main/graph/badge.svg?token=FF17P27UW6)](https://codecov.io/gh/thomas-lehmann-private/hyperion-task-processor)
 
 
 # Hyperion task processor
