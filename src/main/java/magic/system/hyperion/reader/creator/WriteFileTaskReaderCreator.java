@@ -28,21 +28,22 @@ import magic.system.hyperion.components.tasks.AbstractTask;
 import magic.system.hyperion.components.tasks.TaskType;
 import magic.system.hyperion.components.tasks.creator.ITaskCreator;
 import magic.system.hyperion.reader.AbstractBasicTaskReader;
-import magic.system.hyperion.reader.FileCopyTaskReader;
+import magic.system.hyperion.reader.WriteFileTaskReader;
 import magic.system.hyperion.tools.Factory;
 
 /**
- * Creator for instance of {@link magic.system.hyperion.reader.FileCopyTaskReader}.
+ * Creator for instance {@link WriteFileTaskReader}.
  *
  * @author Thomas Lehmann
  */
-@Named(TaskType.Constants.COPY_FILE)
-public class FileCopyTaskReaderCreator implements ITaskReaderCreator {
+@Named(TaskType.Constants.WRITE_FILE)
+public class WriteFileTaskReaderCreator implements ITaskReaderCreator {
     @Override
     public AbstractBasicTaskReader create() {
         final var tasksFactory = new Factory<AbstractTask>(ITaskCreator.class);
-        return new FileCopyTaskReader(null, () -> {
-            return tasksFactory.create(TaskType.COPY_FILE.getTypeName());
+        return new WriteFileTaskReader(null, () -> {
+            return tasksFactory.create(TaskType.WRITE_FILE.getTypeName());
         });
+
     }
 }

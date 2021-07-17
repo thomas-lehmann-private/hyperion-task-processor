@@ -26,13 +26,14 @@ package magic.system.hyperion.components.tasks.creator;
 import magic.system.hyperion.annotations.Named;
 import magic.system.hyperion.components.tasks.AbstractTask;
 import magic.system.hyperion.components.tasks.FileCopyTask;
+import magic.system.hyperion.components.tasks.TaskType;
 
 /**
  * Creator for a file copy task.
  *
  * @author Thomas Lehmann
  */
-@Named("copy-file")
+@Named(TaskType.Constants.COPY_FILE)
 public class FileCopyTaskCreator implements ITaskCreator {
     @Override
     public AbstractTask create() {

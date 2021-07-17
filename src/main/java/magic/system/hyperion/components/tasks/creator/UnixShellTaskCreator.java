@@ -25,6 +25,7 @@ package magic.system.hyperion.components.tasks.creator;
 
 import magic.system.hyperion.annotations.Named;
 import magic.system.hyperion.components.tasks.AbstractTask;
+import magic.system.hyperion.components.tasks.TaskType;
 import magic.system.hyperion.components.tasks.UnixShellTask;
 
 /**
@@ -32,7 +33,7 @@ import magic.system.hyperion.components.tasks.UnixShellTask;
  *
  * @author Thomas Lehmann
  */
-@Named("shell")
+@Named(TaskType.Constants.SHELL)
 public class UnixShellTaskCreator implements ITaskCreator {
     @Override
     public AbstractTask create() {

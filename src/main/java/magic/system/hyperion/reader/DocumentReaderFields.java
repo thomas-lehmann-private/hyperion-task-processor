@@ -118,6 +118,11 @@ public enum DocumentReaderFields {
     REPOSITORY_TAG("repository-tag"),
 
     /**
+     * Some content (string).
+     */
+    CONTENT("content"),
+
+    /**
      * First time required in copy files for the source path and filename.
      */
     SOURCE("source"),

@@ -1,0 +1,20 @@
+---
+model:
+  # the variable is required to be set while testing!
+  path: PATH
+
+taskgroups:
+  - title: test
+    parallel: false
+    tasks:
+      # copying file to existing path (directory)
+      - type: write-file
+        content: hello world 1!
+        destination: "{{ model.attributes.path.value }}/tasks/test1.txt"
+        overwrite: false
+      # copying file to not existing path (directory)
+      - type: write-file
+        content: hello world 2!
+        destination: "{{ model.attributes.path.value }}/tasks/a/test2.txt"
+        ensure-path: true
+        overwrite: false

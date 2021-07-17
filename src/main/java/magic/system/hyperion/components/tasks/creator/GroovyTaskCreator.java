@@ -26,13 +26,14 @@ package magic.system.hyperion.components.tasks.creator;
 import magic.system.hyperion.annotations.Named;
 import magic.system.hyperion.components.tasks.AbstractTask;
 import magic.system.hyperion.components.tasks.GroovyTask;
+import magic.system.hyperion.components.tasks.TaskType;
 
 /**
  * Creator for a groovy task.
  *
  * @author Thomas Lehmann
  */
-@Named("groovy")
+@Named(TaskType.Constants.GROOVY)
 public class GroovyTaskCreator implements ITaskCreator {
     @Override
     public AbstractTask create() {

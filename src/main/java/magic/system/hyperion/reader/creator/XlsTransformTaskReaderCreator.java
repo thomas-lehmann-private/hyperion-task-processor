@@ -36,7 +36,7 @@ import magic.system.hyperion.tools.Factory;
  *
  * @author Thomas Lehmann
  */
-@Named("xsl-transform")
+@Named(TaskType.Constants.XSLT)
 public class XlsTransformTaskReaderCreator implements ITaskReaderCreator {
     @Override
     public AbstractBasicTaskReader create() {

@@ -25,6 +25,7 @@ package magic.system.hyperion.components.tasks.creator;
 
 import magic.system.hyperion.annotations.Named;
 import magic.system.hyperion.components.tasks.AbstractTask;
+import magic.system.hyperion.components.tasks.TaskType;
 import magic.system.hyperion.components.tasks.WindowsBatchTask;
 
 /**
@@ -32,7 +33,7 @@ import magic.system.hyperion.components.tasks.WindowsBatchTask;
  *
  * @author Thomas Lehmann
  */
-@Named("batch")
+@Named(TaskType.Constants.BATCH)
 public class WindowsBatchTaskCreator implements ITaskCreator {
     @Override
     public AbstractTask create() {

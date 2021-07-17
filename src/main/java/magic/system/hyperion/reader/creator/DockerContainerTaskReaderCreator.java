@@ -36,7 +36,7 @@ import magic.system.hyperion.tools.Factory;
  *
  * @author Thomas Lehmann
  */
-@Named("docker-container")
+@Named(TaskType.Constants.DOCKER_CONTAINER)
 public class DockerContainerTaskReaderCreator implements ITaskReaderCreator {
     @Override
     public AbstractBasicTaskReader create() {
