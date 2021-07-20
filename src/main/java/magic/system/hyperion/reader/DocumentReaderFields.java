@@ -156,7 +156,12 @@ public enum DocumentReaderFields {
     /**
      * XML code or path and filename to XML.
      */
-    XML("xml");
+    XML("xml"),
+
+    /**
+     * An URL as required for the download task.
+     */
+    URL("url");
 
     /**
      * Name of the field.

@@ -85,6 +85,7 @@ public class TaskReader implements INodeReader {
             case DOCKER_IMAGE:
             case COPY_FILE:
             case WRITE_FILE:
+            case DOWNLOAD:
             case XSLT: {
                 final var taskReader = this.taskReaderFactory.create(type.getTypeName());
                 taskReader.setTaskGroup(taskGroup);

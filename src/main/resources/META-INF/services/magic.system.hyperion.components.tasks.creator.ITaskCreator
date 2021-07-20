@@ -8,3 +8,4 @@ magic.system.hyperion.components.tasks.creator.WindowsBatchTaskCreator
 magic.system.hyperion.components.tasks.creator.FileCopyTaskCreator
 magic.system.hyperion.components.tasks.creator.XslTransformTaskCreator
 magic.system.hyperion.components.tasks.creator.WriteFileTaskCreator
+magic.system.hyperion.components.tasks.creator.DownloadTaskCreator

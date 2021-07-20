@@ -18,6 +18,7 @@ nav:
        - docker-container.md
        - copy-file.md
        - write-file.md
+       - download-task.md
        - xsl-transform.md
        - templating.md
        - matrix.md
@@ -45,4 +46,3 @@ markdown_extensions:
   - pymdownx.caret
   - pymdownx.mark
   - pymdownx.magiclink
-

@@ -24,9 +24,7 @@
 package magic.system.hyperion.reader;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import magic.system.hyperion.annotations.Named;
 import magic.system.hyperion.components.TaskGroup;
-import magic.system.hyperion.components.tasks.TaskType;
 import magic.system.hyperion.components.tasks.WriteFileTask;
 import magic.system.hyperion.exceptions.HyperionException;
 import magic.system.hyperion.generics.Converters;
@@ -37,7 +35,6 @@ import magic.system.hyperion.interfaces.ITaskCreator;
  *
  * @author Thomas Lehmann
  */
-@Named(TaskType.Constants.WRITE_FILE)
 public class WriteFileTaskReader extends AbstractFileTaskReader {
     /**
      * Initialize with task group where to add the coded task.
@@ -55,9 +52,6 @@ public class WriteFileTaskReader extends AbstractFileTaskReader {
         final var matcher = getMatcher(node);
 
         matcher.requireExactlyOnce(DocumentReaderFields.CONTENT.getFieldName());
-        matcher.requireExactlyOnce(DocumentReaderFields.DESTINATION.getFieldName());
-        matcher.allow(DocumentReaderFields.ENSURE_PATH.getFieldName());
-        matcher.allow(DocumentReaderFields.OVERWRITE.getFieldName());
 
         final var names = Converters.convertToSortedList(node.fieldNames());
         if (!matcher.matches(names)) {
@@ -66,13 +60,10 @@ public class WriteFileTaskReader extends AbstractFileTaskReader {
 
         final var task = (WriteFileTask) taskCreator.createTask();
         readBasic(task, node);
+        readFile(task, node);
 
         task.setContent(node.get(
                 DocumentReaderFields.CONTENT.getFieldName()).asText());
-        task.setDestinationPath(node.get(
-                DocumentReaderFields.DESTINATION.getFieldName()).asText());
-
-        readFile(task, node);
 
         this.taskGroup.add(task);
     }
