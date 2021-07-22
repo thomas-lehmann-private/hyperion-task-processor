@@ -25,25 +25,28 @@ package magic.system.hyperion.reader;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import magic.system.hyperion.components.TaskGroup;
-import magic.system.hyperion.components.tasks.FileCopyTask;
+import magic.system.hyperion.components.tasks.DownloadTask;
 import magic.system.hyperion.exceptions.HyperionException;
 import magic.system.hyperion.generics.Converters;
 import magic.system.hyperion.interfaces.ITaskCreator;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 /**
- * Reader for a copy file task.
+ * Reader for {@link magic.system.hyperion.components.tasks.DownloadTask}.
  *
  * @author Thomas Lehmann
  */
-public class FileCopyTaskReader extends AbstractFileTaskReader {
+public class DownloadTaskReader extends AbstractFileTaskReader {
     /**
-     * Initialize with task group where to add the task.
+     * Initialize with task group where to add the download task.
      *
      * @param initTaskGroup   keeper of the list of tasks.
      * @param initTaskCreator the function that provides the creator for a task.
      * @since 1.0.0
      */
-    public FileCopyTaskReader(TaskGroup initTaskGroup, ITaskCreator initTaskCreator) {
+    public DownloadTaskReader(TaskGroup initTaskGroup, ITaskCreator initTaskCreator) {
         super(initTaskGroup, initTaskCreator);
     }
 
@@ -51,25 +54,25 @@ public class FileCopyTaskReader extends AbstractFileTaskReader {
     public void read(JsonNode node) throws HyperionException {
         final var matcher = getMatcher(node);
 
-        matcher.requireExactlyOnce(DocumentReaderFields.SOURCE.getFieldName());
-        matcher.allow(DocumentReaderFields.DESTINATION_IS_DIRECTORY.getFieldName());
+        matcher.requireExactlyOnce(DocumentReaderFields.URL.getFieldName());
 
         final var names = Converters.convertToSortedList(node.fieldNames());
         if (!matcher.matches(names)) {
-            throw new HyperionException("The copy file task fields are not correct!");
+            throw new HyperionException("The download task fields are not correct!");
         }
 
-        final var task = (FileCopyTask) taskCreator.createTask();
+        final var task = (DownloadTask) taskCreator.createTask();
         readBasic(task, node);
         readFile(task, node);
 
-        task.setSourcePath(node.get(
-                DocumentReaderFields.SOURCE.getFieldName()).asText());
-
-        if (node.has(DocumentReaderFields.DESTINATION_IS_DIRECTORY.getFieldName())) {
-            task.setDestinationIsDirectory(node.get(
-                    DocumentReaderFields.DESTINATION_IS_DIRECTORY.getFieldName()).asBoolean());
+        try {
+            task.setUrl(new URL(node.get(
+                    DocumentReaderFields.URL.getFieldName()).asText()));
+        } catch (final MalformedURLException e) {
+            throw new HyperionException(e.getMessage());
         }
+
+        // TODO: Write tests (DocumentReaderForDownloadTasksTest)
 
         this.taskGroup.add(task);
     }

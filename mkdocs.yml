@@ -18,16 +18,18 @@ nav:
        - docker-container.md
        - copy-file.md
        - write-file.md
+       - download-task.md
        - xsl-transform.md
        - templating.md
        - matrix.md
     - Developer Guide:
        - requirements.md
-       - build.md
-       - junit5.md
-       - mkdocs.md
-       - cli.md
-       - finishing-a-milestone.md
+       - internal/build.md
+       - internal/junit5.md
+       - internal/mkdocs.md
+       - internal/cli.md
+       - internal/finishing-a-milestone.md
+       - internal/implementing-a-new-task.md
 
 theme:
     name: flatly
@@ -45,4 +47,3 @@ markdown_extensions:
   - pymdownx.caret
   - pymdownx.mark
   - pymdownx.magiclink
-

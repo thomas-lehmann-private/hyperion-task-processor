@@ -14,3 +14,4 @@
 11|Provide a Docker container task|task feature|[details](requirements/req-provide a docker container task.md)
 12|Provide xslt task|task feature|[details](requirements/req-provide xslt task.md)
 13|Provide write to file task|task feature|[details](requirements/req-provide write to file task.md)
+14|Provide a download task|file task feature|[details](requirements/req-provide a download task.md)

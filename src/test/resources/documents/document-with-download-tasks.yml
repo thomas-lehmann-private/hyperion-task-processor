@@ -1,0 +1,20 @@
+---
+model:
+  # the variable is required to be set while testing!
+  path: PATH
+
+taskgroups:
+  - title: test
+    parallel: false
+    tasks:
+      # download file to existing path (directory)
+      - type: download
+        url: https://raw.githubusercontent.com/thomas-lehmann-private/hyperion-task-processor/main/README.md
+        destination: "{{ model.attributes.path.value }}/tasks/test1.txt"
+        overwrite: false
+      # download file to not existing path (directory)
+      - type: download
+        url: https://raw.githubusercontent.com/thomas-lehmann-private/hyperion-task-processor/main/README.md
+        destination: "{{ model.attributes.path.value }}/tasks/a/test2.txt"
+        ensure-path: true
+        overwrite: false

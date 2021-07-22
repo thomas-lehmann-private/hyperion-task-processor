@@ -23,10 +23,7 @@
  */
 package magic.system.hyperion.components.tasks;
 
-import magic.system.hyperion.tools.FileUtils;
 import magic.system.hyperion.tools.TemplateEngine;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -37,7 +34,6 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
@@ -52,21 +48,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 @DisplayName("Testing of class WriteFileTask")
 @SuppressWarnings("checkstyle:multiplestringliterals")
-public class WriteFileTaskTest {
-    @BeforeEach
-    public void setup() throws URISyntaxException, IOException {
-        final URL baseUrl = getClass().getResource("/");
-        final var path = Paths.get(Path.of(baseUrl.toURI()).toString(), "tasks");
-        Files.createDirectories(path);
-    }
-
-    @AfterEach
-    public void cleanUp() throws IOException, URISyntaxException {
-        final URL baseUrl = getClass().getResource("/");
-        final var path = Paths.get(Path.of(baseUrl.toURI()).toString(), "tasks");
-        assertTrue(FileUtils.removeDirectoryRecursive(path));
-    }
-
+public class WriteFileTaskTest extends TaskBaseTest {
     /**
      * Testing file copy operation.
      *
@@ -76,7 +58,7 @@ public class WriteFileTaskTest {
      * @throws IOException when reading lines has failed (comparing source and destination)
      */
     @ParameterizedTest(name = "#{index}, success={0}, task={1}, expected content={2}")
-    @MethodSource("copyTestData")
+    @MethodSource("writeTestData")
     public void testWrite(final boolean bExpectedToSucceed, final WriteFileTask task,
                           final String strExpectedContent)
             throws IOException {
@@ -104,7 +86,7 @@ public class WriteFileTaskTest {
      *
      * @return test data.
      */
-    private static Stream<Arguments> copyTestData() throws URISyntaxException {
+    private static Stream<Arguments> writeTestData() throws URISyntaxException {
         final URL baseUrl = WriteFileTask.class.getResource("/");
         final var strBaseUrl = new File(baseUrl.toURI()).getAbsolutePath();
 

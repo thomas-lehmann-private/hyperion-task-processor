@@ -79,7 +79,12 @@ public enum TaskType {
     /**
      * Type for write file task.
      */
-    WRITE_FILE(Constants.WRITE_FILE);
+    WRITE_FILE(Constants.WRITE_FILE),
+
+    /**
+     * Type for download task.
+     */
+    DOWNLOAD(Constants.DOWNLOAD);
 
     /**
      * Type of task (the concrete type name to be used in YAML).
@@ -179,5 +184,10 @@ public enum TaskType {
          * Value for type for write file task.
          */
         public static final String WRITE_FILE = "write-file";
+
+        /**
+         * Value for type for Download task.
+         */
+        public static final String DOWNLOAD = "download";
     }
 }

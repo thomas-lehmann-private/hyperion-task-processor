@@ -23,9 +23,6 @@
  */
 package magic.system.hyperion.components.tasks;
 
-import magic.system.hyperion.tools.FileUtils;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -54,7 +51,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 @DisplayName("Testing of FileCopyTask class")
 @SuppressWarnings({"checkstyle:multiplestringliterals", "checkstyle:classfanoutcomplexity"})
-public class FileCopyTaskTest {
+public class FileCopyTaskTest extends TaskBaseTest {
     /**
      * Logger of this class.
      */
@@ -69,20 +66,6 @@ public class FileCopyTaskTest {
      * Test file that does not exist.
      */
     private static final String TEST_FILE_MISSING = "/file-copy-missing.txt";
-
-    @BeforeEach
-    public void setup() throws URISyntaxException, IOException {
-        final URL baseUrl = getClass().getResource("/");
-        final var path = Paths.get(Path.of(baseUrl.toURI()).toString(), "tasks");
-        Files.createDirectories(path);
-    }
-
-    @AfterEach
-    public void cleanUp() throws IOException, URISyntaxException {
-        final URL baseUrl = getClass().getResource("/");
-        final var path = Paths.get(Path.of(baseUrl.toURI()).toString(), "tasks");
-        assertTrue(FileUtils.removeDirectoryRecursive(path));
-    }
 
     /**
      * Testing file copy operation.

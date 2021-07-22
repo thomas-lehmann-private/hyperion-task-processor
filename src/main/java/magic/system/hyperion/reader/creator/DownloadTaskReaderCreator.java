@@ -28,21 +28,21 @@ import magic.system.hyperion.components.tasks.AbstractTask;
 import magic.system.hyperion.components.tasks.TaskType;
 import magic.system.hyperion.components.tasks.creator.ITaskCreator;
 import magic.system.hyperion.reader.AbstractBasicTaskReader;
-import magic.system.hyperion.reader.WriteFileTaskReader;
+import magic.system.hyperion.reader.DownloadTaskReader;
 import magic.system.hyperion.tools.Factory;
 
 /**
- * Creator for instance {@link WriteFileTaskReader}.
+ * Creator for instance of {@link magic.system.hyperion.reader.DownloadTaskReader}.
  *
  * @author Thomas Lehmann
  */
-@Named(TaskType.Constants.WRITE_FILE)
-public class WriteFileTaskReaderCreator implements ITaskReaderCreator {
+@Named(TaskType.Constants.DOWNLOAD)
+public class DownloadTaskReaderCreator implements ITaskReaderCreator {
     @Override
     public AbstractBasicTaskReader create() {
         final var tasksFactory = new Factory<AbstractTask>(ITaskCreator.class);
-        return new WriteFileTaskReader(null, () -> {
-            return tasksFactory.create(TaskType.WRITE_FILE.getTypeName());
+        return new DownloadTaskReader(null, () -> {
+            return tasksFactory.create(TaskType.DOWNLOAD.getTypeName());
         });
     }
 }

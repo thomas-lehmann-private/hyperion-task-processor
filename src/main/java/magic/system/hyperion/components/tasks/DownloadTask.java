@@ -33,54 +33,54 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 /**
- * Task for writing content to a file.
+ * Task for downloading a file from an url.
  *
  * @author Thomas Lehmann
  */
-public class WriteFileTask extends AbstractFileTask {
+public class DownloadTask extends AbstractFileTask {
     /**
-     * Logger for this class.
+     * Logger of this class.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(WriteFileTask.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DownloadTask.class);
 
     /**
-     * Content to write to file.
+     * URL where to download the file from.
      */
-    private String strContent;
-
+    private URL url;
 
     /**
      * Initialize task with defaults.
      *
      * @param strInitTitle - title of the task.
-     * @since 2.0.0
+     * @since 1.0.0
      */
-    public WriteFileTask(String strInitTitle) {
+    public DownloadTask(String strInitTitle) {
         super(strInitTitle);
     }
 
     /**
-     * Change content.
+     * Get url where to download the file from.
      *
-     * @param strInitContent new content.
+     * @return url where to download the file from.
      * @since 2.0.0
      */
-    public void setContent(final String strInitContent) {
-        this.strContent = strInitContent;
+    public URL getUrl() {
+        return this.url;
     }
 
     /**
-     * Get content.
+     * Change url.
      *
-     * @return content.
+     * @param initUrl new url.
      * @since 2.0.0
      */
-    public String getContent() {
-        return this.strContent;
+    public void setUrl(final URL initUrl) {
+        this.url = initUrl;
     }
 
     @Override
@@ -90,35 +90,33 @@ public class WriteFileTask extends AbstractFileTask {
 
         logTitle(parameters);
 
-        try {
-            final var strRenderedContent = engine.render(
-                    this.strContent, parameters.getTemplatingContext());
-            final var renderedDestinationPath = Paths.get(engine.render(
-                    getDestinationPath(), parameters.getTemplatingContext()));
+        final var renderedDestinationPath = Paths.get(engine.render(
+                getDestinationPath(), parameters.getTemplatingContext()));
 
-            if (!isOverwrite() && FileUtils.isRegularFile(renderedDestinationPath.toString())) {
-                LOGGER.error("Overwrite not enabled for {}", renderedDestinationPath.toString());
-                taskResult = new TaskResult(false, getVariable());
-            } else {
-                final var parentPath = renderedDestinationPath.getParent();
+        if (!isOverwrite() && FileUtils.isRegularFile(renderedDestinationPath.toString())) {
+            LOGGER.error("Overwrite not enabled for {}", renderedDestinationPath.toString());
+            taskResult = new TaskResult(false, getVariable());
+        } else {
+            final var parentPath = renderedDestinationPath.getParent();
 
+            try (var stream = this.url.openStream()) {
                 if (parentPath != null && isEnsurePath()) {
                     Files.createDirectories(parentPath);
                 }
 
                 if (parentPath != null && Files.exists(parentPath)) {
                     LOGGER.info("Writing file to {}", renderedDestinationPath.toString());
-                    Files.writeString(renderedDestinationPath, strRenderedContent);
+                    Files.write(renderedDestinationPath, stream.readAllBytes());
                     getVariable().setValue(renderedDestinationPath.toString());
                     taskResult = new TaskResult(true, getVariable());
                 } else {
                     LOGGER.error("Missing path for {}", renderedDestinationPath.toString());
                     taskResult = new TaskResult(false, getVariable());
                 }
+            } catch (final IOException e) {
+                LOGGER.error(e.getMessage(), e);
+                taskResult = new TaskResult(false, getVariable());
             }
-        } catch (final IOException e) {
-            LOGGER.error(e.getMessage(), e);
-            taskResult = new TaskResult(false, getVariable());
         }
 
         return taskResult;
@@ -126,18 +124,19 @@ public class WriteFileTask extends AbstractFileTask {
 
     @Override
     public AbstractTask copy() {
-        final var task = new WriteFileTask(getTitle());
+        final var task = new DownloadTask(getTitle());
         task.setDestinationPath(getDestinationPath());
         task.setOverwrite(isOverwrite());
         task.setEnsurePath(isEnsurePath());
+        task.setUrl(this.url);
         return task;
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+                .append("url", this.url)
                 .appendSuper(super.toString())
-                .append("content", this.strContent)
                 .build();
     }
 }
