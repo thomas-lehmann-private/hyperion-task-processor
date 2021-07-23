@@ -12,10 +12,10 @@
 <link href="../css/bootstrap.min.css" rel="stylesheet"/>
 <link href="../css/font-awesome.min.css" rel="stylesheet"/>
 <link href="../css/base.css" rel="stylesheet"/>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/docco.min.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/docco.min.css" rel="stylesheet"/>
 <script defer="" src="../js/jquery-1.10.2.min.js"></script>
 <script defer="" src="../js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 </head>
 <body>
@@ -70,6 +70,15 @@
 <a class="dropdown-item" href="../copy-file/">File copy task</a>
 </li>
 <li>
+<a class="dropdown-item" href="../write-file/">Write File Task</a>
+</li>
+<li>
+<a class="dropdown-item" href="../download-task/">Download Task</a>
+</li>
+<li>
+<a class="dropdown-item" href="../xsl-transform/">XSL Transform Task</a>
+</li>
+<li>
 <a class="dropdown-item" href="../templating/">Templating</a>
 </li>
 <li>
@@ -84,19 +93,22 @@
 <a class="dropdown-item" href="../requirements/">Requirements</a>
 </li>
 <li>
-<a class="dropdown-item" href="../build/">Build</a>
+<a class="dropdown-item" href="../internal/build/">Build</a>
 </li>
 <li>
-<a class="dropdown-item" href="../junit5/">JUnit5</a>
+<a class="dropdown-item" href="../internal/junit5/">JUnit5</a>
 </li>
 <li>
-<a class="dropdown-item" href="../mkdocs/">Mkdocs</a>
+<a class="dropdown-item" href="../internal/mkdocs/">Mkdocs</a>
 </li>
 <li>
-<a class="dropdown-item" href="../cli/">CLI</a>
+<a class="dropdown-item" href="../internal/cli/">CLI</a>
 </li>
 <li>
-<a class="dropdown-item" href="../finishing-a-milestone/">Finishing a milestone</a>
+<a class="dropdown-item" href="../internal/finishing-a-milestone/">Finishing a milestone</a>
+</li>
+<li>
+<a class="dropdown-item" href="../internal/implementing-a-new-task/">Implementing a new task</a>
 </li>
 </ul>
 </li>
@@ -181,9 +193,9 @@
 </ul>
 <h1 id="using-the-with-attribute">Using the "with" attribute</h1>
 <p>The following example demonstrates one way to handle the situation that two entries
-are different in its structure. The used Template Engine (see <a href="../build/">build</a>) allows
+are different in its structure. The used Template Engine (see <a href="../internal/build/">build</a>) allows
 to use an <strong>if/else</strong>. This example is also used in the Unittests.</p>
-<pre><code class="yaml">- type: groovy
+<pre><code class="language-yaml">- type: groovy
   title: a simple example
   code: |
     {% if with.index == 0 %}
@@ -219,16 +231,13 @@ to use an <strong>if/else</strong>. This example is also used in the Unittests.<
 <button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
 </div>
 <div class="modal-body">
-<p>
-                    From here you can search these documents. Enter
-                    your search terms below.
-                </p>
+<p>From here you can search these documents. Enter your search terms below.</p>
 <form>
 <div class="form-group">
 <input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="search"/>
 </div>
 </form>
-<div id="mkdocs-search-results"></div>
+<div data-no-results-text="No results found" id="mkdocs-search-results"></div>
 </div>
 <div class="modal-footer">
 </div>

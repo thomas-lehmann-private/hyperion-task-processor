@@ -6,22 +6,22 @@
 <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <meta content="Thomas Lehmann &lt;thomas.lehmann.private@gmail.com" name="author"/>
-<link href="https://thomas-lehmann-private.github.io/hyperion-task-processor/cli/" rel="canonical"/>
-<link href="../img/favicon.ico" rel="shortcut icon"/>
+<link href="https://thomas-lehmann-private.github.io/hyperion-task-processor/internal/cli/" rel="canonical"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
 <title>CLI - Hyperion Task Processor</title>
-<link href="../css/bootstrap.min.css" rel="stylesheet"/>
-<link href="../css/font-awesome.min.css" rel="stylesheet"/>
-<link href="../css/base.css" rel="stylesheet"/>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/docco.min.css" rel="stylesheet"/>
-<script defer="" src="../js/jquery-1.10.2.min.js"></script>
-<script defer="" src="../js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link href="../../css/bootstrap.min.css" rel="stylesheet"/>
+<link href="../../css/font-awesome.min.css" rel="stylesheet"/>
+<link href="../../css/base.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/docco.min.css" rel="stylesheet"/>
+<script defer="" src="../../js/jquery-1.10.2.min.js"></script>
+<script defer="" src="../../js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 </head>
 <body>
 <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
 <div class="container">
-<a class="navbar-brand" href="..">Hyperion Task Processor</a>
+<a class="navbar-brand" href="../..">Hyperion Task Processor</a>
 <!-- Expander button -->
 <button class="navbar-toggler" data-target="#navbar-collapse" data-toggle="collapse" type="button">
 <span class="navbar-toggler-icon"></span>
@@ -31,49 +31,58 @@
 <!-- Main navigation -->
 <ul class="nav navbar-nav">
 <li class="navitem">
-<a class="nav-link" href="..">Home</a>
+<a class="nav-link" href="../..">Home</a>
 </li>
 <li class="dropdown">
 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">User Guide <b class="caret"></b></a>
 <ul class="dropdown-menu">
 <li>
-<a class="dropdown-item" href="../hyperion-task-processor/">Application</a>
+<a class="dropdown-item" href="../../hyperion-task-processor/">Application</a>
 </li>
 <li>
-<a class="dropdown-item" href="../taskgroup/">Taskgroup</a>
+<a class="dropdown-item" href="../../taskgroup/">Taskgroup</a>
 </li>
 <li>
-<a class="dropdown-item" href="../basic-task-features/">Basic tasks features</a>
+<a class="dropdown-item" href="../../basic-task-features/">Basic tasks features</a>
 </li>
 <li>
-<a class="dropdown-item" href="../basic-coded-task-features/">Basic code tasks</a>
+<a class="dropdown-item" href="../../basic-coded-task-features/">Basic code tasks</a>
 </li>
 <li>
-<a class="dropdown-item" href="../groovy/">Groovy task</a>
+<a class="dropdown-item" href="../../groovy/">Groovy task</a>
 </li>
 <li>
-<a class="dropdown-item" href="../powershell/">Powershell task</a>
+<a class="dropdown-item" href="../../powershell/">Powershell task</a>
 </li>
 <li>
-<a class="dropdown-item" href="../windows-batch/">Windows Batch task</a>
+<a class="dropdown-item" href="../../windows-batch/">Windows Batch task</a>
 </li>
 <li>
-<a class="dropdown-item" href="../shell/">Shell task</a>
+<a class="dropdown-item" href="../../shell/">Shell task</a>
 </li>
 <li>
-<a class="dropdown-item" href="../docker-image/">Docker image task</a>
+<a class="dropdown-item" href="../../docker-image/">Docker image task</a>
 </li>
 <li>
-<a class="dropdown-item" href="../docker-container/">Docker container task</a>
+<a class="dropdown-item" href="../../docker-container/">Docker container task</a>
 </li>
 <li>
-<a class="dropdown-item" href="../copy-file/">File copy task</a>
+<a class="dropdown-item" href="../../copy-file/">File copy task</a>
 </li>
 <li>
-<a class="dropdown-item" href="../templating/">Templating</a>
+<a class="dropdown-item" href="../../write-file/">Write File Task</a>
 </li>
 <li>
-<a class="dropdown-item" href="../matrix/">Matrix</a>
+<a class="dropdown-item" href="../../download-task/">Download Task</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../xsl-transform/">XSL Transform Task</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../templating/">Templating</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../matrix/">Matrix</a>
 </li>
 </ul>
 </li>
@@ -81,7 +90,7 @@
 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Developer Guide <b class="caret"></b></a>
 <ul class="dropdown-menu">
 <li>
-<a class="dropdown-item" href="../requirements/">Requirements</a>
+<a class="dropdown-item" href="../../requirements/">Requirements</a>
 </li>
 <li>
 <a class="dropdown-item" href="../build/">Build</a>
@@ -97,6 +106,9 @@
 </li>
 <li>
 <a class="dropdown-item" href="../finishing-a-milestone/">Finishing a milestone</a>
+</li>
+<li>
+<a class="dropdown-item" href="../implementing-a-new-task/">Implementing a new task</a>
 </li>
 </ul>
 </li>
@@ -118,7 +130,7 @@
 </a>
 </li>
 <li class="nav-item">
-<a class="nav-link" href="https://github.com/thomas-lehmann-private/hyperion-task-processor/edit/master/docs/cli.md"><i class="fa fa-github"></i> Edit on GitHub</a>
+<a class="nav-link" href="https://github.com/thomas-lehmann-private/hyperion-task-processor/edit/master/docs/internal/cli.md"><i class="fa fa-github"></i> Edit on GitHub</a>
 </li>
 </ul>
 </div>
@@ -171,7 +183,7 @@
 Nevertheless it should be documented how it works...</p>
 <h2 id="defining-an-option">Defining an option</h2>
 <p>The creation of an option is best explained by an example:</p>
-<pre><code class="java">final var option = CliOption.builder()
+<pre><code class="language-java">final var option = CliOption.builder()
     .setLongName("file")
     .setShortName("f")
     .setDescription("Provide document to process")
@@ -244,7 +256,7 @@ throwing a <em>CliException</em> when validation has failed.</p>
 <h2 id="defining-a-command">Defining a command</h2>
 <p>The creation of a command is working pretty the same way as for the options.
 The definition of the command options is exactly the same thing.</p>
-<pre><code class="java">final var command = CliCommand.builder()
+<pre><code class="language-java">final var command = CliCommand.builder()
     .setName("run")
     .setDescription("processing a document with tasks")
     .addOption(fileOption)
@@ -290,7 +302,7 @@ The <strong>build()</strong> function finally does also the validation:</p>
 <p>These option list is required for the parser.</p>
 <h2 id="using-the-parser">Using the parser</h2>
 <p>The parser does parse the command line arguments.</p>
-<pre><code class="java">final var parser = CliParser.builder()
+<pre><code class="language-java">final var parser = CliParser.builder()
    .setGlobalOptions(globalOptions)
    .setCommands(commands)
    .build();
@@ -334,7 +346,7 @@ three information are available then:</p>
 <p>The setup of the help printer works similar as the parser. In addition to the defined
 options and commands you specify the execution, the product version, the build timestamp
 and the author:</p>
-<pre><code class="java">private void printHelp() throws CliException {
+<pre><code class="language-java">private void printHelp() throws CliException {
     final var helpPrinter = CliHelpPrinter.builder()
             .setExecution("java -jar "
                     + this.properties.getProperty(PROPERTY_FINAL_NAME) + ".jar")
@@ -373,11 +385,11 @@ Options for command 'run':
 <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
 </footer>
 <script>
-            var base_url = "..",
+            var base_url = "../..",
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
-<script defer="" src="../js/base.js"></script>
-<script defer="" src="../search/main.js"></script>
+<script defer="" src="../../js/base.js"></script>
+<script defer="" src="../../search/main.js"></script>
 <div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
 <div class="modal-dialog modal-lg">
 <div class="modal-content">
@@ -386,16 +398,13 @@ Options for command 'run':
 <button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
 </div>
 <div class="modal-body">
-<p>
-                    From here you can search these documents. Enter
-                    your search terms below.
-                </p>
+<p>From here you can search these documents. Enter your search terms below.</p>
 <form>
 <div class="form-group">
 <input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="search"/>
 </div>
 </form>
-<div id="mkdocs-search-results"></div>
+<div data-no-results-text="No results found" id="mkdocs-search-results"></div>
 </div>
 <div class="modal-footer">
 </div>

@@ -6,9 +6,9 @@
 <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <meta content="Thomas Lehmann &lt;thomas.lehmann.private@gmail.com" name="author"/>
-<link href="https://thomas-lehmann-private.github.io/hyperion-task-processor/requirements/req-providing%20a%20docker%20image%20task/" rel="canonical"/>
+<link href="https://thomas-lehmann-private.github.io/hyperion-task-processor/requirements/req-provide%20xslt%20task/" rel="canonical"/>
 <link href="../../img/favicon.ico" rel="shortcut icon"/>
-<title>Providing a Docker image task - Hyperion Task Processor</title>
+<title>Provide xslt task - Hyperion Task Processor</title>
 <link href="../../css/bootstrap.min.css" rel="stylesheet"/>
 <link href="../../css/font-awesome.min.css" rel="stylesheet"/>
 <link href="../../css/base.css" rel="stylesheet"/>
@@ -120,7 +120,7 @@
                             </a>
 </li>
 <li class="nav-item">
-<a class="nav-link" href="https://github.com/thomas-lehmann-private/hyperion-task-processor/edit/master/docs/requirements/req-providing a docker image task.md"><i class="fa fa-github"></i> Edit on GitHub</a>
+<a class="nav-link" href="https://github.com/thomas-lehmann-private/hyperion-task-processor/edit/master/docs/requirements/req-provide xslt task.md"><i class="fa fa-github"></i> Edit on GitHub</a>
 </li>
 </ul>
 </div>
@@ -136,7 +136,7 @@
 </div>
 <div class="navbar-collapse collapse card bg-secondary" id="toc-collapse">
 <ul class="nav flex-column">
-<li class="nav-item" data-level="1"><a class="nav-link" href="#providing-a-docker-image-task">Providing a Docker image task</a>
+<li class="nav-item" data-level="1"><a class="nav-link" href="#provide-xslt-task">Provide xslt task</a>
 <ul class="nav flex-column">
 </ul>
 </li>
@@ -144,24 +144,31 @@
 </div>
 </div></div>
 <div class="col-md-9" role="main">
-<h1 id="providing-a-docker-image-task">Providing a Docker image task</h1>
+<h1 id="provide-xslt-task">Provide xslt task</h1>
 <h3 id="document-meta-data">Document meta data</h3>
 <ul>
 <li><strong>Type</strong>: Requirement</li>
-<li><strong>Id</strong>: 4</li>
+<li><strong>Id</strong>: 12</li>
 <li><strong>Context</strong>: task feature</li>
-<li><strong>Milestone</strong>: 1.0.0</li>
+<li><strong>Milestone</strong>: 2.0.0</li>
 </ul>
 <h3 id="description">Description</h3>
-<p>As a <strong>devops engineer</strong> you should be able to create a docker image by a task.
-The <strong>Dockerfile</strong> code can be embedded in the document or referencing
-a valid path and filename. The standard parameters are those of a coded task
-with additional following parameters:</p>
+<p>As a <strong>devops engineer</strong> you should be able to write a xslt script as task.
+It basically requires two attributes:</p>
 <ul>
-<li><strong>repository-tag</strong> - for details please read the external documentation (see links). </li>
+<li><strong>xsl</strong> - the transformation script (embedded or as path and filename).
+             The attribute is required.
+             <a href="../../templating/">Templating</a> is supported on this attribute.</li>
+<li><strong>xml</strong> - the XML content to transform (embedded or as path and filename).
+             The attribute is required.
+             <a href="../../templating/">Templating</a> is supported on this attribute.</li>
 </ul>
+<p>The result of the transformation is written into the variable.
+XSLT 3.0 should be supported.</p>
 <h3 id="constraints">Constraints</h3>
-<p>Docker is required to be installed, running and the command should be in the search path. </p>
+<ul>
+<li>XSLT 3.0 is supported</li>
+</ul>
 <h3 id="criticality-and-risk">Criticality and Risk</h3>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -171,16 +178,7 @@ the results be verified in a test environment.</p>
 <p>There is a risk that the user will be blocked in his work if the tool does not work
 properly, but there is no guarantee due to the license. Nevertheless, the author is
 extremely interested in correcting all reported errors in the near future.</p>
-</div>
-<h3 id="dependencies">Dependencies</h3>
-<ul>
-<li><a href="../req-provide%20coded%20tasks/">Provide coded tasks</a></li>
-</ul>
-<h3 id="external-documentation">External Documentation</h3>
-<ul>
-<li><a href="https://docs.docker.com/engine/reference/builder/">https://docs.docker.com/engine/reference/builder/</a></li>
-<li><a href="https://docs.docker.com/engine/reference/commandline/tag/">https://docs.docker.com/engine/reference/commandline/tag/</a></li>
-</ul></div>
+</div></div>
 </div>
 </div>
 <footer class="col-md-12">

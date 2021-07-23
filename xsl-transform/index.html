@@ -6,16 +6,16 @@
 <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <meta content="Thomas Lehmann &lt;thomas.lehmann.private@gmail.com" name="author"/>
-<link href="https://thomas-lehmann-private.github.io/hyperion-task-processor/finishing-a-milestone/" rel="canonical"/>
+<link href="https://thomas-lehmann-private.github.io/hyperion-task-processor/xsl-transform/" rel="canonical"/>
 <link href="../img/favicon.ico" rel="shortcut icon"/>
-<title>Finishing a milestone - Hyperion Task Processor</title>
+<title>XSL Transform Task - Hyperion Task Processor</title>
 <link href="../css/bootstrap.min.css" rel="stylesheet"/>
 <link href="../css/font-awesome.min.css" rel="stylesheet"/>
 <link href="../css/base.css" rel="stylesheet"/>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/docco.min.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/docco.min.css" rel="stylesheet"/>
 <script defer="" src="../js/jquery-1.10.2.min.js"></script>
 <script defer="" src="../js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 </head>
 <body>
@@ -33,7 +33,7 @@
 <li class="navitem">
 <a class="nav-link" href="..">Home</a>
 </li>
-<li class="dropdown">
+<li class="dropdown active">
 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">User Guide <b class="caret"></b></a>
 <ul class="dropdown-menu">
 <li>
@@ -70,6 +70,15 @@
 <a class="dropdown-item" href="../copy-file/">File copy task</a>
 </li>
 <li>
+<a class="dropdown-item" href="../write-file/">Write File Task</a>
+</li>
+<li>
+<a class="dropdown-item" href="../download-task/">Download Task</a>
+</li>
+<li>
+<a class="dropdown-item active" href="./">XSL Transform Task</a>
+</li>
+<li>
 <a class="dropdown-item" href="../templating/">Templating</a>
 </li>
 <li>
@@ -77,26 +86,29 @@
 </li>
 </ul>
 </li>
-<li class="dropdown active">
+<li class="dropdown">
 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Developer Guide <b class="caret"></b></a>
 <ul class="dropdown-menu">
 <li>
 <a class="dropdown-item" href="../requirements/">Requirements</a>
 </li>
 <li>
-<a class="dropdown-item" href="../build/">Build</a>
+<a class="dropdown-item" href="../internal/build/">Build</a>
 </li>
 <li>
-<a class="dropdown-item" href="../junit5/">JUnit5</a>
+<a class="dropdown-item" href="../internal/junit5/">JUnit5</a>
 </li>
 <li>
-<a class="dropdown-item" href="../mkdocs/">Mkdocs</a>
+<a class="dropdown-item" href="../internal/mkdocs/">Mkdocs</a>
 </li>
 <li>
-<a class="dropdown-item" href="../cli/">CLI</a>
+<a class="dropdown-item" href="../internal/cli/">CLI</a>
 </li>
 <li>
-<a class="dropdown-item active" href="./">Finishing a milestone</a>
+<a class="dropdown-item" href="../internal/finishing-a-milestone/">Finishing a milestone</a>
+</li>
+<li>
+<a class="dropdown-item" href="../internal/implementing-a-new-task/">Implementing a new task</a>
 </li>
 </ul>
 </li>
@@ -108,17 +120,17 @@
                             </a>
 </li>
 <li class="nav-item">
-<a class="nav-link" href="../cli/" rel="prev">
+<a class="nav-link" href="../download-task/" rel="prev">
 <i class="fa fa-arrow-left"></i> Previous
                                 </a>
 </li>
 <li class="nav-item">
-<a class="nav-link disabled" rel="next">
+<a class="nav-link" href="../templating/" rel="next">
                                     Next <i class="fa fa-arrow-right"></i>
 </a>
 </li>
 <li class="nav-item">
-<a class="nav-link" href="https://github.com/thomas-lehmann-private/hyperion-task-processor/edit/master/docs/finishing-a-milestone.md"><i class="fa fa-github"></i> Edit on GitHub</a>
+<a class="nav-link" href="https://github.com/thomas-lehmann-private/hyperion-task-processor/edit/master/docs/xsl-transform.md"><i class="fa fa-github"></i> Edit on GitHub</a>
 </li>
 </ul>
 </div>
@@ -134,13 +146,9 @@
 </div>
 <div class="navbar-collapse collapse card bg-secondary" id="toc-collapse">
 <ul class="nav flex-column">
-<li class="nav-item" data-level="1"><a class="nav-link" href="#finishing-a-milestone">Finishing a milestone</a>
+<li class="nav-item" data-level="1"><a class="nav-link" href="#xsl-transform-task">XSL Transform Task</a>
 <ul class="nav flex-column">
-<li class="nav-item" data-level="2"><a class="nav-link" href="#phase-1">Phase 1</a>
-<ul class="nav flex-column">
-</ul>
-</li>
-<li class="nav-item" data-level="2"><a class="nav-link" href="#phase-2">Phase 2</a>
+<li class="nav-item" data-level="2"><a class="nav-link" href="#minimal-examples">Minimal examples</a>
 <ul class="nav flex-column">
 </ul>
 </li>
@@ -150,32 +158,90 @@
 </div>
 </div></div>
 <div class="col-md-9" role="main">
-<h1 id="finishing-a-milestone">Finishing a milestone</h1>
-<p>Finishing a milestone is done in following phases:</p>
-<h2 id="phase-1">Phase 1</h2>
+<h1 id="xsl-transform-task">XSL Transform Task</h1>
+<p>In addition to the <a href="../basic-task-features/">basic task features</a> the file
+copy task has following attributes:</p>
 <ul>
-<li><strong>Review documentation</strong><ul>
-<li>it's the last chance to eventually add missing documentation.</li>
-<li>also looking for missing requirements.</li>
-<li>also looking for missing examples.</li>
+<li><strong>xsl</strong> - the required attribute represents an embedded XSL transformation document
+             or a valid path and filename of such a document.
+             The attribute does allow <a href="../templating/">templating</a>.</li>
+<li><strong>xsl</strong> - the required attribute represents an embedded XML document
+             or a valid path and filename of such a document.
+             The attribute does allow <a href="../templating/">templating</a>.</li>
 </ul>
-</li>
-<li><strong>Full local review on source code</strong> - it's the last chance to eventually fix things or to do small refactorings.</li>
-<li><strong>Review code coverage</strong> - it's the last chance to eventually improve the code coverage.</li>
-</ul>
-<h2 id="phase-2">Phase 2</h2>
-<ul>
-<li><strong>Changing the version to release</strong> - a pom.xml modification; it can be done without branch.</li>
-<li><strong>Updating the github pages</strong></li>
-<li><strong>Tagging the repository with release version</strong> - it should trigger the related workflow that
-   does also one build and finally publishing the artifacts on Github.</li>
-</ul>
-<hr/>
-<p><strong>Finish</strong>:
-  - Announcing new version at <a href="https://github.com/thomas-lehmann-private/hyperion/discussions/categories/announcements">here</a>.
-  - Also communicate that the next milestone is planned and already has stories.
-  - Ask the community for interest in new features not yet in the milestone.
-  - Closing the milestone. </p></div>
+<h2 id="minimal-examples">Minimal examples</h2>
+<p>The following example does a transformation storing the result into the variable (here the
+variable name is 'default').</p>
+<pre><code class="language-yaml">---
+taskgroups:
+  - title: test
+    tasks:
+      - type: xsl-transform
+        xsl: c:\temp\test1.xsl
+        xml: c:\temp\test2.xml
+</code></pre>
+<p>The following with embedded:</p>
+<pre><code class="language-yaml">---
+taskgroups:
+  - title: test
+    tasks:
+      - type: xsl-transform
+        xsl: |
+          &lt;?xml version="1.0" encoding="UTF-8"?&gt;
+          &lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                          xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                          version="3.0"&gt;
+              &lt;xsl:output method="html" indent="yes" /&gt;
+              &lt;xsl:template match="/"&gt;
+                  &lt;html&gt;
+                      &lt;body&gt;
+                          &lt;table&gt;
+                              &lt;tr&gt;
+                                  &lt;th&gt;title&lt;/th&gt;
+                                  &lt;th&gt;author&lt;/th&gt;
+                              &lt;/tr&gt;
+                          &lt;xsl:apply-templates select=".//book"/&gt;
+                          &lt;/table&gt;
+                      &lt;/body&gt;
+                  &lt;/html&gt;
+              &lt;/xsl:template&gt;
+
+              &lt;xsl:template match="book"&gt;
+                  &lt;tr&gt;
+                      &lt;td&gt;&lt;xsl:value-of select="title" /&gt;&lt;/td&gt;
+                      &lt;td&gt;&lt;xsl:value-of select="author" /&gt;&lt;/td&gt;
+                  &lt;/tr&gt;
+              &lt;/xsl:template&gt;
+          &lt;/xsl:stylesheet&gt;
+        xml: |
+          &lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;
+          &lt;books&gt;
+              &lt;book&gt;
+                  &lt;title&gt;Death on the Nile&lt;/title&gt;
+                  &lt;author&gt;Agatha Christie&lt;/author&gt;
+              &lt;/book&gt;
+
+              &lt;book&gt;
+                  &lt;title&gt;Evil Under the Sun&lt;/title&gt;
+                  &lt;author&gt;Agatha Christie&lt;/author&gt;
+              &lt;/book&gt;
+
+              &lt;book&gt;
+                  &lt;title&gt;Too Many Cooks&lt;/title&gt;
+                  &lt;author&gt;Rex Stout&lt;/author&gt;
+              &lt;/book&gt;
+
+              &lt;book&gt;
+                  &lt;title&gt;The Big Sleep&lt;/title&gt;
+                  &lt;author&gt;Raymond Chandler&lt;/author&gt;
+              &lt;/book&gt;
+
+              &lt;book&gt;
+                  &lt;title&gt;The Long Good-Bye&lt;/title&gt;
+                  &lt;author&gt;Raymond Chandler&lt;/author&gt;
+              &lt;/book&gt;
+          &lt;/books&gt;
+</code></pre></div>
 </div>
 </div>
 <footer class="col-md-12">
@@ -196,16 +262,13 @@
 <button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
 </div>
 <div class="modal-body">
-<p>
-                    From here you can search these documents. Enter
-                    your search terms below.
-                </p>
+<p>From here you can search these documents. Enter your search terms below.</p>
 <form>
 <div class="form-group">
 <input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="search"/>
 </div>
 </form>
-<div id="mkdocs-search-results"></div>
+<div data-no-results-text="No results found" id="mkdocs-search-results"></div>
 </div>
 <div class="modal-footer">
 </div>

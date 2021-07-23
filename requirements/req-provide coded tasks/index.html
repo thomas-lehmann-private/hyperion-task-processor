@@ -12,10 +12,10 @@
 <link href="../../css/bootstrap.min.css" rel="stylesheet"/>
 <link href="../../css/font-awesome.min.css" rel="stylesheet"/>
 <link href="../../css/base.css" rel="stylesheet"/>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/docco.min.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/docco.min.css" rel="stylesheet"/>
 <script defer="" src="../../js/jquery-1.10.2.min.js"></script>
 <script defer="" src="../../js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 </head>
 <body>
@@ -70,6 +70,15 @@
 <a class="dropdown-item" href="../../copy-file/">File copy task</a>
 </li>
 <li>
+<a class="dropdown-item" href="../../write-file/">Write File Task</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../download-task/">Download Task</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../xsl-transform/">XSL Transform Task</a>
+</li>
+<li>
 <a class="dropdown-item" href="../../templating/">Templating</a>
 </li>
 <li>
@@ -84,19 +93,22 @@
 <a class="dropdown-item" href="../">Requirements</a>
 </li>
 <li>
-<a class="dropdown-item" href="../../build/">Build</a>
+<a class="dropdown-item" href="../../internal/build/">Build</a>
 </li>
 <li>
-<a class="dropdown-item" href="../../junit5/">JUnit5</a>
+<a class="dropdown-item" href="../../internal/junit5/">JUnit5</a>
 </li>
 <li>
-<a class="dropdown-item" href="../../mkdocs/">Mkdocs</a>
+<a class="dropdown-item" href="../../internal/mkdocs/">Mkdocs</a>
 </li>
 <li>
-<a class="dropdown-item" href="../../cli/">CLI</a>
+<a class="dropdown-item" href="../../internal/cli/">CLI</a>
 </li>
 <li>
-<a class="dropdown-item" href="../../finishing-a-milestone/">Finishing a milestone</a>
+<a class="dropdown-item" href="../../internal/finishing-a-milestone/">Finishing a milestone</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../internal/implementing-a-new-task/">Implementing a new task</a>
 </li>
 </ul>
 </li>
@@ -138,6 +150,7 @@
 <li><strong>Type</strong>: Requirement</li>
 <li><strong>Id</strong>: 1</li>
 <li><strong>Context</strong>: task feature</li>
+<li><strong>Milestone</strong>: 1.0.0</li>
 </ul>
 <h3 id="description">Description</h3>
 <p>As <strong>devops engineer</strong> you should be able to write coded tasks with following
@@ -145,7 +158,8 @@ standard parameters:</p>
 <ul>
 <li><strong>title</strong> - the title of the task being logged</li>
 <li><strong>code</strong> - the concrete code to be executed or the path or filename of the script
-              (depends on implementation of concrete task)</li>
+              (depends on implementation of concrete task).
+              <a href="../../templating/">Templating</a> is supported on this attribute.</li>
 <li><strong>variable</strong> - optional to define how the stdout is captured
               (default is to capture all)</li>
 <li><strong>tags</strong> - optional a list of strings to allow filtering for concrete tasks</li>
@@ -194,16 +208,13 @@ extremely interested in correcting all reported errors in the near future.</p>
 <button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
 </div>
 <div class="modal-body">
-<p>
-                    From here you can search these documents. Enter
-                    your search terms below.
-                </p>
+<p>From here you can search these documents. Enter your search terms below.</p>
 <form>
 <div class="form-group">
 <input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="search"/>
 </div>
 </form>
-<div id="mkdocs-search-results"></div>
+<div data-no-results-text="No results found" id="mkdocs-search-results"></div>
 </div>
 <div class="modal-footer">
 </div>

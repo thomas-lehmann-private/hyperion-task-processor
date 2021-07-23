@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="Thomas Lehmann &lt;thomas.lehmann.private@gmail.com" name="author"/>
+<link href="https://thomas-lehmann-private.github.io/hyperion-task-processor/internal/implementing-a-new-task/" rel="canonical"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>Implementing a new task - Hyperion Task Processor</title>
+<link href="../../css/bootstrap.min.css" rel="stylesheet"/>
+<link href="../../css/font-awesome.min.css" rel="stylesheet"/>
+<link href="../../css/base.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/docco.min.css" rel="stylesheet"/>
+<script defer="" src="../../js/jquery-1.10.2.min.js"></script>
+<script defer="" src="../../js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+<div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+<div class="container">
+<a class="navbar-brand" href="../..">Hyperion Task Processor</a>
+<!-- Expander button -->
+<button class="navbar-toggler" data-target="#navbar-collapse" data-toggle="collapse" type="button">
+<span class="navbar-toggler-icon"></span>
+</button>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse" id="navbar-collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li class="navitem">
+<a class="nav-link" href="../..">Home</a>
+</li>
+<li class="dropdown">
+<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">User Guide <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a class="dropdown-item" href="../../hyperion-task-processor/">Application</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../taskgroup/">Taskgroup</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../basic-task-features/">Basic tasks features</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../basic-coded-task-features/">Basic code tasks</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../groovy/">Groovy task</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../powershell/">Powershell task</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../windows-batch/">Windows Batch task</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../shell/">Shell task</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../docker-image/">Docker image task</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../docker-container/">Docker container task</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../copy-file/">File copy task</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../write-file/">Write File Task</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../download-task/">Download Task</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../xsl-transform/">XSL Transform Task</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../templating/">Templating</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../matrix/">Matrix</a>
+</li>
+</ul>
+</li>
+<li class="dropdown active">
+<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Developer Guide <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a class="dropdown-item" href="../../requirements/">Requirements</a>
+</li>
+<li>
+<a class="dropdown-item" href="../build/">Build</a>
+</li>
+<li>
+<a class="dropdown-item" href="../junit5/">JUnit5</a>
+</li>
+<li>
+<a class="dropdown-item" href="../mkdocs/">Mkdocs</a>
+</li>
+<li>
+<a class="dropdown-item" href="../cli/">CLI</a>
+</li>
+<li>
+<a class="dropdown-item" href="../finishing-a-milestone/">Finishing a milestone</a>
+</li>
+<li>
+<a class="dropdown-item active" href="./">Implementing a new task</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav ml-auto">
+<li class="nav-item">
+<a class="nav-link" data-target="#mkdocs_search_modal" data-toggle="modal" href="#">
+<i class="fa fa-search"></i> Search
+                            </a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="../finishing-a-milestone/" rel="prev">
+<i class="fa fa-arrow-left"></i> Previous
+                                </a>
+</li>
+<li class="nav-item">
+<a class="nav-link disabled" rel="next">
+                                    Next <i class="fa fa-arrow-right"></i>
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="https://github.com/thomas-lehmann-private/hyperion-task-processor/edit/master/docs/internal/implementing-a-new-task.md"><i class="fa fa-github"></i> Edit on GitHub</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="row">
+<div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+<div class="navbar-header">
+<button class="navbar-toggler collapsed" data-target="#toc-collapse" data-toggle="collapse" title="Table of Contents" type="button">
+<span class="fa fa-angle-down"></span>
+</button>
+</div>
+<div class="navbar-collapse collapse card bg-secondary" id="toc-collapse">
+<ul class="nav flex-column">
+<li class="nav-item" data-level="1"><a class="nav-link" href="#implementing-a-new-task">Implementing a new task</a>
+<ul class="nav flex-column">
+<li class="nav-item" data-level="2"><a class="nav-link" href="#introduction">Introduction</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+<li class="nav-item" data-level="2"><a class="nav-link" href="#overview">Overview</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+<li class="nav-item" data-level="2"><a class="nav-link" href="#required-constants">Required Constants</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+<li class="nav-item" data-level="2"><a class="nav-link" href="#implementing-the-task">Implementing the task</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+<li class="nav-item" data-level="2"><a class="nav-link" href="#implementing-the-task-creator">Implementing the task creator</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+<li class="nav-item" data-level="2"><a class="nav-link" href="#implementing-the-task-reader">Implementing the task reader</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+<li class="nav-item" data-level="2"><a class="nav-link" href="#implementing-the-task-reader-creator">Implementing the task reader creator</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+<li class="nav-item" data-level="2"><a class="nav-link" href="#testing">Testing</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div></div>
+<div class="col-md-9" role="main">
+<h1 id="implementing-a-new-task">Implementing a new task</h1>
+<h2 id="introduction">Introduction</h2>
+<p>Writing a new task is getting easier by each new task because the given code offers more
+and more reusable functionality. That means you also have to rethink the design.
+In addition the static code analysis is a great help forcing you to rethink when
+duplicate code has been detected or one class does have to many dependencies to other
+classes. This article intends to explain how the DownloadTask has been implemented
+providing you an example.</p>
+<h2 id="overview">Overview</h2>
+<p><img alt="noname.svg" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+Cgo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8IS0tIEdlbmVyYXRlZCBieSBncmFwaHZpeiB2ZXJzaW9uIDIuNDMuMCAoMCkKIC0tPgo8IS0tIFRpdGxlOiBHIFBhZ2VzOiAxIC0tPgo8c3ZnIHdpZHRoPSIxODI3cHQiIGhlaWdodD0iMTc5cHQiIHZpZXdCb3g9IjAuMDAgMC4wMCAxODI3LjAwIDE3OS4wMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CjxnIGlkPSJncmFwaDAiIGNsYXNzPSJncmFwaCIgdHJhbnNmb3JtPSJzY2FsZSgxIDEpIHJvdGF0ZSgwKSB0cmFuc2xhdGUoNCAxNzUpIj4KPHRpdGxlPkc8L3RpdGxlPgo8cG9seWdvbiBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSJ0cmFuc3BhcmVudCIgcG9pbnRzPSItNCw0IC00LC0xNzUgMTgyMywtMTc1IDE4MjMsNCAtNCw0Ii8+CjwhLS0gVGFza1JlYWRlckZhY3RvcnkgLS0+CjxnIGlkPSJub2RlMSIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+VGFza1JlYWRlckZhY3Rvcnk8L3RpdGxlPgo8cG9seWdvbiBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjQ0NiwtMzYgMTY5LC0zNiAxNjksMCA0NDYsMCA0NDYsLTM2Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjMwNy41IiB5PSItMTQuMyIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5GYWN0b3J5Jmx0O0Fic3RyYWN0QmFzaWNUYXNrUmVhZGVyJmd0OzwvdGV4dD4KPC9nPgo8IS0tIERvd25sb2FkVGFza1JlYWRlckNyZWF0b3IgLS0+CjxnIGlkPSJub2RlNiIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+RG93bmxvYWRUYXNrUmVhZGVyQ3JlYXRvcjwvdGl0bGU+Cjxwb2x5Z29uIGZpbGw9Im9yYW5nZSIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSI3OTIsLTYzIDU2NywtNjMgNTY3LC0yNyA3OTIsLTI3IDc5MiwtNjMiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iNjc5LjUiIHk9Ii00MS4zIiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPkRvd25sb2FkVGFza1JlYWRlckNyZWF0b3I8L3RleHQ+CjwvZz4KPCEtLSBUYXNrUmVhZGVyRmFjdG9yeSYjNDU7Jmd0O0Rvd25sb2FkVGFza1JlYWRlckNyZWF0b3IgLS0+CjxnIGlkPSJlZGdlMTAiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPlRhc2tSZWFkZXJGYWN0b3J5JiM0NTsmZ3Q7RG93bmxvYWRUYXNrUmVhZGVyQ3JlYXRvcjwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS1kYXNoYXJyYXk9IjUsMiIgZD0iTTQ0Ni4xOCwtMjcuNThDNDc5LjgyLC0yOS45NiA1MTUuNzEsLTMyLjU0IDU0OSwtMzUgNTUxLjU2LC0zNS4xOSA1NTQuMTQsLTM1LjM4IDU1Ni43NSwtMzUuNTgiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iNTU2LjY2LC0zOS4wOCA1NjYuODksLTM2LjM0IDU1Ny4xOCwtMzIuMSA1NTYuNjYsLTM5LjA4Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjUwNi41IiB5PSItMzguOCIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5jcmVhdGVzPC90ZXh0Pgo8L2c+CjwhLS0gVGFza0ZhY3RvcnkgLS0+CjxnIGlkPSJub2RlMiIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+VGFza0ZhY3Rvcnk8L3RpdGxlPgo8cG9seWdvbiBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjEwNDksLTYzIDg2MSwtNjMgODYxLC0yNyAxMDQ5LC0yNyAxMDQ5LC02MyIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI5NTUiIHk9Ii00MS4zIiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPkZhY3RvcnkmbHQ7QWJzdHJhY3RUYXNrJmd0OzwvdGV4dD4KPC9nPgo8IS0tIERvd25sb2FkVGFza1JlYWRlciAtLT4KPGcgaWQ9Im5vZGU1IiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5Eb3dubG9hZFRhc2tSZWFkZXI8L3RpdGxlPgo8cG9seWdvbiBmaWxsPSJvcmFuZ2UiIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMTMxMiwtOTAgMTE0MiwtOTAgMTE0MiwtNTQgMTMxMiwtNTQgMTMxMiwtOTAiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMTIyNyIgeT0iLTY4LjMiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+RG93bmxvYWRUYXNrUmVhZGVyPC90ZXh0Pgo8L2c+CjwhLS0gVGFza0ZhY3RvcnkmIzQ1OyZndDtEb3dubG9hZFRhc2tSZWFkZXIgLS0+CjxnIGlkPSJlZGdlOCIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+VGFza0ZhY3RvcnkmIzQ1OyZndDtEb3dubG9hZFRhc2tSZWFkZXI8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBzdHJva2UtZGFzaGFycmF5PSI1LDIiIGQ9Ik0xMDQ5LjMsLTU0LjMzQzEwNzUuOTIsLTU2Ljk5IDExMDQuOTUsLTU5Ljg5IDExMzEuNjQsLTYyLjU2Ii8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjExMzEuNDUsLTY2LjA2IDExNDEuNzQsLTYzLjU3IDExMzIuMTQsLTU5LjEgMTEzMS40NSwtNjYuMDYiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMTA5NS41IiB5PSItNjQuOCIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5jcmVhdGVzPC90ZXh0Pgo8L2c+CjwhLS0gRG93bmxvYWRUYXNrIC0tPgo8ZyBpZD0ibm9kZTMiIGNsYXNzPSJub2RlIj4KPHRpdGxlPkRvd25sb2FkVGFzazwvdGl0bGU+Cjxwb2x5Z29uIGZpbGw9Im9yYW5nZSIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIxODE5LC0xNDQgMTcwMCwtMTQ0IDE3MDAsLTEwOCAxODE5LC0xMDggMTgxOSwtMTQ0Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjE3NTkuNSIgeT0iLTEyMi4zIiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPkRvd25sb2FkVGFzazwvdGV4dD4KPC9nPgo8IS0tIERvd25sb2FkVGFza0NyZWF0b3IgLS0+CjxnIGlkPSJub2RlNCIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+RG93bmxvYWRUYXNrQ3JlYXRvcjwvdGl0bGU+Cjxwb2x5Z29uIGZpbGw9Im9yYW5nZSIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIxNjA3LC0xMTcgMTQzMywtMTE3IDE0MzMsLTgxIDE2MDcsLTgxIDE2MDcsLTExNyIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIxNTIwIiB5PSItOTUuMyIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5Eb3dubG9hZFRhc2tDcmVhdG9yPC90ZXh0Pgo8L2c+CjwhLS0gRG93bmxvYWRUYXNrQ3JlYXRvciYjNDU7Jmd0O0Rvd25sb2FkVGFzayAtLT4KPGcgaWQ9ImVkZ2UyIiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT5Eb3dubG9hZFRhc2tDcmVhdG9yJiM0NTsmZ3Q7RG93bmxvYWRUYXNrPC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLWRhc2hhcnJheT0iNSwyIiBkPSJNMTYwNy4xNCwtMTA2Ljg2QzE2MzEuMzgsLTEwOS4yNiAxNjU3Ljc0LC0xMTIuMDUgMTY4MiwtMTE1IDE2ODQuNTEsLTExNS4zIDE2ODcuMDYsLTExNS42MiAxNjg5LjYzLC0xMTUuOTUiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMTY4OS4yNywtMTE5LjQ0IDE2OTkuNjUsLTExNy4yNyAxNjkwLjE5LC0xMTIuNSAxNjg5LjI3LC0xMTkuNDQiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMTY1My41IiB5PSItMTE4LjgiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+Y3JlYXRlczwvdGV4dD4KPC9nPgo8IS0tIERvd25sb2FkVGFza1JlYWRlciYjNDU7Jmd0O0Rvd25sb2FkVGFza0NyZWF0b3IgLS0+CjxnIGlkPSJlZGdlNSIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+RG93bmxvYWRUYXNrUmVhZGVyJiM0NTsmZ3Q7RG93bmxvYWRUYXNrQ3JlYXRvcjwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS1kYXNoYXJyYXk9IjUsMiIgZD0iTTEzMTIuMTcsLTc5LjgxQzEzNDYuNzcsLTgzLjAyIDEzODcuMDMsLTg2Ljc2IDE0MjIuNzksLTkwLjA3Ii8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjE0MjIuNDcsLTkzLjU2IDE0MzIuNzUsLTkxIDE0MjMuMTEsLTg2LjU5IDE0MjIuNDcsLTkzLjU2Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEzNzIuNSIgeT0iLTkxLjgiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+dXNlczwvdGV4dD4KPC9nPgo8IS0tIERvd25sb2FkVGFza1JlYWRlckNyZWF0b3ImIzQ1OyZndDtUYXNrRmFjdG9yeSAtLT4KPGcgaWQ9ImVkZ2U3IiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT5Eb3dubG9hZFRhc2tSZWFkZXJDcmVhdG9yJiM0NTsmZ3Q7VGFza0ZhY3Rvcnk8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBzdHJva2UtZGFzaGFycmF5PSI1LDIiIGQ9Ik03OTIuMTQsLTQ1QzgxMS40MiwtNDUgODMxLjM5LC00NSA4NTAuNDUsLTQ1Ii8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9Ijg1MC42MiwtNDguNSA4NjAuNjIsLTQ1IDg1MC42MiwtNDEuNSA4NTAuNjIsLTQ4LjUiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iODI2LjUiIHk9Ii00OC44IiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPnVzZXM8L3RleHQ+CjwvZz4KPCEtLSBBYnN0cmFjdEZpbGVUYXNrIC0tPgo8ZyBpZD0ibm9kZTciIGNsYXNzPSJub2RlIj4KPHRpdGxlPkFic3RyYWN0RmlsZVRhc2s8L3RpdGxlPgo8cG9seWdvbiBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjE1ODguNSwtMTcxIDE0NTEuNSwtMTcxIDE0NTEuNSwtMTM1IDE1ODguNSwtMTM1IDE1ODguNSwtMTcxIi8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjE1MjAiIHk9Ii0xNDkuMyIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5BYnN0cmFjdEZpbGVUYXNrPC90ZXh0Pgo8L2c+CjwhLS0gQWJzdHJhY3RGaWxlVGFzayYjNDU7Jmd0O0Rvd25sb2FkVGFzayAtLT4KPGcgaWQ9ImVkZ2UxIiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT5BYnN0cmFjdEZpbGVUYXNrJiM0NTsmZ3Q7RG93bmxvYWRUYXNrPC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTE1OTguNzksLTE0NC4xNkMxNjMxLjcyLC0xNDAuNDEgMTY2OS40NCwtMTM2LjEzIDE2OTkuOTQsLTEzMi42NiIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIxNTk4LjI4LC0xNDAuNjkgMTU4OC43NCwtMTQ1LjMgMTU5OS4wNywtMTQ3LjY1IDE1OTguMjgsLTE0MC42OSIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIxNjUzLjUiIHk9Ii0xNDQuOCIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5leHRlbmRzPC90ZXh0Pgo8L2c+CjwhLS0gSVRhc2tDcmVhdG9yIC0tPgo8ZyBpZD0ibm9kZTgiIGNsYXNzPSJub2RlIj4KPHRpdGxlPklUYXNrQ3JlYXRvcjwvdGl0bGU+Cjxwb2x5Z29uIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMTI4MS41LC0xNDQgMTE3Mi41LC0xNDQgMTE3Mi41LC0xMDggMTI4MS41LC0xMDggMTI4MS41LC0xNDQiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMTIyNyIgeT0iLTEyMi4zIiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPklUYXNrQ3JlYXRvcjwvdGV4dD4KPC9nPgo8IS0tIElUYXNrQ3JlYXRvciYjNDU7Jmd0O0Rvd25sb2FkVGFza0NyZWF0b3IgLS0+CjxnIGlkPSJlZGdlMyIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+SVRhc2tDcmVhdG9yJiM0NTsmZ3Q7RG93bmxvYWRUYXNrQ3JlYXRvcjwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIGQ9Ik0xMjkxLjkzLC0xMjAuMDdDMTMzMy4yNywtMTE2LjIzIDEzODcuNiwtMTExLjE5IDE0MzIuNzQsLTEwNyIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIxMjkxLjM1LC0xMTYuNjEgMTI4MS43MSwtMTIxLjAyIDEyOTEuOTksLTEyMy41OCAxMjkxLjM1LC0xMTYuNjEiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMTM3Mi41IiB5PSItMTE5LjgiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+aW1wbGVtZW50czwvdGV4dD4KPC9nPgo8IS0tIEFic3RyYWN0RmlsZVRhc2tSZWFkZXIgLS0+CjxnIGlkPSJub2RlOSIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+QWJzdHJhY3RGaWxlVGFza1JlYWRlcjwvdGl0bGU+Cjxwb2x5Z29uIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMTA0OSwtMTE3IDg2MSwtMTE3IDg2MSwtODEgMTA0OSwtODEgMTA0OSwtMTE3Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9Ijk1NSIgeT0iLTk1LjMiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+QWJzdHJhY3RGaWxlVGFza1JlYWRlcjwvdGV4dD4KPC9nPgo8IS0tIEFic3RyYWN0RmlsZVRhc2tSZWFkZXImIzQ1OyZndDtEb3dubG9hZFRhc2tSZWFkZXIgLS0+CjxnIGlkPSJlZGdlNCIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+QWJzdHJhY3RGaWxlVGFza1JlYWRlciYjNDU7Jmd0O0Rvd25sb2FkVGFza1JlYWRlcjwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIGQ9Ik0xMDU5LjI1LC04OC42N0MxMDg2LjUyLC04NS45NSAxMTE1LjYxLC04My4wNCAxMTQxLjc0LC04MC40MyIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIxMDU4LjksLTg1LjE5IDEwNDkuMywtODkuNjcgMTA1OS42LC05Mi4xNiAxMDU4LjksLTg1LjE5Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEwOTUuNSIgeT0iLTkwLjgiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+ZXh0ZW5kczwvdGV4dD4KPC9nPgo8IS0tIElUYXNrUmVhZGVyQ3JlYXRvciAtLT4KPGcgaWQ9Im5vZGUxMCIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+SVRhc2tSZWFkZXJDcmVhdG9yPC90aXRsZT4KPHBvbHlnb24gZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIzODcuNSwtOTAgMjI3LjUsLTkwIDIyNy41LC01NCAzODcuNSwtNTQgMzg3LjUsLTkwIi8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjMwNy41IiB5PSItNjguMyIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5JVGFza1JlYWRlckNyZWF0b3I8L3RleHQ+CjwvZz4KPCEtLSBJVGFza1JlYWRlckNyZWF0b3ImIzQ1OyZndDtEb3dubG9hZFRhc2tSZWFkZXJDcmVhdG9yIC0tPgo8ZyBpZD0iZWRnZTYiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPklUYXNrUmVhZGVyQ3JlYXRvciYjNDU7Jmd0O0Rvd25sb2FkVGFza1JlYWRlckNyZWF0b3I8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNMzk3Ljg2LC02NS40OEM0NDguNzEsLTYxLjc3IDUxMi44NSwtNTcuMDkgNTY2Ljk3LC01My4xNCIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIzOTcuNTksLTYxLjk5IDM4Ny44NywtNjYuMjEgMzk4LjEsLTY4Ljk3IDM5Ny41OSwtNjEuOTkiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iNTA2LjUiIHk9Ii02My44IiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPmltcGxlbWVudHM8L3RleHQ+CjwvZz4KPCEtLSBUYXNrUmVhZGVyIC0tPgo8ZyBpZD0ibm9kZTExIiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5UYXNrUmVhZGVyPC90aXRsZT4KPHBvbHlnb24gZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIxMDAsLTM2IDAsLTM2IDAsMCAxMDAsMCAxMDAsLTM2Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjUwIiB5PSItMTQuMyIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5UYXNrUmVhZGVyPC90ZXh0Pgo8L2c+CjwhLS0gVGFza1JlYWRlciYjNDU7Jmd0O1Rhc2tSZWFkZXJGYWN0b3J5IC0tPgo8ZyBpZD0iZWRnZTkiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPlRhc2tSZWFkZXImIzQ1OyZndDtUYXNrUmVhZGVyRmFjdG9yeTwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS1kYXNoYXJyYXk9IjUsMiIgZD0iTTEwMC4yNiwtMThDMTE3LjQ4LC0xOCAxMzcuNzksLTE4IDE1OC44NSwtMTgiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMTU4LjksLTIxLjUgMTY4LjksLTE4IDE1OC45LC0xNC41IDE1OC45LC0yMS41Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEzNC41IiB5PSItMjEuOCIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj51c2VzPC90ZXh0Pgo8L2c+CjwvZz4KPC9zdmc+Cg=="/></p>
+<p>The last graphic shows how the different classes are working together.
+For the download class following classes have to be implemented in that order:</p>
+<ul>
+<li>DownloadTask</li>
+<li>DownloadTaskCreator</li>
+<li>DownloadTaskReader</li>
+<li>DownloadTaskReaderCreator</li>
+</ul>
+<h2 id="required-constants">Required Constants</h2>
+<p>For the different classes following enum classes have to be extended:</p>
+<ul>
+<li><strong>TaskType</strong> - that enum has entries representing the type of task. The value of
+   each enum reflects also the concrete value used in the YAML document for the type attribute.
+   It is also used for the factory mechanism to find task creators and task reader creators.
+   For the two creator classes and reader the enum <strong>DOWNLOAD</strong> has been added. </li>
+<li><strong>DocumentReaderFields</strong> - that enum has entries representing the different attributes used
+   in a YAML document. The value of each enum reflects the exact name to be used in the YAML
+   document. It is used by the different reader to validate the document.
+   For the DownloadTaskReader the enum <strong>URL</strong> has been added.</li>
+</ul>
+<h2 id="implementing-the-task">Implementing the task</h2>
+<p><img alt="noname.svg" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+Cgo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8IS0tIEdlbmVyYXRlZCBieSBncmFwaHZpeiB2ZXJzaW9uIDIuNDMuMCAoMCkKIC0tPgo8IS0tIFRpdGxlOiBHIFBhZ2VzOiAxIC0tPgo8c3ZnIHdpZHRoPSI5OTZwdCIgaGVpZ2h0PSIxNTJwdCIgdmlld0JveD0iMC4wMCAwLjAwIDk5Ni4wMCAxNTIuMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgo8ZyBpZD0iZ3JhcGgwIiBjbGFzcz0iZ3JhcGgiIHRyYW5zZm9ybT0ic2NhbGUoMSAxKSByb3RhdGUoMCkgdHJhbnNsYXRlKDQgMTQ4KSI+Cjx0aXRsZT5HPC90aXRsZT4KPHBvbHlnb24gZmlsbD0id2hpdGUiIHN0cm9rZT0idHJhbnNwYXJlbnQiIHBvaW50cz0iLTQsNCAtNCwtMTQ4IDk5MiwtMTQ4IDk5Miw0IC00LDQiLz4KPCEtLSBEb3dubG9hZFRhc2sgLS0+CjxnIGlkPSJub2RlMSIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+RG93bmxvYWRUYXNrPC90aXRsZT4KPHBvbHlnb24gZmlsbD0ib3JhbmdlIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9Ijk4OCwtOTAgODY5LC05MCA4NjksLTU0IDk4OCwtNTQgOTg4LC05MCIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI5MjguNSIgeT0iLTY4LjMiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+RG93bmxvYWRUYXNrPC90ZXh0Pgo8L2c+CjwhLS0gUnVubmFibGUgLS0+CjxnIGlkPSJub2RlMiIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+UnVubmFibGU8L3RpdGxlPgo8cG9seWdvbiBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjMxNSwtMTQ0IDAsLTE0NCAwLC0xMDggMzE1LC0xMDggMzE1LC0xNDQiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMTU3LjUiIHk9Ii0xMjIuMyIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5JUnVubmFibGUmbHQ7VGFza1Jlc3VsdCwgVGFza1BhcmFtZXRlcnMmZ3Q7PC90ZXh0Pgo8L2c+CjwhLS0gQWJzdHJhY3RUYXNrIC0tPgo8ZyBpZD0ibm9kZTUiIGNsYXNzPSJub2RlIj4KPHRpdGxlPkFic3RyYWN0VGFzazwvdGl0bGU+Cjxwb2x5Z29uIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iNTQ2LC05MCA0MzYsLTkwIDQzNiwtNTQgNTQ2LC01NCA1NDYsLTkwIi8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjQ5MSIgeT0iLTY4LjMiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+QWJzdHJhY3RUYXNrPC90ZXh0Pgo8L2c+CjwhLS0gUnVubmFibGUmIzQ1OyZndDtBYnN0cmFjdFRhc2sgLS0+CjxnIGlkPSJlZGdlMiIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+UnVubmFibGUmIzQ1OyZndDtBYnN0cmFjdFRhc2s8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNMzI1LjEzLC0xMDYuNjRDMzU2LjExLC0xMDIuMTYgMzg4LjEzLC05Ni45MyA0MTgsLTkxIDQyMy44MywtODkuODQgNDI5Ljg5LC04OC40OSA0MzUuOTEsLTg3LjA0Ii8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjMyNC41MiwtMTAzLjE5IDMxNS4xMSwtMTA4LjA3IDMyNS41LC0xMTAuMTIgMzI0LjUyLC0xMDMuMTkiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzc1LjUiIHk9Ii0xMDcuOCIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5pbXBsZW1lbnRzPC90ZXh0Pgo8L2c+CjwhLS0gQ29weWFibGUgLS0+CjxnIGlkPSJub2RlMyIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+Q29weWFibGU8L3RpdGxlPgo8cG9seWdvbiBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjI2MCwtOTAgNTUsLTkwIDU1LC01NCAyNjAsLTU0IDI2MCwtOTAiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMTU3LjUiIHk9Ii02OC4zIiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPklDb3B5YWJsZSZsdDtBYnN0cmFjdFRhc2smZ3Q7PC90ZXh0Pgo8L2c+CjwhLS0gQ29weWFibGUmIzQ1OyZndDtBYnN0cmFjdFRhc2sgLS0+CjxnIGlkPSJlZGdlMyIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+Q29weWFibGUmIzQ1OyZndDtBYnN0cmFjdFRhc2s8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNMjcwLjUsLTcyQzMyNi4yMiwtNzIgMzkxLjAxLC03MiA0MzUuNjksLTcyIi8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjI3MC4yMSwtNjguNSAyNjAuMjEsLTcyIDI3MC4yMSwtNzUuNSAyNzAuMjEsLTY4LjUiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzc1LjUiIHk9Ii03NS44IiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPmltcGxlbWVudHM8L3RleHQ+CjwvZz4KPCEtLSBDb21wb25lbnQgLS0+CjxnIGlkPSJub2RlNCIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+Q29tcG9uZW50PC90aXRsZT4KPHBvbHlnb24gZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIyMDYuNSwtMzYgMTA4LjUsLTM2IDEwOC41LDAgMjA2LjUsMCAyMDYuNSwtMzYiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMTU3LjUiIHk9Ii0xNC4zIiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPkNvbXBvbmVudDwvdGV4dD4KPC9nPgo8IS0tIENvbXBvbmVudCYjNDU7Jmd0O0Fic3RyYWN0VGFzayAtLT4KPGcgaWQ9ImVkZ2UxIiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT5Db21wb25lbnQmIzQ1OyZndDtBYnN0cmFjdFRhc2s8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNMjE2LjgxLC0yMy43N0MyNjkuNjMsLTI5LjUgMzQ5LjQ0LC0zOS4zOSA0MTgsLTUzIDQyMy44MywtNTQuMTYgNDI5Ljg5LC01NS41MSA0MzUuOTEsLTU2Ljk2Ii8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjIxNi45NCwtMjAuMjcgMjA2LjYyLC0yMi42OSAyMTYuMTksLTI3LjIzIDIxNi45NCwtMjAuMjciLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzc1LjUiIHk9Ii01Ni44IiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPmV4dGVuZHM8L3RleHQ+CjwvZz4KPCEtLSBBYnN0cmFjdEZpbGVUYXNrIC0tPgo8ZyBpZD0ibm9kZTYiIGNsYXNzPSJub2RlIj4KPHRpdGxlPkFic3RyYWN0RmlsZVRhc2s8L3RpdGxlPgo8cG9seWdvbiBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9Ijc3NiwtOTAgNjM5LC05MCA2MzksLTU0IDc3NiwtNTQgNzc2LC05MCIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI3MDcuNSIgeT0iLTY4LjMiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+QWJzdHJhY3RGaWxlVGFzazwvdGV4dD4KPC9nPgo8IS0tIEFic3RyYWN0VGFzayYjNDU7Jmd0O0Fic3RyYWN0RmlsZVRhc2sgLS0+CjxnIGlkPSJlZGdlNCIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+QWJzdHJhY3RUYXNrJiM0NTsmZ3Q7QWJzdHJhY3RGaWxlVGFzazwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIGQ9Ik01NTYuMjgsLTcyQzU4Mi4zNywtNzIgNjEyLjUyLC03MiA2MzguOTMsLTcyIi8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjU1Ni4xMywtNjguNSA1NDYuMTMsLTcyIDU1Ni4xMywtNzUuNSA1NTYuMTMsLTY4LjUiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iNTkyLjUiIHk9Ii03NS44IiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPmV4dGVuZHM8L3RleHQ+CjwvZz4KPCEtLSBBYnN0cmFjdEZpbGVUYXNrJiM0NTsmZ3Q7RG93bmxvYWRUYXNrIC0tPgo8ZyBpZD0iZWRnZTUiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPkFic3RyYWN0RmlsZVRhc2smIzQ1OyZndDtEb3dubG9hZFRhc2s8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNNzg2LjU0LC03MkM4MTMuNjcsLTcyIDg0My42MSwtNzIgODY4LjksLTcyIi8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9Ijc4Ni4yOSwtNjguNSA3NzYuMjksLTcyIDc4Ni4yOSwtNzUuNSA3ODYuMjksLTY4LjUiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iODIyLjUiIHk9Ii03NS44IiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPmV4dGVuZHM8L3RleHQ+CjwvZz4KPC9nPgo8L3N2Zz4K"/></p>
+<p>For the concrete example the Download task is derived from the <strong>AbstractFileTask</strong> since there
+are multiple tasks sharing same attributes like:</p>
+<ul>
+<li><strong>destination</strong> - mandatory string attribute - where to write the file to</li>
+<li><strong>overwrite</strong> - optional boolean attribute - whether an existing file can be overwritten (default is false)</li>
+<li><strong>ensure-path</strong> - optional boolean attribute - whether the destination path is created when missing (default is false)</li>
+</ul>
+<p>That's why for the <strong>DownloadTask</strong> just remains the mandatory attribute <strong>url</strong>. In general any
+task should now implement following methods:</p>
+<ul>
+<li><strong><code>public TaskResult run(TaskParameters parameters)</code></strong> - the run Method is called by the
+   task group which can run tasks in order or in parallel. The task parameters contain all data
+   required to allow rendering a text with templating context like the document model (when a model
+   has been defined), the current matrix attributes (when a matrix has been configured) the current
+   task group variables (when variables are given) and the current with context (when list items
+   have been defined at the task attribute <strong>with</strong>). You simply can
+   call <code>parameters.getTemplatingContext())</code> to get the map that can be easily passed to the
+   template engine. The download task allows rendering for the destination path only.
+   Important is to call <code>logTitle(parameters);</code> because each task has a title (Component base class)
+   allowing to see in the logs what task topic is handled. When something goes wrong the run
+   method should define <code>taskResult = new TaskResult(false, getVariable());</code> returning finally
+   that task result; first parameter indicates the success of the task. When all is fine the 
+   task variable will be modified: <code>getVariable().setValue(renderedDestinationPath.toString());</code>;
+   that way further tasks can continue working with the path and filename. For consistency all
+   file based tasks should do that. Of course the task result should have <strong>true</strong> then as
+   first parameter.</li>
+<li><strong><code>public AbstractTask copy()</code> - the copy is important for the situation where the user is
+   using the </strong>with** attribute. The problem is here that the task is defined once but executed
+   as often as many items are in the list. Since we can run tasks in order or in parallel this
+   should also apply for that situation and related to the fact that we also then would have just
+   one variable the task will be copied.</li>
+<li><strong><code>public String toString()</code></strong> - the main purpose here is using it for the unit testing
+   using a task for <strong>@Parameterized</strong> tests. Read here: <a href="../junit5/">Junit5</a>. </li>
+</ul>
+<p>In general provide reasonable logging that a user can see what is going on (especially when
+something goes wrong).</p>
+<h2 id="implementing-the-task-creator">Implementing the task creator</h2>
+<p><img alt="noname.svg" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+Cgo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8IS0tIEdlbmVyYXRlZCBieSBncmFwaHZpeiB2ZXJzaW9uIDIuNDMuMCAoMCkKIC0tPgo8IS0tIFRpdGxlOiBHIFBhZ2VzOiAxIC0tPgo8c3ZnIHdpZHRoPSI5MDdwdCIgaGVpZ2h0PSI0NHB0IiB2aWV3Qm94PSIwLjAwIDAuMDAgOTA3LjAwIDQ0LjAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4KPGcgaWQ9ImdyYXBoMCIgY2xhc3M9ImdyYXBoIiB0cmFuc2Zvcm09InNjYWxlKDEgMSkgcm90YXRlKDApIHRyYW5zbGF0ZSg0IDQwKSI+Cjx0aXRsZT5HPC90aXRsZT4KPHBvbHlnb24gZmlsbD0id2hpdGUiIHN0cm9rZT0idHJhbnNwYXJlbnQiIHBvaW50cz0iLTQsNCAtNCwtNDAgOTAzLC00MCA5MDMsNCAtNCw0Ii8+CjwhLS0gRG93bmxvYWRUYXNrQ3JlYXRvciAtLT4KPGcgaWQ9Im5vZGUxIiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5Eb3dubG9hZFRhc2tDcmVhdG9yPC90aXRsZT4KPHBvbHlnb24gZmlsbD0ib3JhbmdlIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjY5MSwtMzYgNTE3LC0zNiA1MTcsMCA2OTEsMCA2OTEsLTM2Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjYwNCIgeT0iLTE0LjMiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+RG93bmxvYWRUYXNrQ3JlYXRvcjwvdGV4dD4KPC9nPgo8IS0tIERvd25sb2FkVGFzayAtLT4KPGcgaWQ9Im5vZGU0IiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5Eb3dubG9hZFRhc2s8L3RpdGxlPgo8cG9seWdvbiBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9Ijg5OSwtMzYgNzgwLC0zNiA3ODAsMCA4OTksMCA4OTksLTM2Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjgzOS41IiB5PSItMTQuMyIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5Eb3dubG9hZFRhc2s8L3RleHQ+CjwvZz4KPCEtLSBEb3dubG9hZFRhc2tDcmVhdG9yJiM0NTsmZ3Q7RG93bmxvYWRUYXNrIC0tPgo8ZyBpZD0iZWRnZTMiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPkRvd25sb2FkVGFza0NyZWF0b3ImIzQ1OyZndDtEb3dubG9hZFRhc2s8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBzdHJva2UtZGFzaGFycmF5PSI1LDIiIGQ9Ik02OTEuMjgsLTE4QzcxNy4wOSwtMTggNzQ1LjAzLC0xOCA3NjkuNTYsLTE4Ii8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9Ijc2OS44NSwtMjEuNSA3NzkuODUsLTE4IDc2OS44NSwtMTQuNSA3NjkuODUsLTIxLjUiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iNzM1LjUiIHk9Ii0yMS44IiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPmNyZWF0ZXM8L3RleHQ+CjwvZz4KPCEtLSBJQ3JlYXRvciAtLT4KPGcgaWQ9Im5vZGUyIiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5JQ3JlYXRvcjwvdGl0bGU+Cjxwb2x5Z29uIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMTk0LC0zNiAwLC0zNiAwLDAgMTk0LDAgMTk0LC0zNiIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI5NyIgeT0iLTE0LjMiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+SUNyZWF0b3ImbHQ7QWJzdHJhY3RUYXNrJmd0OzwvdGV4dD4KPC9nPgo8IS0tIElUYXNrQ3JlYXRvciAtLT4KPGcgaWQ9Im5vZGUzIiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5JVGFza0NyZWF0b3I8L3RpdGxlPgo8cG9seWdvbiBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjM5NiwtMzYgMjg3LC0zNiAyODcsMCAzOTYsMCAzOTYsLTM2Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjM0MS41IiB5PSItMTQuMyIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5JVGFza0NyZWF0b3I8L3RleHQ+CjwvZz4KPCEtLSBJQ3JlYXRvciYjNDU7Jmd0O0lUYXNrQ3JlYXRvciAtLT4KPGcgaWQ9ImVkZ2UxIiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT5JQ3JlYXRvciYjNDU7Jmd0O0lUYXNrQ3JlYXRvcjwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIGQ9Ik0yMDQuMjIsLTE4QzIzMi43MiwtMTggMjYyLjM2LC0xOCAyODYuNjgsLTE4Ii8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjIwNC4xOSwtMTQuNSAxOTQuMTksLTE4IDIwNC4xOSwtMjEuNSAyMDQuMTksLTE0LjUiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMjQwLjUiIHk9Ii0yMS44IiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPmV4dGVuZHM8L3RleHQ+CjwvZz4KPCEtLSBJVGFza0NyZWF0b3ImIzQ1OyZndDtEb3dubG9hZFRhc2tDcmVhdG9yIC0tPgo8ZyBpZD0iZWRnZTIiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPklUYXNrQ3JlYXRvciYjNDU7Jmd0O0Rvd25sb2FkVGFza0NyZWF0b3I8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNNDA2LjIyLC0xOEM0MzkuNTIsLTE4IDQ4MC43NSwtMTggNTE2Ljg1LC0xOCIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSI0MDYuMTYsLTE0LjUgMzk2LjE2LC0xOCA0MDYuMTYsLTIxLjUgNDA2LjE2LC0xNC41Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjQ1Ni41IiB5PSItMjEuOCIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5pbXBsZW1lbnRzPC90ZXh0Pgo8L2c+CjwvZz4KPC9zdmc+Cg=="/></p>
+<p>The creator class is very easy and very small in its implementation. The main purpose 
+are two things:</p>
+<ul>
+<li>The class implements <code>public AbstractTask create()</code> to provide a new instance of 
+   class <strong>DownloadTask</strong>.</li>
+<li>An annotation <code>@Named(TaskType.Constants.DOWNLOAD)</code> binds the creator to a concrete constant
+   which is later on important for the <strong>factory</strong>. The Java <strong>SPI</strong> (Service Provider Interface)
+   allows loading registered classed for a concrete interface. In this case for the <strong>ITaskCreator</strong>
+   interface there is <strong>magic.systems.hyperion.components.tasks.creator.ITaskCreator</strong> file under
+   <strong>src/main/resources/META-INF/services</strong> containing a flat list of classes implementing this
+   interface. It necessary to add <strong>magic.system.hyperion.reader.creator.DownloadTaskReaderCreator</strong>
+   there to allow the <strong>factory</strong> to find the creator by the name defined in the annotation.</li>
+</ul>
+<h2 id="implementing-the-task-reader">Implementing the task reader</h2>
+<p><img alt="noname.svg" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+Cgo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8IS0tIEdlbmVyYXRlZCBieSBncmFwaHZpeiB2ZXJzaW9uIDIuNDMuMCAoMCkKIC0tPgo8IS0tIFRpdGxlOiBHIFBhZ2VzOiAxIC0tPgo8c3ZnIHdpZHRoPSI5ODJwdCIgaGVpZ2h0PSI0NHB0IiB2aWV3Qm94PSIwLjAwIDAuMDAgOTgyLjAwIDQ0LjAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4KPGcgaWQ9ImdyYXBoMCIgY2xhc3M9ImdyYXBoIiB0cmFuc2Zvcm09InNjYWxlKDEgMSkgcm90YXRlKDApIHRyYW5zbGF0ZSg0IDQwKSI+Cjx0aXRsZT5HPC90aXRsZT4KPHBvbHlnb24gZmlsbD0id2hpdGUiIHN0cm9rZT0idHJhbnNwYXJlbnQiIHBvaW50cz0iLTQsNCAtNCwtNDAgOTc4LC00MCA5NzgsNCAtNCw0Ii8+CjwhLS0gRG93bmxvYWRUYXNrUmVhZGVyIC0tPgo8ZyBpZD0ibm9kZTEiIGNsYXNzPSJub2RlIj4KPHRpdGxlPkRvd25sb2FkVGFza1JlYWRlcjwvdGl0bGU+Cjxwb2x5Z29uIGZpbGw9Im9yYW5nZSIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSI5NzQsLTM2IDgwNCwtMzYgODA0LDAgOTc0LDAgOTc0LC0zNiIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI4ODkiIHk9Ii0xNC4zIiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPkRvd25sb2FkVGFza1JlYWRlcjwvdGV4dD4KPC9nPgo8IS0tIElOb2RlUmVhZGVyIC0tPgo8ZyBpZD0ibm9kZTIiIGNsYXNzPSJub2RlIj4KPHRpdGxlPklOb2RlUmVhZGVyPC90aXRsZT4KPHBvbHlnb24gZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIxMTAsLTM2IDAsLTM2IDAsMCAxMTAsMCAxMTAsLTM2Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjU1IiB5PSItMTQuMyIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5JTm9kZVJlYWRlcjwvdGV4dD4KPC9nPgo8IS0tIEFic3RyYWN0QmFzaWNUYXNrUmVhZGVyIC0tPgo8ZyBpZD0ibm9kZTMiIGNsYXNzPSJub2RlIj4KPHRpdGxlPkFic3RyYWN0QmFzaWNUYXNrUmVhZGVyPC90aXRsZT4KPHBvbHlnb24gZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSI0MzAsLTM2IDIzMSwtMzYgMjMxLDAgNDMwLDAgNDMwLC0zNiIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIzMzAuNSIgeT0iLTE0LjMiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+QWJzdHJhY3RCYXNpY1Rhc2tSZWFkZXI8L3RleHQ+CjwvZz4KPCEtLSBJTm9kZVJlYWRlciYjNDU7Jmd0O0Fic3RyYWN0QmFzaWNUYXNrUmVhZGVyIC0tPgo8ZyBpZD0iZWRnZTEiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPklOb2RlUmVhZGVyJiM0NTsmZ3Q7QWJzdHJhY3RCYXNpY1Rhc2tSZWFkZXI8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNMTIwLjQyLC0xOEMxNTMuMywtMTggMTk0LjAxLC0xOCAyMzAuNzUsLTE4Ii8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjEyMC4wMywtMTQuNSAxMTAuMDMsLTE4IDEyMC4wMywtMjEuNSAxMjAuMDMsLTE0LjUiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMTcwLjUiIHk9Ii0yMS44IiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPmltcGxlbWVudHM8L3RleHQ+CjwvZz4KPCEtLSBBYnN0cmFjdEZpbGVUYXNrUmVhZGVyIC0tPgo8ZyBpZD0ibm9kZTQiIGNsYXNzPSJub2RlIj4KPHRpdGxlPkFic3RyYWN0RmlsZVRhc2tSZWFkZXI8L3RpdGxlPgo8cG9seWdvbiBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjcxMSwtMzYgNTIzLC0zNiA1MjMsMCA3MTEsMCA3MTEsLTM2Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjYxNyIgeT0iLTE0LjMiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+QWJzdHJhY3RGaWxlVGFza1JlYWRlcjwvdGV4dD4KPC9nPgo8IS0tIEFic3RyYWN0QmFzaWNUYXNrUmVhZGVyJiM0NTsmZ3Q7QWJzdHJhY3RGaWxlVGFza1JlYWRlciAtLT4KPGcgaWQ9ImVkZ2UyIiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT5BYnN0cmFjdEJhc2ljVGFza1JlYWRlciYjNDU7Jmd0O0Fic3RyYWN0RmlsZVRhc2tSZWFkZXI8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNNDQwLjUxLC0xOEM0NjcuNjIsLTE4IDQ5Ni40NSwtMTggNTIyLjczLC0xOCIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSI0NDAuMjEsLTE0LjUgNDMwLjIxLC0xOCA0NDAuMjEsLTIxLjUgNDQwLjIxLC0xNC41Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjQ3Ni41IiB5PSItMjEuOCIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5leHRlbmRzPC90ZXh0Pgo8L2c+CjwhLS0gQWJzdHJhY3RGaWxlVGFza1JlYWRlciYjNDU7Jmd0O0Rvd25sb2FkVGFza1JlYWRlciAtLT4KPGcgaWQ9ImVkZ2UzIiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT5BYnN0cmFjdEZpbGVUYXNrUmVhZGVyJiM0NTsmZ3Q7RG93bmxvYWRUYXNrUmVhZGVyPC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTcyMS42MSwtMThDNzQ4Ljc3LC0xOCA3NzcuNzMsLTE4IDgwMy43NCwtMTgiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iNzIxLjMsLTE0LjUgNzExLjMsLTE4IDcyMS4zLC0yMS41IDcyMS4zLC0xNC41Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9Ijc1Ny41IiB5PSItMjEuOCIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5leHRlbmRzPC90ZXh0Pgo8L2c+CjwvZz4KPC9zdmc+Cg=="/></p>
+<p>The reader basically is reading and validating information details from the YAML tree.
+The INodeReader provides the interface to accept the current node to be handled.
+All task based reader have two information passed from outside:</p>
+<ul>
+<li><strong>the taskgroup</strong>: where to add the task that has been read and validated</li>
+<li><strong>the task creator</strong>: interface to concrete task creator. You can rely on that the
+   creator is compatible to the task; so you are allowed to cast to the concrete one.</li>
+</ul>
+<p>The class hierarchy offers you two functionalities:</p>
+<ul>
+<li><strong>providing a matcher</strong>: with <code>protected ListMatcher&lt;String&gt; getMatcher(final JsonNode node)</code>
+   you are able to implement on each level what fields (attributes) are mandatory and which
+   ones are optional to be able to validate. Because the base class handled most things it just
+   remains for the DownloadTaskReader to add following:
+   <code>matcher.requireExactlyOnce(DocumentReaderFields.URL.getFieldName());</code>.
+   The matcher provides a <code>matches</code> method and when that one returns false you can stop reading
+   throwing an exception (the YAML format is then wrong).</li>
+<li><strong>providing basic read methods</strong>: with <code>readBasic</code> and <code>readFile</code> the base classes already
+   initialize the task with the information found.</li>
+</ul>
+<p>For the DownloadTaskReader it remains to read and validate information for the URL
+and finally to add the task to the task group.</p>
+<h2 id="implementing-the-task-reader-creator">Implementing the task reader creator</h2>
+<p><img alt="noname.svg" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+Cgo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8IS0tIEdlbmVyYXRlZCBieSBncmFwaHZpeiB2ZXJzaW9uIDIuNDMuMCAoMCkKIC0tPgo8IS0tIFRpdGxlOiBHIFBhZ2VzOiAxIC0tPgo8c3ZnIHdpZHRoPSIxMTQ5cHQiIGhlaWdodD0iNDRwdCIgdmlld0JveD0iMC4wMCAwLjAwIDExNDkuMDAgNDQuMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgo8ZyBpZD0iZ3JhcGgwIiBjbGFzcz0iZ3JhcGgiIHRyYW5zZm9ybT0ic2NhbGUoMSAxKSByb3RhdGUoMCkgdHJhbnNsYXRlKDQgNDApIj4KPHRpdGxlPkc8L3RpdGxlPgo8cG9seWdvbiBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSJ0cmFuc3BhcmVudCIgcG9pbnRzPSItNCw0IC00LC00MCAxMTQ1LC00MCAxMTQ1LDQgLTQsNCIvPgo8IS0tIERvd25sb2FkVGFza1JlYWRlckNyZWF0b3IgLS0+CjxnIGlkPSJub2RlMSIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+RG93bmxvYWRUYXNrUmVhZGVyQ3JlYXRvcjwvdGl0bGU+Cjxwb2x5Z29uIGZpbGw9Im9yYW5nZSIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSI4ODIsLTM2IDY1NywtMzYgNjU3LDAgODgyLDAgODgyLC0zNiIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI3NjkuNSIgeT0iLTE0LjMiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+RG93bmxvYWRUYXNrUmVhZGVyQ3JlYXRvcjwvdGV4dD4KPC9nPgo8IS0tIERvd25sb2FkVGFza1JlYWRlciAtLT4KPGcgaWQ9Im5vZGU0IiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5Eb3dubG9hZFRhc2tSZWFkZXI8L3RpdGxlPgo8cG9seWdvbiBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjExNDEsLTM2IDk3MSwtMzYgOTcxLDAgMTE0MSwwIDExNDEsLTM2Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEwNTYiIHk9Ii0xNC4zIiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPkRvd25sb2FkVGFza1JlYWRlcjwvdGV4dD4KPC9nPgo8IS0tIERvd25sb2FkVGFza1JlYWRlckNyZWF0b3ImIzQ1OyZndDtEb3dubG9hZFRhc2tSZWFkZXIgLS0+CjxnIGlkPSJlZGdlMyIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+RG93bmxvYWRUYXNrUmVhZGVyQ3JlYXRvciYjNDU7Jmd0O0Rvd25sb2FkVGFza1JlYWRlcjwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS1kYXNoYXJyYXk9IjUsMiIgZD0iTTg4Mi4xMywtMThDOTA4LjEyLC0xOCA5MzUuNTUsLTE4IDk2MC43MSwtMTgiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iOTYwLjk3LC0yMS41IDk3MC45NywtMTggOTYwLjk3LC0xNC41IDk2MC45NywtMjEuNSIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI5MjYuNSIgeT0iLTIxLjgiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+Y3JlYXRlczwvdGV4dD4KPC9nPgo8IS0tIElDcmVhdG9yIC0tPgo8ZyBpZD0ibm9kZTIiIGNsYXNzPSJub2RlIj4KPHRpdGxlPklDcmVhdG9yPC90aXRsZT4KPHBvbHlnb24gZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIyODMsLTM2IDAsLTM2IDAsMCAyODMsMCAyODMsLTM2Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjE0MS41IiB5PSItMTQuMyIgZm9udC1mYW1pbHk9IlRpbWVzLHNlcmlmIiBmb250LXNpemU9IjE0LjAwIj5JQ3JlYXRvciZsdDtBYnN0cmFjdEJhc2ljVGFza1JlYWRlciZndDs8L3RleHQ+CjwvZz4KPCEtLSBJVGFza1JlYWRlckNyZWF0b3IgLS0+CjxnIGlkPSJub2RlMyIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+SVRhc2tSZWFkZXJDcmVhdG9yPC90aXRsZT4KPHBvbHlnb24gZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSI1MzYsLTM2IDM3NiwtMzYgMzc2LDAgNTM2LDAgNTM2LC0zNiIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI0NTYiIHk9Ii0xNC4zIiBmb250LWZhbWlseT0iVGltZXMsc2VyaWYiIGZvbnQtc2l6ZT0iMTQuMDAiPklUYXNrUmVhZGVyQ3JlYXRvcjwvdGV4dD4KPC9nPgo8IS0tIElDcmVhdG9yJiM0NTsmZ3Q7SVRhc2tSZWFkZXJDcmVhdG9yIC0tPgo8ZyBpZD0iZWRnZTEiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPklDcmVhdG9yJiM0NTsmZ3Q7SVRhc2tSZWFkZXJDcmVhdG9yPC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTI5My4yOCwtMThDMzIxLjc5LC0xOCAzNTAuNTUsLTE4IDM3NS43NSwtMTgiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMjkzLjIxLC0xNC41IDI4My4yMSwtMTggMjkzLjIxLC0yMS41IDI5My4yMSwtMTQuNSIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIzMjkuNSIgeT0iLTIxLjgiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+ZXh0ZW5kczwvdGV4dD4KPC9nPgo8IS0tIElUYXNrUmVhZGVyQ3JlYXRvciYjNDU7Jmd0O0Rvd25sb2FkVGFza1JlYWRlckNyZWF0b3IgLS0+CjxnIGlkPSJlZGdlMiIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+SVRhc2tSZWFkZXJDcmVhdG9yJiM0NTsmZ3Q7RG93bmxvYWRUYXNrUmVhZGVyQ3JlYXRvcjwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIGQ9Ik01NDYuMDcsLTE4QzU4MC42LC0xOCA2MjAuNTMsLTE4IDY1Ni45NSwtMTgiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iNTQ2LjAxLC0xNC41IDUzNi4wMSwtMTggNTQ2LjAxLC0yMS41IDU0Ni4wMSwtMTQuNSIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI1OTYuNSIgeT0iLTIxLjgiIGZvbnQtZmFtaWx5PSJUaW1lcyxzZXJpZiIgZm9udC1zaXplPSIxNC4wMCI+aW1wbGVtZW50czwvdGV4dD4KPC9nPgo8L2c+Cjwvc3ZnPgo="/></p>
+<p>It's very the same procedure as already explained for the task creator. </p>
+<ul>
+<li>The class implements <code>public AbstractBasicTaskReader create()</code> to provide a new instance of
+  class <strong>DownloadTaskReader</strong>. The factory for tasks is used here to search for the concrete
+  task creator passing it to the constructor of the reader.</li>
+<li>An annotation <code>@Named(TaskType.Constants.DOWNLOAD)</code> binds the creator to a concrete constant
+  which is later on important for the <strong>factory</strong>. The Java <strong>SPI</strong> (Service Provider Interface)
+  allows loading registered classed for a concrete interface. In this case for the <strong>ITaskReaderCreator</strong>
+  interface there is <strong>magic.systems.hyperion.reader.creator.ITaskReaderCreator</strong> file under
+  <strong>src/main/resources/META-INF/services</strong> containing a flat list of classes implementing this
+  interface. It necessary to add <strong>magic.system.reader.creator.DownloadTaskReaderCreator</strong>
+  there to allow the <strong>factory</strong> to find the creator by the name defined in the annotation.</li>
+</ul>
+<h2 id="testing">Testing</h2>
+<p>Now all four classes are created you should be able to process documents with download tasks.
+Of course there should be unittests for the task and for the reader. For the reader it is
+sufficient to test it in context of reading a document. That's why I implemented following:</p>
+<ul>
+<li>DownloadTaskTest</li>
+<li>DocumentReaderForDownloadTaskTests</li>
+</ul></div>
+</div>
+</div>
+<footer class="col-md-12">
+<hr/>
+<p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+</footer>
+<script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+<script defer="" src="../../js/base.js"></script>
+<script defer="" src="../../search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<p>From here you can search these documents. Enter your search terms below.</p>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="search"/>
+</div>
+</form>
+<div data-no-results-text="No results found" id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

@@ -12,10 +12,10 @@
 <link href="../css/bootstrap.min.css" rel="stylesheet"/>
 <link href="../css/font-awesome.min.css" rel="stylesheet"/>
 <link href="../css/base.css" rel="stylesheet"/>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/docco.min.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/docco.min.css" rel="stylesheet"/>
 <script defer="" src="../js/jquery-1.10.2.min.js"></script>
 <script defer="" src="../js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 </head>
 <body>
@@ -70,6 +70,15 @@
 <a class="dropdown-item" href="../copy-file/">File copy task</a>
 </li>
 <li>
+<a class="dropdown-item" href="../write-file/">Write File Task</a>
+</li>
+<li>
+<a class="dropdown-item" href="../download-task/">Download Task</a>
+</li>
+<li>
+<a class="dropdown-item" href="../xsl-transform/">XSL Transform Task</a>
+</li>
+<li>
 <a class="dropdown-item" href="../templating/">Templating</a>
 </li>
 <li>
@@ -84,19 +93,22 @@
 <a class="dropdown-item active" href="./">Requirements</a>
 </li>
 <li>
-<a class="dropdown-item" href="../build/">Build</a>
+<a class="dropdown-item" href="../internal/build/">Build</a>
 </li>
 <li>
-<a class="dropdown-item" href="../junit5/">JUnit5</a>
+<a class="dropdown-item" href="../internal/junit5/">JUnit5</a>
 </li>
 <li>
-<a class="dropdown-item" href="../mkdocs/">Mkdocs</a>
+<a class="dropdown-item" href="../internal/mkdocs/">Mkdocs</a>
 </li>
 <li>
-<a class="dropdown-item" href="../cli/">CLI</a>
+<a class="dropdown-item" href="../internal/cli/">CLI</a>
 </li>
 <li>
-<a class="dropdown-item" href="../finishing-a-milestone/">Finishing a milestone</a>
+<a class="dropdown-item" href="../internal/finishing-a-milestone/">Finishing a milestone</a>
+</li>
+<li>
+<a class="dropdown-item" href="../internal/implementing-a-new-task/">Implementing a new task</a>
 </li>
 </ul>
 </li>
@@ -113,7 +125,7 @@
                                 </a>
 </li>
 <li class="nav-item">
-<a class="nav-link" href="../build/" rel="next">
+<a class="nav-link" href="../internal/build/" rel="next">
                                     Next <i class="fa fa-arrow-right"></i>
 </a>
 </li>
@@ -158,18 +170,6 @@
 <td>Provide coded tasks</td>
 <td>task feature</td>
 <td><a href="req-provide%20coded%20tasks/">details</a></td>
-</tr>
-<tr>
-<td>10</td>
-<td>Provide JShell task</td>
-<td>task feature</td>
-<td><a href="req-provide%20jshell%20task/">details</a></td>
-</tr>
-<tr>
-<td>11</td>
-<td>Provide a Docker container task</td>
-<td>task feature</td>
-<td><a href="req-provide%20a%20docker%20container%20task/">details</a></td>
 </tr>
 <tr>
 <td>2</td>
@@ -219,6 +219,36 @@
 <td>task feature</td>
 <td><a href="req-provide%20groovy%20task/">details</a></td>
 </tr>
+<tr>
+<td>10</td>
+<td>Provide JShell task</td>
+<td>task feature</td>
+<td><a href="req-provide%20jshell%20task/">details</a></td>
+</tr>
+<tr>
+<td>11</td>
+<td>Provide a Docker container task</td>
+<td>task feature</td>
+<td><a href="req-provide%20a%20docker%20container%20task/">details</a></td>
+</tr>
+<tr>
+<td>12</td>
+<td>Provide xslt task</td>
+<td>task feature</td>
+<td><a href="req-provide%20xslt%20task/">details</a></td>
+</tr>
+<tr>
+<td>13</td>
+<td>Provide write to file task</td>
+<td>task feature</td>
+<td><a href="req-provide%20write%20to%20file%20task/">details</a></td>
+</tr>
+<tr>
+<td>14</td>
+<td>Provide a download task</td>
+<td>file task feature</td>
+<td><a href="req-provide%20a%20download%20task/">details</a></td>
+</tr>
 </tbody>
 </table></div>
 </div>
@@ -241,16 +271,13 @@
 <button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
 </div>
 <div class="modal-body">
-<p>
-                    From here you can search these documents. Enter
-                    your search terms below.
-                </p>
+<p>From here you can search these documents. Enter your search terms below.</p>
 <form>
 <div class="form-group">
 <input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="search"/>
 </div>
 </form>
-<div id="mkdocs-search-results"></div>
+<div data-no-results-text="No results found" id="mkdocs-search-results"></div>
 </div>
 <div class="modal-footer">
 </div>

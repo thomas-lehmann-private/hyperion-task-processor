@@ -6,22 +6,22 @@
 <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <meta content="Thomas Lehmann &lt;thomas.lehmann.private@gmail.com" name="author"/>
-<link href="https://thomas-lehmann-private.github.io/hyperion-task-processor/junit5/" rel="canonical"/>
-<link href="../img/favicon.ico" rel="shortcut icon"/>
+<link href="https://thomas-lehmann-private.github.io/hyperion-task-processor/internal/junit5/" rel="canonical"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
 <title>JUnit5 - Hyperion Task Processor</title>
-<link href="../css/bootstrap.min.css" rel="stylesheet"/>
-<link href="../css/font-awesome.min.css" rel="stylesheet"/>
-<link href="../css/base.css" rel="stylesheet"/>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/docco.min.css" rel="stylesheet"/>
-<script defer="" src="../js/jquery-1.10.2.min.js"></script>
-<script defer="" src="../js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link href="../../css/bootstrap.min.css" rel="stylesheet"/>
+<link href="../../css/font-awesome.min.css" rel="stylesheet"/>
+<link href="../../css/base.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/docco.min.css" rel="stylesheet"/>
+<script defer="" src="../../js/jquery-1.10.2.min.js"></script>
+<script defer="" src="../../js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 </head>
 <body>
 <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
 <div class="container">
-<a class="navbar-brand" href="..">Hyperion Task Processor</a>
+<a class="navbar-brand" href="../..">Hyperion Task Processor</a>
 <!-- Expander button -->
 <button class="navbar-toggler" data-target="#navbar-collapse" data-toggle="collapse" type="button">
 <span class="navbar-toggler-icon"></span>
@@ -31,49 +31,58 @@
 <!-- Main navigation -->
 <ul class="nav navbar-nav">
 <li class="navitem">
-<a class="nav-link" href="..">Home</a>
+<a class="nav-link" href="../..">Home</a>
 </li>
 <li class="dropdown">
 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">User Guide <b class="caret"></b></a>
 <ul class="dropdown-menu">
 <li>
-<a class="dropdown-item" href="../hyperion-task-processor/">Application</a>
+<a class="dropdown-item" href="../../hyperion-task-processor/">Application</a>
 </li>
 <li>
-<a class="dropdown-item" href="../taskgroup/">Taskgroup</a>
+<a class="dropdown-item" href="../../taskgroup/">Taskgroup</a>
 </li>
 <li>
-<a class="dropdown-item" href="../basic-task-features/">Basic tasks features</a>
+<a class="dropdown-item" href="../../basic-task-features/">Basic tasks features</a>
 </li>
 <li>
-<a class="dropdown-item" href="../basic-coded-task-features/">Basic code tasks</a>
+<a class="dropdown-item" href="../../basic-coded-task-features/">Basic code tasks</a>
 </li>
 <li>
-<a class="dropdown-item" href="../groovy/">Groovy task</a>
+<a class="dropdown-item" href="../../groovy/">Groovy task</a>
 </li>
 <li>
-<a class="dropdown-item" href="../powershell/">Powershell task</a>
+<a class="dropdown-item" href="../../powershell/">Powershell task</a>
 </li>
 <li>
-<a class="dropdown-item" href="../windows-batch/">Windows Batch task</a>
+<a class="dropdown-item" href="../../windows-batch/">Windows Batch task</a>
 </li>
 <li>
-<a class="dropdown-item" href="../shell/">Shell task</a>
+<a class="dropdown-item" href="../../shell/">Shell task</a>
 </li>
 <li>
-<a class="dropdown-item" href="../docker-image/">Docker image task</a>
+<a class="dropdown-item" href="../../docker-image/">Docker image task</a>
 </li>
 <li>
-<a class="dropdown-item" href="../docker-container/">Docker container task</a>
+<a class="dropdown-item" href="../../docker-container/">Docker container task</a>
 </li>
 <li>
-<a class="dropdown-item" href="../copy-file/">File copy task</a>
+<a class="dropdown-item" href="../../copy-file/">File copy task</a>
 </li>
 <li>
-<a class="dropdown-item" href="../templating/">Templating</a>
+<a class="dropdown-item" href="../../write-file/">Write File Task</a>
 </li>
 <li>
-<a class="dropdown-item" href="../matrix/">Matrix</a>
+<a class="dropdown-item" href="../../download-task/">Download Task</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../xsl-transform/">XSL Transform Task</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../templating/">Templating</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../matrix/">Matrix</a>
 </li>
 </ul>
 </li>
@@ -81,7 +90,7 @@
 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Developer Guide <b class="caret"></b></a>
 <ul class="dropdown-menu">
 <li>
-<a class="dropdown-item" href="../requirements/">Requirements</a>
+<a class="dropdown-item" href="../../requirements/">Requirements</a>
 </li>
 <li>
 <a class="dropdown-item" href="../build/">Build</a>
@@ -97,6 +106,9 @@
 </li>
 <li>
 <a class="dropdown-item" href="../finishing-a-milestone/">Finishing a milestone</a>
+</li>
+<li>
+<a class="dropdown-item" href="../implementing-a-new-task/">Implementing a new task</a>
 </li>
 </ul>
 </li>
@@ -118,7 +130,7 @@
 </a>
 </li>
 <li class="nav-item">
-<a class="nav-link" href="https://github.com/thomas-lehmann-private/hyperion-task-processor/edit/master/docs/junit5.md"><i class="fa fa-github"></i> Edit on GitHub</a>
+<a class="nav-link" href="https://github.com/thomas-lehmann-private/hyperion-task-processor/edit/master/docs/internal/junit5.md"><i class="fa fa-github"></i> Edit on GitHub</a>
 </li>
 </ul>
 </div>
@@ -255,7 +267,7 @@ have passed to your exception.</p>
 it several times for different data input. In the list of tests each
 variant appears individually given you a clear idea which of the variant
 has failed.</p>
-<pre><code class="java">    /**
+<pre><code class="language-java">    /**
      * Testing validation of the long name.
      *
      * @param bExpectedToFail when true then expected to fail.
@@ -309,7 +321,7 @@ the test method; that's why I did place a name in front of the index.</p>
 <strong>null</strong> instead of the class name.</p>
 </div>
 <p>The following code is the relating function providing the test data:</p>
-<pre><code class="java">    /**
+<pre><code class="language-java">    /**
      * Test data for long name validation.
      *
      * @return test data.
@@ -358,13 +370,13 @@ the test method; that's why I did place a name in front of the index.</p>
    message is passed to the.</li>
 </ul>
 <h2 id="how-it-looks-like-in-an-ide">How it looks like in an IDE</h2>
-<p><img alt="parameterized-tests.png" src="../images/parameterized-tests.png"/></p>
+<p><img alt="parameterized-tests.png" src="../../images/parameterized-tests.png"/></p>
 <h2 id="assuming">Assuming</h2>
 <p>You might have the problem that a test depends on a certain setup of
 the system. Let's say you do not have Docker installed on your system
 then this test detects that and the concrete assertion will automatically
 mark the tests as ignored.</p>
-<pre><code class="java">@Test
+<pre><code class="language-java">@Test
 public void testDockerForTargetUnix() {
     assumeTrue(Capabilities.hasDocker());
     // test code
@@ -374,14 +386,14 @@ public void testDockerForTargetUnix() {
 <p>There are test that can run on specific systems only. JUnit5
 is capable to detect the system and you can use the annotation
 <strong>@EnabledOnOs</strong> to specify on which system the test should run.</p>
-<pre><code class="java">@DisplayName("Testing UnixShellTask")
+<pre><code class="language-java">@DisplayName("Testing UnixShellTask")
 @EnabledOnOs({OS.LINUX, OS.MAC})
 public class UnixShellTaskTest {
     // test code
 }
 </code></pre>
 <p>and</p>
-<pre><code class="java">@DisplayName("Testing WindowsBatchTask")
+<pre><code class="language-java">@DisplayName("Testing WindowsBatchTask")
 @EnabledOnOs(OS.WINDOWS)
 public class WindowsBatchTaskTest {
     // test code
@@ -398,7 +410,7 @@ on the platform.</p>
 <p>It's not obvious but there is an algorithm defining an order.
 However tests should be independent and therefor a random order is probably
 a better solution:</p>
-<pre><code class="java">@DisplayName("Testing of CliOption class")
+<pre><code class="language-java">@DisplayName("Testing of CliOption class")
 @TestMethodOrder(value = MethodOrderer.Random.class)
 public class CliOptionTest {
     // test code
@@ -421,11 +433,11 @@ with the configuration option <code>&lt;runOrder&gt;random&lt;/runOrder&gt;</cod
 <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
 </footer>
 <script>
-            var base_url = "..",
+            var base_url = "../..",
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
-<script defer="" src="../js/base.js"></script>
-<script defer="" src="../search/main.js"></script>
+<script defer="" src="../../js/base.js"></script>
+<script defer="" src="../../search/main.js"></script>
 <div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
 <div class="modal-dialog modal-lg">
 <div class="modal-content">
@@ -434,16 +446,13 @@ with the configuration option <code>&lt;runOrder&gt;random&lt;/runOrder&gt;</cod
 <button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
 </div>
 <div class="modal-body">
-<p>
-                    From here you can search these documents. Enter
-                    your search terms below.
-                </p>
+<p>From here you can search these documents. Enter your search terms below.</p>
 <form>
 <div class="form-group">
 <input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="search"/>
 </div>
 </form>
-<div id="mkdocs-search-results"></div>
+<div data-no-results-text="No results found" id="mkdocs-search-results"></div>
 </div>
 <div class="modal-footer">
 </div>
