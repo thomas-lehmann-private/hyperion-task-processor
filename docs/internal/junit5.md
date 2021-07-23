@@ -150,7 +150,7 @@ Following information should be recognized:
 
 ## How it looks like in an IDE
 
-![parameterized-tests.png](images/parameterized-tests.png)
+![parameterized-tests.png](../images/parameterized-tests.png)
 
 ## Assuming
 

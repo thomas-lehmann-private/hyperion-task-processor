@@ -12,8 +12,7 @@ features added to that milestone.
 
 ## Status
 
-The tool is not yet production ready.
-I cannot tell you a release date the moment, but I'm constantly developing on it in my free time.
+I'm constantly developing on it in my free time.
 The current issue(s) I'm working on are pinned and can be seen at the top of the issue list.
 
 ## Issues
