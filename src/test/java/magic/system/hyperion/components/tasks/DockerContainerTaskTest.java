@@ -26,14 +26,18 @@ package magic.system.hyperion.components.tasks;
 import magic.system.hyperion.components.Model;
 import magic.system.hyperion.components.TaskParameters;
 import magic.system.hyperion.tools.Capabilities;
+import magic.system.hyperion.tools.ProcessResults;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
@@ -80,5 +84,28 @@ public class DockerContainerTaskTest {
         final var task = new DockerContainerTask("test", "echo \"hello world!\"");
         task.setImageName("debian");
         assertEquals(task, task.copy());
+    }
+
+    /**
+     * Testing to run docker container in background mode.
+     */
+    @Test
+    public void testRunInBackground() throws IOException, InterruptedException {
+        assumeTrue(Capabilities.hasDocker());
+
+        final var task = new DockerContainerTask("test", "sleep 30");
+        task.setImageName("debian");
+        task.setDetached(true);
+        final var result = task.run(TaskParameters.of(Model.of(), Map.of(), Map.of(), null));
+
+        assertTrue(result.isSuccess());
+        assertFalse(result.getVariable().getValue().isEmpty());
+
+        // we just need to stop the container since --rm ensures that the container will be deleted
+        final var stopContainerCommand = Capabilities.createCommand(
+                String.join(" ", List.of("docker", "stop", result.getVariable().getValue())));
+        final var stopContainerProcess = new ProcessBuilder(stopContainerCommand).start();
+        final var stopContainerResult = ProcessResults.of(stopContainerProcess);
+        assertEquals(0, stopContainerProcess.exitValue());
     }
 }

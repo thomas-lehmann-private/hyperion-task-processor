@@ -113,6 +113,11 @@ public enum DocumentReaderFields {
     PLATFORM("platform"),
 
     /**
+     * Run Docker container in detached (background) mode.
+     */
+    DETACHED("detached"),
+
+    /**
      * The repository:tag for the image (option -t of docker build).
      */
     REPOSITORY_TAG("repository-tag"),

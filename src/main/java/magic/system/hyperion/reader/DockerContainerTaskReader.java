@@ -59,6 +59,7 @@ public class DockerContainerTaskReader extends AbstractDockerTaskReader {
         matcher.requireExactlyOnce(DocumentReaderFields.IMAGE_NAME.getFieldName());
         matcher.allow(DocumentReaderFields.IMAGE_VERSION.getFieldName());
         matcher.allow(DocumentReaderFields.PLATFORM.getFieldName());
+        matcher.allow(DocumentReaderFields.DETACHED.getFieldName());
 
         final var names = Converters.convertToSortedList(node.fieldNames());
         if (!matcher.matches(names)) {
@@ -79,6 +80,11 @@ public class DockerContainerTaskReader extends AbstractDockerTaskReader {
         if (node.has(DocumentReaderFields.PLATFORM.getFieldName())) {
             task.setPlatform(
                     node.get(DocumentReaderFields.PLATFORM.getFieldName()).asText());
+        }
+
+        if (node.has(DocumentReaderFields.DETACHED.getFieldName())) {
+            task.setDetached(
+                    node.get(DocumentReaderFields.DETACHED.getFieldName()).asBoolean());
         }
 
         taskGroup.add(task);

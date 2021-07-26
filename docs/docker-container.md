@@ -2,14 +2,18 @@
 
 This doesn't intend to explain Docker. Please refer to official Docker
 documentation for details on it. It's about the Docker container task.
-The [basic coded task features](basic-coded-task-features.md) are language
-independent and explained in the link including:
+The docker container does offer  [basic coded task features](basic-coded-task-features.md) 
+. In addition following attributes are available:
 
-- Having an optional **title** attribute
-- Using the **code** in attribute with same name
-- Having an optional **tag** attribute
-- Having an optional **variable** attribute
-- Having an optional **with** attribute
+ - **image-name** - the mandatory attribute specifies the name of the docker image to use
+ - **image-version** - the optional string attribute specifies the version of the docker image to use.
+   If not specified the default is **latest**.
+ - **detached** - the optional boolean attribute specified whether to run the docker container
+   in detached (background) mode. If not specified the default is **false**.
+ - **platform** - the optional parameter for what kind of Docker container to run.
+   If not specified the Default is **unix** (read a bit later about platform).
+   It does have the effect that the generated temporary script - that will be executed
+   by the Docker container - is either passed to **cmd /c** or **sh -c**.
 
 A few things to mention here about Docker:
 
@@ -39,17 +43,6 @@ A few things to mention here about Docker:
 
 It's really easy and doesn't differ much from other task. Following details:
 
- - The parameter **image-name** is required and should be the name of the Docker image.
- - The parameter **imager-version** is optional and should be the version of the Docker image.
-   If not specified the version is set to **latest**.
- - The parameter **platform** is optional and can be either **windows** or **unix**. 
-   If not specified the platform is set to **unix**.
-   It does have the effect that the generated temporary script - that will be executed
-   by the Docker container - is either passed to **cmd /c** or **sh -c**.
-   As already mentioned you cannot use both platforms in one document since **--platform**
-   is not yet generated. So you have to decide which platform Docker should use by switching to
-   it manually. Once the experimental status goes away that might change.
-
 ```yaml
 ---
 taskgroups:
@@ -58,6 +51,29 @@ taskgroups:
       - type: docker-container
         code: echo "hello world!"
         image-name: debian
+```
+
+## Running detached
+
+It's nothing you would do in a real environment but that simple example demonstrates
+how it does work:
+
+ - After running you can do a "docker ps -a" and you will see the container running.
+ - After 30 seconds the container will automatically go away since --rm is also used.
+
+You can use this for running a Database or an application server in it.
+The variable (also not specified here) will contain the id of the container that can
+be used to work on the container (example: using the id to stop the container).
+
+```yaml
+---
+taskgroups:
+  - title: test
+    tasks:
+      - type: docker-container
+        code: sleep 30
+        image-name: debian
+        detached: true
 ```
 
 ## Minimal example with tags

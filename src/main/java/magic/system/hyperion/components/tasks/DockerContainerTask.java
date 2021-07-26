@@ -82,17 +82,23 @@ public class DockerContainerTask extends AbstractShellTask {
     private String strPlatform;
 
     /**
+     * When true then using -d to run Container in background (default: false).
+     */
+    private boolean bDetached;
+
+    /**
      * Initialize task.
      *
      * @param strInitTitle - title of the task.
      * @param strInitCode  - Path and name of file of script or inline script.
      * @since 1.0.0
      */
-    public DockerContainerTask(String strInitTitle, String strInitCode) {
+    public DockerContainerTask(final String strInitTitle, final String strInitCode) {
         super(strInitTitle, strInitCode);
         this.strImageName = "";
         this.strImageVersion = "latest";
         this.strPlatform = PLATFORM_UNIX;
+        this.bDetached = false;
     }
 
     /**
@@ -157,6 +163,25 @@ public class DockerContainerTask extends AbstractShellTask {
         return this.strPlatform;
     }
 
+    /**
+     * Change detached mode.
+     * @param bInitDetached new value.
+     * @since 2.0.0
+     */
+    public void setDetached(final boolean bInitDetached) {
+        this.bDetached = bInitDetached;
+    }
+
+    /**
+     * Get run mode.
+     *
+     * @return when true then docker container will run detached (in background).
+     * @since 2.0.0
+     */
+    public boolean isDetached() {
+        return this.bDetached;
+    }
+
     @Override
     protected String getTempFilePrefix() {
         return "hyperion-docker-container-task-";
@@ -186,10 +211,12 @@ public class DockerContainerTask extends AbstractShellTask {
         // --rm      automatic remove the container when the process has finished.
         // -v a:b    mount host path <a> onto Docker container path <b>
         // -i        keep STDIN open even if not attached
+        // -d        run detached (in background)
         final var baseCommand = List.of("docker", "run", "--rm", "-v",
                 System.getProperty("user.dir") + ":/work",
                 "-v", parentPath.toString() + ":/hosttmp",
-                "-i", this.strImageName + ":" + this.strImageVersion);
+                this.bDetached ? "-d": "-i",
+                this.strImageName + ":" + this.strImageVersion);
 
         final var strCommand = String.join(" ", Stream.of(baseCommand,
                 this.strPlatform.equals(PLATFORM_WINDOWS)
