@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="Thomas Lehmann &lt;thomas.lehmann.private@gmail.com" name="author"/>
+<link href="https://thomas-lehmann-private.github.io/hyperion-task-processor/requirements/req-run%20docker%20container%20in%20detached%20mode/" rel="canonical"/>
+<link href="../../img/favicon.ico" rel="shortcut icon"/>
+<title>Run docker container in detached mode - Hyperion Task Processor</title>
+<link href="../../css/bootstrap.min.css" rel="stylesheet"/>
+<link href="../../css/font-awesome.min.css" rel="stylesheet"/>
+<link href="../../css/base.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/docco.min.css" rel="stylesheet"/>
+<script defer="" src="../../js/jquery-1.10.2.min.js"></script>
+<script defer="" src="../../js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+<div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+<div class="container">
+<a class="navbar-brand" href="../..">Hyperion Task Processor</a>
+<!-- Expander button -->
+<button class="navbar-toggler" data-target="#navbar-collapse" data-toggle="collapse" type="button">
+<span class="navbar-toggler-icon"></span>
+</button>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse" id="navbar-collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li class="navitem">
+<a class="nav-link" href="../..">Home</a>
+</li>
+<li class="dropdown">
+<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">User Guide <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a class="dropdown-item" href="../../hyperion-task-processor/">Application</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../taskgroup/">Taskgroup</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../basic-task-features/">Basic tasks features</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../basic-coded-task-features/">Basic code tasks</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../groovy/">Groovy task</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../powershell/">Powershell task</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../windows-batch/">Windows Batch task</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../shell/">Shell task</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../docker-image/">Docker image task</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../docker-container/">Docker container task</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../copy-file/">File copy task</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../write-file/">Write File Task</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../download-task/">Download Task</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../xsl-transform/">XSL Transform Task</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../templating/">Templating</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../matrix/">Matrix</a>
+</li>
+</ul>
+</li>
+<li class="dropdown">
+<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Developer Guide <b class="caret"></b></a>
+<ul class="dropdown-menu">
+<li>
+<a class="dropdown-item" href="../">Requirements</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../internal/build/">Build</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../internal/junit5/">JUnit5</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../internal/mkdocs/">Mkdocs</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../internal/cli/">CLI</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../internal/finishing-a-milestone/">Finishing a milestone</a>
+</li>
+<li>
+<a class="dropdown-item" href="../../internal/implementing-a-new-task/">Implementing a new task</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav ml-auto">
+<li class="nav-item">
+<a class="nav-link" data-target="#mkdocs_search_modal" data-toggle="modal" href="#">
+<i class="fa fa-search"></i> Search
+                            </a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="https://github.com/thomas-lehmann-private/hyperion-task-processor/edit/master/docs/requirements/req-run docker container in detached mode.md"><i class="fa fa-github"></i> Edit on GitHub</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="row">
+<div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+<div class="navbar-header">
+<button class="navbar-toggler collapsed" data-target="#toc-collapse" data-toggle="collapse" title="Table of Contents" type="button">
+<span class="fa fa-angle-down"></span>
+</button>
+</div>
+<div class="navbar-collapse collapse card bg-secondary" id="toc-collapse">
+<ul class="nav flex-column">
+<li class="nav-item" data-level="1"><a class="nav-link" href="#run-docker-container-in-detached-mode">Run docker container in detached mode</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+</ul>
+</div>
+</div></div>
+<div class="col-md-9" role="main">
+<h1 id="run-docker-container-in-detached-mode">Run docker container in detached mode</h1>
+<h3 id="document-meta-data">Document meta data</h3>
+<ul>
+<li><strong>Type</strong>: Requirement</li>
+<li><strong>Id</strong>: 15</li>
+<li><strong>Context</strong>: docker task feature</li>
+<li><strong>Milestone</strong>: 2.0.0</li>
+</ul>
+<h3 id="description">Description</h3>
+<p>As a <strong>devops engineer</strong> you should be able to run a docker container in detached mode.
+There the optional boolean attribute <strong>detached</strong> should be available, defaulted to <strong>false</strong>.</p>
+<h3 id="constraints">Constraints</h3>
+<p>See <a href="../req-provide%20a%20docker%20container%20task/">Provde a docker container task</a>.</p>
+<h3 id="criticality-and-risk">Criticality and Risk</h3>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The possibility of something going wrong, and the associated consequences of failure,
+are highly dependent on the user of the Hyperion tool, as using the tool requires that
+the results be verified in a test environment.</p>
+<p>There is a risk that the user will be blocked in his work if the tool does not work
+properly, but there is no guarantee due to the license. Nevertheless, the author is
+extremely interested in correcting all reported errors in the near future.</p>
+</div></div>
+</div>
+</div>
+<footer class="col-md-12">
+<hr/>
+<p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+</footer>
+<script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+<script defer="" src="../../js/base.js"></script>
+<script defer="" src="../../search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<p>From here you can search these documents. Enter your search terms below.</p>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="search"/>
+</div>
+</form>
+<div data-no-results-text="No results found" id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button class="close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

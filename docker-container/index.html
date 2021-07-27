@@ -152,6 +152,10 @@
 <ul class="nav flex-column">
 </ul>
 </li>
+<li class="nav-item" data-level="2"><a class="nav-link" href="#running-detached">Running detached</a>
+<ul class="nav flex-column">
+</ul>
+</li>
 <li class="nav-item" data-level="2"><a class="nav-link" href="#minimal-example-with-tags">Minimal example with tags</a>
 <ul class="nav flex-column">
 </ul>
@@ -173,14 +177,18 @@
 <h1 id="docker-container-task">Docker container task</h1>
 <p>This doesn't intend to explain Docker. Please refer to official Docker
 documentation for details on it. It's about the Docker container task.
-The <a href="../basic-coded-task-features/">basic coded task features</a> are language
-independent and explained in the link including:</p>
+The docker container does offer  <a href="../basic-coded-task-features/">basic coded task features</a> 
+. In addition following attributes are available:</p>
 <ul>
-<li>Having an optional <strong>title</strong> attribute</li>
-<li>Using the <strong>code</strong> in attribute with same name</li>
-<li>Having an optional <strong>tag</strong> attribute</li>
-<li>Having an optional <strong>variable</strong> attribute</li>
-<li>Having an optional <strong>with</strong> attribute</li>
+<li><strong>image-name</strong> - the mandatory attribute specifies the name of the docker image to use</li>
+<li><strong>image-version</strong> - the optional string attribute specifies the version of the docker image to use.
+   If not specified the default is <strong>latest</strong>.</li>
+<li><strong>detached</strong> - the optional boolean attribute specified whether to run the docker container
+   in detached (background) mode. If not specified the default is <strong>false</strong>.</li>
+<li><strong>platform</strong> - the optional parameter for what kind of Docker container to run.
+   If not specified the Default is <strong>unix</strong> (read a bit later about platform).
+   It does have the effect that the generated temporary script - that will be executed
+   by the Docker container - is either passed to <strong>cmd /c</strong> or <strong>sh -c</strong>.</li>
 </ul>
 <p>A few things to mention here about Docker:</p>
 <ul>
@@ -210,18 +218,6 @@ independent and explained in the link including:</p>
 </ul>
 <h2 id="the-minimal-example">The minimal example</h2>
 <p>It's really easy and doesn't differ much from other task. Following details:</p>
-<ul>
-<li>The parameter <strong>image-name</strong> is required and should be the name of the Docker image.</li>
-<li>The parameter <strong>imager-version</strong> is optional and should be the version of the Docker image.
-   If not specified the version is set to <strong>latest</strong>.</li>
-<li>The parameter <strong>platform</strong> is optional and can be either <strong>windows</strong> or <strong>unix</strong>. 
-   If not specified the platform is set to <strong>unix</strong>.
-   It does have the effect that the generated temporary script - that will be executed
-   by the Docker container - is either passed to <strong>cmd /c</strong> or <strong>sh -c</strong>.
-   As already mentioned you cannot use both platforms in one document since <strong>--platform</strong>
-   is not yet generated. So you have to decide which platform Docker should use by switching to
-   it manually. Once the experimental status goes away that might change.</li>
-</ul>
 <pre><code class="language-yaml">---
 taskgroups:
   - title: test
@@ -229,6 +225,25 @@ taskgroups:
       - type: docker-container
         code: echo "hello world!"
         image-name: debian
+</code></pre>
+<h2 id="running-detached">Running detached</h2>
+<p>It's nothing you would do in a real environment but that simple example demonstrates
+how it does work:</p>
+<ul>
+<li>After running you can do a "docker ps -a" and you will see the container running.</li>
+<li>After 30 seconds the container will automatically go away since --rm is also used.</li>
+</ul>
+<p>You can use this for running a Database or an application server in it.
+The variable (also not specified here) will contain the id of the container that can
+be used to work on the container (example: using the id to stop the container).</p>
+<pre><code class="language-yaml">---
+taskgroups:
+  - title: test
+    tasks:
+      - type: docker-container
+        code: sleep 30
+        image-name: debian
+        detached: true
 </code></pre>
 <h2 id="minimal-example-with-tags">Minimal example with tags</h2>
 <p>The application can be called with the repeatable option --tag. Specifying the
