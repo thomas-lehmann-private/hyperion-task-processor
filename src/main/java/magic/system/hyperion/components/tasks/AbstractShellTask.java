@@ -107,6 +107,7 @@ public abstract class AbstractShellTask extends AbstractCodableTask {
             taskResult = new TaskResult(processResults.getExitCode() == 0,
                     getVariable());
         } catch (IOException | InterruptedException | HyperionException e) {
+            LOGGER.error(e.getMessage(), e);
             taskResult = new TaskResult(false, this.getVariable());
         } finally {
             cleanup.run();

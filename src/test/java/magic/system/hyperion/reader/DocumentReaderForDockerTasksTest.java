@@ -66,7 +66,7 @@ public class DocumentReaderForDockerTasksTest {
         final var document = reader.read(path);
         assertNotNull(document, "Document shouldn't be null");
         assertEquals(1, document.getListOfTaskGroups().size());
-        assertEquals(3, document.getListOfTaskGroups().get(0).getListOfTasks().size());
+        assertEquals(4, document.getListOfTaskGroups().get(0).getListOfTasks().size());
         final var tags = document.getListOfTaskGroups().get(0).getListOfTasks().get(2).getTags();
         assertEquals("tag support", tags.get(0));
         assertEquals("third example", tags.get(1));

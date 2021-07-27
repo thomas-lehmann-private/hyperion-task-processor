@@ -15,3 +15,4 @@
 12|Provide xslt task|task feature|[details](requirements/req-provide xslt task.md)
 13|Provide write to file task|task feature|[details](requirements/req-provide write to file task.md)
 14|Provide a download task|file task feature|[details](requirements/req-provide a download task.md)
+15|Run docker container in detached mode|docker task feature|[details](requirements/req-run docker container in detached mode.md)

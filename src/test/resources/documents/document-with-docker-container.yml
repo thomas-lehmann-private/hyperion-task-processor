@@ -24,3 +24,11 @@ taskgroups:
         tags:
           - tag support
           - third example
+
+      # We cannot stop container here because the test runs on multiple platforms
+      # and we don't have conditions yet to run either Batch or Shell.
+      # After 2 seconds the container should go away automatically.
+      - type: docker-container
+        code: sleep 2
+        image-name: debian
+        detached: true
