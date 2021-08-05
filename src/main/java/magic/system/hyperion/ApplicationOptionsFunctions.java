@@ -107,6 +107,10 @@ public final class ApplicationOptionsFunctions {
                 CliCommand.builder()
                         .setName(ApplicationCommands.CAPABILITIES.getCommand())
                         .setDescription(ApplicationCommands.CAPABILITIES.getDescription())
+                        .build(),
+                CliCommand.builder()
+                        .setName(ApplicationCommands.SERVE.getCommand())
+                        .setDescription(ApplicationCommands.SERVE.getDescription())
                         .build()
         );
     }

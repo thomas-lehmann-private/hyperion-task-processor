@@ -29,6 +29,7 @@ import magic.system.hyperion.cli.CliHelpPrinter;
 import magic.system.hyperion.cli.CliOptionList;
 import magic.system.hyperion.cli.CliParser;
 import magic.system.hyperion.command.RunCommandProcessor;
+import magic.system.hyperion.command.ServeCommandProcessor;
 import magic.system.hyperion.command.ThirdPartyCommandProcessor;
 import magic.system.hyperion.tools.Capabilities;
 import magic.system.hyperion.tools.CapabilitiesPrinter;
@@ -102,6 +103,9 @@ public final class Application {
             final var printer = new CapabilitiesPrinter();
             printer.setGroovyVersion(this.properties.getGroovyVersion());
             printer.print(LoggerFactory.getLogger(NO_TIMESTAMP)::info);
+        } else if (result.getCommandName().equals(ApplicationCommands.SERVE.getCommand())) {
+            logEnvironment();
+            new ServeCommandProcessor(this.globalOptions, this.commands, result).processCommand();
         }
     }
 

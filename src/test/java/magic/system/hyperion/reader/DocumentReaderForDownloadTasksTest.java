@@ -37,6 +37,7 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Testing of {@link DownloadTaskReader} and
@@ -64,7 +65,8 @@ public class DocumentReaderForDownloadTasksTest extends DocumentReaderBaseTest {
 
         MessagesCollector.clear();
         // running document and verifying that the error count is 0.
-        assertEquals(0, document.run(getDefaultDocumentParameters()));
+        final var result = document.run(getDefaultDocumentParameters());
+        assertTrue(result.isSuccess());
 
         final var lines = MessagesCollector.getMessages().stream()
                 .filter(line -> line.contains("Writing file to")).collect(Collectors.toList());

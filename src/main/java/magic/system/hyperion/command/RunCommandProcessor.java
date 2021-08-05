@@ -31,6 +31,7 @@ import magic.system.hyperion.cli.CliResult;
 import magic.system.hyperion.components.DocumentParameters;
 import magic.system.hyperion.reader.DocumentReader;
 import magic.system.hyperion.tools.FileUtils;
+import magic.system.hyperion.tools.TimeTools;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -73,7 +74,8 @@ public final class RunCommandProcessor extends AbstractCommandProcessor {
                                 ApplicationOptions.TIMEOUT_TASKGROUP.getLongName())
                                 .get().getDefault())).get(0));
 
-        processDocument(pathDocument, DocumentParameters.of(tags, iTimeoutTaskGroup));
+        processDocument(pathDocument, DocumentParameters.of(tags,
+                TimeTools.minutesAsMilliseconds(iTimeoutTaskGroup)));
     }
 
     /**
