@@ -80,7 +80,7 @@ public class ApplicationServerTest {
                 /**
                  * Port passed to the server.
                  */
-                private int iPort = 0;
+                private int iPort;
 
                 @Override
                 public int getPort() {
