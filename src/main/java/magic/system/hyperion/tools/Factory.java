@@ -58,9 +58,10 @@ public class Factory<E> {
      * @since 1.0.0
      */
     public E create(final String strName) {
+        E instance = null;
+
         final var loader = ServiceLoader.load(this.creatorClass);
         final var iterator = loader.iterator();
-        E instance = null;
 
         while (iterator.hasNext()) {
             final var creator = iterator.next();

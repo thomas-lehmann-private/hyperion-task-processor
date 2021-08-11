@@ -111,6 +111,14 @@ public final class ApplicationOptionsFunctions {
                 CliCommand.builder()
                         .setName(ApplicationCommands.SERVE.getCommand())
                         .setDescription(ApplicationCommands.SERVE.getDescription())
+                        .addOption(CliOption.builder()
+                                .setShortName(ApplicationOptions.PORT.getShortName())
+                                .setLongName(ApplicationOptions.PORT.getLongName())
+                                .setDescription(ApplicationOptions.PORT.getDescription())
+                                .setDefault("8000")
+                                .setRequired(false)
+                                .setType(OptionType.INTEGER)
+                                .build())
                         .build()
         );
     }

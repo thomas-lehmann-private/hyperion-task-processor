@@ -23,11 +23,14 @@
  */
 package magic.system.hyperion.command;
 
+import magic.system.hyperion.ApplicationOptions;
 import magic.system.hyperion.cli.CliCommand;
 import magic.system.hyperion.cli.CliException;
 import magic.system.hyperion.cli.CliOptionList;
 import magic.system.hyperion.cli.CliResult;
 import magic.system.hyperion.server.Server;
+import magic.system.hyperion.server.creator.IServerCreator;
+import magic.system.hyperion.tools.Factory;
 
 import java.util.List;
 
@@ -40,7 +43,7 @@ public class ServeCommandProcessor extends AbstractCommandProcessor {
     /**
      * Default port of server application.
      */
-    private static final int DEFAULT_PORT = 8000;
+    public static final int DEFAULT_PORT = 8000;
 
     /**
      * Initialize with defined options and commands with its options and the parsed one.
@@ -57,7 +60,25 @@ public class ServeCommandProcessor extends AbstractCommandProcessor {
 
     @Override
     public void processCommand() throws CliException {
-        final var server = new Server();
-        server.start(DEFAULT_PORT); // TODO: passing default port from CLI
+        final var serveCommand = this.commands.stream().filter(
+                command -> command.getName().equals(this.parsedResult.getCommandName())).findAny();
+
+        int iDefaultPort = DEFAULT_PORT;
+
+        if (serveCommand.isPresent()) {
+            final var portOption = serveCommand.get()
+                    .findOption(ApplicationOptions.PORT.getLongName());
+            if (portOption.isPresent()) {
+                iDefaultPort = Integer.parseInt(portOption.get().getDefault());
+            }
+        }
+
+        final int iPort = Integer.parseInt(
+                this.parsedResult.getCommandOptions().getOrDefault(
+                        ApplicationOptions.PORT.getLongName(),
+                        List.of(String.valueOf(iDefaultPort))).get(0));
+
+        final var server = new Factory<Server>(IServerCreator.class).create("default");
+        server.start(iPort);
     }
 }

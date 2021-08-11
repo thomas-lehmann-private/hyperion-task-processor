@@ -16,3 +16,4 @@
 13|Provide write to file task|task feature|[details](requirements/req-provide write to file task.md)
 14|Provide a download task|file task feature|[details](requirements/req-provide a download task.md)
 15|Run docker container in detached mode|docker task feature|[details](requirements/req-run docker container in detached mode.md)
+16|Provide Hyperion task processor as a server|server feature|[details](requirements/req-provide hyperion task processor as a server.md)
