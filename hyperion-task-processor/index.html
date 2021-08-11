@@ -84,6 +84,9 @@
 <li>
 <a class="dropdown-item" href="../matrix/">Matrix</a>
 </li>
+<li>
+<a class="dropdown-item" href="../rest-api/">REST api</a>
+</li>
 </ul>
 </li>
 <li class="dropdown">
@@ -168,6 +171,10 @@
 <ul class="nav flex-column">
 </ul>
 </li>
+<li class="nav-item" data-level="2"><a class="nav-link" href="#serve-command">Serve command</a>
+<ul class="nav flex-column">
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -188,8 +195,8 @@ like:</p>
 <p>That's the current list and will be updated when new tasks will be added.</p>
 <h2 id="command-line-interface">Command line interface</h2>
 <p>The current command line options look like following:</p>
-<pre><code>java -jar hyperion-task-processor-1.0.0-SNAPSHOT.jar [global options] [command [command options]]
-    version: 1.0.0-SNAPSHOT, build timestamp: 2021-06-26 14:55
+<pre><code>java -jar hyperion-task-processor-2.0.0-SNAPPSHOT.jar [global options] [command [command options]]
+    version: 2.0.0-SNAPSHOT, build timestamp: 2021-08-06 03:38
     author: Thomas Lehmann &lt;thomas.lehmann.private@gmail.com&gt;
 
 Global options:
@@ -201,10 +208,14 @@ List of available commands:
     run          - Running one document with tasks to be processed
     thirdparty   - Reporting the used third-party libraries
     capabilities - Reporting capabilities of system where Hyperion should run
+    serve        - Running Hyperion task processor in server mode
 
 Options for command 'run':
     -f&lt;path&gt;, --file=&lt;path&gt;           - Document with tasks to be processed [required]
               --temporary-path=&lt;path&gt; - Defining temporary path
+
+Options for command 'serve':
+    -p&lt;int&gt;, --port=&lt;int&gt; - port to run server on
 </code></pre>
 <p>Also those help should be good enough to help on usage here a few notes:</p>
 <ul>
@@ -217,6 +228,7 @@ Options for command 'run':
    tags or even without tags will be ignored.</li>
 </ul>
 <h2 id="run-command">Run command</h2>
+<p>Introduced in version: 1.0.0</p>
 <p>The <strong>run</strong> command allows to run one document with tasks.</p>
 <ul>
 <li>the required <strong>--file</strong> option is the path and filename of the <strong>YAML</strong> document
@@ -227,10 +239,12 @@ Options for command 'run':
    are given (as they are usually given for the default temporary path).</li>
 </ul>
 <h2 id="thirdparty-command">Thirdparty command</h2>
+<p>Introduced in version: 1.0.0</p>
 <p>The <strong>thirdparty</strong> command prints all used third party components.
 Please also have a look at <a href="../internal/build/">build</a>; dependencies are listed there too
 additionally with url and license.</p>
 <h2 id="capabilities-command">Capabilities command</h2>
+<p>Introduced in version: 1.0.0</p>
 <p>The <strong>capabilities</strong> command prints all system capabilities relevant for the
 Hyperion tool. An example output might look like following:</p>
 <pre><code>&gt; java -jar hyperion-task-processor-1.0.0-SNAPSHOT-shaded.jar capabilities
@@ -239,7 +253,12 @@ Operating System:    Windows 10 (arch=amd64)
 Groovy (embedded):   3.0.7
 Docker:              19.03.8, build afacb8b
 Powershell:          5.1.19041.1023
-</code></pre></div>
+</code></pre>
+<h2 id="serve-command">Serve command</h2>
+<p>Introduced in version: 2.0.0</p>
+<p>The <strong>serve</strong> command runs the Hyperion task processor as a REST server.
+The default port is 8000 but can be changed by using the parameter --port.</p>
+<p>See <a href="../rest-api/">REST api</a> for documentation about available requests.</p></div>
 </div>
 </div>
 <footer class="col-md-12">

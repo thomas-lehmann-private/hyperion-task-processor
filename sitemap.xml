@@ -2,197 +2,207 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://thomas-lehmann-private.github.io/hyperion-task-processor/</loc>
-         <lastmod>2021-07-27</lastmod>
+         <lastmod>2021-08-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://thomas-lehmann-private.github.io/hyperion-task-processor/basic-coded-task-features/</loc>
-         <lastmod>2021-07-27</lastmod>
+         <lastmod>2021-08-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://thomas-lehmann-private.github.io/hyperion-task-processor/basic-task-features/</loc>
-         <lastmod>2021-07-27</lastmod>
+         <lastmod>2021-08-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://thomas-lehmann-private.github.io/hyperion-task-processor/copy-file/</loc>
-         <lastmod>2021-07-27</lastmod>
+         <lastmod>2021-08-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://thomas-lehmann-private.github.io/hyperion-task-processor/docker-container/</loc>
-         <lastmod>2021-07-27</lastmod>
+         <lastmod>2021-08-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://thomas-lehmann-private.github.io/hyperion-task-processor/docker-image/</loc>
-         <lastmod>2021-07-27</lastmod>
+         <lastmod>2021-08-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://thomas-lehmann-private.github.io/hyperion-task-processor/download-task/</loc>
-         <lastmod>2021-07-27</lastmod>
+         <lastmod>2021-08-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://thomas-lehmann-private.github.io/hyperion-task-processor/groovy/</loc>
-         <lastmod>2021-07-27</lastmod>
+         <lastmod>2021-08-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://thomas-lehmann-private.github.io/hyperion-task-processor/hyperion-task-processor/</loc>
-         <lastmod>2021-07-27</lastmod>
+         <lastmod>2021-08-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://thomas-lehmann-private.github.io/hyperion-task-processor/matrix/</loc>
-         <lastmod>2021-07-27</lastmod>
+         <lastmod>2021-08-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://thomas-lehmann-private.github.io/hyperion-task-processor/powershell/</loc>
-         <lastmod>2021-07-27</lastmod>
+         <lastmod>2021-08-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://thomas-lehmann-private.github.io/hyperion-task-processor/requirements/</loc>
-         <lastmod>2021-07-27</lastmod>
+         <lastmod>2021-08-11</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://thomas-lehmann-private.github.io/hyperion-task-processor/rest-api/</loc>
+         <lastmod>2021-08-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://thomas-lehmann-private.github.io/hyperion-task-processor/shell/</loc>
-         <lastmod>2021-07-27</lastmod>
+         <lastmod>2021-08-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://thomas-lehmann-private.github.io/hyperion-task-processor/taskgroup/</loc>
-         <lastmod>2021-07-27</lastmod>
+         <lastmod>2021-08-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://thomas-lehmann-private.github.io/hyperion-task-processor/templating/</loc>
-         <lastmod>2021-07-27</lastmod>
+         <lastmod>2021-08-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://thomas-lehmann-private.github.io/hyperion-task-processor/windows-batch/</loc>
-         <lastmod>2021-07-27</lastmod>
+         <lastmod>2021-08-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://thomas-lehmann-private.github.io/hyperion-task-processor/write-file/</loc>
-         <lastmod>2021-07-27</lastmod>
+         <lastmod>2021-08-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://thomas-lehmann-private.github.io/hyperion-task-processor/xsl-transform/</loc>
-         <lastmod>2021-07-27</lastmod>
+         <lastmod>2021-08-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://thomas-lehmann-private.github.io/hyperion-task-processor/internal/build/</loc>
-         <lastmod>2021-07-27</lastmod>
+         <lastmod>2021-08-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://thomas-lehmann-private.github.io/hyperion-task-processor/internal/cli/</loc>
-         <lastmod>2021-07-27</lastmod>
+         <lastmod>2021-08-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://thomas-lehmann-private.github.io/hyperion-task-processor/internal/finishing-a-milestone/</loc>
-         <lastmod>2021-07-27</lastmod>
+         <lastmod>2021-08-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://thomas-lehmann-private.github.io/hyperion-task-processor/internal/implementing-a-new-task/</loc>
-         <lastmod>2021-07-27</lastmod>
+         <lastmod>2021-08-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://thomas-lehmann-private.github.io/hyperion-task-processor/internal/junit5/</loc>
-         <lastmod>2021-07-27</lastmod>
+         <lastmod>2021-08-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://thomas-lehmann-private.github.io/hyperion-task-processor/internal/mkdocs/</loc>
-         <lastmod>2021-07-27</lastmod>
+         <lastmod>2021-08-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://thomas-lehmann-private.github.io/hyperion-task-processor/requirements/req-printing%20capabilities%20to%20console/</loc>
-         <lastmod>2021-07-27</lastmod>
+         <lastmod>2021-08-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://thomas-lehmann-private.github.io/hyperion-task-processor/requirements/req-provide%20%27with%27%20attribute%20on%20tasks%20allowing%20to%20repeat%20same%20task%20for%20each%20entry%20in%20the%20list/</loc>
-         <lastmod>2021-07-27</lastmod>
+         <lastmod>2021-08-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://thomas-lehmann-private.github.io/hyperion-task-processor/requirements/req-provide%20a%20docker%20container%20task/</loc>
-         <lastmod>2021-07-27</lastmod>
+         <lastmod>2021-08-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://thomas-lehmann-private.github.io/hyperion-task-processor/requirements/req-provide%20a%20download%20task/</loc>
-         <lastmod>2021-07-27</lastmod>
+         <lastmod>2021-08-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://thomas-lehmann-private.github.io/hyperion-task-processor/requirements/req-provide%20coded%20tasks/</loc>
-         <lastmod>2021-07-27</lastmod>
+         <lastmod>2021-08-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://thomas-lehmann-private.github.io/hyperion-task-processor/requirements/req-provide%20groovy%20task/</loc>
-         <lastmod>2021-07-27</lastmod>
+         <lastmod>2021-08-11</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://thomas-lehmann-private.github.io/hyperion-task-processor/requirements/req-provide%20hyperion%20task%20processor%20as%20a%20server/</loc>
+         <lastmod>2021-08-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://thomas-lehmann-private.github.io/hyperion-task-processor/requirements/req-provide%20jshell%20task/</loc>
-         <lastmod>2021-07-27</lastmod>
+         <lastmod>2021-08-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://thomas-lehmann-private.github.io/hyperion-task-processor/requirements/req-provide%20powershell%20task/</loc>
-         <lastmod>2021-07-27</lastmod>
+         <lastmod>2021-08-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://thomas-lehmann-private.github.io/hyperion-task-processor/requirements/req-provide%20unix%20shell%20task/</loc>
-         <lastmod>2021-07-27</lastmod>
+         <lastmod>2021-08-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://thomas-lehmann-private.github.io/hyperion-task-processor/requirements/req-provide%20windows%20batch%20task/</loc>
-         <lastmod>2021-07-27</lastmod>
+         <lastmod>2021-08-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://thomas-lehmann-private.github.io/hyperion-task-processor/requirements/req-provide%20write%20to%20file%20task/</loc>
-         <lastmod>2021-07-27</lastmod>
+         <lastmod>2021-08-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://thomas-lehmann-private.github.io/hyperion-task-processor/requirements/req-provide%20xslt%20task/</loc>
-         <lastmod>2021-07-27</lastmod>
+         <lastmod>2021-08-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://thomas-lehmann-private.github.io/hyperion-task-processor/requirements/req-providing%20a%20copy%20file%20task/</loc>
-         <lastmod>2021-07-27</lastmod>
+         <lastmod>2021-08-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://thomas-lehmann-private.github.io/hyperion-task-processor/requirements/req-providing%20a%20docker%20image%20task/</loc>
-         <lastmod>2021-07-27</lastmod>
+         <lastmod>2021-08-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://thomas-lehmann-private.github.io/hyperion-task-processor/requirements/req-run%20docker%20container%20in%20detached%20mode/</loc>
-         <lastmod>2021-07-27</lastmod>
+         <lastmod>2021-08-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>

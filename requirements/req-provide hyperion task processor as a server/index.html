@@ -6,9 +6,9 @@
 <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <meta content="Thomas Lehmann &lt;thomas.lehmann.private@gmail.com" name="author"/>
-<link href="https://thomas-lehmann-private.github.io/hyperion-task-processor/requirements/req-provide%20jshell%20task/" rel="canonical"/>
+<link href="https://thomas-lehmann-private.github.io/hyperion-task-processor/requirements/req-provide%20hyperion%20task%20processor%20as%20a%20server/" rel="canonical"/>
 <link href="../../img/favicon.ico" rel="shortcut icon"/>
-<title>Provide JShell task - Hyperion Task Processor</title>
+<title>Provide Hyperion task processor as a server - Hyperion Task Processor</title>
 <link href="../../css/bootstrap.min.css" rel="stylesheet"/>
 <link href="../../css/font-awesome.min.css" rel="stylesheet"/>
 <link href="../../css/base.css" rel="stylesheet"/>
@@ -123,7 +123,7 @@
                             </a>
 </li>
 <li class="nav-item">
-<a class="nav-link" href="https://github.com/thomas-lehmann-private/hyperion-task-processor/edit/master/docs/requirements/req-provide jshell task.md"><i class="fa fa-github"></i> Edit on GitHub</a>
+<a class="nav-link" href="https://github.com/thomas-lehmann-private/hyperion-task-processor/edit/master/docs/requirements/req-provide hyperion task processor as a server.md"><i class="fa fa-github"></i> Edit on GitHub</a>
 </li>
 </ul>
 </div>
@@ -139,7 +139,7 @@
 </div>
 <div class="navbar-collapse collapse card bg-secondary" id="toc-collapse">
 <ul class="nav flex-column">
-<li class="nav-item" data-level="1"><a class="nav-link" href="#provide-jshell-task">Provide JShell task</a>
+<li class="nav-item" data-level="1"><a class="nav-link" href="#provide-hyperion-task-processor-as-a-server">Provide Hyperion task processor as a server</a>
 <ul class="nav flex-column">
 </ul>
 </li>
@@ -147,19 +147,27 @@
 </div>
 </div></div>
 <div class="col-md-9" role="main">
-<h1 id="provide-jshell-task">Provide JShell task</h1>
+<h1 id="provide-hyperion-task-processor-as-a-server">Provide Hyperion task processor as a server</h1>
 <h3 id="document-meta-data">Document meta data</h3>
 <ul>
 <li><strong>Type</strong>: Requirement</li>
-<li><strong>Id</strong>: 10</li>
-<li><strong>Context</strong>: task feature</li>
-<li><strong>Milestone</strong>: 1.0.0</li>
+<li><strong>Id</strong>: 16</li>
+<li><strong>Context</strong>: server feature</li>
+<li><strong>Milestone</strong>: 2.0.0</li>
 </ul>
 <h3 id="description">Description</h3>
-<p>As a <strong>devops engineer</strong> you should be able to write a JShell script as task.
-The standard parameters are those of a coded task.</p>
+<p>As a <strong>devops engineer</strong> you should be able to run the tool in server mode. As an essential
+function it must be possible to send a document with tasks to this server, and it also
+must be possible to ask for the success of that processing.</p>
+<p>Following options should be passed for the document requests (same as for run command):</p>
+<ul>
+<li><strong>tag</strong> - optional and repeatable for filtering tasks by it. </li>
+<li><strong>timeout</strong> - optional for limiting execution time of a task group.</li>
+</ul>
 <h3 id="constraints">Constraints</h3>
-<p>The script code can be embedded only.</p>
+<ul>
+<li>The choosen port where to run the server must be free.</li>
+</ul>
 <h3 id="criticality-and-risk">Criticality and Risk</h3>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
