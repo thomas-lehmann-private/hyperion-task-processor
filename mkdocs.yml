@@ -22,6 +22,7 @@ nav:
        - xsl-transform.md
        - templating.md
        - matrix.md
+       - rest-api.md
     - Developer Guide:
        - requirements.md
        - internal/build.md

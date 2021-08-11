@@ -52,7 +52,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  * @author Thomas Lehmann
  */
-public class Document implements IChangeableDocument, IRunnable<Integer, DocumentParameters> {
+public class Document implements IChangeableDocument,
+        IRunnable<DocumentResult, DocumentParameters> {
     /**
      * Logger for this class.
      */
@@ -80,8 +81,8 @@ public class Document implements IChangeableDocument, IRunnable<Integer, Documen
      */
     public Document() {
         this.model = new Model();
-        this.matrix = new ArrayList<>();
-        this.listOfTaskGroups = new ArrayList<>();
+        this.matrix = Collections.synchronizedList(new ArrayList<>());
+        this.listOfTaskGroups = Collections.synchronizedList(new ArrayList<>());
     }
 
     /**
@@ -165,17 +166,17 @@ public class Document implements IChangeableDocument, IRunnable<Integer, Documen
     }
 
     @Override
-    public Integer run(final DocumentParameters parameters) {
+    public DocumentResult run(final DocumentParameters parameters) {
         final var errorCounter = new AtomicInteger();
 
         if (this.matrix.isEmpty()) {
-            this.listOfTaskGroups.forEach(taskGroup -> {
+            for (var taskGroup: this.listOfTaskGroups) {
                 final boolean bSuccess = taskGroup.run(
                         TaskGroupParameters.of(parameters, this.model, Map.of()));
                 if (!bSuccess) {
                     errorCounter.incrementAndGet();
                 }
-            });
+            }
         } else {
             for (final var matrixParameters: this.matrix) {
                 LOGGER.info("Running Matrix " + matrixParameters.getTitle());
@@ -190,6 +191,6 @@ public class Document implements IChangeableDocument, IRunnable<Integer, Documen
             }
         }
 
-        return errorCounter.get();
+        return DocumentResult.of(errorCounter.get() == 0);
     }
 }

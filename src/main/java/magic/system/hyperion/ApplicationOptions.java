@@ -52,7 +52,12 @@ public enum ApplicationOptions {
     /**
      *  Option to define path where to place temporary files.
      */
-    TEMPORARY_PATH("", "temporary-path", "Defining temporary path");
+    TEMPORARY_PATH("", "temporary-path", "Defining temporary path"),
+
+    /**
+     * Option to define port where to run server on.
+     */
+    PORT("p", "port", "port to run server on");
 
     /**
      * Option short name.

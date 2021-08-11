@@ -47,6 +47,7 @@ Dependency | Homepage | License | Usage
 org.junit.jupiter:junit-jupiter-api:5.5.2 | https://junit.org/junit5/ | [Eclipse Public License - v 2.0](https://github.com/junit-team/junit5/blob/main/LICENSE.md) | Unittests
 org.junit.jupiter:junit-jupiter-engine:5.5.2 | https://junit.org/junit5/ | [Eclipse Public License - v 2.0](https://github.com/junit-team/junit5/blob/main/LICENSE.md) | Unittests
 org.junit.jupiter:junit-jupiter-params:5.5.2 | https://junit.org/junit5/ | [Eclipse Public License - v 2.0](https://github.com/junit-team/junit5/blob/main/LICENSE.md) | Unittests
+com.konghq:unirest-java:3.11.11 | http://kong.github.io/unirest-java/ | [MIT License](https://github.com/Kong/unirest-java/blob/main/LICENSE) | Simplified, lightweight HTTP client library
 
 ### Runtime dependencies
 
@@ -60,6 +61,7 @@ org.apache.commons:commons-lang3:3.12:0 | https://commons.apache.org/proper/comm
 io.pebbletemplates:pebble:3.1.5 | https://pebbletemplates.io/ | [Pebble License](https://github.com/PebbleTemplates/pebble/blob/master/LICENSE) | Template Engine
 org.codehaus.groovy:groovy:3.0.7 | http://www.groovy-lang.org/ | [Apache 2.0 License](https://github.com/apache/groovy/blob/master/LICENSE) | Embedded Language for GroovyTask
 net.sf.saxon:Saxon-HE:10.5 | http://www.saxonica.com/ | [MPL Version 2.0](http://www.mozilla.org/MPL/) | XSL Transformation for XslTransformTask
+io.javalin:javalin-bundle:3:13:10 | https://javalin.io/ | [Apache 2.0 License](https://github.com/tipsy/javalin/blob/master/LICENSE) | Lightweight framework for HTTP2 requests 
 
 ### Build dependencies
 

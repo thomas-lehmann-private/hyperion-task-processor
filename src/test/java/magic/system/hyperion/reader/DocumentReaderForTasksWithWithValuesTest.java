@@ -52,7 +52,7 @@ public class DocumentReaderForTasksWithWithValuesTest {
     /**
      * If something takes longer than a minute here this would be a problem.
      */
-    private static final int DEFAULT_TIMEOUT_TASKGROUP = 1;
+    private static final int DEFAULT_TIMEOUT_TASKGROUP = 60 * 1000;
 
     /**
      * Testing read of "with" values.

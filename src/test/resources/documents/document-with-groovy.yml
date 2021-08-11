@@ -5,7 +5,7 @@ taskgroups:
     tasks:
       - type: groovy
         title: a simple example
-        code: println 'hello world!'
+        code: println 'hello world 1!'
 
       - type: groovy
         code: println '---> this is a demo <---'
@@ -15,7 +15,7 @@ taskgroups:
           group: 1
 
       - type: groovy
-        code: println 'hello world!'
+        code: println 'hello world 2!'
         tags:
           - tag support
           - third example

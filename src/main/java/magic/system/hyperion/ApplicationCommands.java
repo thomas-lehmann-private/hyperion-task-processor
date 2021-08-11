@@ -42,7 +42,12 @@ public enum ApplicationCommands {
     /**
      * Command for reporting system capabilities.
      */
-    CAPABILITIES("capabilities", "Reporting capabilities of system where Hyperion should run");
+    CAPABILITIES("capabilities", "Reporting capabilities of system where Hyperion should run"),
+
+    /**
+     * Command for running task processor in server mode.
+     */
+    SERVE("serve", "Running Hyperion task processor in server mode");
 
     /**
      * Command name.

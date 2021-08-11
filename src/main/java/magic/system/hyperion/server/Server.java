@@ -21,54 +21,65 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package magic.system.hyperion.tools;
+package magic.system.hyperion.server;
 
-import ch.qos.logback.classic.spi.ILoggingEvent;
-import ch.qos.logback.core.AppenderBase;
+import io.javalin.Javalin;
+import io.javalin.apibuilder.EndpointGroup;
+import magic.system.hyperion.server.paths.creator.IPathsCreator;
+import magic.system.hyperion.tools.Factory;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import static io.javalin.apibuilder.ApiBuilder.path;
 
 /**
- * Log Appender for testing.
+ * Implementing the server.
+ *
+ * @author Thomas Lehmann
  */
-public class MessagesCollector extends AppenderBase<ILoggingEvent> {
+public class Server implements IServer {
     /**
-     * Collected messages.
+     * REST Service application.
      */
-    private static final List<String> MESSAGES = Collections.synchronizedList(new ArrayList<>());
+    private final Javalin app;
 
     /**
-     * Readonly access to list of messages.
+     * Creating service.
+     */
+    public Server() {
+        final var factory = new Factory<EndpointGroup>(IPathsCreator.class);
+        this.app = Javalin.create(config -> {
+            config.registerPlugin(new OpenApiConfiguration().create());
+        }).routes(() -> {
+            path(PathSegment.DOCUMENTS.getSegmentName(),
+                    factory.create(PathSegment.DOCUMENTS.getSegmentName()));
+        });
+    }
+
+    /**
+     * Get port used by the Javalin server app.
      *
-     * @return list of messages.
+     * @return port used.
      */
-    public static List<String> getMessages() {
-        return Collections.unmodifiableList(MESSAGES);
-    }
-
-    /**
-     * Clearing all collected messages.
-     */
-    public static void clear() {
-        MESSAGES.clear();
-    }
-
-    /**
-     * Checking the logging to have lines contain given messages.
-     *
-     * @param messages messages to check.
-     * @return true when all messages occur.
-     */
-    public static boolean hasMessages(final List<String> messages) {
-        return messages.stream().allMatch(searchedMessage ->
-                getMessages().stream().anyMatch(
-                        givenMessage -> givenMessage.contains(searchedMessage)));
-    }
-
     @Override
-    protected void append(final ILoggingEvent event) {
-        MESSAGES.add(event.getFormattedMessage());
+    public int getPort() {
+        return this.app.port();
+    }
+
+    /**
+     * Running the server.
+     *
+     * @param iPort port to run service on.
+     * @since 2.0.0
+     */
+    @Override
+    public void start(final int iPort) {
+        this.app.start(iPort);
+    }
+
+    /**
+     * Stopping the server.
+     */
+    @Override
+    public void stop() {
+        this.app.stop();
     }
 }

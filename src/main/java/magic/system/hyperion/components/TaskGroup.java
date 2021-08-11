@@ -23,8 +23,8 @@
  */
 package magic.system.hyperion.components;
 
-import magic.system.hyperion.cli.CliException;
 import magic.system.hyperion.components.tasks.AbstractTask;
+import magic.system.hyperion.exceptions.HyperionException;
 import magic.system.hyperion.generics.SimplePublisher;
 import magic.system.hyperion.interfaces.IRunnable;
 import magic.system.hyperion.interfaces.IVariable;
@@ -162,7 +162,7 @@ public class TaskGroup extends Component
 
         try {
             runner.runAll();
-        } catch (final CliException e) {
+        } catch (final HyperionException e) {
             LOGGER.error(e.getMessage(), e);
             errorCounter.incrementAndGet();
         }

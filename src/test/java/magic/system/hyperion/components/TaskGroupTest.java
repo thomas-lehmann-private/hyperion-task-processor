@@ -25,6 +25,7 @@ package magic.system.hyperion.components;
 
 import magic.system.hyperion.components.tasks.GroovyTask;
 import magic.system.hyperion.components.tasks.JShellTask;
+import magic.system.hyperion.tools.TimeTools;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -53,7 +54,8 @@ public class TaskGroupTest {
     @Test
     public void testRunTaskOneAfterTheOther() {
         final var parameters = TaskGroupParameters.of(
-                DocumentParameters.of(List.of(), 1), Model.of(), Map.of());
+                DocumentParameters.of(List.of(), TimeTools.minutesAsMilliseconds(1)),
+                Model.of(), Map.of());
 
         final var taskGroup = createTestTaskGroup(false);
         taskGroup.run(parameters);
@@ -68,7 +70,8 @@ public class TaskGroupTest {
     @Test
     public void testRunTaskOneAfterTheOtherFiltered() {
         final var parameters = TaskGroupParameters.of(
-                DocumentParameters.of(List.of("groovy"), 1), Model.of(), Map.of());
+                DocumentParameters.of(List.of("groovy"), TimeTools.minutesAsMilliseconds(1)),
+                Model.of(), Map.of());
 
         final var taskGroup = createTestTaskGroup(false);
         taskGroup.run(parameters);
@@ -105,8 +108,8 @@ public class TaskGroupTest {
     @ParameterizedTest(name = "#{index}, equals?: {0}, taskA: {1}, taskB: {2}")
     @MethodSource("provideComparableTaskGroups")
     public void testEquals(final boolean bExpectedToBeEqual,
-                             final TaskGroup taskGroupSupplierA,
-                             final TaskGroup taskGroupSupplierB) {
+                           final TaskGroup taskGroupSupplierA,
+                           final TaskGroup taskGroupSupplierB) {
         if (bExpectedToBeEqual) {
             assertEquals(taskGroupSupplierA, taskGroupSupplierB);
         } else {

@@ -23,7 +23,7 @@
  */
 package magic.system.hyperion.tools;
 
-import magic.system.hyperion.cli.CliException;
+import magic.system.hyperion.exceptions.HyperionException;
 
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -32,15 +32,15 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Running a list of runnables either in order or in parallel.
- * The default timeout is 15 minutes.
+ * The default timeout is 10 minutes.
  *
  * @author Thomas Lehmann
  */
 public final class Runner {
     /**
-     * Default timeout (minutes).
+     * Default timeout (milliseconds).
      */
-    private static final int DEFAULT_TIMEOUT = 10;
+    private static final int DEFAULT_TIMEOUT = 10 * 60 * 1000;
 
     /**
      * List if runnables.
@@ -91,10 +91,10 @@ public final class Runner {
     /**
      * Running all runnables.
      *
-     * @throws CliException when thread execution has failed or timeout did happen.
-     * @since 1.0.0
+     * @throws HyperionException when thread execution has failed or timeout did happen.
+     * @since 2.0.0
      */
-    public void runAll() throws CliException {
+    public void runAll() throws HyperionException {
         if (this.bIsParallel) {
             runInParallel();
         } else {
@@ -116,35 +116,35 @@ public final class Runner {
     /**
      * Running all runnables in order (the list of runnables inside the same thread).
      *
-     * @throws CliException when thread execution has failed.
+     * @throws HyperionException when thread execution has failed.
      */
-    private void runInOrder() throws CliException {
+    private void runInOrder() throws HyperionException {
         final var executor = Executors.newFixedThreadPool(1);
 
         try {
             final List<Runnable> wrappedRunnable = List.of(() -> runnables.forEach(Runnable::run));
             wrappedRunnable.forEach(executor::submit);
             executor.shutdown();
-            executor.awaitTermination(this.iTimeout, TimeUnit.MINUTES);
+            executor.awaitTermination(this.iTimeout, TimeUnit.MILLISECONDS);
         } catch (final InterruptedException | RejectedExecutionException e) {
-            throw new CliException(e.getMessage());
+            throw new HyperionException(e.getMessage());
         }
     }
 
     /**
      * Running all runnables in parallel.
      *
-     * @throws CliException when thread execution has failed.
+     * @throws HyperionException when thread execution has failed.
      */
-    private void runInParallel() throws CliException {
+    private void runInParallel() throws HyperionException {
         final var executor = Executors.newFixedThreadPool(this.runnables.size());
 
         try {
             this.runnables.forEach(executor::submit);
             executor.shutdown();
-            executor.awaitTermination(this.iTimeout, TimeUnit.MINUTES);
+            executor.awaitTermination(this.iTimeout, TimeUnit.MILLISECONDS);
         } catch (final InterruptedException | RejectedExecutionException e) {
-            throw new CliException(e.getMessage());
+            throw new HyperionException(e.getMessage());
         }
     }
 }

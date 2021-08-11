@@ -57,7 +57,7 @@ public class DocumentReaderTest {
     /**
      * If something takes longer than a minute here this would be a problem.
      */
-    private static final int DEFAULT_TIMEOUT_TASKGROUP = 1;
+    private static final int DEFAULT_TIMEOUT_TASKGROUP = 60 * 1000;
 
     /**
      * Intention to have a quite complete document.
@@ -99,8 +99,9 @@ public class DocumentReaderTest {
         final var lines = MessagesCollector.getMessages().stream().filter(
                 line -> line.contains("set variable")).collect(Collectors.toList());
 
-        assertTrue(lines.contains("set variable default=hello world!"));
+        assertTrue(lines.contains("set variable default=hello world 1!"));
         assertTrue(lines.contains("set variable test2=this is a demo"));
+        assertTrue(lines.contains("set variable default=hello world 2!"));
     }
 
     /**
