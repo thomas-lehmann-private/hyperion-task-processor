@@ -21,16 +21,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package magic.system.hyperion.server.creator;
-
-import magic.system.hyperion.interfaces.ICreator;
-import magic.system.hyperion.server.IServer;
+package magic.system.hyperion.server;
 
 /**
- * Interface for creating a server instance.
+ * Interface for a server.
  *
  * @author Thomas Lehmann
  */
-public interface IServerCreator extends ICreator<IServer> {
-    // nothing to do.
+public interface IServer {
+    /**
+     * Get port used by the Javalin server app.
+     *
+     * @return port used.
+     */
+    int getPort();
+
+    /**
+     * Running the server.
+     *
+     * @param iPort port to run service on.
+     * @since 2.0.0
+     */
+    void start(int iPort);
+
+    /**
+     * Stopping the server.
+     */
+    void stop();
 }

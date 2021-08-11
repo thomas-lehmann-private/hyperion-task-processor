@@ -24,7 +24,7 @@
 package magic.system.hyperion;
 
 import magic.system.hyperion.command.ServeCommandProcessor;
-import magic.system.hyperion.server.Server;
+import magic.system.hyperion.server.IServer;
 import magic.system.hyperion.server.creator.DefaultServerCreator;
 import org.junit.jupiter.api.Test;
 
@@ -76,10 +76,26 @@ public class ApplicationServerTest {
      */
     private void changeServerImplementation(final List<Integer> ports) {
         DefaultServerCreator.setImplementation(() -> {
-            return new Server() {
+            return new IServer() {
+                /**
+                 * Port passed to the server.
+                 */
+                private int iPort = 0;
+
+                @Override
+                public int getPort() {
+                    return iPort;
+                }
+
                 @Override
                 public void start(final int port) {
-                    ports.add(port);
+                    this.iPort = port;
+                    ports.add(this.iPort);
+                }
+
+                @Override
+                public void stop() {
+                    // nothing to do.
                 }
             };
         });

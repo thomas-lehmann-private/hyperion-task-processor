@@ -28,7 +28,7 @@ import magic.system.hyperion.cli.CliCommand;
 import magic.system.hyperion.cli.CliException;
 import magic.system.hyperion.cli.CliOptionList;
 import magic.system.hyperion.cli.CliResult;
-import magic.system.hyperion.server.Server;
+import magic.system.hyperion.server.IServer;
 import magic.system.hyperion.server.creator.IServerCreator;
 import magic.system.hyperion.tools.Factory;
 
@@ -78,7 +78,7 @@ public class ServeCommandProcessor extends AbstractCommandProcessor {
                         ApplicationOptions.PORT.getLongName(),
                         List.of(String.valueOf(iDefaultPort))).get(0));
 
-        final var server = new Factory<Server>(IServerCreator.class).create("default");
+        final var server = new Factory<IServer>(IServerCreator.class).create("default");
         server.start(iPort);
     }
 }

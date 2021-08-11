@@ -35,7 +35,7 @@ import static io.javalin.apibuilder.ApiBuilder.path;
  *
  * @author Thomas Lehmann
  */
-public class Server {
+public class Server implements IServer {
     /**
      * REST Service application.
      */
@@ -52,7 +52,6 @@ public class Server {
             path(PathSegment.DOCUMENTS.getSegmentName(),
                     factory.create(PathSegment.DOCUMENTS.getSegmentName()));
         });
-
     }
 
     /**
@@ -60,6 +59,7 @@ public class Server {
      *
      * @return port used.
      */
+    @Override
     public int getPort() {
         return this.app.port();
     }
@@ -70,6 +70,7 @@ public class Server {
      * @param iPort port to run service on.
      * @since 2.0.0
      */
+    @Override
     public void start(final int iPort) {
         this.app.start(iPort);
     }
@@ -77,6 +78,7 @@ public class Server {
     /**
      * Stopping the server.
      */
+    @Override
     public void stop() {
         this.app.stop();
     }

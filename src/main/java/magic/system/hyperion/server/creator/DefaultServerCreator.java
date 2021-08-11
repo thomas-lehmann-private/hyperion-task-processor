@@ -24,6 +24,7 @@
 package magic.system.hyperion.server.creator;
 
 import magic.system.hyperion.annotations.Named;
+import magic.system.hyperion.server.IServer;
 import magic.system.hyperion.server.Server;
 
 /**
@@ -56,7 +57,7 @@ public class DefaultServerCreator implements IServerCreator {
     }
 
     @Override
-    public Server create() {
+    public IServer create() {
         final var current = implementation;
         DefaultServerCreator.setImplementation(DEFAULT_CREATOR);
         return current.create();
