@@ -163,7 +163,7 @@
 <ul class="nav flex-column">
 </ul>
 </li>
-<li class="nav-item" data-level="2"><a class="nav-link" href="#check-document-request-status">Check document request status</a>
+<li class="nav-item" data-level="2"><a class="nav-link" href="#check-document-request-result">Check document request result</a>
 <ul class="nav flex-column">
 </ul>
 </li>
@@ -216,7 +216,7 @@ are supported</p>
 <li><strong>Status</strong>: <strong>200</strong> (OK)</li>
 <li>Unique id for the processing of the posted document.</li>
 </ul>
-<h2 id="check-document-request-status">Check document request status</h2>
+<h2 id="check-document-request-result">Check document request result</h2>
 <h3 id="request_1">Request</h3>
 <table>
 <thead>
@@ -242,8 +242,15 @@ are supported</p>
 <li><strong>200</strong> (OK) when there is a document result for given id.</li>
 <li><strong>404</strong> (NOT FOUND) when there is no document result for given id.</li>
 </ul>
-<p>The body contains json with boolean success value true/false:</p>
-<pre><code>{"success": true}
+<p>The body contains a simple json with the fields:
+ - <strong>success</strong> - boolean success value true or false:
+ - <strong>started</strong> - the timestamp (UTC) when the processing has started
+ - <strong>finished</strong> - the timestamp (UTC) when the processing has finished</p>
+<pre><code>{
+    "success": true,
+    "started": "2021-08-16T03:33:01Z",
+    "finished": "2021-08-16T03:33:01Z"
+}
 </code></pre></div>
 </div>
 </div>
