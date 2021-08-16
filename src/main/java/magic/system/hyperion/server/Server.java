@@ -25,9 +25,11 @@ package magic.system.hyperion.server;
 
 import io.javalin.Javalin;
 import io.javalin.apibuilder.EndpointGroup;
+import io.javalin.plugin.json.JavalinJackson;
 import magic.system.hyperion.server.paths.creator.IPathsCreator;
 import magic.system.hyperion.tools.Factory;
 
+import static com.fasterxml.jackson.module.kotlin.ExtensionsKt.jacksonObjectMapper;
 import static io.javalin.apibuilder.ApiBuilder.path;
 
 /**
@@ -45,6 +47,9 @@ public class Server implements IServer {
      * Creating service.
      */
     public Server() {
+        // enable conversions like for ZonedDateTime
+        JavalinJackson.configure(jacksonObjectMapper().findAndRegisterModules());
+
         final var factory = new Factory<EndpointGroup>(IPathsCreator.class);
         this.app = Javalin.create(config -> {
             config.registerPlugin(new OpenApiConfiguration().create());

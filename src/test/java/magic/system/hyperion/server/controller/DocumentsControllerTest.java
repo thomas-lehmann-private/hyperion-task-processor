@@ -24,6 +24,7 @@
 package magic.system.hyperion.server.controller;
 
 import kong.unirest.Unirest;
+import magic.system.hyperion.components.DocumentResult;
 import magic.system.hyperion.server.Server;
 import magic.system.hyperion.tools.MessagesCollector;
 import magic.system.hyperion.tools.TimeTools;
@@ -40,6 +41,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
+import static com.fasterxml.jackson.module.kotlin.ExtensionsKt.jacksonObjectMapper;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -94,7 +96,7 @@ class DocumentsControllerTest {
      * @throws InterruptedException when wait for condition has been interrupted
      */
     @Test
-    public void testRunWithout() throws IOException, URISyntaxException, InterruptedException {
+    public void testRunWithoutTags() throws IOException, URISyntaxException, InterruptedException {
         final var path = Paths.get(getClass().getResource(
                 "/documents/document-with-groovy.yml").toURI());
 
@@ -109,6 +111,7 @@ class DocumentsControllerTest {
         assertFalse(response.getBody().isEmpty());
 
         // ensure that by given timeout the document has been successful processed.
+        // and also verify that the document is processed.
         assertTrue(TimeTools.wait(() ->
                         MessagesCollector.hasMessages(
                                 List.of("Document request succeeded!", "hello world 2!")),
@@ -120,7 +123,15 @@ class DocumentsControllerTest {
                 .get("http://localhost:" + this.server.getPort() + "/documents/" + strId)
                 .asString();
 
-        assertEquals("{\"success\":true}", statusResponse.getBody());
+        final var mapper = jacksonObjectMapper().findAndRegisterModules();
+        final var result = mapper.readValue(statusResponse.getBody(), DocumentResult.class);
+
+        assertTrue(statusResponse.isSuccess());
+        assertTrue(result.isSuccess());
+        // it's definitely below TIMEOUT but there should be no assumption about how much;
+        // performance is not relevant for processing documents and also in ownership of
+        // the provider.
+        assertTrue(result.getFinished().isAfter(result.getStarted()));
     }
 
     /**
@@ -147,6 +158,7 @@ class DocumentsControllerTest {
         assertFalse(response.getBody().isEmpty());
 
         // ensure that by given timeout the document has been successful processed.
+        // and also verify that the document is processed.
         assertTrue(TimeTools.wait(() ->
                         MessagesCollector.hasMessages(
                                 List.of("Document request succeeded", "hello world 2!")),
@@ -158,6 +170,54 @@ class DocumentsControllerTest {
                 .get("http://localhost:" + this.server.getPort() + "/documents/" + strId)
                 .asString();
 
-        assertEquals("{\"success\":true}", statusResponse.getBody());
+        final var mapper = jacksonObjectMapper().findAndRegisterModules();
+        final var result = mapper.readValue(statusResponse.getBody(), DocumentResult.class);
+
+        assertTrue(statusResponse.isSuccess());
+        assertTrue(result.isSuccess());
+        // it's definitely below TIMEOUT but there should be no assumption about how much;
+        // performance is not relevant for processing documents and also in ownership of
+        // the provider.
+        assertTrue(result.getFinished().isAfter(result.getStarted()));
+    }
+
+    /**
+     * Testing document post request with tags.
+     *
+     * @throws IOException          when reading YAML has failed.
+     * @throws URISyntaxException   when file  has not been found.
+     * @throws InterruptedException when wait for condition has been interrupted
+     */
+    @Test
+    public void testBadDocument() throws IOException, URISyntaxException, InterruptedException {
+        MessagesCollector.clear();
+        final var response = Unirest
+                .post("http://localhost:" + this.server.getPort() + "/documents")
+                .body("--> invalid-document-content <--")
+                .asString();
+
+        assertTrue(response.isSuccess());
+        assertFalse(response.getBody().isEmpty());
+
+        // ensure that by given timeout the document has been successful processed.
+        // and also verify that the document is processed.
+        assertTrue(TimeTools.wait(() ->
+                        MessagesCollector.hasMessages(
+                                List.of("Reading Document has failed!")),
+                TIMEOUT, WAIT));
+
+        // verify status of document result
+        final var strId = response.getBody();
+        final var statusResponse = Unirest
+                .get("http://localhost:" + this.server.getPort() + "/documents/" + strId)
+                .asString();
+
+        final var mapper = jacksonObjectMapper().findAndRegisterModules();
+        final var result = mapper.readValue(statusResponse.getBody(), DocumentResult.class);
+
+        assertTrue(statusResponse.isSuccess());
+        assertFalse(result.isSuccess());
+        // for the reading of the document no time is measured.
+        assertEquals(result.getFinished(), result.getStarted());
     }
 }

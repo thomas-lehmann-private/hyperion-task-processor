@@ -88,7 +88,10 @@ public class DocumentReader {
         Document finalDocument = null;
         try {
             readDocument(YamlTools.readYamlTree(content));
-            finalDocument = this.document;
+
+            if (!this.document.getListOfTaskGroups().isEmpty()) {
+                finalDocument = this.document;
+            }
         } catch (IOException | HyperionException e) {
             LOGGER.error(e.getMessage(), e);
         }
