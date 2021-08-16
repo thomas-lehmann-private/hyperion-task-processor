@@ -10,9 +10,9 @@ are supported
 
 There are two requests available:
 
- * **/swagger-ui** provides the Swagger ui where you can see documentation and
+ - **/swagger-ui** provides the Swagger ui where you can see documentation and
    where you can try out the requests (see also: https://swagger.io/resources/open-api/).
- * **/redoc** provides open api documentation (see also: https://github.com/Redocly/redoc).
+ - **/redoc** provides open api documentation (see also: https://github.com/Redocly/redoc).
 
 ## Send a document request
 
@@ -29,7 +29,7 @@ There are two requests available:
  * Unique id for the processing of the posted document.
 
 
-## Check document request status
+## Check document request result
 
 ### Request
 
@@ -39,12 +39,19 @@ There are two requests available:
 
 ### Response
 
- * **Status**
-   * **200** (OK) when there is a document result for given id.
-   * **404** (NOT FOUND) when there is no document result for given id.
+ - **Status**
+   - **200** (OK) when there is a document result for given id.
+   - **404** (NOT FOUND) when there is no document result for given id.
     
-The body contains json with boolean success value true/false:
+The body contains a simple json with the fields:
+ - **success** - boolean success value true or false:
+ - **started** - the timestamp (UTC) when the processing has started
+ - **finished** - the timestamp (UTC) when the processing has finished
 
 ```
-{"success": true}
+{
+    "success": true,
+    "started": "2021-08-16T03:33:01Z",
+    "finished": "2021-08-16T03:33:01Z"
+}
 ```

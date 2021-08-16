@@ -80,7 +80,9 @@ public class DocumentsController {
                             allowEmptyValue = false),
                     @OpenApiParam(name = "timeout", type = Integer.class, isRepeatable = false)
             },
-            requestBody = @OpenApiRequestBody(content = {@OpenApiContent(from = String.class)}),
+            requestBody = @OpenApiRequestBody(
+                    description = "The id for the document processing for querying the result",
+                    content = {@OpenApiContent(from = String.class)}),
             responses = {
                     @OpenApiResponse(status = HttpStatus.Constants.OK)
             }
@@ -91,20 +93,27 @@ public class DocumentsController {
 
         new Thread(() -> {
             final var tags = context.queryParams("tag");
+            final var strTimeout = context.queryParam(
+                    "timeout", String.valueOf(DEFAULT_TASKGROUP_TIMEOUT));
 
             final var document = new DocumentReader().read(content);
-            LOGGER.info("Document object created from request body");
-            LOGGER.info("Tags: {}", tags);
-
-            final var result = document.run(
-                    DocumentParameters.of(tags, DEFAULT_TASKGROUP_TIMEOUT));
-            if (result.isSuccess()) {
-                LOGGER.info("Document request succeeded!");
+            if (document == null) {
+                RESULT_MAP.put(strUniqueId, DocumentResult.of());
+                LOGGER.info("Reading Document has failed!");
             } else {
-                LOGGER.info("Document request failed!");
+                LOGGER.info("Document object created from request body");
+                LOGGER.info("Tags: {}, task group timeout: {}", tags, strTimeout);
+
+                final var result = document.run(
+                        DocumentParameters.of(tags, Integer.parseInt(strTimeout)));
+                if (result.isSuccess()) {
+                    LOGGER.info("Document request succeeded!");
+                } else {
+                    LOGGER.info("Document request failed!");
+                }
+                RESULT_MAP.put(strUniqueId, result);
             }
 
-            RESULT_MAP.put(strUniqueId, result);
         }).start();
 
         context.status(HttpStatus.OK.getStatus());
@@ -124,6 +133,9 @@ public class DocumentsController {
                     description = "The id for the document that has been processed")},
             method = HttpMethod.GET,
             tags = {"Document"},
+            requestBody = @OpenApiRequestBody(
+                    description = "The result of the document processing",
+                    content = {@OpenApiContent(from = DocumentResult.class)}),
             responses = {
                     @OpenApiResponse(status = HttpStatus.Constants.OK),
                     @OpenApiResponse(status = HttpStatus.Constants.NOT_FOUND)

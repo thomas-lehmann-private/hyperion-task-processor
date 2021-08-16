@@ -23,6 +23,12 @@
  */
 package magic.system.hyperion.components;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 
 /**
  * Provide document result.
@@ -36,11 +42,27 @@ public final class DocumentResult {
     private final boolean bSuccess;
 
     /**
-     * Initialize with result.
-     * @param bInitSuccess when true then document run has been successful.
+     * Timestamp when document processing has started (in UTC).
      */
-    private DocumentResult(final boolean bInitSuccess) {
+    private final ZonedDateTime started;
+
+    /**
+     * Timestamp when document processing has finished (in UTC).
+     */
+    private final ZonedDateTime finished;
+
+    /**
+     * Initialize with result.
+     *
+     * @param bInitSuccess When true then document run has been successful.
+     * @param initStarted  Timestamp when document processing has started (in UTC).
+     * @param initFinished Timestamp when document processing has finished (in UTC).
+     */
+    private DocumentResult(final boolean bInitSuccess, final ZonedDateTime initStarted,
+                           final ZonedDateTime initFinished) {
         this.bSuccess = bInitSuccess;
+        this.started = initStarted;
+        this.finished = initFinished;
     }
 
     /**
@@ -54,12 +76,50 @@ public final class DocumentResult {
     }
 
     /**
+     * Get timestamp when document processing has started (in UTC).
+     *
+     * @return timestamp in UTC
+     * @since 2.0.0
+     */
+    public ZonedDateTime getStarted() {
+        return this.started;
+    }
+
+    /**
+     * Get timestamp when document processing has finished (in UTC).
+     *
+     * @return timestamp in UTC
+     * @since 2.0.0
+     */
+    public ZonedDateTime getFinished() {
+        return this.finished;
+    }
+
+    /**
      * Creating instance of {@link DocumentResult}.
      *
      * @param bInitSuccess when true then document run has been successful.
+     * @param initStarted  Timestamp when document processing has started (in UTC).
+     * @param initFinished Timestamp when document processing has finished (in UTC).
      * @return Instance of {@link DocumentResult}.
+     * @since 2.0.0
      */
-    public static DocumentResult of(final boolean bInitSuccess) {
-        return new DocumentResult(bInitSuccess);
+    @JsonCreator
+    public static DocumentResult of(@JsonProperty("success") final boolean bInitSuccess,
+                                    @JsonProperty("started") final ZonedDateTime initStarted,
+                                    @JsonProperty("finished") final ZonedDateTime initFinished) {
+        return new DocumentResult(bInitSuccess, initStarted, initFinished);
+    }
+
+    /**
+     * Provide negative result.
+     *
+     * @return Instance of {@link DocumentResult}.
+     * @since 2.0.0
+     */
+    public static DocumentResult of() {
+        // time in UTC
+        final var timestamp = ZonedDateTime.now(ZoneId.of(ZoneOffset.UTC.toString()));
+        return new DocumentResult(false, timestamp, timestamp);
     }
 }

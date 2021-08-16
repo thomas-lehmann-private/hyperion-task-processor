@@ -30,6 +30,9 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -167,7 +170,10 @@ public class Document implements IChangeableDocument,
 
     @Override
     public DocumentResult run(final DocumentParameters parameters) {
+        // time in UTC when processing the document is started
+        final var started = ZonedDateTime.now(ZoneId.of(ZoneOffset.UTC.toString()));
         final var errorCounter = new AtomicInteger();
+
 
         if (this.matrix.isEmpty()) {
             for (var taskGroup: this.listOfTaskGroups) {
@@ -191,6 +197,8 @@ public class Document implements IChangeableDocument,
             }
         }
 
-        return DocumentResult.of(errorCounter.get() == 0);
+        // time in UTC when processing the document has finished
+        final var finished = ZonedDateTime.now(ZoneId.of(ZoneOffset.UTC.toString()));
+        return DocumentResult.of(errorCounter.get() == 0, started, finished);
     }
 }
