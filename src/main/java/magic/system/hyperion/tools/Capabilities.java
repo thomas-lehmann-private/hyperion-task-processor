@@ -51,6 +51,11 @@ public class Capabilities {
     private static final String DOCKER_VERSION_COMMAND = "docker -v";
 
     /**
+     * Command for printing Python version.
+     */
+    private static final String PYTHON_VERSION_COMMAND = "python -V";
+
+    /**
      * Command for printing Powershell version.
      */
     private static final String POWERSHELL_VERSION_COMMAND
@@ -77,6 +82,25 @@ public class Capabilities {
         try {
             final var process = new ProcessBuilder(
                     createCommand(DOCKER_VERSION_COMMAND)).start();
+            process.waitFor();
+            bSuccess = ProcessResults.of(process, false).getExitCode() == 0;
+        } catch (IOException | InterruptedException e) {
+            bSuccess = false;
+        }
+        return bSuccess;
+    }
+
+    /**
+     * Checking that Python command is available on the current system.
+     *
+     * @return true when Python command is available.
+     * @since 2.0.0
+     */
+    public static boolean hasPython() {
+        boolean bSuccess;
+        try {
+            final var process = new ProcessBuilder(
+                    createCommand(PYTHON_VERSION_COMMAND)).start();
             process.waitFor();
             bSuccess = ProcessResults.of(process, false).getExitCode() == 0;
         } catch (IOException | InterruptedException e) {
@@ -163,7 +187,7 @@ public class Capabilities {
      *
      * @return Java class version.
      * @see <a href="https://javaalmanac.io/bytecode/versions/">
-     *     https://javaalmanac.io/bytecode/versions/</a>
+     * https://javaalmanac.io/bytecode/versions/</a>
      * @since 1.0.0
      */
     public static String getJavaClassVersion() {
@@ -196,7 +220,7 @@ public class Capabilities {
      * @return name of current host.
      * @since 1.0.0
      */
-    public static String getHostName()  {
+    public static String getHostName() {
         String strHostName = "";
         try {
             strHostName = InetAddress.getLocalHost().getHostName();
@@ -251,7 +275,7 @@ public class Capabilities {
      * @since 1.0.0
      */
     public static String getLineBreak() {
-        return isWindows() ? "\r\n": "\n";
+        return isWindows() ? "\r\n" : "\n";
     }
 
 }
