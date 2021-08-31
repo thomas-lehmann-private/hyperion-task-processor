@@ -57,7 +57,12 @@ public class CapabilitiesPrinter {
     public static final String POWERSHELL = "Powershell";
 
     /**
-     * Value when cabability is not given.
+     * Capability key for Python.
+     */
+    public static final String PYTHON = "Python";
+
+    /**
+     * Value when capability is not given.
      */
     public static final String NOT_AVAILABLE = "not available";
 
@@ -102,6 +107,12 @@ public class CapabilitiesPrinter {
                     POWERSHELL, Capabilities.getPowershellVersion(), ""));
         } else {
             consumer.accept(printableKeyValue(POWERSHELL, NOT_AVAILABLE, ""));
+        }
+
+        if (Capabilities.hasPython()) {
+            consumer.accept(printableKeyValue(PYTHON, Capabilities.getPythonVersion(), ""));
+        } else {
+            consumer.accept(printableKeyValue(PYTHON, NOT_AVAILABLE, ""));
         }
     }
 

@@ -23,6 +23,7 @@
  */
 package magic.system.hyperion.reader;
 
+import magic.system.hyperion.tools.Capabilities;
 import magic.system.hyperion.tools.MessagesCollector;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,6 +35,7 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 /**
  * Testing reader for Python tasks.
@@ -50,6 +52,8 @@ public class DocumentReaderForPythonTasksTest extends DocumentReaderBaseTest {
      */
     @Test
     public void testPythonEmbedded() throws URISyntaxException {
+        assumeTrue(Capabilities.hasPython());
+
         final var path = Paths.get(getClass().getResource(
                 "/documents/document-with-python.yml").toURI());
         final var reader = new DocumentReader();

@@ -173,6 +173,28 @@ public class Capabilities {
     }
 
     /**
+     * Provide Python version.
+     *
+     * @return version of Python.
+     * @since 2.0.0
+     */
+    public static String getPythonVersion() {
+        String strResult = "";
+        try {
+            final var process = new ProcessBuilder(
+                    createCommand(PYTHON_VERSION_COMMAND)).start();
+            process.waitFor();
+            final var processResults = ProcessResults.of(process, false);
+            if (!processResults.getStdout().isEmpty() && processResults.getExitCode() == 0) {
+                strResult = processResults.getStdout().get(0);
+            }
+        } catch (IOException | InterruptedException e) {
+            strResult = "";
+        }
+        return strResult;
+    }
+
+    /**
      * Provide Java version.
      *
      * @return Java version.
