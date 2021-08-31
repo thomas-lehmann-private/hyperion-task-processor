@@ -4,36 +4,37 @@ site_url: 'https://thomas-lehmann-private.github.io/hyperion-task-processor/'
 repo_url: 'https://github.com/thomas-lehmann-private/hyperion-task-processor'
 
 nav:
-    - Home: index.md
-    - User Guide:
-       - hyperion-task-processor.md
-       - taskgroup.md
-       - basic-task-features.md
-       - basic-coded-task-features.md
-       - groovy.md
-       - powershell.md
-       - windows-batch.md
-       - shell.md
-       - docker-image.md
-       - docker-container.md
-       - copy-file.md
-       - write-file.md
-       - download-task.md
-       - xsl-transform.md
-       - templating.md
-       - matrix.md
-       - rest-api.md
-    - Developer Guide:
-       - requirements.md
-       - internal/build.md
-       - internal/junit5.md
-       - internal/mkdocs.md
-       - internal/cli.md
-       - internal/finishing-a-milestone.md
-       - internal/implementing-a-new-task.md
+  - Home: index.md
+  - User Guide:
+      - hyperion-task-processor.md
+      - taskgroup.md
+      - basic-task-features.md
+      - basic-coded-task-features.md
+      - groovy.md
+      - powershell.md
+      - windows-batch.md
+      - shell.md
+      - docker-image.md
+      - docker-container.md
+      - copy-file.md
+      - write-file.md
+      - download-task.md
+      - xsl-transform.md
+      - templating.md
+      - matrix.md
+      - rest-api.md
+      - python.md
+  - Developer Guide:
+      - requirements.md
+      - internal/build.md
+      - internal/junit5.md
+      - internal/mkdocs.md
+      - internal/cli.md
+      - internal/finishing-a-milestone.md
+      - internal/implementing-a-new-task.md
 
 theme:
-    name: flatly
+  name: flatly
 
 plugins:
   - search
