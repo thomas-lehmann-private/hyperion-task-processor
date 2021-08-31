@@ -6,9 +6,9 @@
 <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <meta content="Thomas Lehmann &lt;thomas.lehmann.private@gmail.com" name="author"/>
-<link href="https://thomas-lehmann-private.github.io/hyperion-task-processor/basic-coded-task-features/" rel="canonical"/>
+<link href="https://thomas-lehmann-private.github.io/hyperion-task-processor/python/" rel="canonical"/>
 <link href="../img/favicon.ico" rel="shortcut icon"/>
-<title>Basic code tasks - Hyperion Task Processor</title>
+<title>Python task - Hyperion Task Processor</title>
 <link href="../css/bootstrap.min.css" rel="stylesheet"/>
 <link href="../css/font-awesome.min.css" rel="stylesheet"/>
 <link href="../css/base.css" rel="stylesheet"/>
@@ -46,7 +46,7 @@
 <a class="dropdown-item" href="../basic-task-features/">Basic tasks features</a>
 </li>
 <li>
-<a class="dropdown-item active" href="./">Basic code tasks</a>
+<a class="dropdown-item" href="../basic-coded-task-features/">Basic code tasks</a>
 </li>
 <li>
 <a class="dropdown-item" href="../groovy/">Groovy task</a>
@@ -88,7 +88,7 @@
 <a class="dropdown-item" href="../rest-api/">REST api</a>
 </li>
 <li>
-<a class="dropdown-item" href="../python/">Python task</a>
+<a class="dropdown-item active" href="./">Python task</a>
 </li>
 </ul>
 </li>
@@ -126,17 +126,17 @@
                             </a>
 </li>
 <li class="nav-item">
-<a class="nav-link" href="../basic-task-features/" rel="prev">
+<a class="nav-link" href="../rest-api/" rel="prev">
 <i class="fa fa-arrow-left"></i> Previous
                                 </a>
 </li>
 <li class="nav-item">
-<a class="nav-link" href="../groovy/" rel="next">
+<a class="nav-link" href="../requirements/" rel="next">
                                     Next <i class="fa fa-arrow-right"></i>
 </a>
 </li>
 <li class="nav-item">
-<a class="nav-link" href="https://github.com/thomas-lehmann-private/hyperion-task-processor/edit/master/docs/basic-coded-task-features.md"><i class="fa fa-github"></i> Edit on GitHub</a>
+<a class="nav-link" href="https://github.com/thomas-lehmann-private/hyperion-task-processor/edit/master/docs/python.md"><i class="fa fa-github"></i> Edit on GitHub</a>
 </li>
 </ul>
 </div>
@@ -152,38 +152,119 @@
 </div>
 <div class="navbar-collapse collapse card bg-secondary" id="toc-collapse">
 <ul class="nav flex-column">
-<li class="nav-item" data-level="1"><a class="nav-link" href="#basic-code-tasks">Basic code tasks</a>
+<li class="nav-item" data-level="1"><a class="nav-link" href="#python-task">Python task</a>
 <ul class="nav flex-column">
+<li class="nav-item" data-level="2"><a class="nav-link" href="#minimal-example">Minimal example</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+<li class="nav-item" data-level="2"><a class="nav-link" href="#minimal-example-with-tags">Minimal example with tags</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+<li class="nav-item" data-level="2"><a class="nav-link" href="#example-with-variable">Example with variable</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+<li class="nav-item" data-level="2"><a class="nav-link" href="#example-with-templating">Example with templating</a>
+<ul class="nav flex-column">
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 </div>
 </div></div>
 <div class="col-md-9" role="main">
-<h1 id="basic-code-tasks">Basic code tasks</h1>
-<p>Coded task are those where you can put code on a task.
-Currently supported are:</p>
+<h1 id="python-task">Python task</h1>
+<p>This page doesn't intend to explain Python. So please refer to official Python documentation for
+details on it. It's about the Python task.
+The <a href="../basic-coded-task-features/">basic coded task features</a> are language independent and explained
+in the link including:</p>
 <ul>
-<li><a href="../groovy/">Grooovy</a></li>
-<li><a href="../powershell/">Powershell</a></li>
-<li><a href="../windows-batch/">Windows Batch</a></li>
-<li><a href="../shell/">Unix</a></li>
-<li><a href="../docker-image/">Docker image</a></li>
-<li><a href="../docker-container/">Docker container</a></li>
+<li>Having an optional <strong>title</strong> attribute</li>
+<li>Using the <strong>code</strong> in attribute with same name</li>
+<li>Having an optional <strong>tag</strong> attribute</li>
+<li>Having an optional <strong>variable</strong> attribute</li>
+<li>Having an optional <strong>with</strong> attribute</li>
 </ul>
-<p>All Hyperion tasks have <a href="../basic-task-features/">basic task features</a>.
-Following attributes are additional available for coded tasks:</p>
+<p><strong>Please note</strong>:</p>
 <ul>
-<li><strong>code</strong> - the code depends on implementation (see list above). Optional the code also
-   might be a valid path and filename. The code also allows <a href="../templating/">templating</a>.
-   You can write multiline code by using a <strong>pipe</strong> symbol in the first line:</li>
+<li>The Python command line tool is required to be found in the search path.</li>
+<li>It's assumed that the name is "python"</li>
 </ul>
-<pre><code class="language-yaml">- type: groovy
-  code: |
-      println 'hello world 1'
-      println 'hello world 2'
-      println 'hello world 3'
-</code></pre></div>
+<h2 id="minimal-example">Minimal example</h2>
+<p>The minimal example does not require a variable but the task does have one (always) with the
+name '<strong>default</strong>'. The default regex is the whole text, and the default group is 0.</p>
+<pre><code class="language-yaml">---
+taskgroups:
+  - title: test
+    tasks:
+      - type: python
+        code: print('hello world!')
+</code></pre>
+<h2 id="minimal-example-with-tags">Minimal example with tags</h2>
+<p>The application can be called with the repeatable option --tag. Specifying the those filter task
+will be executed only contain those tags. Task with other tags or even without any tags will be
+ignored then.</p>
+<pre><code class="language-yaml">---
+taskgroups:
+  - title: test
+    tasks:
+      - type: python
+        code: print('hello world!')
+        tags:
+          - simple
+          - example         
+</code></pre>
+<h2 id="example-with-variable">Example with variable</h2>
+<p>The example with variable shows how to use the variable to extract information. It's exactly the
+same way as it does work for other tasks. You can specify the regex for filtering and - if required</p>
+<ul>
+<li>the regex group; the default group is 0.</li>
+</ul>
+<pre><code class="language-yaml">---
+taskgroups:
+  - title: test
+    tasks:
+      - type: python
+        title: a simple example
+        code: print('---&gt; this is a demo &lt;---')
+        variable:
+          name: test2
+          regex: "&gt;(.*)&lt;"
+          group: 1
+</code></pre>
+<h2 id="example-with-templating">Example with templating</h2>
+<p>The task group does store a map of key/value where key is the name of the variable, and the value is
+a variable. If you do not specify a name for a variable the name is
+'<strong>default</strong>'. In the following example the first task does write 'hello world!' into the variable,
+and the second task does evaluate the value from the first task. Of course the second one write into
+the same variable its output since also there no name has been specified.</p>
+<pre><code class="language-yaml">---
+taskgroups:
+  - title: test
+    tasks:
+      - type: python
+        title: a simple example 1
+        code: print('hello world!')
+      - type: python
+        title: a simple example 2
+        code: print('{{ variables.default.value }}')
+</code></pre>
+<p>In addition, you can evaluate the model if you have one.</p>
+<pre><code class="language-yaml">---
+model:
+  description: some description
+
+taskgroups:
+  - title: test
+    tasks:
+      - type: python
+        title: a simple example 1
+        code: print('{{ model.attributest.description }}')
+</code></pre>
+<p>The rules on how to access the individual elements of a model are explained <a href="../templating/">here</a>.</p></div>
 </div>
 </div>
 <footer class="col-md-12">
