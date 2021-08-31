@@ -67,7 +67,7 @@ public class TaskReader implements INodeReader {
     }
 
     @Override
-    public void read(JsonNode node) throws HyperionException {
+    public void read(final JsonNode node) throws HyperionException {
         final var names = Converters.convertToSortedList(node.fieldNames());
         final var matcher = Matcher.of(names);
         matcher.requireExactlyOnce(DocumentReaderFields.TYPE.getFieldName());

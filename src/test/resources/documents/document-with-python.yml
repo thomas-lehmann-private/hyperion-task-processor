@@ -1,0 +1,21 @@
+---
+taskgroups:
+  - title: test
+    parallel: false
+    tasks:
+      - type: python
+        title: a simple example
+        code: print('hello world 1!')
+
+      - type: groovy
+        code: print('---> this is a demo <---')
+        variable:
+          name: test2
+          regex: ">(.*)<"
+          group: 1
+
+      - type: python
+        code: print('hello world 2!')
+        tags:
+          - tag support
+          - third example

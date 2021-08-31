@@ -84,7 +84,12 @@ public enum TaskType {
     /**
      * Type for download task.
      */
-    DOWNLOAD(Constants.DOWNLOAD);
+    DOWNLOAD(Constants.DOWNLOAD),
+
+    /**
+     * Type for Python task.
+     */
+    PYTHON(Constants.PYTHON);
 
     /**
      * Type of task (the concrete type name to be used in YAML).
@@ -120,7 +125,7 @@ public enum TaskType {
      */
     public static TaskType fromValue(final String strName)
             throws HyperionException {
-        for (final var value: values()) {
+        for (final var value : values()) {
             if (value.getTypeName().equals(strName)) {
                 return value;
             }
@@ -143,7 +148,7 @@ public enum TaskType {
         /**
          * Value for type for Windows batch task.
          */
-        public static final String  BATCH = "batch";
+        public static final String BATCH = "batch";
 
         /**
          * Value for type for Unix shell task.
@@ -189,5 +194,10 @@ public enum TaskType {
          * Value for type for Download task.
          */
         public static final String DOWNLOAD = "download";
+
+        /**
+         * Value for type for Python task.
+         */
+        public static final String PYTHON = "python";
     }
 }

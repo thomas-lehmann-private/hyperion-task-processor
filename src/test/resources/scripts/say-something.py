@@ -1,0 +1,5 @@
+print('{{ model.attributes.test }}')
+print('{{ matrix.test }}')
+print('{{ variables.test.value }}')
+print('{{ with.index }}')
+print('{{ with.value }}')
