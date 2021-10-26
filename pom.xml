@@ -60,7 +60,7 @@
         <pebble.version>3.1.5</pebble.version>
         <groovy.version>3.0.7</groovy.version>
         <saxon.version>10.5</saxon.version>
-        <javalin.version>3.13.10</javalin.version>
+        <javalin.version>4.0.0</javalin.version>
         <unirest.version>3.11.11</unirest.version>
 
         <!-- Build Plugins -->
@@ -231,8 +231,7 @@
                 <version>${maven.surefire.plugin.version}</version>
                 <configuration>
                     <runOrder>random</runOrder>
-                    <statelessTestsetReporter
-                            implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5Xml30StatelessReporter">
+                    <statelessTestsetReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5Xml30StatelessReporter">
                         <version>3.0</version>
                         <usePhrasedFileName>true</usePhrasedFileName>
                         <usePhrasedTestSuiteClassName>true</usePhrasedTestSuiteClassName>
@@ -240,15 +239,13 @@
                         <usePhrasedTestCaseMethodName>true</usePhrasedTestCaseMethodName>
                     </statelessTestsetReporter>
 
-                    <consoleOutputReporter
-                            implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5ConsoleOutputReporter">
+                    <consoleOutputReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5ConsoleOutputReporter">
                         <disable>false</disable>
                         <encoding>UTF-8</encoding>
                         <usePhrasedFileName>false</usePhrasedFileName>
                     </consoleOutputReporter>
 
-                    <statelessTestsetInfoReporter
-                            implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5StatelessTestsetInfoReporter">
+                    <statelessTestsetInfoReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5StatelessTestsetInfoReporter">
                         <usePhrasedFileName>true</usePhrasedFileName>
                         <usePhrasedClassNameInRunning>true</usePhrasedClassNameInRunning>
                         <usePhrasedClassNameInTestCaseSummary>true
@@ -354,8 +351,7 @@
                             <finalName>${finalName}</finalName>
                             <transformers>
                                 <!-- add Main-Class to manifest file -->
-                                <transformer
-                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <mainClass>magic.system.hyperion.Application</mainClass>
                                 </transformer>
                                 y
