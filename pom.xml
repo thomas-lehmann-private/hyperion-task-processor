@@ -60,7 +60,7 @@
         <pebble.version>3.1.5</pebble.version>
         <groovy.version>3.0.7</groovy.version>
         <saxon.version>10.5</saxon.version>
-        <javalin.version>3.13.10</javalin.version>
+        <javalin.version>4.6.1</javalin.version>
         <unirest.version>3.11.11</unirest.version>
 
         <!-- Build Plugins -->
