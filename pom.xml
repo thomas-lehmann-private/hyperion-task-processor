@@ -53,7 +53,7 @@
 
         <!-- Dependencies -->
         <junit.jupiter.version>5.5.2</junit.jupiter.version>
-        <jackson.dataformat.yml.version>2.13.1</jackson.dataformat.yml.version>
+        <jackson.dataformat.yml.version>2.13.4</jackson.dataformat.yml.version>
         <jackson.datatype.version>2.13.0</jackson.datatype.version>
         <logback.classic.version>1.2.3</logback.classic.version>
         <commons.lang3.version>3.12.0</commons.lang3.version>
