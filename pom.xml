@@ -53,14 +53,14 @@
 
         <!-- Dependencies -->
         <junit.jupiter.version>5.5.2</junit.jupiter.version>
-        <jackson.dataformat.yml.version>2.13.1</jackson.dataformat.yml.version>
-        <jackson.datatype.version>2.13.0</jackson.datatype.version>
+        <jackson.dataformat.yml.version>2.13.4</jackson.dataformat.yml.version>
+        <jackson.datatype.version>2.13.4</jackson.datatype.version>
         <logback.classic.version>1.2.3</logback.classic.version>
         <commons.lang3.version>3.12.0</commons.lang3.version>
         <pebble.version>3.1.5</pebble.version>
         <groovy.version>3.0.7</groovy.version>
         <saxon.version>10.5</saxon.version>
-        <javalin.version>3.13.10</javalin.version>
+        <javalin.version>5.0.0</javalin.version>
         <unirest.version>3.11.11</unirest.version>
 
         <!-- Build Plugins -->
